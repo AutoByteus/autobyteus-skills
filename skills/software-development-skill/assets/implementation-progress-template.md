@@ -5,7 +5,7 @@ This document tracks implementation and test progress at file level, including d
 ## When To Use This Document
 
 - Create this file at implementation kickoff after required pre-implementation artifacts are ready:
-  - `Small`: runtime simulation complete and implementation plan `v1` ready.
+  - `Small`: runtime simulation complete and implementation plan is simulation-validated.
   - `Medium/Large`: design doc + runtime simulation complete and implementation plan ready.
 - Update it in real time while implementing.
 - Record every meaningful change immediately: file status transitions, test status changes, blockers, and design feedback-loop actions.

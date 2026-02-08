@@ -5,16 +5,13 @@
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> implementation plan `v0` (solution sketch) -> runtime simulation -> implementation plan `v1` -> progress tracking (design doc optional)
+  - `Small` -> draft implementation plan (solution sketch) -> runtime simulation -> refine same plan until simulation-validated -> progress tracking (design doc optional)
   - `Medium/Large` -> design doc -> runtime simulation -> implementation plan -> progress tracking
 
-## Plan Version
+## Plan Maturity
 
-- Current Version: `v0` / `v1`
-- Version Intent:
-  - `v0` (Small): initial solution sketch used as simulation basis.
-  - `v1` (Small): simulation-validated implementation plan used for execution.
-  - `Medium/Large`: final implementation plan created after design + simulation.
+- Current Status: `Draft` / `Simulation-Validated` / `Ready For Implementation`
+- Notes:
 
 ## Solution Sketch (Required For `Small`, Optional Otherwise)
 

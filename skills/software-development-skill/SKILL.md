@@ -19,7 +19,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
   - New/changed public APIs, schema/storage changes, or cross-cutting behavior.
   - Multi-layer impact (API + service + persistence + runtime flow) or architectural impact.
 - Choose workflow depth:
-  - `Small`: create implementation plan `v0` (with a short solution sketch), run per-use-case runtime simulation from that plan, then refine to implementation plan `v1` and track progress in real time.
+  - `Small`: create a draft implementation plan (with a short solution sketch), run per-use-case runtime simulation from that plan, then refine the same plan until simulation-validated and track progress in real time.
   - `Medium/Large`: create design doc first, run runtime simulation from the design doc, then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 
@@ -32,7 +32,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
 ### 2) Draft The Design Document
 
 - Required for `Medium/Large`. Optional for `Small`.
-- For `Small`, do not require a full design doc; use implementation plan `v0` (solution sketch) as the simulation basis.
+- For `Small`, do not require a full design doc; use the draft implementation plan solution sketch as the simulation basis.
 - Follow separation of concerns: each file/module owns a clear responsibility.
 - List files/modules and their public APIs.
 - For each file/module, state responsibility, key APIs, inputs/outputs, and dependencies.
@@ -45,7 +45,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
 - Required for all sizes (`Small`, `Medium`, `Large`).
 - For `Small`, keep it concise but still cover each in-scope use case with primary path plus key fallback/error branch when relevant.
 - Simulation basis by scope:
-  - `Small`: simulate against implementation plan `v0` solution sketch.
+  - `Small`: simulate against the draft implementation plan solution sketch.
   - `Medium/Large`: simulate against the design document.
 - For each use case, write a simulated call stack from entry point to completion in a debug-trace format.
 - Include file and function names at every frame using `path/to/file.ts:functionName(...)`.
@@ -76,7 +76,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
 - Use a bottom-up, test-driven approach: implement foundational dependencies first.
 - For each file/module, define unit tests and integration tests as needed.
 - Finalize planning artifacts before kickoff:
-  - `Small`: refine implementation plan `v0` into implementation plan `v1` after simulation review.
+  - `Small`: refine the draft implementation plan until simulation-validated.
   - `Medium/Large`: create implementation plan after simulation validates the design doc.
 - Create the implementation progress document at implementation kickoff, after required pre-implementation artifacts are ready.
 - Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).

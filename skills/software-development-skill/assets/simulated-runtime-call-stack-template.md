@@ -19,7 +19,7 @@ This artifact is required for all change sizes; for small changes keep it concis
 
 - Scope Classification: `Small` / `Medium` / `Large`
 - Source Artifact:
-  - `Small`: `docs/implementation-plan.md` (`v0` solution sketch)
+  - `Small`: `docs/implementation-plan.md` (draft solution sketch)
   - `Medium/Large`: `docs/design.md`
 - Referenced Sections:
 

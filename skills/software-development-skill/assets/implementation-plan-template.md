@@ -60,6 +60,18 @@
 | 2 |  |  |  |
 | 3 |  |  |  |
 
+## Design Delta Traceability (Required For `Medium/Large`)
+
+| Change ID (from design doc) | Change Type | Planned Task ID(s) | Includes Remove/Rename Work | Verification |
+| --- | --- | --- | --- | --- |
+| C-001 |  |  | Yes/No |  |
+
+## Decommission / Rename Execution Tasks
+
+| Task ID | Item | Action (`Remove`/`Rename`/`Move`) | Cleanup Steps | Risk Notes |
+| --- | --- | --- | --- | --- |
+| T-DEL-001 |  |  |  |  |
+
 ## Step-By-Step Plan
 
 1. 

@@ -34,9 +34,14 @@ Produce a structured planning workflow for software changes: triage scope, valid
 - Required for `Medium/Large`. Optional for `Small`.
 - For `Small`, do not require a full design doc; use the draft implementation plan solution sketch as the simulation basis.
 - Follow separation of concerns: each file/module owns a clear responsibility.
+- Make the design doc delta-aware, not only target-state:
+  - include current-state summary (as-is),
+  - include target-state summary (to-be),
+  - include explicit change inventory rows for `Add`, `Modify`, `Rename/Move`, `Remove`.
 - List files/modules and their public APIs.
-- For each file/module, state responsibility, key APIs, inputs/outputs, and dependencies.
+- For each file/module, state responsibility, key APIs, inputs/outputs, dependencies, and change type.
 - Document dependency flow and cross-reference risk explicitly (including how cycles are avoided or temporarily tolerated).
+- For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup, migration compatibility, dead-code removal).
 - Capture data models and error-handling expectations if relevant.
 - Use the template in `assets/design-template.md` as a starting point.
 
@@ -82,6 +87,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
 - Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).
 - Treat runtime simulation as a pre-implementation verification gate: ensure each use case is represented before coding starts.
 - Start implementation only after the simulation gate is marked clean/pass for all in-scope use cases.
+- Ensure traceability when a design doc exists: every design change-inventory row (especially `Rename/Move` and `Remove`) maps to implementation tasks and verification steps.
 - Use "one file at a time" as the default execution strategy, not an absolute rule.
 - When rare cross-referencing is unavoidable, allow limited parallel/incomplete implementation, but explicitly record:
   - the cross-reference smell,
@@ -89,6 +95,7 @@ Produce a structured planning workflow for software changes: triage scope, valid
   - the condition to unblock,
   - the required design-document update.
 - Update progress in real time during implementation (immediately after file status changes, test runs, blocker discoveries, and design-feedback-loop updates).
+- Track change IDs and change types in progress (`Add`/`Modify`/`Rename/Move`/`Remove`) so refactor deltas remain explicit through execution.
 - Track file build state explicitly (`Pending`, `In Progress`, `Blocked`, `Completed`, `N/A`).
 - Track unit/integration test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.

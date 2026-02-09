@@ -32,11 +32,11 @@ This document tracks implementation and test progress at file level, including d
 
 ## File-Level Progress Table
 
-| File | Depends On | File Status | Unit Test File | Unit Test Status | Integration Test File | Integration Test Status | Cross-Reference Smell | Design Follow-Up | Last Verified | Verification Command | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `src/example-a.ts` | `src/example-core.ts` | Blocked | `tests/unit/example-a.test.ts` | Blocked | `tests/integration/example-a.integration.test.ts` | Not Started | `src/example-a.ts <-> src/example-core.ts` | Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-a.test.ts` | Waiting for `example-core` API to stabilize. |
-| `src/example-core.ts` | N/A | In Progress | `tests/unit/example-core.test.ts` | In Progress | N/A | N/A | None | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-core.test.ts` | Implementing base interfaces. |
-| `src/example-util.ts` | N/A | Completed | `tests/unit/example-util.test.ts` | Passed | N/A | N/A | None | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-util.test.ts` | Stable utility; no integration test required. |
+| Change ID | Change Type | File | Depends On | File Status | Unit Test File | Unit Test Status | Integration Test File | Integration Test Status | Cross-Reference Smell | Design Follow-Up | Last Verified | Verification Command | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| C-001 | Modify | `src/example-a.ts` | `src/example-core.ts` | Blocked | `tests/unit/example-a.test.ts` | Blocked | `tests/integration/example-a.integration.test.ts` | Not Started | `src/example-a.ts <-> src/example-core.ts` | Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-a.test.ts` | Waiting for `example-core` API to stabilize. |
+| C-002 | Add | `src/example-core.ts` | N/A | In Progress | `tests/unit/example-core.test.ts` | In Progress | N/A | N/A | None | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-core.test.ts` | Implementing base interfaces. |
+| C-003 | Remove | `src/example-util.ts` | N/A | Completed | N/A | N/A | N/A | N/A | None | Not Needed | YYYY-MM-DD | `grep -RIn \"example-util\" src tests` | Utility removed and references cleaned. |
 
 ## Blocked Items
 
@@ -49,3 +49,9 @@ This document tracks implementation and test progress at file level, including d
 | Date | Trigger File(s) | Smell Description | Design Doc Section Updated | Update Status | Notes |
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `docs/design.md` -> File/Module boundaries | In Progress | Introduce boundary interface to remove cross-reference. |
+
+## Remove/Rename Verification Log
+
+| Date | Change ID | Item | Verification Performed | Result | Notes |
+| --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | C-003 | `src/example-util.ts` | import/reference scan + targeted tests | Passed | No remaining references. |

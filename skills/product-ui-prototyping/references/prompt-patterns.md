@@ -181,9 +181,33 @@ Avoid these patterns because they lower quality:
 - Requesting too many state changes in one edit operation.
 - Omitting hard constraints that prevent watermarks/device chrome.
 
-## 9) Click-Through Flow Map Template
+## 9) Image/Prompt Manifest Template
+
+Use this to keep prompt-to-image traceability for every generated or edited artifact.
+
+File location:
+- `ui-prototypes/<prototype-name>/image-prompt-manifest.md`
+
+Recommended table:
+
+| Artifact ID | Use Case | Platform | Flow | Screen | State | Situation/Purpose | Source (`Generate`/`Edit`) | Parent Image | Image Path | Prompt Path | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A-001 | Checkout happy path | web | checkout | cart | default | Cart view before submit | Generate | N/A | `ui-prototypes/<prototype-name>/images/web/checkout/cart-default.png` | `ui-prototypes/<prototype-name>/prompts/web/checkout/cart-default.md` |  |
+| A-002 | Checkout happy path | web | checkout | checkout | loading | Show pending payment processing | Edit | `.../cart-default.png` | `ui-prototypes/<prototype-name>/images/web/checkout/checkout-loading.png` | `ui-prototypes/<prototype-name>/prompts/web/checkout/checkout-loading.md` |  |
+
+Logging rules:
+- Add/refresh the manifest row immediately after each image tool call.
+- Ensure each image has exactly one matching manifest row.
+- Ensure `Prompt Path` stores the exact prompt text used for the final image.
+- Treat manifest as latest source of truth; remove stale/legacy rows when artifacts are replaced or deleted.
+- Keep only active image/prompt entries for the current prototype revision.
+
+## 10) Click-Through Flow Map Template
 
 Use this schema to connect static images into a simulated interaction flow.
+
+File location:
+- `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json`
 
 ```json
 {
@@ -193,15 +217,15 @@ Use this schema to connect static images into a simulated interaction flow.
   "screens": [
     {
       "id": "cart-default",
-      "image": "./images/web/checkout/cart-default.png"
+      "image": "../../images/web/checkout/cart-default.png"
     },
     {
       "id": "checkout-loading",
-      "image": "./images/web/checkout/checkout-loading.png"
+      "image": "../../images/web/checkout/checkout-loading.png"
     },
     {
       "id": "checkout-success",
-      "image": "./images/web/checkout/checkout-success.png"
+      "image": "../../images/web/checkout/checkout-success.png"
     }
   ],
   "transitions": [
@@ -229,14 +253,15 @@ Validation rules:
 - Keep hotspot rectangles inside image bounds.
 - Use consistent trigger naming (`click:*`, `tap:*`, `system:*`).
 
-## 10) Viewer Compatibility Rules
+## 11) Viewer Compatibility Rules
 
-Use these rules so `ui-prototypes/<prototype-name>/viewer/` can load and play the flow correctly:
+Use these rules so per-platform/per-flow viewers can load and play each flow correctly:
 
-- Place `ui-flow-map.json` at `ui-prototypes/<prototype-name>/ui-flow-map.json`.
+- Place each flow map at `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json`.
 - Keep each `screens[].image` path relative to the flow-map file location.
 - Keep `start_screen` present in `screens`.
 - For interactive triggers (`click:*` and `tap:*`), always provide `hotspot`.
 - Use `system:*` triggers only for non-click transitions.
 - Keep hotspot coordinates in source-image pixel space.
-- Keep `ui-prototypes/<prototype-name>/viewer/index.html` configured to load `../ui-flow-map.json`.
+- For each image set, keep a viewer bundle at `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/`.
+- Keep `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/index.html` configured to load `../../../flow-maps/<platform>/<flow>.json`.

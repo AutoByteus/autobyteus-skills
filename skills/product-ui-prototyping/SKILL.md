@@ -19,6 +19,11 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - `ui-prototypes/<prototype-name>/images/web/<flow>/...`
   - `ui-prototypes/<prototype-name>/images/ios/<flow>/...`
   - `ui-prototypes/<prototype-name>/images/android/<flow>/...`
+- Keep flow maps separated by platform and flow:
+  - `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json`
+- Keep a manifest that maps each image to its exact generation/edit prompt:
+  - `ui-prototypes/<prototype-name>/image-prompt-manifest.md`
+  - `ui-prototypes/<prototype-name>/prompts/<platform>/<flow>/<screen>-<state>.md`
 - If the user specifies a different location, follow the user-specified path.
 
 ## Workflow
@@ -72,6 +77,8 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Run generation sequentially: one screen per tool call, then review result before the next.
 - Include explicit ratio in each generation prompt and keep it constant for that platform + flow.
 - Use absolute `output_file_path` in every generation tool call.
+- Save the exact prompt used for each generated image to:
+  - `ui-prototypes/<prototype-name>/prompts/<platform>/<flow>/<screen>-default.md`
 - Use deterministic style instructions and the shared base spec to keep typography, spacing, iconography, and color consistent across screens.
 - Save outputs in a stable structure:
   - `ui-prototypes/<prototype-name>/images/<platform>/<flow>/<screen>-default.png`
@@ -82,6 +89,8 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Run edits sequentially: one state update per tool call, then review result before the next.
 - Preserve the source image ratio for every edit call.
 - Use absolute paths for edit inputs and `output_file_path`.
+- Save the exact prompt used for each edited image to:
+  - `ui-prototypes/<prototype-name>/prompts/<platform>/<flow>/<screen>-<state>.md`
 - Edit only state-relevant deltas:
   - Hover/focus rings
   - Pressed depth
@@ -91,9 +100,30 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Save outputs as:
   - `ui-prototypes/<prototype-name>/images/<platform>/<flow>/<screen>-<state>.png`
 
-### 6) Connect Screens For Click-Through Simulation
+### 6) Maintain Image/Prompt Manifest (Required)
 
-- For click-through flows, create `ui-prototypes/<prototype-name>/ui-flow-map.json` to connect images by trigger.
+- Maintain `ui-prototypes/<prototype-name>/image-prompt-manifest.md` in real time.
+- Treat this manifest as the latest source of truth (current artifact set only).
+- Add one row per image artifact (`default` and each edited state).
+- For each row, record at minimum:
+  - `Use Case`
+  - `Platform`
+  - `Flow`
+  - `Screen`
+  - `State`
+  - `Situation/Purpose`
+  - `Image Path`
+  - `Prompt Path`
+  - `Source` (`Generate`/`Edit`)
+  - `Parent Image` (for edited states)
+- Ensure every image in `images/` has exactly one matching manifest row.
+- Remove stale/legacy rows when images or prompts are replaced or deleted.
+- Keep only active image/prompt pairs for the current prototype revision.
+
+### 7) Connect Screens For Click-Through Simulation
+
+- For click-through flows, create one flow map per platform+flow:
+  - `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json`
 - Include per-link definitions:
   - `screen`
   - `trigger`
@@ -102,7 +132,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - `transition` (`instant`, `fade`, `slide`)
 - Keep hotspot naming deterministic so non-developers can review and iterate quickly.
 
-### 7) Assemble Behavior Test Matrix
+### 8) Assemble Behavior Test Matrix
 
 - Produce `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md` with one row per transition.
 - Include:
@@ -114,29 +144,33 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - `open question / risk`
 - Mark blocking issues where any trigger has ambiguous or missing feedback.
 
-### 8) Deliver Review Package For Non-Developers
+### 9) Deliver Review Package For Non-Developers
 
 - Produce a concise review packet:
   - `ui-prototypes/<prototype-name>/ui-prototype-spec.md` with assumptions, flow summary, and behavior rules
-  - `ui-prototypes/<prototype-name>/ui-flow-map.json` for click-through linkage
-  - `ui-prototypes/<prototype-name>/viewer/` local click-through viewer files
+  - `ui-prototypes/<prototype-name>/image-prompt-manifest.md` for prompt/image traceability
+  - `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json` for click-through linkage
+  - `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/` local click-through viewer files
   - Image gallery links grouped by flow and platform
   - Explicit unresolved decisions for product/design sign-off
 - Keep wording product-facing and avoid implementation jargon when possible.
 
-### 9) Publish Local Click-Through Viewer
+### 10) Publish Local Click-Through Viewer
 
-- Copy the viewer template from `assets/prototype-viewer/` into `ui-prototypes/<prototype-name>/viewer/`.
-- Keep viewer default config pointing to `../ui-flow-map.json`.
+- For each platform+flow image set, copy the viewer template into:
+  - `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/`
+- Configure each viewer instance to load its matching map file:
+  - `../../../flow-maps/<platform>/<flow>.json`
 - Serve the workspace root locally and open:
-  - `http://localhost:4173/ui-prototypes/<prototype-name>/viewer/index.html`
-- Use this viewer for product/design review so non-developers can click through flows.
+  - `http://localhost:4173/ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/index.html`
+- Use per-platform/per-flow viewers for product/design review so each image set can be reviewed directly.
 
 ## Prompt Patterns And Checklists
 
 - Read and reuse `references/prompt-patterns.md` for:
   - UX criteria coverage and product base spec
   - Production screen generation and state edit templates
+  - Image/prompt manifest template and logging checklist
   - Flow-step and cross-platform adaptation templates
   - Click-through flow map template, viewer compatibility rules, and acceptance checklist
 
@@ -144,10 +178,12 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 
 - `ui-prototypes/<prototype-name>/ui-prototype-spec.md`
 - `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md`
-- `ui-prototypes/<prototype-name>/ui-flow-map.json` (required for click-through simulation)
-- `ui-prototypes/<prototype-name>/viewer/index.html`
-- `ui-prototypes/<prototype-name>/viewer/viewer.css`
-- `ui-prototypes/<prototype-name>/viewer/viewer.js`
+- `ui-prototypes/<prototype-name>/image-prompt-manifest.md`
+- `ui-prototypes/<prototype-name>/prompts/<platform>/<flow>/*.md`
+- `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json` (required for click-through simulation)
+- `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/index.html`
+- `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/viewer.css`
+- `ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/viewer.js`
 - `ui-prototypes/<prototype-name>/images/web/<flow>/*.png`
 - `ui-prototypes/<prototype-name>/images/ios/<flow>/*.png`
 - `ui-prototypes/<prototype-name>/images/android/<flow>/*.png`
@@ -158,12 +194,14 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Ensure states are visually consistent across platforms and flows.
 - Ensure aspect ratio is explicitly defined and consistent for each platform + flow.
 - Ensure no generated image is normalized/stretched in a way that distorts UI geometry.
+- Ensure every image has a corresponding prompt record in `image-prompt-manifest.md`.
+- Ensure manifest contains only latest active artifacts (no stale legacy entries).
 - Ensure error and empty states include recovery guidance.
 - Ensure accessibility cues (focus visibility, contrast intent, readable hierarchy) are represented in mockups.
-- Ensure each click-through trigger in the flow map points to a valid target screen.
-- Ensure viewer navigation works for each clickable hotspot and start screen.
+- Ensure each click-through trigger in each flow map points to a valid target screen.
+- Ensure viewer navigation works for each clickable hotspot and start screen in each platform+flow viewer.
 
 ## Handoff
 
 - Hand off approved behavior specs and state assets to implementation.
-- If engineering planning is requested next, invoke `$software-engineering-workflow-skill` with `ui-prototypes/<prototype-name>/ui-prototype-spec.md`, `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md`, `ui-prototypes/<prototype-name>/ui-flow-map.json`, and viewer behavior notes as inputs.
+- If engineering planning is requested next, invoke `$software-engineering-workflow-skill` with `ui-prototypes/<prototype-name>/ui-prototype-spec.md`, `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md`, relevant `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json` files, `ui-prototypes/<prototype-name>/image-prompt-manifest.md`, and viewer behavior notes as inputs.

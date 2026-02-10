@@ -1,4 +1,4 @@
 interface:
   display_name: "Product UI Prototyping"
   short_description: "Prototype and test UI interaction states"
-  default_prompt: "Use $product-ui-prototyping to create web/iOS/Android UI prototypes with state transitions, click-through flow mapping, a local clickable viewer, and a review-ready test matrix."
+  default_prompt: "Use $product-ui-prototyping to create web/iOS/Android UI prototypes with state transitions, prompt/image manifest tracking, per-platform/per-flow click-through viewers, and a review-ready test matrix."

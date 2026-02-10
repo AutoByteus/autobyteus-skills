@@ -1,9 +1,9 @@
 ---
-name: software-development-skill
+name: software-engineering-workflow-skill
 description: "Create software-engineering planning artifacts with triaged depth: runtime simulation + implementation planning/progress for all sizes, plus design docs for medium/large scope. Includes requirement clarification, call-stack validation, and iterative refinement."
 ---
 
-# Software Development Skill
+# Software Engineering Workflow Skill
 
 ## Overview
 

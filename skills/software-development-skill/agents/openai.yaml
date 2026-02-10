@@ -1,4 +1,0 @@
-interface:
-  display_name: "Software Development"
-  short_description: "Design, runtime stacks, impl plan"
-  default_prompt: "Use $software-development-skill to produce a design doc, simulated runtime call stacks, and an implementation plan."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software Engineering Workflow"
+  short_description: "Design, runtime stacks, impl plan"
+  default_prompt: "Use $software-engineering-workflow-skill to produce planning artifacts: runtime call stacks for all sizes, implementation plan + progress tracking, and a design doc for medium/large scope."

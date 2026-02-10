@@ -25,7 +25,7 @@
 
 | Use Case | Simulation Location | Primary Path Covered | Fallback/Error Covered (If Relevant) | Gaps | Status |
 | --- | --- | --- | --- | --- | --- |
-|  | `docs/simulated-runtime-call-stack.md` | Yes/No | Yes/No |  | Pending |
+|  | `tickets/<ticket-name>/simulated-runtime-call-stack.md` | Yes/No | Yes/No |  | Pending |
 
 ## Simulation Cleanliness Checklist (Pre-Implementation Review)
 

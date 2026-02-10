@@ -24,7 +24,7 @@ This document tracks implementation and test progress at file level, including d
 
 | Date | Previous Scope | New Scope | Trigger | Required Action |
 | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | Small | Medium | Example: cross-referencing blocker discovered | Deepen `docs/simulated-runtime-call-stack.md` and start/update `docs/design.md`. |
+| YYYY-MM-DD | Small | Medium | Example: cross-referencing blocker discovered | Deepen `tickets/<ticket-name>/simulated-runtime-call-stack.md` and start/update `tickets/<ticket-name>/design.md`. |
 
 ## Completion Gate
 
@@ -48,7 +48,7 @@ This document tracks implementation and test progress at file level, including d
 
 | Date | Trigger File(s) | Smell Description | Design Doc Section Updated | Update Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `docs/design.md` -> File/Module boundaries | In Progress | Introduce boundary interface to remove cross-reference. |
+| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/<ticket-name>/design.md` -> File/Module boundaries | In Progress | Introduce boundary interface to remove cross-reference. |
 
 ## Remove/Rename Verification Log
 

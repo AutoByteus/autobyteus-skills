@@ -11,6 +11,13 @@ Produce a structured planning workflow for software changes: triage scope, valid
 
 ## Workflow
 
+### Ticket Folder Convention (Project-Local)
+
+- For each task, create/use one ticket folder under the current project's `tickets/` directory.
+- Folder naming: use a clear, short kebab-case name (no date prefix required).
+- Write all task planning artifacts into that ticket folder.
+- If the user specifies a different location, follow the user-specified path.
+
 ### 0) Triage Change Size First (Decide Workflow Depth)
 
 - Do a quick requirement + codebase scan before choosing artifacts.
@@ -104,15 +111,15 @@ Produce a structured planning workflow for software changes: triage scope, valid
 
 ## Output Defaults
 
-If the user does not specify file paths, write to:
+If the user does not specify file paths, write to a project-local ticket folder:
 
-- `docs/simulated-runtime-call-stack.md`
-- `docs/implementation-plan.md`
-- `docs/implementation-progress.md`
+- `tickets/<ticket-name>/simulated-runtime-call-stack.md`
+- `tickets/<ticket-name>/implementation-plan.md`
+- `tickets/<ticket-name>/implementation-progress.md`
 
-For `Medium/Large`, also write:
+For `Medium/Large`, also write in the same ticket folder:
 
-- `docs/design.md`
+- `tickets/<ticket-name>/design.md`
 
 ## Templates
 

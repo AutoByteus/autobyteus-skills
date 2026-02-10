@@ -1,6 +1,6 @@
-# Simulated Runtime Call Stacks (Debug-Trace Style)
+# Design-Based Runtime Call Stacks (Debug-Trace Style)
 
-Use this document as a debugger-like execution simulation. Prefer exact `file:function` frames, explicit branching, and clear state/persistence boundaries.
+Use this document as a design-derived runtime trace. Prefer exact `file:function` frames, explicit branching, and clear state/persistence boundaries.
 This artifact is required for all change sizes; for small changes keep it concise but still cover every in-scope use case.
 
 ## Conventions
@@ -15,11 +15,11 @@ This artifact is required for all change sizes; for small changes keep it concis
   - `[ERROR]` error path
 - Comments: use brief inline comments with `# ...`.
 
-## Simulation Basis
+## Design Basis
 
 - Scope Classification: `Small` / `Medium` / `Large`
 - Source Artifact:
-  - `Small`: `tickets/<ticket-name>/implementation-plan.md` (draft solution sketch)
+  - `Small`: `tickets/<ticket-name>/implementation-plan.md` (draft solution sketch as lightweight design basis)
   - `Medium/Large`: `tickets/<ticket-name>/design.md`
 - Referenced Sections:
 
@@ -109,15 +109,6 @@ module/e.ts:persist(...)
 
 - 
 
-### Verification Checklist (Per Use Case)
-
-- End-to-end path achieves expected outcome: Yes/No
-- Separation of concerns looks clean: Yes/No
-- Boundaries/API ownership are clear: Yes/No
-- Dependency flow is reasonable (no accidental cycle/leaky cross-reference): Yes/No
-- Major smell detected: Yes/No
-- If any "No", refinement action (design doc or implementation plan) before implementation:
-
 ---
 
 ## Use Case 2: [Name]
@@ -163,12 +154,3 @@ module/y.ts:...
 ### Open Questions
 
 - 
-
-### Verification Checklist (Per Use Case)
-
-- End-to-end path achieves expected outcome: Yes/No
-- Separation of concerns looks clean: Yes/No
-- Boundaries/API ownership are clear: Yes/No
-- Dependency flow is reasonable (no accidental cycle/leaky cross-reference): Yes/No
-- Major smell detected: Yes/No
-- If any "No", refinement action (design doc or implementation plan) before implementation:

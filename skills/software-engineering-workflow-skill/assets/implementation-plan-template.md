@@ -5,12 +5,12 @@
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> draft implementation plan (solution sketch) -> runtime simulation -> refine same plan until simulation-validated -> progress tracking (design doc optional)
-  - `Medium/Large` -> design doc -> runtime simulation -> implementation plan -> progress tracking
+  - `Small` -> draft implementation plan (solution sketch) -> design-based runtime call stack -> runtime call stack review -> refine until review-pass -> progress tracking (design doc optional)
+  - `Medium/Large` -> design doc -> design-based runtime call stack -> runtime call stack review -> implementation plan -> progress tracking
 
 ## Plan Maturity
 
-- Current Status: `Draft` / `Simulation-Validated` / `Ready For Implementation`
+- Current Status: `Draft` / `Call-Stack-Review-Validated` / `Ready For Implementation`
 - Notes:
 
 ## Solution Sketch (Required For `Small`, Optional Otherwise)
@@ -21,28 +21,18 @@
 - Key Assumptions:
 - Known Risks:
 
-## Use Case Simulation Gate (Required Before Implementation)
+## Runtime Call Stack Review Gate (Required Before Implementation)
 
-| Use Case | Simulation Location | Primary Path Covered | Fallback/Error Covered (If Relevant) | Gaps | Status |
-| --- | --- | --- | --- | --- | --- |
-|  | `tickets/<ticket-name>/simulated-runtime-call-stack.md` | Yes/No | Yes/No |  | Pending |
-
-## Simulation Cleanliness Checklist (Pre-Implementation Review)
-
-| Check | Result | Notes |
-| --- | --- | --- |
-| Use case is fully achievable end-to-end | Pass/Fail |  |
-| Separation of concerns is clean per file/module | Pass/Fail |  |
-| Boundaries and API ownership are clear | Pass/Fail |  |
-| Dependency flow is reasonable (no accidental cycle/leaky cross-reference) | Pass/Fail |  |
-| No major structure/design smell in call stack | Pass/Fail |  |
+| Use Case | Call Stack Location | Review Location | Business Flow Completeness | Structure & SoC Check | Dependency Flow Smells | Verdict |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | `tickets/<ticket-name>/design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail |  | Pass/Fail |
 
 ## Go / No-Go Decision
 
 - Decision: `Go` / `No-Go`
 - If `No-Go`, required refinement target:
-  - `Small`: refine implementation plan (and add design notes if needed), then re-simulate.
-  - `Medium/Large`: refine design document, then re-simulate.
+  - `Small`: refine implementation plan (and add design notes if needed), then regenerate call stack and re-review.
+  - `Medium/Large`: refine design document, then regenerate call stack and re-review.
 
 ## Principles
 

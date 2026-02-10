@@ -52,9 +52,9 @@
 | --- | --- | --- | --- |
 | C-001 |  |  | Planned |
 
-## Design Feedback Loop Notes (From Implementation)
+## Design Feedback Loop Notes (From Review/Implementation)
 
-| Date | Trigger (File/Test/Blocker) | Design Smell | Design Update Applied | Status |
+| Date | Trigger (Review/File/Test/Blocker) | Design Smell | Design Update Applied | Status |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 

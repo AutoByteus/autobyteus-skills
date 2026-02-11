@@ -38,6 +38,7 @@
 
 - Bottom-up: implement dependencies before dependents.
 - Test-driven: write unit tests (and integration tests when needed) before or alongside implementation.
+- Mandatory modernization rule: no backward-compatibility shims or legacy branches.
 - One file at a time is the default: complete a file and its tests before moving on when dependency graph is clean.
 - Exception rule for rare cross-referencing: allow temporary partial implementation only when necessary, and record the design smell and follow-up design change.
 - Update progress after each meaningful status change (file state, test state, blocker state, or design follow-up state).

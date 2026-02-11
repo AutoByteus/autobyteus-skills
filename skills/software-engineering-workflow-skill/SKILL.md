@@ -36,6 +36,13 @@ Produce a structured planning workflow for software changes: triage scope, build
 - Confirm the triage result (`Small` vs `Medium/Large`) and why.
 - If scope is ambiguous, ask whether to run medium/large depth (includes full proposed design doc). Otherwise proceed with the triaged depth.
 
+### Core Modernization Policy (Mandatory)
+
+- Mandatory stance: no backward compatibility and no legacy code retention.
+- Do not preserve legacy behavior, legacy APIs, compatibility wrappers, dual-write paths, or fallback branches kept only for old flows.
+- Prefer clean replacement and explicit deletion of obsolete code, files, tests, flags, and adapters in the same ticket.
+- Do not add compatibility exceptions in this workflow.
+
 ### 2) Draft The Proposed Design Document
 
 - Required for `Medium/Large`. Optional for `Small`.
@@ -48,7 +55,7 @@ Produce a structured planning workflow for software changes: triage scope, build
 - List files/modules and their public APIs.
 - For each file/module, state responsibility, key APIs, inputs/outputs, dependencies, and change type.
 - Document dependency flow and cross-reference risk explicitly (including how cycles are avoided or temporarily tolerated).
-- For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup, migration compatibility, dead-code removal).
+- For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup and dead-code removal).
 - Capture data models and error-handling expectations if relevant.
 - Use the template in `assets/proposed-design-template.md` as a starting point.
 
@@ -77,6 +84,7 @@ Produce a structured planning workflow for software changes: triage scope, build
   - gap findings,
   - structure and separation-of-concerns check (`Pass`/`Fail`),
   - dependency flow smells,
+  - no-legacy/no-backward-compat check (`Pass`/`Fail`),
   - overall verdict (`Pass`/`Fail`).
 - If issues are found:
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
@@ -96,6 +104,7 @@ Produce a structured planning workflow for software changes: triage scope, build
 - Treat design-based runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.
 - Start implementation only after the review gate says implementation can start and all in-scope use cases are `Pass`.
 - Ensure traceability when a proposed design doc exists: every design change-inventory row (especially `Rename/Move` and `Remove`) maps to implementation tasks and verification steps.
+- Enforce clean-cut implementation: do not keep legacy compatibility paths.
 - Use "one file at a time" as the default execution strategy, not an absolute rule.
 - When rare cross-referencing is unavoidable, allow limited parallel/incomplete implementation, but explicitly record:
   - the cross-reference smell,

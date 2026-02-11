@@ -11,15 +11,15 @@ Use this document as the pre-implementation gate for runtime-call-stack quality 
 
 ## Per-Use-Case Review
 
-| Use Case | Business Flow Completeness (`Pass`/`Fail`) | Gap Findings | Structure & SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Verdict (`Pass`/`Fail`) |
-| --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |
+| Use Case | Business Flow Completeness (`Pass`/`Fail`) | Gap Findings | Structure & SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | No Legacy/Backward-Compat Branches (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
+| --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |
 
 ## Findings
 
 - If no findings, write `None`.
 - Otherwise list only actionable findings:
-  - `[F-001] Use case: ... | Type: Gap/Structure/Dependency | Evidence: ... | Required update: ...`
+  - `[F-001] Use case: ... | Type: Gap/Structure/Dependency/Legacy | Evidence: ... | Required update: ...`
 
 ## Gate Decision
 

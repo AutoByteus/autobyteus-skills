@@ -14,6 +14,7 @@ This artifact is required for all change sizes; for small changes keep it concis
   - `[FALLBACK]` non-primary branch
   - `[ERROR]` error path
 - Comments: use brief inline comments with `# ...`.
+- Do not include legacy/backward-compatibility branches.
 
 ## Design Basis
 
@@ -103,7 +104,7 @@ module/e.ts:persist(...)
 
 ### Design Smells / Gaps
 
-- 
+- Any legacy/backward-compatibility branch present? (`Yes/No`)
 
 ### Open Questions
 

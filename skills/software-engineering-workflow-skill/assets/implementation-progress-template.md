@@ -29,6 +29,7 @@ This document tracks implementation and test progress at file level, including d
 ## Completion Gate
 
 - Mark `File Status = Completed` only when implementation is done and required tests are in a passing state (`Passed`) or explicitly `N/A`.
+- For `Rename/Move`/`Remove` refactor tasks, verify obsolete legacy references and dead branches are removed.
 
 ## File-Level Progress Table
 
@@ -50,7 +51,7 @@ This document tracks implementation and test progress at file level, including d
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/<ticket-name>/proposed-design.md` -> File/Module boundaries | In Progress | Introduce boundary interface to remove cross-reference. |
 
-## Remove/Rename Verification Log
+## Remove/Rename/Legacy Cleanup Verification Log
 
 | Date | Change ID | Item | Verification Performed | Result | Notes |
 | --- | --- | --- | --- | --- | --- |

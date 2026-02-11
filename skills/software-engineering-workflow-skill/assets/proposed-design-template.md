@@ -6,6 +6,11 @@
 
 ## Non-Goals
 
+## Legacy Removal Policy (Mandatory)
+
+- Policy: `No backward compatibility; remove legacy code paths.`
+- Required action: identify and remove obsolete legacy paths/files included in this scope.
+
 ## Requirements And Use Cases
 
 ## Current State (As-Is)
@@ -34,7 +39,7 @@
 
 ## Decommission / Cleanup Plan
 
-| Item To Remove/Rename | Cleanup Actions | Compatibility/Migration Notes | Verification |
+| Item To Remove/Rename | Cleanup Actions | Legacy Removal Notes | Verification |
 | --- | --- | --- | --- |
 |  |  |  |  |
 

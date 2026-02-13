@@ -34,6 +34,26 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 
 ## Workflow
 
+### Audible Notifications (Speak Tool, Optional But Supported)
+
+- If the user asks for spoken updates, enable notification mode for the current prototype task.
+- Use the `Speak` tool only for milestone-level status so the user does not need to watch the screen continuously.
+- Minimum speak events when enabled:
+  - transition model ready (`ui-behavior-test-matrix.md` drafted/updated),
+  - baseline screen set written for a platform+flow,
+  - interaction-state set written for a platform+flow,
+  - manifest synchronization completed (`image-prompt-manifest.md` updated and consistent),
+  - click-through bundle ready (`flow-map` + `viewer` written),
+  - viewer smoke test result (`Pass`/`Fail`),
+  - final handoff package ready.
+- Speak trigger policy:
+  - speak only after a milestone is durably completed (files written + relevant checks known),
+  - do not speak for partial drafts or intermediate prompt iterations,
+  - batch close-together milestone updates into one short message.
+- Keep each spoken message short (1-2 sentences), status-first, with one clear next step.
+- If the `Speak` tool fails or is unavailable, continue workflow and provide the same update in text.
+- Do not speak secrets, tokens, or full sensitive payloads.
+
 ### Tool Execution Discipline
 
 - Execute image tool calls strictly one at a time.
@@ -216,6 +236,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - `acceptance check`
   - `open question / risk`
 - Mark blocking issues where any trigger has ambiguous or missing feedback.
+- If audible notification mode is enabled, announce completion after `ui-behavior-test-matrix.md` is physically written/updated.
 
 ### 9) Deliver Review Package For Non-Developers
 
@@ -240,6 +261,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Serve the workspace root locally and open:
   - `http://localhost:4173/ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/index.html`
 - Use per-platform/per-flow viewers for product/design review so each image set can be reviewed directly.
+- If audible notification mode is enabled, announce completion after flow-map + viewer files are physically written for the target platform+flow.
 
 ### 11) Viewer Smoke Test (Required)
 
@@ -250,6 +272,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - one referenced image loads,
   - start screen renders with no URL-resolution errors.
 - If any check fails, fix viewer path resolution before delivery.
+- If audible notification mode is enabled, announce the viewer smoke-test result (`Pass`/`Fail`) after checks complete.
 
 ## Prompt Patterns And Checklists
 
@@ -299,3 +322,4 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 
 - Hand off approved behavior specs and state assets to implementation.
 - If engineering planning is requested next, invoke `$software-engineering-workflow-skill` with `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md`, relevant `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json` files, `ui-prototypes/<prototype-name>/image-prompt-manifest.md`, and viewer behavior notes as inputs.
+- If audible notification mode is enabled, announce final handoff completion after all required handoff artifacts are written.

@@ -26,6 +26,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Use the `Speak` tool to announce completion of meaningful milestones so the user does not need to watch the screen continuously.
 - Minimum speak events when enabled:
   - end of scope triage and chosen depth (`Small`/`Medium`/`Large`),
+  - completion of proposed design artifact write (`proposed-design.md`) when that stage is in scope,
+  - completion of runtime call stack artifact write (`proposed-design-based-runtime-call-stack.md`),
   - end of each review round (with `Go`/`No-Go` and whether write-backs were applied),
   - final planning gate result (implementation can start: `Yes`/`No`),
   - task completion handoff (which artifacts were produced).
@@ -115,6 +117,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - mapped sections in runtime call stack doc.
 - Version the design during review loops (`v1`, `v2`, ...) and record what changed between rounds.
 - Use the template in `assets/proposed-design-template.md` as a starting point.
+- If audible notification mode is enabled, announce completion after `proposed-design.md` is physically written/updated.
 
 ### 3) Build Proposed-Design-Based Runtime Call Stacks Per Use Case
 
@@ -137,6 +140,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Note key data transformations (input schema -> domain model -> output payload).
 - Version call stacks to match design revisions from review loops (`v1`, `v2`, ...).
 - Use the template in `assets/proposed-design-based-runtime-call-stack-template.md`.
+- If audible notification mode is enabled, announce completion after `proposed-design-based-runtime-call-stack.md` is physically written/updated.
 
 ### 4) Review Proposed-Design-Based Runtime Call Stacks (Future-State + Naming + Cleanliness Gate)
 

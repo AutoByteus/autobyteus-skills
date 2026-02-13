@@ -18,17 +18,20 @@ Create one canonical artifact, `experience-story.md`, that captures the product 
 
 ### Audible Notifications (Speak Tool, Required)
 
-- Use the `Speak` tool for milestone-level updates so the user does not need to watch the screen continuously.
-- Required speak events:
-  - product story + main journey draft completed,
-  - screen stories + alternate/error paths completed,
-  - transition index completed,
-  - canonical artifact write completed (`experience-story.md` written/updated),
-  - quality gate result (`Pass`/`Needs fixes`),
-  - handoff-ready status for `$product-ui-prototyping`.
+- Use the `Speak` tool for key stage-boundary updates so the user does not need to watch the screen continuously.
+- Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
+- Required speak stages:
+  - workflow kickoff (`prototype context acknowledged`, `next stage`),
+  - product story + main journey stage (`started`, then draft completed),
+  - screen stories + alternate/error paths stage (`started`, then draft completed),
+  - transition index stage (`started`, then index completed),
+  - canonical artifact write stage (`started`, then `experience-story.md` written/updated),
+  - quality gate stage (`started`, then `Pass`/`Needs fixes` result),
+  - handoff-ready stage for `$product-ui-prototyping` (`started`, then ready status).
 - Speak trigger policy:
-  - speak only after milestone content is physically written,
-  - do not speak for partial drafts,
+  - do not skip required stage-boundary speak events,
+  - for completion events, speak only after milestone content is physically written,
+  - do not speak for partial drafts between required stage-boundary events,
   - batch close-together milestone updates into one short message.
 - Keep each spoken message short (1-2 sentences), status-first, with one clear next step.
 - If the `Speak` tool fails or is unavailable, continue workflow and provide the same update in text.
@@ -42,7 +45,7 @@ Write one short paragraph:
 - what success looks like.
 
 Keep this concrete and product-facing.
-- Announce completion after product story draft is physically written.
+- Speak completion after product story draft is physically written.
 
 ### 2) Write Main Journey (Happy Path)
 
@@ -53,7 +56,7 @@ Each step should include:
 - which `screen_id` is involved.
 
 Prioritize one critical flow first before expanding.
-- Announce completion after main journey draft is physically written.
+- Speak completion after main journey draft is physically written.
 
 ### 3) Write Screen Stories
 
@@ -66,7 +69,7 @@ Required shape:
 - user can do (`action_id`)
 - system behavior for each action
 - states to prototype (`default`, `loading`, `success`, `error`, `empty` when applicable)
-- Announce completion after screen stories are physically written.
+- Speak completion after screen stories are physically written.
 
 ### 4) Capture Alternate/Error Paths
 
@@ -79,7 +82,7 @@ For each branch, state:
 - trigger/condition,
 - what user sees,
 - recovery action and destination.
-- Announce completion after alternate/error paths are physically written.
+- Speak completion after alternate/error paths are physically written.
 
 ### 5) Build Transition Index
 
@@ -93,7 +96,7 @@ Columns:
 - `expected_feedback`
 
 Use IDs consistently across the whole document.
-- Announce completion after the transition index is physically written.
+- Speak completion after the transition index is physically written.
 
 ### 6) Record Blocking Questions
 
@@ -154,7 +157,7 @@ Use this structure in `experience-story.md`:
 - Screen IDs and transition IDs are consistent.
 - Error and empty states include recovery actions.
 - The document can be directly used by `$product-ui-prototyping`.
-- Announce quality-gate result after validation completes.
+- Speak quality-gate result after validation completes.
 
 ## Handoff To Prototyping
 
@@ -164,4 +167,4 @@ When visual prototyping is requested next, invoke `$product-ui-prototyping` with
 - chosen platform (`web`, `ios`, `android`)
 
 Then generate state images, flow maps, and viewer artifacts based on the transition index and screen stories.
-- Announce handoff-ready completion after `experience-story.md` is written/updated.
+- Speak handoff-ready completion after `experience-story.md` is written/updated.

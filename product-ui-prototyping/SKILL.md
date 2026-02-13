@@ -36,18 +36,21 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 
 ### Audible Notifications (Speak Tool, Required)
 
-- Use the `Speak` tool for milestone-level status so the user does not need to watch the screen continuously.
-- Required speak events:
-  - transition model ready (`ui-behavior-test-matrix.md` drafted/updated),
-  - baseline screen set written for a platform+flow,
-  - interaction-state set written for a platform+flow,
-  - manifest synchronization completed (`image-prompt-manifest.md` updated and consistent),
-  - click-through bundle ready (`flow-map` + `viewer` written),
-  - viewer smoke test result (`Pass`/`Fail`),
-  - final handoff package ready.
+- Use the `Speak` tool for key stage-boundary status so the user does not need to watch the screen continuously.
+- Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
+- Required speak stages:
+  - workflow kickoff (`prototype target acknowledged`, `next stage`),
+  - transition model stage (`started`, then `ui-behavior-test-matrix.md` drafted/updated),
+  - baseline screen stage for each platform+flow (`started`, then baseline set written),
+  - interaction-state stage for each platform+flow (`started`, then state set written),
+  - manifest synchronization stage (`started`, then `image-prompt-manifest.md` updated and consistent),
+  - click-through bundle stage (`started`, then flow-map + viewer written),
+  - viewer smoke test stage (`started`, then `Pass`/`Fail` result),
+  - final handoff stage (`started`, then package-ready completion).
 - Speak trigger policy:
-  - speak only after a milestone is durably completed (files written + relevant checks known),
-  - do not speak for partial drafts or intermediate prompt iterations,
+  - do not skip required stage-boundary speak events,
+  - for completion events, speak only after the milestone is durably completed (files written + relevant checks known),
+  - do not speak for partial drafts or intermediate prompt iterations between required stage-boundary events,
   - batch close-together milestone updates into one short message.
 - Keep each spoken message short (1-2 sentences), status-first, with one clear next step.
 - If the `Speak` tool fails or is unavailable, continue workflow and provide the same update in text.
@@ -153,7 +156,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Use deterministic style instructions and the shared base spec to keep typography, spacing, iconography, and color consistent across screens.
 - Save locked shell outputs in a stable structure:
   - `ui-prototypes/<prototype-name>/images/<platform>/<flow>/<screen>-default.png`
-- Announce completion after baseline screen set is physically written for the target platform+flow.
+- Speak completion after baseline screen set is physically written for the target platform+flow.
 
 ### 5) Create Interaction States From Baselines
 
@@ -178,7 +181,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - Validation/success/error messages
 - Save outputs as:
   - `ui-prototypes/<prototype-name>/images/<platform>/<flow>/<screen>-<state>.png`
-- Announce completion after interaction-state set is physically written for the target platform+flow.
+- Speak completion after interaction-state set is physically written for the target platform+flow.
 
 ### 6) Maintain Image/Prompt Manifest (Required)
 
@@ -207,7 +210,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Remove stale/legacy rows when images or prompts are replaced or deleted.
 - Keep only active image/prompt pairs for the current prototype revision.
 - When artifacts are deleted or renamed, update/remove rows immediately so manifest and filesystem stay 1:1.
-- Announce completion after manifest synchronization is physically written and consistent with current artifacts.
+- Speak completion after manifest synchronization is physically written and consistent with current artifacts.
 
 ### 7) Connect Screens For Click-Through Simulation
 
@@ -238,7 +241,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - `acceptance check`
   - `open question / risk`
 - Mark blocking issues where any trigger has ambiguous or missing feedback.
-- Announce completion after `ui-behavior-test-matrix.md` is physically written/updated.
+- Speak completion after `ui-behavior-test-matrix.md` is physically written/updated.
 
 ### 9) Deliver Review Package For Non-Developers
 
@@ -263,7 +266,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 - Serve the workspace root locally and open:
   - `http://localhost:4173/ui-prototypes/<prototype-name>/viewer/<platform>/<flow>/index.html`
 - Use per-platform/per-flow viewers for product/design review so each image set can be reviewed directly.
-- Announce completion after flow-map + viewer files are physically written for the target platform+flow.
+- Speak completion after flow-map + viewer files are physically written for the target platform+flow.
 
 ### 11) Viewer Smoke Test (Required)
 
@@ -274,7 +277,7 @@ Turn product ideas into testable UI behavior using generated and edited screen i
   - one referenced image loads,
   - start screen renders with no URL-resolution errors.
 - If any check fails, fix viewer path resolution before delivery.
-- Announce the viewer smoke-test result (`Pass`/`Fail`) after checks complete.
+- Speak the viewer smoke-test result (`Pass`/`Fail`) after checks complete.
 
 ## Prompt Patterns And Checklists
 
@@ -324,4 +327,4 @@ Turn product ideas into testable UI behavior using generated and edited screen i
 
 - Hand off approved behavior specs and state assets to implementation.
 - If engineering planning is requested next, invoke `$software-engineering-workflow-skill` with `ui-prototypes/<prototype-name>/ui-behavior-test-matrix.md`, relevant `ui-prototypes/<prototype-name>/flow-maps/<platform>/<flow>.json` files, `ui-prototypes/<prototype-name>/image-prompt-manifest.md`, and viewer behavior notes as inputs.
-- Announce final handoff completion after all required handoff artifacts are written.
+- Speak final handoff completion after all required handoff artifacts are written.

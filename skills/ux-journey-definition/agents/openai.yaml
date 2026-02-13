@@ -1,0 +1,4 @@
+interface:
+  display_name: "UX Journey Definition"
+  short_description: "Write one story-first experience spec"
+  default_prompt: "Use $ux-journey-definition to produce one practical experience-story.md artifact that explains user story, screen behavior, and transitions before using $product-ui-prototyping."

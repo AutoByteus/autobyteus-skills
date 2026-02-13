@@ -20,6 +20,19 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Write all task planning artifacts into that ticket folder.
 - If the user specifies a different location, follow the user-specified path.
 
+### Audible Notifications (Speak Tool, Optional But Supported)
+
+- If the user asks for spoken updates, enable notification mode for the current task.
+- Use the `Speak` tool to announce completion of meaningful milestones so the user does not need to watch the screen continuously.
+- Minimum speak events when enabled:
+  - end of scope triage and chosen depth (`Small`/`Medium`/`Large`),
+  - end of each review round (with `Go`/`No-Go` and whether write-backs were applied),
+  - final planning gate result (implementation can start: `Yes`/`No`),
+  - task completion handoff (which artifacts were produced).
+- Keep each spoken message short (1-2 sentences), status-first, with one clear next-step statement.
+- If the `Speak` tool fails or is unavailable, continue the workflow and provide the same update in text.
+- Do not speak secrets, tokens, or full sensitive payloads.
+
 ### Execution Model (Strict Stage Gates)
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
@@ -41,6 +54,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - changed sections,
   - which findings were resolved.
 - A review round cannot be considered complete until its required file updates are physically written.
+- If audible notification mode is enabled, announce each completed round only after the round record and required write-backs are physically written.
 
 ### 0) Triage Change Size First (Decide Workflow Depth)
 
@@ -193,6 +207,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.
 - Mark a file `Completed` only when implementation is done and required tests are passing.
 - Use `assets/implementation-plan-template.md` and `assets/implementation-progress-template.md`.
+- If audible notification mode is enabled, announce final handoff completion after all required artifacts are written.
 
 ## Output Defaults
 

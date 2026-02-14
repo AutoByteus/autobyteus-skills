@@ -30,7 +30,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
   - runtime call stack stage (`started`, then `proposed-design-based-runtime-call-stack.md` written/updated),
   - review loop (each round `started`, then round result with `Go`/`No-Go` and write-back status),
-  - implementation planning stage when in scope (`started`, then `implementation-plan.md` / `implementation-progress.md` write status),
+  - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
+  - implementation execution stage (`started`, then implementation completion + verification result),
+  - post-implementation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
   - final handoff (`started`, then completed artifact summary).
 - Speak trigger policy:
   - do not skip required stage-boundary speak events,
@@ -45,6 +47,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the runtime call stack review gate is fully satisfied for the current scope.
+- Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
+- Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - For `Medium`, enforce at least 3 review rounds:
   - Round 1 is diagnostic/challenge by design and cannot unlock implementation.
@@ -195,7 +199,19 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### 5) Produce Implementation Plan And Progress Tracker
 
 - Use a bottom-up, test-driven approach: implement foundational dependencies first.
-- For each file/module, define unit tests and integration tests as needed.
+- Sequence is mandatory:
+  - first finalize `implementation-plan.md`,
+  - then start implementation,
+  - then keep `implementation-progress.md` updated continuously during execution.
+- In `implementation-plan.md`, include a verification strategy for each use case:
+  - unit tests,
+  - integration tests across module/service boundaries,
+  - end-to-end (E2E) test feasibility.
+- Integration test coverage is required for behavior that crosses module boundaries, process boundaries, storage boundaries, or external API boundaries. If any such behavior is not covered, record a concrete rationale.
+- E2E policy:
+  - if E2E is feasible in the current environment, include and run at least one representative E2E scenario per critical user flow before marking implementation complete,
+  - if E2E is not feasible (for example missing secrets/tokens, third-party environment dependency, or partner-system access limits), record a concrete infeasibility reason and current constraint details in both plan and progress tracker.
+  - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
 - Finalize planning artifacts before kickoff:
   - `Small`: refine the draft implementation plan until runtime call stack review passes.
   - `Medium/Large`: create implementation plan only after runtime call stack review passes final gate and minimum review rounds are complete.
@@ -214,16 +230,41 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Update progress in real time during implementation (immediately after file status changes, test runs, blocker discoveries, and design-feedback-loop updates).
 - Track change IDs and change types in progress (`Add`/`Modify`/`Rename/Move`/`Remove`) so refactor deltas remain explicit through execution.
 - Track file build state explicitly (`Pending`, `In Progress`, `Blocked`, `Completed`, `N/A`).
-- Track unit/integration test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
+- Track unit/integration/E2E test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.
 - Mark a file `Completed` only when implementation is done and required tests are passing.
+- Mark implementation execution complete only when:
+  - implementation plan scope is delivered (or deviations are explicitly documented),
+  - required unit/integration tests pass,
+  - feasible E2E scenarios pass, or E2E infeasibility is documented with concrete reason/constraints plus best-available non-E2E verification evidence.
 - Use `assets/implementation-plan-template.md` and `assets/implementation-progress-template.md`.
-- Speak final handoff completion after all required artifacts are written.
-- Speak when `implementation-plan.md` is written/updated and when `implementation-progress.md` is created/updated.
+- Speak when `implementation-plan.md` is written/updated, when `implementation-progress.md` is created/updated, and when implementation execution completes.
+
+### 6) Synchronize Project Documentation (Mandatory Post-Implementation)
+
+- After implementation execution is complete, update project documentation under `docs/` (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
+- Update docs for:
+  - new modules/files/APIs,
+  - changed runtime flows,
+  - renamed/moved/removed components,
+  - updated operational or testing procedures when behavior changed.
+- If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation-progress.md`.
+- Do not treat ticket artifacts as long-term source of truth; docs must represent post-implementation reality.
+- Speak completion after docs synchronization result is recorded (`Updated`/`No impact`).
+
+### 7) Final Handoff
+
+- Complete handoff only after implementation execution and docs synchronization are complete.
+- Handoff summary must include:
+  - delivered scope vs planned scope,
+  - verification summary (unit/integration/E2E, documented E2E infeasibility reasons/constraints, and compensating non-E2E verification evidence),
+  - docs files updated (or explicit no-impact rationale).
+- Speak final handoff completion after all required artifacts and docs sync outputs are written.
 
 ## Output Defaults
 
 If the user does not specify file paths, write to a project-local ticket folder in stage order:
+These defaults list file-producing stages; gating and handoff rules still follow the full workflow above.
 
 - Stage 1 (design basis):
   - `Small`: start/refine `tickets/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
@@ -235,6 +276,9 @@ If the user does not specify file paths, write to a project-local ticket folder 
 - Stage 4 (only after gate `Go`):
   - finalize/update `tickets/<ticket-name>/implementation-plan.md`
   - `tickets/<ticket-name>/implementation-progress.md`
+- Stage 5 (post-implementation documentation sync):
+  - update impacted project docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
+  - record docs sync result in `tickets/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
 
 ## Templates
 

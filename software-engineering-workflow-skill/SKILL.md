@@ -77,7 +77,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - identify touched modules/files and owning concerns,
   - identify current naming conventions (file/module/API style),
   - identify unknowns that could invalidate design assumptions.
-- Do not draft proposed design or call stacks until this understanding pass is complete.
+- Do not draft design artifacts or runtime call stacks until this understanding pass is complete and `requirements.md` is written.
 - Classify as `Small`, `Medium`, or `Large` using practical signals:
   - Estimated files touched (roughly <= 3 is usually `Small` if not cross-cutting).
   - New/changed public APIs, schema/storage changes, or cross-cutting behavior.
@@ -274,14 +274,18 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 ### 6) Synchronize Project Documentation (Mandatory Post-Implementation)
 
-- After implementation execution is complete, update project documentation under `docs/` (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
+- After implementation execution is complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
+- Treat `docs/` as the long-lived canonical source of truth for the current codebase.
+- Treat ticket artifacts under `tickets/` as task-local, time-bound records; they are not the long-term source of truth.
+- If relevant docs do not exist yet, create new docs in `docs/` with clear natural names that match current functionality.
+- If relevant docs already exist, update them in place instead of creating duplicate overlapping docs.
 - Update docs for:
   - new modules/files/APIs,
   - changed runtime flows,
   - renamed/moved/removed components,
   - updated operational or testing procedures when behavior changed.
 - If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation-progress.md`.
-- Do not treat ticket artifacts as long-term source of truth; docs must represent post-implementation reality.
+- Docs synchronization is complete only when docs content aligns with the final implemented behavior.
 - Speak completion after docs synchronization result is recorded (`Updated`/`No impact`).
 
 ### 7) Final Handoff
@@ -311,7 +315,8 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - finalize/update `tickets/<ticket-name>/implementation-plan.md`
   - `tickets/<ticket-name>/implementation-progress.md`
 - Stage 6 (post-implementation documentation sync):
-  - update impacted project docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
+  - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
+  - create missing relevant docs in `docs/` when no existing doc covers the implemented functionality
   - record docs sync result in `tickets/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
 
 ## Templates

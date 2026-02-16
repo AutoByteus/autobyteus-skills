@@ -238,7 +238,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - unit tests,
   - integration tests across module/service boundaries,
   - end-to-end (E2E) test feasibility.
-- Include requirement traceability in plan/progress (`requirement_id -> design section -> call stack/use_case -> implementation tasks/tests`).
+- Include requirement traceability in plan/progress (`requirement -> design section -> call stack/use_case -> implementation tasks/tests`).
 - Integration test coverage is required for behavior that crosses module boundaries, process boundaries, storage boundaries, or external API boundaries. If any such behavior is not covered, record a concrete rationale.
 - E2E policy:
   - if E2E is feasible in the current environment, include and run at least one representative E2E scenario per critical user flow before marking implementation complete,

@@ -26,7 +26,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
 - Required speak stages:
   - workflow kickoff (`task accepted`, `next stage`),
+  - understanding pass stage (`started`, then baseline understanding captured),
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
+  - requirements stage (`started`, then `requirements.md` written/updated and confirmed as design input),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
   - runtime call stack stage (`started`, then `proposed-design-based-runtime-call-stack.md` written/updated),
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
@@ -46,6 +48,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### Execution Model (Strict Stage Gates)
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
+- Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until understanding pass is complete and `requirements.md` is physically written.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
 - Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
@@ -55,6 +58,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Stability rule (mandatory): unlock `Go` only after two consecutive deep-review rounds report no blockers and no required write-backs.
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
+- If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
 - For each review round, record explicit write-backs in `runtime-call-stack-review.md`:
@@ -65,9 +69,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - A review round cannot be considered complete until its required file updates are physically written.
 - Speak each completed round status only after the round record and required write-backs are physically written.
 
-### 0) Triage Change Size First (Decide Workflow Depth)
+### 0) Understanding Pass And Triage Change Size
 
-- Do a requirement + codebase understanding pass before choosing artifacts.
+- Do an understanding pass from user input/problem context and relevant codebase/runtime context before choosing artifacts.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched modules/files and owning concerns,
@@ -85,11 +89,20 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 - Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`).
 
-### 1) Clarify Requirements And Scope
+### 1) Write Requirements Document (Mandatory)
 
-- Ask for goals, non-goals, primary use cases, and constraints.
-- Confirm the triage result (`Small` vs `Medium` vs `Large`) and why.
-- If scope is ambiguous, ask whether to run medium/large depth (includes full proposed design doc). Otherwise proceed with the triaged depth.
+- Create/update `tickets/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
+- Requirement writing is mandatory even for small tasks (small can be concise).
+- Minimum required sections in `requirements.md`:
+  - goal/problem statement,
+  - in-scope use cases,
+  - acceptance criteria,
+  - constraints/dependencies,
+  - assumptions,
+  - open questions/risks.
+- Confirm the triage result (`Small` vs `Medium` vs `Large`) and rationale in the requirements doc.
+- If understanding is not sufficient to write clear requirements, continue understanding pass first, then finalize requirements.
+- Speak completion after `requirements.md` is physically written/updated and confirmed as design input.
 
 ### Core Modernization Policy (Mandatory)
 
@@ -101,6 +114,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### 2) Draft The Proposed Design Document
 
 - Required for `Medium/Large`. Optional for `Small`.
+- Prerequisite: `requirements.md` is written and current for this ticket.
 - For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
 - Follow separation of concerns: each file/module owns a clear responsibility.
 - Apply separation-of-concerns at the correct technical boundary for the stack:
@@ -207,6 +221,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - If issues are found:
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
   - `Small`: refine the implementation plan (and add design notes if needed), regenerate runtime call stacks, then rerun review.
+- If review findings expose requirement gaps/ambiguity, update `requirements.md` first, then update design + runtime call stacks in the same loop.
 - If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
 - Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go` criteria are satisfied.
@@ -223,6 +238,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - unit tests,
   - integration tests across module/service boundaries,
   - end-to-end (E2E) test feasibility.
+- Include requirement traceability in plan/progress (`requirement_id -> design section -> call stack/use_case -> implementation tasks/tests`).
 - Integration test coverage is required for behavior that crosses module boundaries, process boundaries, storage boundaries, or external API boundaries. If any such behavior is not covered, record a concrete rationale.
 - E2E policy:
   - if E2E is feasible in the current environment, include and run at least one representative E2E scenario per critical user flow before marking implementation complete,
@@ -282,17 +298,19 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 If the user does not specify file paths, write to a project-local ticket folder in stage order:
 These defaults list file-producing stages; gating and handoff rules still follow the full workflow above.
 
-- Stage 1 (design basis):
+- Stage 1 (requirements foundation):
+  - `tickets/<ticket-name>/requirements.md`
+- Stage 2 (design basis):
   - `Small`: start/refine `tickets/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
   - `Medium/Large`: create/refine `tickets/<ticket-name>/proposed-design.md`.
-- Stage 2 (runtime modeling):
+- Stage 3 (runtime modeling):
   - `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md`
-- Stage 3 (review gate, iterative):
+- Stage 4 (review gate, iterative):
   - `tickets/<ticket-name>/runtime-call-stack-review.md`
-- Stage 4 (only after gate `Go`):
+- Stage 5 (only after gate `Go`):
   - finalize/update `tickets/<ticket-name>/implementation-plan.md`
   - `tickets/<ticket-name>/implementation-progress.md`
-- Stage 5 (post-implementation documentation sync):
+- Stage 6 (post-implementation documentation sync):
   - update impacted project docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
   - record docs sync result in `tickets/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
 

@@ -103,6 +103,10 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Required for `Medium/Large`. Optional for `Small`.
 - For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
 - Follow separation of concerns: each file/module owns a clear responsibility.
+- Apply separation-of-concerns at the correct technical boundary for the stack:
+  - frontend/UI scope: evaluate responsibility at view/component level (each component should own a clear concern),
+  - non-UI scope (backend/service/worker/domain): evaluate responsibility at file/module/service level,
+  - integration/infrastructure scope: each adapter/module should own one integration concern with clear contracts.
 - Make the proposed design doc delta-aware, not only target-state:
   - include current-state summary (as-is),
   - include target-state summary (to-be),
@@ -168,7 +172,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - use-case coverage completeness (primary/fallback/error coverage) (`Pass`/`Fail`),
   - business flow completeness (`Pass`/`Fail`),
   - gap findings,
-  - structure and separation-of-concerns check (`Pass`/`Fail`),
+  - layer-appropriate structure and separation-of-concerns check (`Pass`/`Fail`) (frontend/UI: view/component boundary; non-UI: file/module/service boundary),
   - dependency flow smells,
   - redundancy/duplication check (`Pass`/`Fail`),
   - simplification opportunity check (`Pass`/`Fail`),
@@ -192,6 +196,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - file/API naming clarity is `Pass` for all in-scope use cases,
   - name-to-responsibility alignment under scope drift is `Pass` for all in-scope use cases,
   - future-state behavior is consistent with proposed design across all in-scope use cases,
+  - layer-appropriate structure and separation-of-concerns check is `Pass` for all in-scope use cases,
   - use-case coverage completeness is `Pass` for all in-scope use cases,
   - redundancy/duplication check is `Pass` for all in-scope use cases,
   - simplification opportunity check is `Pass` for all in-scope use cases,

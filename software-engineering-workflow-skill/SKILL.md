@@ -50,13 +50,10 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
 - Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
-- For `Medium`, enforce at least 3 review rounds:
-  - Round 1 is diagnostic/challenge by design and cannot unlock implementation.
-  - Round 2 is hardening and cannot unlock implementation.
-  - Round 3 (or later) is the first round allowed to make a `Go` decision.
-- For `Large`, enforce at least 5 review rounds:
-  - Rounds 1-4 are mandatory `No-Go` rounds (diagnostic + hardening) and cannot unlock implementation.
-  - Round 5 (or later) is the first round allowed to make a `Go` decision.
+- Runtime call stack review must run as iterative deep-review rounds (not one-pass review).
+- `Go` cannot be declared immediately after write-backs from a blocking round.
+- Stability rule (mandatory): unlock `Go` only after two consecutive deep-review rounds report no blockers and no required write-backs.
+- First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
@@ -83,8 +80,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - Multi-layer impact (API + service + persistence + runtime flow) or architectural impact.
 - Choose workflow depth:
   - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case proposed-design-based runtime call stacks from that plan, review them, then refine until review-pass and track progress in real time.
-  - `Medium`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative review rounds (minimum 3), and only after final review `Go` create implementation plan and track progress in real time.
-  - `Large`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative review rounds (minimum 5), and only after final review `Go` create implementation plan and track progress in real time.
+  - `Medium`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go`, and only then create implementation plan and track progress in real time.
+  - `Large`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go`, and only then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 - Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`).
 
@@ -173,15 +170,17 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - no-legacy/no-backward-compat check (`Pass`/`Fail`),
   - overall verdict (`Pass`/`Fail`).
 - Round policy:
-  - `Small`: at least 1 round; iterate until gate passes.
-  - `Medium`: at least 3 rounds. Rounds 1-2 must be `No-Go` (diagnostic + hardening rounds). Round 3+ may be `Go` only if all gate conditions pass.
-  - `Large`: at least 5 rounds. Rounds 1-4 must be `No-Go` (diagnostic + hardening rounds). Round 5+ may be `Go` only if all gate conditions pass.
+  - use deep review for every round (challenge assumptions, edge cases, and cleanup quality),
+  - if a round finds blocker/issues, apply write-backs immediately and reset clean-review streak to 0,
+  - if a round finds no blocker/issues, mark `Candidate Go` and increment clean-review streak,
+  - open `Go` only when clean-review streak reaches 2 consecutive deep-review rounds.
 - Across rounds, track trend quality: issues should decline in count/severity or become more localized; otherwise escalate design refinement before proceeding.
 - Round write-back discipline (mandatory):
   - Step A: run review and record findings in the current round.
   - Step B: if findings require updates, immediately modify design/call-stack artifacts and bump versions (`vN -> vN+1`).
   - Step C: record an "Applied Updates" entry in the review artifact (what changed, where, and why).
   - Step D: start the next round from updated files only; do not carry unresolved edits in memory.
+  - Step E: record clean-review streak state in the review artifact (`Reset`, `Candidate Go`, or `Go Confirmed`).
 - Gate `Go` criteria (all required):
   - terminology/concept vocabulary is `Pass` for all in-scope use cases,
   - file/API naming clarity is `Pass` for all in-scope use cases,
@@ -192,11 +191,11 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - all in-scope use cases have overall verdict `Pass`,
   - no unresolved blocking findings (including any required design/call-stack updates),
   - for any impacted `Add`/`Modify`/`Rename/Move`/`Remove` scope items, decommission/cleanup and obsolete/deprecated/dead-path checks are `Pass`,
-  - minimum required round count satisfied for the scope.
+  - two consecutive deep-review rounds have no blockers and no required write-backs.
 - If issues are found:
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
   - `Small`: refine the implementation plan (and add design notes if needed), regenerate runtime call stacks, then rerun review.
-- Even when a round reports no findings, still complete the round record in-file and continue until minimum required rounds are satisfied for that scope.
+- Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go` criteria are satisfied.
 - Use the template in `assets/runtime-call-stack-review-template.md`.
 
@@ -218,7 +217,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
 - Finalize planning artifacts before kickoff:
   - `Small`: refine the draft implementation plan until runtime call stack review passes.
-  - `Medium/Large`: create implementation plan only after runtime call stack review passes final gate and minimum review rounds are complete.
+  - `Medium/Large`: create implementation plan only after runtime call stack review passes final stability gate (`Go`).
 - Create the implementation progress document at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
 - Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).
 - Treat proposed-design-based runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.

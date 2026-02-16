@@ -176,13 +176,13 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### 4) Review Proposed-Design-Based Runtime Call Stacks (Future-State + Naming + Cleanliness Gate)
 
 - Create `runtime-call-stack-review.md` as a mandatory review artifact.
-- Review focus is future-state correctness and implementability against target design, not parity with current code structure.
+- Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation-plan.md` for `Small`), not parity with current code structure.
 - Run review in explicit rounds and record each round in the same review artifact.
 - Review each use case against these criteria:
   - terminology and concept vocabulary is natural and intuitive (`Pass`/`Fail`),
   - file/API naming is clear and unsurprising for implementation mapping (`Pass`/`Fail`),
   - name-to-responsibility alignment under scope drift (`Pass`/`Fail`),
-  - future-state alignment with proposed design (`Pass`/`Fail`),
+  - future-state alignment with target design basis (`Pass`/`Fail`),
   - use-case coverage completeness (primary/fallback/error coverage) (`Pass`/`Fail`),
   - business flow completeness (`Pass`/`Fail`),
   - gap findings,
@@ -209,7 +209,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - terminology/concept vocabulary is `Pass` for all in-scope use cases,
   - file/API naming clarity is `Pass` for all in-scope use cases,
   - name-to-responsibility alignment under scope drift is `Pass` for all in-scope use cases,
-  - future-state behavior is consistent with proposed design across all in-scope use cases,
+  - future-state behavior is consistent with target design basis across all in-scope use cases,
   - layer-appropriate structure and separation-of-concerns check is `Pass` for all in-scope use cases,
   - use-case coverage completeness is `Pass` for all in-scope use cases,
   - redundancy/duplication check is `Pass` for all in-scope use cases,

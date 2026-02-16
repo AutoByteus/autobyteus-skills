@@ -29,7 +29,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
   - runtime call stack stage (`started`, then `proposed-design-based-runtime-call-stack.md` written/updated),
-  - review loop (each round `started`, then round result with `Go`/`No-Go` and write-back status),
+  - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
   - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
   - implementation execution stage (`started`, then implementation completion + verification result),
   - post-implementation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
@@ -79,7 +79,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - New/changed public APIs, schema/storage changes, or cross-cutting behavior.
   - Multi-layer impact (API + service + persistence + runtime flow) or architectural impact.
 - Choose workflow depth:
-  - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case proposed-design-based runtime call stacks from that plan, review them, then refine until review-pass and track progress in real time.
+  - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case proposed-design-based runtime call stacks from that plan, review them, then refine until stability gate `Go` and track progress in real time.
   - `Medium`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go`, and only then create implementation plan and track progress in real time.
   - `Large`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go`, and only then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
@@ -177,8 +177,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - overall verdict (`Pass`/`Fail`).
 - Round policy:
   - use deep review for every round (challenge assumptions, edge cases, and cleanup quality),
-  - if a round finds blocker/issues, apply write-backs immediately and reset clean-review streak to 0,
-  - if a round finds no blocker/issues, mark `Candidate Go` and increment clean-review streak,
+  - if a round finds blockers or required write-backs, apply write-backs immediately and reset clean-review streak to 0,
+  - if a round finds no blockers and no required write-backs, mark `Candidate Go` and increment clean-review streak,
   - open `Go` only when clean-review streak reaches 2 consecutive deep-review rounds.
 - Across rounds, track trend quality: issues should decline in count/severity or become more localized; otherwise escalate design refinement before proceeding.
 - Round write-back discipline (mandatory):
@@ -224,7 +224,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - if E2E is not feasible (for example missing secrets/tokens, third-party environment dependency, or partner-system access limits), record a concrete infeasibility reason and current constraint details in both plan and progress tracker.
   - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
 - Finalize planning artifacts before kickoff:
-  - `Small`: refine the draft implementation plan until runtime call stack review passes.
+  - `Small`: refine the draft implementation plan until runtime call stack review passes final stability gate (`Go`).
   - `Medium/Large`: create implementation plan only after runtime call stack review passes final stability gate (`Go`).
 - Create the implementation progress document at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
 - Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).

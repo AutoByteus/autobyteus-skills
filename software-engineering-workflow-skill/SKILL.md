@@ -114,6 +114,11 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - rationale for each naming choice,
   - mapping from old names to new names when renaming.
 - Use natural, unsurprising, implementation-friendly names; naming choices should be understandable without domain-specific insider context.
+- Add a naming-drift check section in the design doc:
+  - verify each file/module name still matches its current responsibility after scope expansion,
+  - identify drifted names (name no longer represents real behavior),
+  - choose corrective action per drifted item (`Rename`, `Split`, `Move`, or `N/A` with rationale),
+  - map each corrective action to change inventory rows and implementation tasks.
 - Document dependency flow and cross-reference risk explicitly (including how cycles are avoided or temporarily tolerated).
 - For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup and dead-code removal).
 - Capture data models and error-handling expectations if relevant.
@@ -158,6 +163,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Review each use case against these criteria:
   - terminology and concept vocabulary is natural and intuitive (`Pass`/`Fail`),
   - file/API naming is clear and unsurprising for implementation mapping (`Pass`/`Fail`),
+  - name-to-responsibility alignment under scope drift (`Pass`/`Fail`),
   - future-state alignment with proposed design (`Pass`/`Fail`),
   - use-case coverage completeness (primary/fallback/error coverage) (`Pass`/`Fail`),
   - business flow completeness (`Pass`/`Fail`),
@@ -184,6 +190,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Gate `Go` criteria (all required):
   - terminology/concept vocabulary is `Pass` for all in-scope use cases,
   - file/API naming clarity is `Pass` for all in-scope use cases,
+  - name-to-responsibility alignment under scope drift is `Pass` for all in-scope use cases,
   - future-state behavior is consistent with proposed design across all in-scope use cases,
   - use-case coverage completeness is `Pass` for all in-scope use cases,
   - redundancy/duplication check is `Pass` for all in-scope use cases,
@@ -195,6 +202,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - If issues are found:
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
   - `Small`: refine the implementation plan (and add design notes if needed), regenerate runtime call stacks, then rerun review.
+- If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
 - Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go` criteria are satisfied.
 - Use the template in `assets/runtime-call-stack-review-template.md`.

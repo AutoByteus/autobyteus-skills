@@ -5,25 +5,31 @@
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> draft implementation plan (solution sketch) -> proposed-design-based runtime call stack -> runtime call stack review -> refine until review-pass -> progress tracking (proposed design doc optional)
-  - `Medium` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (minimum 3 rounds) -> implementation plan -> progress tracking
-  - `Large` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (minimum 5 rounds) -> implementation plan -> progress tracking
+  - `Small` -> draft implementation plan (solution sketch) -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize implementation plan -> progress tracking
+  - `Medium` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
+  - `Large` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
+
+## Upstream Artifacts (Required)
+
+- Investigation notes: `tickets/<ticket-name>/investigation-notes.md`
+- Requirements: `tickets/<ticket-name>/requirements.md`
+  - Current Status: `Draft` / `Design-ready` / `Refined`
+- Runtime call stacks: `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md`
+- Runtime review: `tickets/<ticket-name>/runtime-call-stack-review.md`
+- Proposed design (required for `Medium/Large`): `tickets/<ticket-name>/proposed-design.md`
 
 ## Plan Maturity
 
-- Current Status: `Draft` / `Blocked By Review Gate` / `Call-Stack-Review-Validated` / `Ready For Implementation`
+- Current Status: `Draft` / `Blocked By Review Gate` / `Review-Gate-Validated` / `Ready For Implementation`
 - Notes:
 
 ## Preconditions (Must Be True Before Finalizing This Plan)
 
-- Runtime call stack review artifact exists:
+- `requirements.md` is at least `Design-ready` (`Refined` allowed):
+- Runtime call stack review artifact exists and is current:
 - All in-scope use cases reviewed:
 - No unresolved blocking findings:
-- Minimum review rounds satisfied:
-  - `Small`: >= 1
-  - `Medium`: >= 3
-  - `Large`: >= 5
-- Final gate decision in review artifact is `Implementation can start: Yes`:
+- Runtime review has `Go Confirmed` with two consecutive clean deep-review rounds:
 
 ## Solution Sketch (Required For `Small`, Optional Otherwise)
 
@@ -33,23 +39,20 @@
 - Key Assumptions:
 - Known Risks:
 
-## Runtime Call Stack Review Gate (Required Before Implementation)
+## Runtime Call Stack Review Gate Summary (Required)
 
-| Round | Use Case | Call Stack Location | Review Location | Naming Naturalness | File/API Naming Clarity | Business Flow Completeness | Structure & SoC Check | Unresolved Blocking Findings | Verdict |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
-| 2 |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
-| 3 (required for `Medium`; required hardening round for `Large`) |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
-| 4 (required hardening round for `Large`) |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
-| 5 (required gate-eligible round for `Large`) |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
-| N (optional) |  | `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md` | `tickets/<ticket-name>/runtime-call-stack-review.md` | Pass/Fail | Pass/Fail | Pass/Fail | Pass/Fail | Yes/No | Pass/Fail |
+| Round | Review Result | Findings Requiring Write-Back | Write-Back Completed | Round State (`Reset`/`Candidate Go`/`Go Confirmed`) | Clean Streak After Round |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Pass/Fail | Yes/No | Yes/No/N/A |  |  |
+| 2 | Pass/Fail | Yes/No | Yes/No/N/A |  |  |
+| N | Pass/Fail | Yes/No | Yes/No/N/A |  |  |
 
 ## Go / No-Go Decision
 
 - Decision: `Go` / `No-Go`
 - Evidence:
-  - Review rounds completed:
   - Final review round:
+  - Clean streak at final round:
   - Final review gate line (`Implementation can start`):
 - If `No-Go`, required refinement target:
   - `Small`: refine implementation plan (and add design notes if needed), then regenerate call stack and re-review.
@@ -59,10 +62,9 @@
 ## Principles
 
 - Bottom-up: implement dependencies before dependents.
-- Test-driven: write unit tests (and integration tests when needed) before or alongside implementation.
+- Test-driven: write unit tests and integration tests alongside implementation.
 - Mandatory modernization rule: no backward-compatibility shims or legacy branches.
-- One file at a time is the default: complete a file and its tests before moving on when dependency graph is clean.
-- Exception rule for rare cross-referencing: allow temporary partial implementation only when necessary, and record the design smell and follow-up design change.
+- One file at a time is the default; use limited parallel work only when dependency edges require it.
 - Update progress after each meaningful status change (file state, test state, blocker state, or design follow-up state).
 
 ## Dependency And Sequencing Map
@@ -72,6 +74,12 @@
 | 1 |  |  |  |
 | 2 |  |  |  |
 | 3 |  |  |  |
+
+## Requirement And Design Traceability
+
+| Requirement | Design Section | Use Case / Call Stack | Planned Task ID(s) | Verification |
+| --- | --- | --- | --- | --- |
+| R-001 |  | UC-001 |  | Unit/Integration/E2E |
 
 ## Design Delta Traceability (Required For `Medium/Large`)
 
@@ -93,9 +101,29 @@
 
 ## Per-File Definition Of Done
 
-| File | Implementation Done Criteria | Unit Test Criteria | Integration Test Criteria | Notes |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
+| File | Implementation Done Criteria | Unit Test Criteria | Integration Test Criteria | E2E Criteria | Notes |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+## Test Strategy
+
+- Unit tests:
+- Integration tests:
+- E2E feasibility: `Feasible` / `Not Feasible`
+- If E2E is not feasible, concrete reason and current constraints:
+- Best-available non-E2E verification evidence when E2E is not feasible:
+- Residual risk notes:
+
+## Test Feedback Escalation Policy (Execution Guardrail)
+
+- Classification rules for failing integration/E2E tests:
+  - `Local Fix`: no requirement/design change needed; responsibility boundaries remain intact.
+  - `Design Impact`: responsibility boundaries drift, architecture change needed, or patch-on-patch complexity appears.
+  - `Requirement Gap`: missing/ambiguous requirement or newly discovered requirement-level constraint.
+- Required action:
+  - `Local Fix` -> implement fix and keep structure clean.
+  - `Design Impact` -> stop implementation; update design basis; regenerate call stacks; re-run review to `Go Confirmed`.
+  - `Requirement Gap` -> stop implementation; update `requirements.md` to `Refined`; update design basis; regenerate call stacks; re-run review to `Go Confirmed`.
 
 ## Cross-Reference Exception Protocol
 
@@ -108,9 +136,3 @@
 | Smell/Issue | Evidence (Files/Call Stack) | Design Section To Update | Action | Status |
 | --- | --- | --- | --- | --- |
 |  |  |  |  | Pending |
-
-## Test Strategy
-
-- Unit tests: 
-- Integration tests: 
-- Test data / fixtures: 

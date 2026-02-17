@@ -1,4 +1,4 @@
-# Proposed-Design-Based Runtime Call Stacks (Debug-Trace Style)
+# Future-State Runtime Call Stacks (Debug-Trace Style)
 
 Use this document as a future-state (`to-be`) execution model derived from the design basis.
 Prefer exact `file:function` frames, explicit branching, and clear state/persistence boundaries.

@@ -7,7 +7,7 @@ This document tracks implementation and test progress in real time at file level
 - Create this file at implementation kickoff after pre-implementation gates are complete:
   - investigation notes written and current,
   - requirements at least `Design-ready`,
-  - runtime call stack review gate is `Go Confirmed` (two consecutive clean deep-review rounds),
+  - future-state runtime call stack review gate is `Go Confirmed` (two consecutive clean deep-review rounds),
   - implementation plan finalized.
 - Update it continuously while implementing.
 - Record every meaningful change immediately: file status transitions, test status changes, blockers, classification decisions, and escalation actions.

@@ -1,4 +1,4 @@
-# Proposed-Design-Based Runtime Call Stack Review
+# Future-State Runtime Call Stack Review
 
 Use this document as the pre-implementation gate for future-state runtime-call-stack quality and use-case completeness.
 This review validates alignment with target (`to-be`) design behavior, not parity with current (`as-is`) code.
@@ -15,7 +15,7 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 ## Review Basis
 
 - Requirements: `tickets/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
-- Runtime Call Stack Document: `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md`
+- Runtime Call Stack Document: `tickets/<ticket-name>/future-state-runtime-call-stack.md`
 - Source Design Basis:
   - `Small`: `tickets/<ticket-name>/implementation-plan.md` (solution sketch)
   - `Medium/Large`: `tickets/<ticket-name>/proposed-design.md`
@@ -27,7 +27,7 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 
 ## Review Intent (Mandatory)
 
-- Primary check: Is the proposed-design-based runtime call stack a coherent and implementable future-state model?
+- Primary check: Is the future-state runtime call stack a coherent and implementable future-state model?
 - Not a pass criterion: matching current-code call paths exactly.
 - Any finding with a required design/call-stack update is blocking.
 
@@ -98,7 +98,7 @@ Rule:
   - Findings trend quality is acceptable across rounds (issues declined in count/severity or became more localized), or explicit design decomposition update is recorded:
 - If `No`, required refinement actions:
   - Update `requirements.md` first if this is a `Requirement Gap` (status `Refined`), then update design basis:
-  - Regenerate `proposed-design-based-runtime-call-stack.md`:
+  - Regenerate `future-state-runtime-call-stack.md`:
   - Re-run this review from updated files:
 
 ## Speak Log (Optional Tracking)

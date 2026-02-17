@@ -1,15 +1,15 @@
 ---
 name: software-engineering-workflow-skill
-description: "Create software-engineering planning artifacts with triaged depth: proposed-design-based runtime call stacks (future-state), runtime call stack review, and implementation planning/progress for all sizes, plus proposed design docs for medium/large scope. Includes requirement clarification, call-stack validation, and iterative refinement."
+description: "Create software-engineering planning artifacts with triaged depth: future-state runtime call stacks, future-state runtime call stack review, and implementation planning/progress for all sizes, plus proposed design docs for medium/large scope. Includes requirement clarification, call-stack validation, and iterative refinement."
 ---
 
 # Software Engineering Workflow Skill
 
 ## Overview
 
-Produce a structured planning workflow for software changes: triage scope, build proposed-design-based runtime call stacks per use case, verify those call stacks with a dedicated review artifact, and drive implementation with plan + real-time progress tracking. For medium/large scope, include a full proposed design document organized by separation of concerns.
+Produce a structured planning workflow for software changes: triage scope, build future-state runtime call stacks per use case, verify those call stacks with a dedicated review artifact, and drive implementation with plan + real-time progress tracking. For medium/large scope, include a full proposed design document organized by separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
-In this skill, proposed-design-based runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
+In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
 ## Workflow
 
@@ -30,7 +30,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
   - requirements stage (`started`, then `requirements.md` `Draft` captured, then `Design-ready` confirmed),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
-  - runtime call stack stage (`started`, then `proposed-design-based-runtime-call-stack.md` written/updated),
+  - future-state runtime call stack stage (`started`, then `future-state-runtime-call-stack.md` written/updated),
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
   - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
   - implementation execution stage (`started`, then implementation completion + verification result),
@@ -53,21 +53,21 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
 - Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
-- Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the runtime call stack review gate is fully satisfied for the current scope.
+- Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the future-state runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
 - Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
-- Runtime call stack review must run as iterative deep-review rounds (not one-pass review).
+- Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after write-backs from a blocking round.
 - Stability rule (mandatory): unlock `Go Confirmed` only after two consecutive deep-review rounds report no blockers and no required write-backs.
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go Confirmed`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
-- If implementation-time integration/E2E feedback reveals design-impacting issues or missing requirements, pause implementation and return to requirements/design/runtime-call-stack/review stages before continuing implementation.
-- If implementation-time integration/E2E feedback is large, cross-cutting, or root cause is unclear, pause implementation and return to understanding stage first: update `investigation-notes.md`, then refine requirements/design/runtime call stacks/review before resuming implementation.
+- If implementation-time integration/E2E feedback reveals design-impacting issues or missing requirements, pause implementation and return to requirements/design/future-state-runtime-call-stack/review stages before continuing implementation.
+- If implementation-time integration/E2E feedback is large, cross-cutting, or root cause is unclear, pause implementation and return to understanding stage first: update `investigation-notes.md`, then refine requirements/design/future-state runtime call stacks/review before resuming implementation.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
-- For each review round, record explicit write-backs in `runtime-call-stack-review.md`:
+- For each review round, record explicit write-backs in `future-state-runtime-call-stack-review.md`:
   - updated files,
   - new artifact versions,
   - changed sections,
@@ -97,9 +97,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - New/changed public APIs, schema/storage changes, or cross-cutting behavior.
   - Multi-layer impact (API + service + persistence + runtime flow) or architectural impact.
 - Choose workflow depth:
-  - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case proposed-design-based runtime call stacks from that plan, review them, then refine until stability gate `Go Confirmed` and track progress in real time.
-  - `Medium`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
-  - `Large`: create proposed design doc first, build proposed-design-based runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
+  - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case future-state runtime call stacks from that plan, review them, then refine until stability gate `Go Confirmed` and track progress in real time.
+  - `Medium`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
+  - `Large`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 - Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`).
 
@@ -172,14 +172,14 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Use the template in `assets/proposed-design-template.md` as a starting point.
 - Speak completion after `proposed-design.md` is physically written/updated.
 
-### 3) Build Proposed-Design-Based Runtime Call Stacks Per Use Case
+### 3) Build Future-State Runtime Call Stacks Per Use Case
 
 - Required for all sizes (`Small`, `Medium`, `Large`).
 - For `Small`, keep it concise but still cover each in-scope use case with primary path plus key fallback/error branch when relevant.
 - Basis by scope:
   - `Small`: use the draft implementation plan solution sketch as the design basis.
   - `Medium/Large`: use the proposed design document as the design basis.
-- For each use case, write a proposed-design-based runtime call stack from entry point to completion in a debug-trace format.
+- For each use case, write a future-state runtime call stack from entry point to completion in a debug-trace format.
 - Use stable `use_case_id` values and ensure IDs match the design coverage matrix and review artifact.
 - Treat this artifact as `to-be` architecture behavior derived from the proposed design (or small-scope solution sketch), not as-is code tracing.
 - If current code differs from target design, model the target design behavior and record migration/transition notes separately.
@@ -192,12 +192,12 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Capture decision gates and conditions that choose one branch over another.
 - Note key data transformations (input schema -> domain model -> output payload).
 - Version call stacks to match design revisions from review loops (`v1`, `v2`, ...).
-- Use the template in `assets/proposed-design-based-runtime-call-stack-template.md`.
-- Speak completion after `proposed-design-based-runtime-call-stack.md` is physically written/updated.
+- Use the template in `assets/future-state-runtime-call-stack-template.md`.
+- Speak completion after `future-state-runtime-call-stack.md` is physically written/updated.
 
-### 4) Review Proposed-Design-Based Runtime Call Stacks (Future-State + Naming + Cleanliness Gate)
+### 4) Review Future-State Runtime Call Stacks (Future-State + Naming + Cleanliness Gate)
 
-- Create `runtime-call-stack-review.md` as a mandatory review artifact.
+- Create `future-state-runtime-call-stack-review.md` as a mandatory review artifact.
 - Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation-plan.md` for `Small`), not parity with current code structure.
 - Run review in explicit rounds and record each round in the same review artifact.
 - Review each use case against these criteria:
@@ -247,7 +247,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
 - Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go Confirmed` criteria are satisfied.
-- Use the template in `assets/runtime-call-stack-review-template.md`.
+- Use the template in `assets/future-state-runtime-call-stack-review-template.md`.
 
 ### 5) Produce Implementation Plan And Progress Tracker
 
@@ -285,11 +285,11 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - for `Requirement Gap`, stop implementation work, update `requirements.md` first (status `Refined`), then update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation.
   - do not keep appending fixes that make files/components bigger without re-evaluating separation of concerns and design intent.
 - Finalize planning artifacts before kickoff:
-  - `Small`: refine the draft implementation plan until runtime call stack review passes final stability gate (`Go Confirmed`).
-  - `Medium/Large`: create implementation plan only after runtime call stack review passes final stability gate (`Go Confirmed`).
+  - `Small`: refine the draft implementation plan until future-state runtime call stack review passes final stability gate (`Go Confirmed`).
+  - `Medium/Large`: create implementation plan only after future-state runtime call stack review passes final stability gate (`Go Confirmed`).
 - Create the implementation progress document at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
 - Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).
-- Treat proposed-design-based runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.
+- Treat future-state runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.
 - Start implementation only after the review gate says implementation can start and all in-scope use cases are `Pass`.
 - Ensure traceability when a proposed design doc exists: every design change-inventory row (especially `Rename/Move` and `Remove`) maps to implementation tasks and verification steps.
 - Enforce clean-cut implementation: do not keep legacy compatibility paths.
@@ -354,9 +354,9 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - `Small`: start/refine `tickets/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
   - `Medium/Large`: create/refine `tickets/<ticket-name>/proposed-design.md`.
 - Stage 3 (runtime modeling):
-  - `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md`
+  - `tickets/<ticket-name>/future-state-runtime-call-stack.md`
 - Stage 4 (review gate, iterative):
-  - `tickets/<ticket-name>/runtime-call-stack-review.md`
+  - `tickets/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Stage 5 (only after gate `Go Confirmed`):
   - finalize/update `tickets/<ticket-name>/implementation-plan.md`
   - `tickets/<ticket-name>/implementation-progress.md`
@@ -368,7 +368,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
 ## Templates
 
 - `assets/proposed-design-template.md`
-- `assets/proposed-design-based-runtime-call-stack-template.md`
-- `assets/runtime-call-stack-review-template.md`
+- `assets/future-state-runtime-call-stack-template.md`
+- `assets/future-state-runtime-call-stack-review-template.md`
 - `assets/implementation-plan-template.md`
 - `assets/implementation-progress-template.md`

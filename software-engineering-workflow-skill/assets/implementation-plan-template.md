@@ -5,17 +5,17 @@
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> draft implementation plan (solution sketch) -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize implementation plan -> progress tracking
-  - `Medium` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
-  - `Large` -> proposed design doc -> proposed-design-based runtime call stack -> runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
+  - `Small` -> draft implementation plan (solution sketch) -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize implementation plan -> progress tracking
+  - `Medium` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
+  - `Large` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> progress tracking
 
 ## Upstream Artifacts (Required)
 
 - Investigation notes: `tickets/<ticket-name>/investigation-notes.md`
 - Requirements: `tickets/<ticket-name>/requirements.md`
   - Current Status: `Draft` / `Design-ready` / `Refined`
-- Runtime call stacks: `tickets/<ticket-name>/proposed-design-based-runtime-call-stack.md`
-- Runtime review: `tickets/<ticket-name>/runtime-call-stack-review.md`
+- Runtime call stacks: `tickets/<ticket-name>/future-state-runtime-call-stack.md`
+- Runtime review: `tickets/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Proposed design (required for `Medium/Large`): `tickets/<ticket-name>/proposed-design.md`
 
 ## Plan Maturity

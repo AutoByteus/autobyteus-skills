@@ -1,0 +1,4 @@
+interface:
+  display_name: "Computer Use Playbook"
+  short_description: "DOM-first automation across browser and desktop"
+  default_prompt: "Use $computer-use-playbook for browser-first automation, then escalate to vision/native methods only when needed, with user handoff plus speak notifications for login/CAPTCHA gates."

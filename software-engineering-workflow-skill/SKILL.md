@@ -28,12 +28,13 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - workflow kickoff (`task accepted`, `next stage`),
   - understanding pass stage (`started`, then baseline understanding captured),
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
-  - requirements stage (`started`, then `requirements.md` v0 captured, then v1 design-ready confirmed),
+  - requirements stage (`started`, then `requirements.md` `Draft` captured, then `Design-ready` confirmed),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
   - runtime call stack stage (`started`, then `proposed-design-based-runtime-call-stack.md` written/updated),
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
   - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
   - implementation execution stage (`started`, then implementation completion + verification result),
+  - implementation feedback escalation stage (when failing tests are classified as `Local Fix` vs `Design Impact`, with next-step decision),
   - post-implementation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
   - final handoff (`started`, then completed artifact summary).
 - Speak trigger policy:
@@ -48,8 +49,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### Execution Model (Strict Stage Gates)
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
-- Requirements can start as rough `v0` from user input/bug report artifacts before deep analysis.
-- Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` is refined to design-ready `v1`.
+- Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
+- Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
 - Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
@@ -60,6 +61,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
+- If implementation-time integration/E2E feedback reveals design-impacting issues, pause implementation and return to requirements/design/runtime-call-stack/review stages before continuing implementation.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
 - For each review round, record explicit write-backs in `runtime-call-stack-review.md`:
@@ -72,14 +74,14 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 ### 0) Capture Initial Requirement Snapshot + Understanding Pass + Triage
 
-- Capture an initial requirement snapshot (`requirements.md` v0) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
+- Capture an initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
 - Then run deep understanding from problem context and relevant codebase/runtime context before choosing artifacts.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched modules/files and owning concerns,
   - identify current naming conventions (file/module/API style),
   - identify unknowns that could invalidate design assumptions.
-- Do not draft design artifacts or runtime call stacks until this understanding pass is complete and `requirements.md` is refined to design-ready `v1`.
+- Do not draft design artifacts or runtime call stacks until this understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Classify as `Small`, `Medium`, or `Large` using practical signals:
   - Estimated files touched (roughly <= 3 is usually `Small` if not cross-cutting).
   - New/changed public APIs, schema/storage changes, or cross-cutting behavior.
@@ -95,11 +97,13 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 - Create/update `tickets/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
 - Requirement writing is mandatory even for small tasks (small can be concise).
+- Use one canonical file path only: update `requirements.md` in place. Do not create versioned duplicates such as `requirements-v2.md`.
 - Requirements maturity flow:
-  - `v0` (initial): rough capture from report/input evidence,
-  - `v1` (design-ready): refined after deep understanding pass,
-  - `vN` (iterative): further refinements when design/review reveals gaps.
+  - `Draft`: rough capture from report/input evidence,
+  - `Design-ready`: refined after deep understanding pass,
+  - `Refined`: further updates when design/review/implementation feedback reveals gaps.
 - Minimum required sections in `requirements.md`:
+  - status (`Draft`/`Design-ready`/`Refined`),
   - goal/problem statement,
   - in-scope use cases,
   - acceptance criteria,
@@ -107,9 +111,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - assumptions,
   - open questions/risks.
 - Confirm the triage result (`Small` vs `Medium` vs `Large`) and rationale in the requirements doc.
-- Design-ready requirement gate (`v1`) must make expected behavior clear enough to draft design and runtime call stacks.
-- If understanding is not sufficient to reach design-ready `v1`, continue understanding pass and refine requirements first.
-- Speak completion after `requirements.md` reaches design-ready `v1` and is confirmed as design input.
+- Design-ready requirement gate must make expected behavior clear enough to draft design and runtime call stacks.
+- If understanding is not sufficient to reach `Design-ready`, continue understanding pass and refine requirements first.
+- Speak completion after `requirements.md` reaches `Design-ready` and is confirmed as design input.
 
 ### Core Modernization Policy (Mandatory)
 
@@ -121,7 +125,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 ### 2) Draft The Proposed Design Document
 
 - Required for `Medium/Large`. Optional for `Small`.
-- Prerequisite: `requirements.md` is design-ready (`v1` or later) and current for this ticket.
+- Prerequisite: `requirements.md` is `Design-ready` (or `Refined`) and current for this ticket.
 - For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
 - Follow separation of concerns: each file/module owns a clear responsibility.
 - Apply separation-of-concerns at the correct technical boundary for the stack:
@@ -228,7 +232,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - If issues are found:
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
   - `Small`: refine the implementation plan (and add design notes if needed), regenerate runtime call stacks, then rerun review.
-- If review findings expose requirement gaps/ambiguity, update `requirements.md` first (`vN+1`), then update design + runtime call stacks in the same loop.
+- If review findings expose requirement gaps/ambiguity, update `requirements.md` first (status `Refined`), then update design + runtime call stacks in the same loop.
 - If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
 - Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go` criteria are satisfied.
@@ -251,6 +255,17 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - if E2E is feasible in the current environment, include and run at least one representative E2E scenario per critical user flow before marking implementation complete,
   - if E2E is not feasible (for example missing secrets/tokens, third-party environment dependency, or partner-system access limits), record a concrete infeasibility reason and current constraint details in both plan and progress tracker.
   - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
+- Test feedback escalation policy (mandatory):
+  - classify each failing integration/E2E result as either `Local Fix` or `Design Impact`,
+  - `Local Fix` is allowed only when responsibility boundaries stay intact and no requirement/design changes are needed,
+  - classify as `Design Impact` when any of these apply:
+    - fix adds new responsibility to an existing file/component/module,
+    - file/component naming or responsibility drifts from current behavior,
+    - implementation starts accumulating patch-on-patch complexity or duplication,
+    - failing behavior implies new/changed use case, acceptance criteria, or constraints,
+    - fix requires cross-layer architectural change not captured in current design basis.
+  - for `Design Impact`, stop implementation work, update `requirements.md`, update design basis, regenerate runtime call stacks, rerun review until stability gate `Go`, then resume implementation.
+  - do not keep appending fixes that make files/components bigger without re-evaluating separation of concerns and design intent.
 - Finalize planning artifacts before kickoff:
   - `Small`: refine the draft implementation plan until runtime call stack review passes final stability gate (`Go`).
   - `Medium/Large`: create implementation plan only after runtime call stack review passes final stability gate (`Go`).
@@ -270,6 +285,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Track change IDs and change types in progress (`Add`/`Modify`/`Rename/Move`/`Remove`) so refactor deltas remain explicit through execution.
 - Track file build state explicitly (`Pending`, `In Progress`, `Blocked`, `Completed`, `N/A`).
 - Track unit/integration/E2E test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
+- For each failed integration/E2E test, record classification (`Local Fix`/`Design Impact`) and the action path taken.
+- When classification is `Design Impact`, record the escalation checkpoint (requirements update, design update, call-stack regeneration, review re-entry) before coding resumes.
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.
 - Mark a file `Completed` only when implementation is done and required tests are passing.
 - Mark implementation execution complete only when:

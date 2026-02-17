@@ -26,7 +26,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
 - Required speak stages:
   - workflow kickoff (`task accepted`, `next stage`),
-  - understanding pass stage (`started`, then `understanding-notes.md` captured and baseline understanding confirmed),
+  - understanding pass stage (`started`, then `investigation-notes.md` captured and baseline understanding confirmed),
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
   - requirements stage (`started`, then `requirements.md` `Draft` captured, then `Design-ready` confirmed),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
@@ -50,7 +50,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
-- Do not mark understanding pass complete until `understanding-notes.md` is physically written and current for the ticket.
+- Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
 - Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
@@ -77,13 +77,13 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 
 - Capture an initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
 - Then run deep understanding from problem context and relevant codebase/runtime context before choosing artifacts.
-- Create/update `tickets/<ticket-name>/understanding-notes.md` continuously during investigation. Do not keep investigation results only in memory.
+- Create/update `tickets/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched modules/files and owning concerns,
   - identify current naming conventions (file/module/API style),
   - identify unknowns that could invalidate design assumptions.
-- In `understanding-notes.md`, record at minimum:
+- In `investigation-notes.md`, record at minimum:
   - sources consulted (`local file paths`, `web links`, `open-source references`, `papers` when used),
   - key findings and constraints,
   - open unknowns/questions,
@@ -118,7 +118,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - assumptions,
   - open questions/risks.
 - Confirm the triage result (`Small` vs `Medium` vs `Large`) and rationale in the requirements doc.
-- Refine requirements from the latest `understanding-notes.md`; do not derive requirements from memory-only investigation.
+- Refine requirements from the latest `investigation-notes.md`; do not derive requirements from memory-only investigation.
 - Design-ready requirement gate must make expected behavior clear enough to draft design and runtime call stacks.
 - If understanding is not sufficient to reach `Design-ready`, continue understanding pass and refine requirements first.
 - Speak completion after `requirements.md` reaches `Design-ready` and is confirmed as design input.
@@ -339,8 +339,8 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 If the user does not specify file paths, write to a project-local ticket folder in stage order:
 These defaults list file-producing stages; gating and handoff rules still follow the full workflow above.
 
-- Stage 0 (understanding evidence):
-  - `tickets/<ticket-name>/understanding-notes.md`
+- Stage 0 (investigation notes):
+  - `tickets/<ticket-name>/investigation-notes.md`
 - Stage 1 (requirements foundation):
   - `tickets/<ticket-name>/requirements.md`
 - Stage 2 (design basis):

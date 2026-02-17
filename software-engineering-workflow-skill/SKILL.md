@@ -34,7 +34,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
   - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
   - implementation execution stage (`started`, then implementation completion + verification result),
-  - implementation feedback escalation stage (when failing tests are classified as `Local Fix` vs `Design Impact`, with next-step decision),
+  - implementation feedback escalation stage (when failing tests are classified as `Local Fix`/`Design Impact`/`Requirement Gap`, with next-step decision),
   - post-implementation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
   - final handoff (`started`, then completed artifact summary).
 - Speak trigger policy:
@@ -61,7 +61,7 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
-- If implementation-time integration/E2E feedback reveals design-impacting issues, pause implementation and return to requirements/design/runtime-call-stack/review stages before continuing implementation.
+- If implementation-time integration/E2E feedback reveals design-impacting issues or missing requirements, pause implementation and return to requirements/design/runtime-call-stack/review stages before continuing implementation.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
 - For each review round, record explicit write-backs in `runtime-call-stack-review.md`:
@@ -256,15 +256,19 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
   - if E2E is not feasible (for example missing secrets/tokens, third-party environment dependency, or partner-system access limits), record a concrete infeasibility reason and current constraint details in both plan and progress tracker.
   - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
 - Test feedback escalation policy (mandatory):
-  - classify each failing integration/E2E result as either `Local Fix` or `Design Impact`,
-  - `Local Fix` is allowed only when responsibility boundaries stay intact and no requirement/design changes are needed,
+  - classify each failing integration/E2E result as `Local Fix`, `Design Impact`, or `Requirement Gap`,
+  - `Local Fix` is allowed only when responsibility boundaries stay intact, no new use case/acceptance criterion is needed, and no requirement/design changes are needed,
   - classify as `Design Impact` when any of these apply:
     - fix adds new responsibility to an existing file/component/module,
     - file/component naming or responsibility drifts from current behavior,
     - implementation starts accumulating patch-on-patch complexity or duplication,
-    - failing behavior implies new/changed use case, acceptance criteria, or constraints,
     - fix requires cross-layer architectural change not captured in current design basis.
-  - for `Design Impact`, stop implementation work, update `requirements.md`, update design basis, regenerate runtime call stacks, rerun review until stability gate `Go`, then resume implementation.
+  - classify as `Requirement Gap` when any of these apply:
+    - failing behavior reveals missing functionality/use case not captured in current requirements,
+    - acceptance criteria are missing/ambiguous for the observed behavior,
+    - newly discovered technical or integration constraints require requirement-level updates.
+  - for `Design Impact`, stop implementation work, update design basis, regenerate runtime call stacks, rerun review until stability gate `Go`, then resume implementation.
+  - for `Requirement Gap`, stop implementation work, update `requirements.md` first (status `Refined`), then update design basis, regenerate runtime call stacks, rerun review until stability gate `Go`, then resume implementation.
   - do not keep appending fixes that make files/components bigger without re-evaluating separation of concerns and design intent.
 - Finalize planning artifacts before kickoff:
   - `Small`: refine the draft implementation plan until runtime call stack review passes final stability gate (`Go`).
@@ -285,8 +289,9 @@ In this skill, proposed-design-based runtime call stacks are future-state (`to-b
 - Track change IDs and change types in progress (`Add`/`Modify`/`Rename/Move`/`Remove`) so refactor deltas remain explicit through execution.
 - Track file build state explicitly (`Pending`, `In Progress`, `Blocked`, `Completed`, `N/A`).
 - Track unit/integration/E2E test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
-- For each failed integration/E2E test, record classification (`Local Fix`/`Design Impact`) and the action path taken.
-- When classification is `Design Impact`, record the escalation checkpoint (requirements update, design update, call-stack regeneration, review re-entry) before coding resumes.
+- For each failed integration/E2E test, record classification (`Local Fix`/`Design Impact`/`Requirement Gap`) and the action path taken.
+- When classification is `Design Impact`, record the escalation checkpoint (design update, call-stack regeneration, review re-entry) before coding resumes.
+- When classification is `Requirement Gap`, record the escalation checkpoint (requirements refinement, design update, call-stack regeneration, review re-entry) before coding resumes.
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.
 - Mark a file `Completed` only when implementation is done and required tests are passing.
 - Mark implementation execution complete only when:

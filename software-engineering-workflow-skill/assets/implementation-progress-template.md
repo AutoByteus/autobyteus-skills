@@ -26,6 +26,7 @@ This document tracks implementation and test progress in real time at file level
 - File Status: `Pending`, `In Progress`, `Blocked`, `Completed`, `N/A`
 - Unit/Integration/E2E Test Status: `Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`
 - Failure Classification: `Local Fix`, `Design Impact`, `Requirement Gap`, `N/A`
+- Investigation Required: `Yes`, `No`, `N/A`
 - Design Follow-Up: `Not Needed`, `Needed`, `In Progress`, `Updated`
 - Requirement Follow-Up: `Not Needed`, `Needed`, `In Progress`, `Updated`
 
@@ -41,19 +42,20 @@ This document tracks implementation and test progress in real time at file level
 
 ## File-Level Progress Table
 
-| Change ID | Change Type | File | Depends On | File Status | Unit Test File | Unit Test Status | Integration Test File | Integration Test Status | E2E Scenario | E2E Status | Last Failure Classification | Cross-Reference Smell | Design Follow-Up | Requirement Follow-Up | Last Verified | Verification Command | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C-001 | Modify | `src/example-a.ts` | `src/example-core.ts` | Blocked | `tests/unit/example-a.test.ts` | Blocked | `tests/integration/example-a.integration.test.ts` | Failed | `checkout-happy-path` | Not Started | Design Impact | `src/example-a.ts <-> src/example-core.ts` | Needed | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-a.test.ts` | Waiting for boundary refactor. |
-| C-002 | Add | `src/example-core.ts` | N/A | In Progress | `tests/unit/example-core.test.ts` | In Progress | N/A | N/A | N/A | N/A | N/A | None | Not Needed | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-core.test.ts` | Implementing base interfaces. |
-| C-003 | Remove | `src/example-util.ts` | N/A | Completed | N/A | N/A | N/A | N/A | N/A | N/A | N/A | None | Not Needed | Not Needed | YYYY-MM-DD | `rg -n "example-util" src tests` | Utility removed and references cleaned. |
+| Change ID | Change Type | File | Depends On | File Status | Unit Test File | Unit Test Status | Integration Test File | Integration Test Status | E2E Scenario | E2E Status | Last Failure Classification | Last Failure Investigation Required | Cross-Reference Smell | Design Follow-Up | Requirement Follow-Up | Last Verified | Verification Command | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| C-001 | Modify | `src/example-a.ts` | `src/example-core.ts` | Blocked | `tests/unit/example-a.test.ts` | Blocked | `tests/integration/example-a.integration.test.ts` | Failed | `checkout-happy-path` | Not Started | Design Impact | Yes | `src/example-a.ts <-> src/example-core.ts` | Needed | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-a.test.ts` | Waiting for boundary refactor. |
+| C-002 | Add | `src/example-core.ts` | N/A | In Progress | `tests/unit/example-core.test.ts` | In Progress | N/A | N/A | N/A | N/A | N/A | N/A | None | Not Needed | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-core.test.ts` | Implementing base interfaces. |
+| C-003 | Remove | `src/example-util.ts` | N/A | Completed | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | None | Not Needed | Not Needed | YYYY-MM-DD | `rg -n "example-util" src tests` | Utility removed and references cleaned. |
 
 ## Failed Integration/E2E Escalation Log (Mandatory)
 
-| Date | Test/Scenario | Failure Summary | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`) | Action Path Taken | Requirements Updated | Design Updated | Call Stack Regenerated | Review Re-Entry Round | Resume Condition Met |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | `tests/integration/example-a.integration.test.ts` | Missing flow branch for fallback path | Design Impact | Paused implementation and updated design basis | No | Yes | Yes | Round 6 | Yes |
+| Date | Test/Scenario | Failure Summary | Investigation Required (`Yes`/`No`) | `investigation-notes.md` Updated | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`) | Action Path Taken | Requirements Updated | Design Updated | Call Stack Regenerated | Review Re-Entry Round | Resume Condition Met |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | `tests/integration/example-a.integration.test.ts` | Missing flow branch for fallback path | Yes | Yes | Design Impact | Paused implementation, reopened investigation, then updated design basis | No | Yes | Yes | Round 6 | Yes |
 
 Rules:
+- If issue scope is large/cross-cutting or root cause confidence is low, `Investigation Required` must be `Yes` and understanding-stage re-entry is required before requirements/design updates.
 - `Design Impact` requires pause -> design update -> call stack regeneration -> review re-entry until `Go Confirmed`.
 - `Requirement Gap` requires pause -> `requirements.md` update (`Refined`) -> design update -> call stack regeneration -> review re-entry until `Go Confirmed`.
 
@@ -75,7 +77,7 @@ Rules:
 
 | Date | Trigger File(s) | Smell Description | Design Section Updated | Update Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/<ticket-name>/proposed-design.md` -> File/Module boundaries | In Progress | Introduce boundary interface to remove cross-reference. |
+| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/<ticket-name>/proposed-design.md` (or `tickets/<ticket-name>/implementation-plan.md` solution sketch for `Small`) -> boundary section | In Progress | Introduce boundary interface to remove cross-reference. |
 
 ## Remove/Rename/Legacy Cleanup Verification Log
 

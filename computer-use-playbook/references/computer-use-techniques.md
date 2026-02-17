@@ -2,16 +2,17 @@
 
 ## Browser-First Rule
 For browser tasks:
-1. Use browser MCP tools first (`open_tab`, `dom_snapshot`, `run_script`, `screenshot`).
-2. Keep work in the active tab by default.
-3. Escalate to vision/native only when the target is not reliably reachable by DOM methods.
+1. Use browser MCP tools first (`open_tab`, `navigate_to`, `read_page`, `dom_snapshot`, `run_script`, `screenshot`).
+2. Capture and persist `tab_id` from `open_tab`.
+3. Pass `tab_id` explicitly on every stateful browser tool call.
+4. Escalate to vision/native only when the target is not reliably reachable by DOM methods.
 
-## Active Tab Default Pattern
-1. Open a tab once and treat it as active context.
-2. Run follow-up actions on that active tab by default.
-3. Use explicit `tab_id` only when multiple tabs are intentionally in play.
-4. After actions that can open new tabs, confirm current URL/title before continuing.
-5. If the active tab closes, explicitly re-establish the active tab before the next action.
+## Explicit Tab Ownership Pattern
+1. Open a tab and store returned `tab_id` immediately.
+2. Use `navigate_to(tab_id, url)` for page transitions.
+3. Use `read_page(tab_id, ...)`, `dom_snapshot(tab_id, ...)`, `run_script(tab_id, ...)`, and `screenshot(tab_id, ...)`.
+4. If a click opens a new tab, run `list_tabs`, identify the new `tab_id`, and switch explicitly.
+5. Close only with `close_tab(tab_id, ...)`.
 
 ## Browser Consent Pattern (DOM-first)
 1. Query visible buttons and normalize labels.

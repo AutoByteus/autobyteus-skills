@@ -6,7 +6,7 @@ description: Use when tasks involve cross-application computer use (browser, fil
 # Computer Use Playbook
 
 ## Overview
-Use this skill for end-to-end computer automation across browser and desktop surfaces. Browser use is a major track, but not the only one. Prefer deterministic methods first, then escalate to visual/native automation only when required.
+Use this skill for end-to-end computer automation across browser and desktop surfaces. Browser use is a major track, but not the only one. Prefer deterministic methods first, then escalate to visual/native automation only when required. For browser MCP workflows, treat `tab_id` as a required handle for all stateful actions.
 
 ## Playbook Structure
 1. Browser use (primary for web tasks): browser MCP tools, DOM snapshots, scripts, screenshots.
@@ -16,7 +16,7 @@ Use this skill for end-to-end computer automation across browser and desktop sur
 
 ## Decision Order
 1. Identify the active surface: browser page, filesystem/process, or native desktop UI.
-2. For browser pages, use browser MCP tools first (DOM/scripting/screenshot).
+2. For browser pages, use browser MCP tools first and keep a strict `tab_id` contract.
 3. For filesystem/process work, use shell/system tools first (`rg`, `ls`, `find`, etc.).
 4. Escalate to vision or native UI automation only when deterministic methods are insufficient.
 5. If blocked by login, CAPTCHA, or security gates, switch to human-in-the-loop flow.
@@ -26,17 +26,18 @@ Use this skill for end-to-end computer automation across browser and desktop sur
 Use browser tools + DOM-first for browser flows. Avoid jumping to native desktop clicks while the target is still reachable by browser tools.
 
 Preferred sequence:
-1. `open_tab` (or `open_tab` with URL if available)
-2. `dom_snapshot` or `run_script` to identify target
-3. `run_script` action (click/type/submit)
-4. verify URL/title/content
-5. `screenshot` as evidence
+1. `open_tab` and capture returned `tab_id`.
+2. `navigate_to(tab_id, url)` for explicit page transitions.
+3. `dom_snapshot(tab_id, ...)` or `run_script(tab_id, ...)` to identify target.
+4. `run_script(tab_id, ...)` action (click/type/submit).
+5. `read_page(tab_id, ...)` / `run_script(tab_id, ...)` to verify URL/title/content.
+6. `screenshot(tab_id, ...)` as evidence.
 
 Session behavior guidance:
-- treat the most recently opened tab as the active default for subsequent actions.
-- keep all follow-up actions on the active tab unless an explicit tab switch is required.
-- pass `tab_id` only when disambiguation is needed across multiple intentional tabs.
-- after any action that may open a new tab, verify URL/title before continuing.
+- always pass `tab_id` for `navigate_to`, `read_page`, `screenshot`, `dom_snapshot`, `run_script`, and `close_tab`.
+- never rely on implicit active-tab behavior.
+- if a click opens a new tab/window, call `list_tabs`, detect the new `tab_id`, and continue explicitly on that `tab_id`.
+- keep a local map of `purpose -> tab_id` when handling multiple tabs.
 
 Escalation triggers:
 - dynamic overlays not stable via selectors,
@@ -119,4 +120,4 @@ If blocked, report:
 - next safe fallback.
 
 ## References
-Load `/Users/normy/.codex/skills/computer-use-playbook/references/computer-use-techniques.md` for command snippets and fallback templates.
+Load `references/computer-use-techniques.md` for command snippets and fallback templates.

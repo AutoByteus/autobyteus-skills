@@ -6,7 +6,7 @@ This repository contains reusable Codex skills used across AutoByteus projects.
 
 ### Software Engineering Workflow Skill
 
-![Software Engineering Workflow Skill](infographics/software-engineering-workflow-skill.png)
+![Software Engineering Workflow Skill](infographics/software-engineering-workflow-skill-v2.png)
 
 Stage-gated engineering workflow from investigation and requirements to implementation and docs sync.
 

@@ -15,9 +15,15 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### Ticket Folder Convention (Project-Local)
 
-- For each task, create/use one ticket folder under the current project's `tickets/` directory.
+- For each task, create/use one ticket folder under `tickets/in-progress/`.
 - Folder naming: use a clear, short kebab-case name (no date prefix required).
-- Write all task planning artifacts into that ticket folder.
+- Write all task planning artifacts into the `in-progress` ticket folder while work is active.
+- Standard states:
+  - active work path: `tickets/in-progress/<ticket-name>/`
+  - completed archive path: `tickets/done/<ticket-name>/`
+- Move rule (mandatory): move a ticket from `in-progress` to `done` only when the user explicitly confirms completion (for example: "done", "finished", or "verified") or explicitly asks to move it.
+- Reopen rule (mandatory): if the user asks to continue/reopen a completed ticket, move it from `tickets/done/<ticket-name>/` back to `tickets/in-progress/<ticket-name>/` before making new updates.
+- Never auto-move a ticket to `done` based only on internal assessment.
 - If the user specifies a different location, follow the user-specified path.
 
 ### Audible Notifications (Speak Tool, Required)
@@ -56,6 +62,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the future-state runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
 - Do not close the task until post-implementation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
+- Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
+- Treat technical completion and ticket archival as separate gates: technical completion ends at validated implementation + docs sync; archival to `tickets/done/` requires explicit user confirmation.
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after write-backs from a blocking round.
@@ -79,7 +87,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Capture an initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
 - Then run deep understanding from problem context and relevant codebase/runtime context before choosing artifacts.
-- Create/update `tickets/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
+- Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched modules/files and owning concerns,
@@ -105,7 +113,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 1) Write Requirements Document (Mandatory)
 
-- Create/update `tickets/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
+- Create/update `tickets/in-progress/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
 - Requirement writing is mandatory even for small tasks (small can be concise).
 - Use one canonical file path only: update `requirements.md` in place. Do not create versioned duplicates such as `requirements-v2.md`.
 - Requirements maturity flow:
@@ -339,6 +347,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - delivered scope vs planned scope,
   - verification summary (unit/integration/E2E, documented E2E infeasibility reasons/constraints, and compensating non-E2E verification evidence),
   - docs files updated (or explicit no-impact rationale).
+- Ticket state transition:
+  - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff,
+  - move ticket to `tickets/done/<ticket-name>/` only after explicit user confirmation that the ticket is finished/verified or explicit user move instruction.
+  - if the user reopens a completed ticket, move it back to `tickets/in-progress/<ticket-name>/` before any additional artifact updates.
 - Speak final handoff completion after all required artifacts and docs sync outputs are written.
 
 ## Output Defaults
@@ -347,23 +359,27 @@ If the user does not specify file paths, write to a project-local ticket folder 
 These defaults list file-producing stages; gating and handoff rules still follow the full workflow above.
 
 - Stage 0 (investigation notes):
-  - `tickets/<ticket-name>/investigation-notes.md`
+  - `tickets/in-progress/<ticket-name>/investigation-notes.md`
 - Stage 1 (requirements foundation):
-  - `tickets/<ticket-name>/requirements.md`
+  - `tickets/in-progress/<ticket-name>/requirements.md`
 - Stage 2 (design basis):
-  - `Small`: start/refine `tickets/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
-  - `Medium/Large`: create/refine `tickets/<ticket-name>/proposed-design.md`.
+  - `Small`: start/refine `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
+  - `Medium/Large`: create/refine `tickets/in-progress/<ticket-name>/proposed-design.md`.
 - Stage 3 (runtime modeling):
-  - `tickets/<ticket-name>/future-state-runtime-call-stack.md`
+  - `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
 - Stage 4 (review gate, iterative):
-  - `tickets/<ticket-name>/future-state-runtime-call-stack-review.md`
+  - `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Stage 5 (only after gate `Go Confirmed`):
-  - finalize/update `tickets/<ticket-name>/implementation-plan.md`
-  - `tickets/<ticket-name>/implementation-progress.md`
+  - finalize/update `tickets/in-progress/<ticket-name>/implementation-plan.md`
+  - `tickets/in-progress/<ticket-name>/implementation-progress.md`
 - Stage 6 (post-implementation documentation sync):
   - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
   - create missing relevant docs in `docs/` when no existing doc covers the implemented functionality
-  - record docs sync result in `tickets/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
+  - record docs sync result in `tickets/in-progress/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
+- Stage 7 (ticket state transition):
+  - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
+  - on explicit user completion/verification instruction, move ticket folder to `tickets/done/<ticket-name>/`
+  - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
 
 ## Templates
 

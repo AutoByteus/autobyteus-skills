@@ -12,8 +12,8 @@
 
 ## Artifact Basis
 
-- Investigation Notes: `tickets/<ticket-name>/investigation-notes.md`
-- Requirements: `tickets/<ticket-name>/requirements.md`
+- Investigation Notes: `tickets/in-progress/<ticket-name>/investigation-notes.md`
+- Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
 - Requirements Status: `Design-ready` / `Refined`
 
 ## Summary

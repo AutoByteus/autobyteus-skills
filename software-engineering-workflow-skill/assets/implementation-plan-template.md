@@ -11,12 +11,12 @@
 
 ## Upstream Artifacts (Required)
 
-- Investigation notes: `tickets/<ticket-name>/investigation-notes.md`
-- Requirements: `tickets/<ticket-name>/requirements.md`
+- Investigation notes: `tickets/in-progress/<ticket-name>/investigation-notes.md`
+- Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
   - Current Status: `Draft` / `Design-ready` / `Refined`
-- Runtime call stacks: `tickets/<ticket-name>/future-state-runtime-call-stack.md`
-- Runtime review: `tickets/<ticket-name>/future-state-runtime-call-stack-review.md`
-- Proposed design (required for `Medium/Large`): `tickets/<ticket-name>/proposed-design.md`
+- Runtime call stacks: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
+- Runtime review: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
+- Proposed design (required for `Medium/Large`): `tickets/in-progress/<ticket-name>/proposed-design.md`
 
 ## Plan Maturity
 
@@ -118,7 +118,7 @@
 
 - Classification rules for failing integration/E2E tests:
   - First run investigation screen:
-    - if issue is cross-cutting, root cause is unclear, or confidence is low, set `Investigation Required = Yes`, pause implementation, and update `tickets/<ticket-name>/investigation-notes.md` before classification write-back.
+    - if issue is cross-cutting, root cause is unclear, or confidence is low, set `Investigation Required = Yes`, pause implementation, and update `tickets/in-progress/<ticket-name>/investigation-notes.md` before classification write-back.
     - if issue is clearly bounded with high confidence, set `Investigation Required = No` and classify directly.
   - `Local Fix`: no requirement/design change needed; responsibility boundaries remain intact.
   - `Design Impact`: responsibility boundaries drift, architecture change needed, or patch-on-patch complexity appears.

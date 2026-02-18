@@ -15,7 +15,7 @@ This document tracks implementation and test progress in real time at file level
 ## Kickoff Preconditions Checklist
 
 - Scope classification confirmed (`Small`/`Medium`/`Large`):
-- Investigation notes are current (`tickets/<ticket-name>/investigation-notes.md`):
+- Investigation notes are current (`tickets/in-progress/<ticket-name>/investigation-notes.md`):
 - Requirements status is `Design-ready` or `Refined`:
 - Runtime review final gate is `Implementation can start: Yes`:
 - Runtime review reached `Go Confirmed` with two consecutive clean deep-review rounds:
@@ -77,7 +77,7 @@ Rules:
 
 | Date | Trigger File(s) | Smell Description | Design Section Updated | Update Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/<ticket-name>/proposed-design.md` (or `tickets/<ticket-name>/implementation-plan.md` solution sketch for `Small`) -> boundary section | In Progress | Introduce boundary interface to remove cross-reference. |
+| YYYY-MM-DD | `src/example-a.ts`, `src/example-core.ts` | Bidirectional dependency caused blocked implementation order. | `tickets/in-progress/<ticket-name>/proposed-design.md` (or `tickets/in-progress/<ticket-name>/implementation-plan.md` solution sketch for `Small`) -> boundary section | In Progress | Introduce boundary interface to remove cross-reference. |
 
 ## Remove/Rename/Legacy Cleanup Verification Log
 

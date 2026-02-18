@@ -21,10 +21,10 @@ Do not treat this document as an as-is trace of current code behavior.
 
 - Scope Classification: `Small` / `Medium` / `Large`
 - Call Stack Version: `v1` / `v2` / ...
-- Requirements: `tickets/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
+- Requirements: `tickets/in-progress/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
 - Source Artifact:
-  - `Small`: `tickets/<ticket-name>/implementation-plan.md` (solution sketch as lightweight design basis)
-  - `Medium/Large`: `tickets/<ticket-name>/proposed-design.md`
+  - `Small`: `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch as lightweight design basis)
+  - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Source Design Version: `v1` / `v2` / ...
 - Referenced Sections:
 

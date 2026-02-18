@@ -14,11 +14,11 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 
 ## Review Basis
 
-- Requirements: `tickets/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
-- Runtime Call Stack Document: `tickets/<ticket-name>/future-state-runtime-call-stack.md`
+- Requirements: `tickets/in-progress/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
+- Runtime Call Stack Document: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
 - Source Design Basis:
-  - `Small`: `tickets/<ticket-name>/implementation-plan.md` (solution sketch)
-  - `Medium/Large`: `tickets/<ticket-name>/proposed-design.md`
+  - `Small`: `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch)
+  - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Artifact Versions In This Round:
   - Requirements Status:
   - Design Version:

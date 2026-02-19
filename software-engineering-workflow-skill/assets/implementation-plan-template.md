@@ -117,6 +117,7 @@
 ## Test Feedback Escalation Policy (Execution Guardrail)
 
 - Classification rules for failing integration/E2E tests:
+  - choose exactly one classification for the current failure event: `Local Fix`, `Design Impact`, or `Requirement Gap`.
   - First run investigation screen:
     - if issue is cross-cutting, root cause is unclear, or confidence is low, set `Investigation Required = Yes`, pause implementation, and update `tickets/in-progress/<ticket-name>/investigation-notes.md` before classification write-back.
     - if issue is clearly bounded with high confidence, set `Investigation Required = No` and classify directly.
@@ -125,7 +126,9 @@
   - `Requirement Gap`: missing/ambiguous requirement or newly discovered requirement-level constraint.
 - Required action:
   - `Local Fix` -> implement fix and keep structure clean.
-  - `Design Impact` -> stop implementation; update design basis; regenerate call stacks; re-run review to `Go Confirmed`.
+  - `Design Impact` -> set `Investigation Required = Yes` (mandatory checkpoint), update `investigation-notes.md`, then decide next path.
+  - if requirement-level gaps are discovered during the design-impact investigation checkpoint -> reclassify as `Requirement Gap` and follow the requirement-gap path.
+  - `Design Impact` (after checkpoint, still design impact) -> update design basis; regenerate call stacks; re-run review to `Go Confirmed`.
   - `Requirement Gap` -> stop implementation; update `requirements.md` to `Refined`; update design basis; regenerate call stacks; re-run review to `Go Confirmed`.
   - when `Investigation Required = Yes`, understanding-stage re-entry is mandatory before design/requirements updates.
 

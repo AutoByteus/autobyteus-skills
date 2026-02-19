@@ -71,7 +71,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go Confirmed`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
-- If implementation-time integration/E2E feedback reveals design-impacting issues or missing requirements, pause implementation and return to requirements/design/future-state-runtime-call-stack/review stages before continuing implementation.
+- If implementation-time integration/E2E feedback reveals design-impacting issues, pause implementation and run an investigation checkpoint first: update `investigation-notes.md` with new evidence and root-cause confidence before any design/requirements write-backs.
+- After the design-impact investigation checkpoint:
+  - if requirement-level gaps are discovered, reclassify to `Requirement Gap` and update `requirements.md` first,
+  - otherwise continue with design basis update -> call-stack regeneration -> review re-entry.
+- If implementation-time integration/E2E feedback reveals missing requirements, pause implementation and return to requirements/design/future-state-runtime-call-stack/review stages before continuing implementation.
 - If implementation-time integration/E2E feedback is large, cross-cutting, or root cause is unclear, pause implementation and return to understanding stage first: update `investigation-notes.md`, then refine requirements/design/future-state runtime call stacks/review before resuming implementation.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
@@ -275,7 +279,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - if E2E is not feasible (for example missing secrets/tokens, third-party environment dependency, or partner-system access limits), record a concrete infeasibility reason and current constraint details in both plan and progress tracker.
   - when E2E is infeasible, record best-available non-E2E verification evidence (integration/manual) and residual risk notes.
 - Test feedback escalation policy (mandatory):
-  - classify each failing integration/E2E result as `Local Fix`, `Design Impact`, or `Requirement Gap`,
+  - classify each failing integration/E2E result as exactly one of `Local Fix`, `Design Impact`, or `Requirement Gap` for the current failure event,
   - before final classification, run an investigation screen:
     - if issue scope is cross-cutting, touches unknown runtime paths, or root cause confidence is low, mark `Investigation Required` and reopen understanding stage first (`investigation-notes.md` must be updated before design/requirements write-backs),
     - if issue is clearly bounded with high root-cause confidence, continue classification directly.
@@ -289,7 +293,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - failing behavior reveals missing functionality/use case not captured in current requirements,
     - acceptance criteria are missing/ambiguous for the observed behavior,
     - newly discovered technical or integration constraints require requirement-level updates.
-  - for `Design Impact`, stop implementation work, update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation.
+  - for `Design Impact`, stop implementation work and always run an investigation checkpoint first (`Investigation Required = Yes` for design impact): update `investigation-notes.md` with evidence, root-cause confidence, and boundary impact before any design write-backs.
+  - if the design-impact investigation checkpoint discovers requirement-level gaps, reclassify to `Requirement Gap` and follow the requirement-gap path below.
+  - for `Design Impact` (after investigation checkpoint, and still classified as design impact), update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation.
   - for `Requirement Gap`, stop implementation work, update `requirements.md` first (status `Refined`), then update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation.
   - do not keep appending fixes that make files/components bigger without re-evaluating separation of concerns and design intent.
 - Finalize planning artifacts before kickoff:
@@ -313,6 +319,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Track unit/integration/E2E test state separately (`Not Started`, `In Progress`, `Passed`, `Failed`, `Blocked`, `N/A`).
 - For each failed integration/E2E test, record classification (`Local Fix`/`Design Impact`/`Requirement Gap`) and the action path taken.
 - For each failed integration/E2E test, record whether re-investigation was required and where `investigation-notes.md` was updated.
+- For each `Design Impact`, record the mandatory investigation checkpoint (`investigation-notes.md` update) before design write-backs.
 - When classification is `Design Impact`, record the escalation checkpoint (design update, call-stack regeneration, review re-entry) before coding resumes.
 - When classification is `Requirement Gap`, record the escalation checkpoint (requirements refinement, design update, call-stack regeneration, review re-entry) before coding resumes.
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.

@@ -8,6 +8,7 @@ description: "Define a practical, story-first product experience before UI proto
 ## Overview
 
 Create one canonical artifact, `experience-story.md`, that captures the product story, main journey, screen-by-screen behavior, and transition mapping. This is the upstream input for `$product-ui-prototyping`.
+The artifact must also encode cognition-first decisions so flow order and interaction density reduce user burden.
 
 ## Default Output
 
@@ -23,6 +24,7 @@ Create one canonical artifact, `experience-story.md`, that captures the product 
 - Required speak stages:
   - workflow kickoff (`prototype context acknowledged`, `next stage`),
   - product story + main journey stage (`started`, then draft completed),
+  - cognitive load criteria stage (`started`, then criteria drafted),
   - screen stories + alternate/error paths stage (`started`, then draft completed),
   - transition index stage (`started`, then index completed),
   - canonical artifact write stage (`started`, then `experience-story.md` written/updated),
@@ -58,7 +60,19 @@ Each step should include:
 Prioritize one critical flow first before expanding.
 - Speak completion after main journey draft is physically written.
 
-### 3) Write Screen Stories
+### 3) Define Cognitive Load Criteria (Required)
+
+Before writing detailed screen behavior, define a short cognition-first rubric for this product:
+- learning order strategy (what comes first and why),
+- connection strategy (group by semantic/stem linkage where possible),
+- chunking limits (items per step/screen),
+- interference controls (what confusing patterns are delayed),
+- progression policy (when to unlock complexity).
+
+Keep this practical and measurable so it can be used as a review gate.
+- Speak completion after cognitive-load criteria are physically written.
+
+### 4) Write Screen Stories
 
 For each screen, describe behavior in plain language with stable IDs.
 
@@ -68,10 +82,12 @@ Required shape:
 - user sees
 - user can do (`action_id`)
 - system behavior for each action
+- cognitive objective (what mental burden this screen reduces)
+- cognition controls (chunking, progressive disclosure, contrast/clarity choices)
 - states to prototype (`default`, `loading`, `success`, `error`, `empty` when applicable)
 - Speak completion after screen stories are physically written.
 
-### 4) Capture Alternate/Error Paths
+### 5) Capture Alternate/Error Paths
 
 Document only meaningful branches:
 - validation failures,
@@ -84,7 +100,7 @@ For each branch, state:
 - recovery action and destination.
 - Speak completion after alternate/error paths are physically written.
 
-### 5) Build Transition Index
+### 6) Build Transition Index
 
 Create a single transition table that links interactions to movement.
 
@@ -98,7 +114,7 @@ Columns:
 Use IDs consistently across the whole document.
 - Speak completion after the transition index is physically written.
 
-### 6) Record Blocking Questions
+### 7) Record Blocking Questions
 
 List only blockers that can change behavior or flow.
 Do not include cosmetic/open-ended discussion items.
@@ -117,7 +133,14 @@ Use this structure in `experience-story.md`:
 1. ...
 2. ...
 
-## 3) Screen Stories
+## 3) Cognitive Load Criteria
+- Learning order: ...
+- Connection strategy: ...
+- Chunking limit: ...
+- Interference control: ...
+- Progression policy: ...
+
+## 4) Screen Stories
 
 ### screen_id: <screen_id>
 - User arrives from: ...
@@ -128,17 +151,22 @@ Use this structure in `experience-story.md`:
   - `<action_id>`: ...
 - System behavior:
   - when `<action_id>` -> <feedback> -> go to `<next_screen_id>`
+- Cognitive objective: ...
+- Cognition controls:
+  - chunking: ...
+  - progressive disclosure: ...
+  - clarity guardrails: ...
 - States to prototype: default, loading, success, error, empty
 
-## 4) Alternate And Error Paths
+## 5) Alternate And Error Paths
 - If <condition>, show <state/message>, then user can <recovery action>.
 
-## 5) Transition Index
+## 6) Transition Index
 | transition_id | trigger | from_screen | to_screen | expected_feedback |
 | --- | --- | --- | --- | --- |
 | ... | ... | ... | ... | ... |
 
-## 6) Blocking Questions
+## 7) Blocking Questions
 - <question> (owner: <name>)
 ```
 
@@ -156,6 +184,9 @@ Use this structure in `experience-story.md`:
 - Every major trigger maps to a target screen/state.
 - Screen IDs and transition IDs are consistent.
 - Error and empty states include recovery actions.
+- The learning sequence explicitly minimizes cognitive burden (simple -> connected -> complex).
+- Early modules prioritize semantic/stem-connected content before higher-interference pattern groups.
+- Each screen declares its cognitive objective and concrete burden-control mechanisms.
 - The document can be directly used by `$product-ui-prototyping`.
 - Speak quality-gate result after validation completes.
 

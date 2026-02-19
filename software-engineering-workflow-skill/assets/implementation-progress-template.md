@@ -56,7 +56,9 @@ This document tracks implementation and test progress in real time at file level
 
 Rules:
 - If issue scope is large/cross-cutting or root cause confidence is low, `Investigation Required` must be `Yes` and understanding-stage re-entry is required before requirements/design updates.
-- `Design Impact` requires pause -> design update -> call stack regeneration -> review re-entry until `Go Confirmed`.
+- `Design Impact` always requires an investigation checkpoint first (`Investigation Required = Yes`): update `investigation-notes.md` before design write-backs.
+- If requirement-level gaps are discovered during the design-impact investigation checkpoint, reclassify to `Requirement Gap` and follow the requirement-gap path.
+- `Design Impact` (after checkpoint, still design impact) requires pause -> design update -> call stack regeneration -> review re-entry until `Go Confirmed`.
 - `Requirement Gap` requires pause -> `requirements.md` update (`Refined`) -> design update -> call stack regeneration -> review re-entry until `Go Confirmed`.
 
 ## E2E Feasibility Record

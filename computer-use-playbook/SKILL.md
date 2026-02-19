@@ -119,5 +119,44 @@ If blocked, report:
 - evidence collected,
 - next safe fallback.
 
+## Learning Library Structure
+Use `references/learnings/` as the canonical knowledge base.
+
+- `references/learnings/index.md`: topic registry and folder convention.
+- `references/learnings/general/`: cross-task lessons.
+- `references/learnings/<topic-slug>/`: topic-specific lessons and experience log.
+
+Topic folder convention:
+- `lessons.md` for stable workflow rules.
+- `experience-log.md` for incremental run learnings.
+
+## Continuous Learning Loop (Required)
+Treat each real run as training data for future runs.
+
+Before starting similar work:
+1. Load `references/learnings/index.md`.
+2. Map the task to a topic slug (for example `google-flow`).
+3. Load `references/learnings/general/experience-log.md`.
+4. Load topic files when present:
+   - `references/learnings/<topic-slug>/lessons.md`
+   - `references/learnings/<topic-slug>/experience-log.md`
+5. If the topic folder does not exist, create it with `lessons.md` and `experience-log.md`.
+6. If a workspace topic log exists (for example `learnings/<topic-slug>/experience.md`), load it first and apply it.
+
+During execution:
+1. Capture failure signal and the exact step where it appears.
+2. Record the minimal fix that resolved it.
+3. Keep one-action-at-a-time execution where UI state is fragile.
+
+After completion (or meaningful failure):
+1. Append a short run note to `learnings/<topic-slug>/experience.md` when available (create it if missing).
+2. Append the same distilled rule to `references/learnings/<topic-slug>/experience-log.md`.
+3. Include: date, context, failure signal, root cause, fix pattern, reusable rule.
+4. Keep entries concise and deduplicated by updating prior rules instead of adding noisy repeats.
+
 ## References
 Load `references/computer-use-techniques.md` for command snippets and fallback templates.
+Load `references/learnings/index.md` to select the right topic folder.
+Load `references/learnings/general/experience-log.md` for cross-task patterns.
+Load `references/learnings/google-flow/lessons.md` when automating Google Flow video creation.
+Load `references/learnings/google-flow/experience-log.md` for incremental Google Flow learnings.

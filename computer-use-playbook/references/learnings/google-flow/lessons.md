@@ -43,7 +43,7 @@ Use this playbook when creating a single video in Google Flow (`labs.google/fx/t
   - Re-open settings and verify output/model did not change.
 
 ## Continuous Update Rule
-After every Google Flow run, append a concise entry to the workspace log (for example `FLOW_VIDEO_AUTOMATION_EXPERIENCE.md`) using:
+After every Google Flow run, append a concise entry to `references/learnings/google-flow/experience-log.md` using:
 
 - `Date`:
 - `Context`:

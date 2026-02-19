@@ -1,6 +1,6 @@
 # Computer Use Experience Log
 
-Use this file as the fallback log when a task-specific workspace experience file is not available.
+Use this file as the fallback log when a task-specific topic log does not exist yet.
 
 ## Entry Format
 - Date:

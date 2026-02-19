@@ -141,7 +141,6 @@ Before starting similar work:
    - `references/learnings/<topic-slug>/lessons.md`
    - `references/learnings/<topic-slug>/experience-log.md`
 5. If the topic folder does not exist, create it with `lessons.md` and `experience-log.md`.
-6. If a workspace topic log exists (for example `learnings/<topic-slug>/experience.md`), load it first and apply it.
 
 During execution:
 1. Capture failure signal and the exact step where it appears.
@@ -149,10 +148,9 @@ During execution:
 3. Keep one-action-at-a-time execution where UI state is fragile.
 
 After completion (or meaningful failure):
-1. Append a short run note to `learnings/<topic-slug>/experience.md` when available (create it if missing).
-2. Append the same distilled rule to `references/learnings/<topic-slug>/experience-log.md`.
-3. Include: date, context, failure signal, root cause, fix pattern, reusable rule.
-4. Keep entries concise and deduplicated by updating prior rules instead of adding noisy repeats.
+1. Append a short run note to `references/learnings/<topic-slug>/experience-log.md`.
+2. Include: date, context, failure signal, root cause, fix pattern, reusable rule.
+3. Keep entries concise and deduplicated by updating prior rules instead of adding noisy repeats.
 
 ## References
 Load `references/computer-use-techniques.md` for command snippets and fallback templates.

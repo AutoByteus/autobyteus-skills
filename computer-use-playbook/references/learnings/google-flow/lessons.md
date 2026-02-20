@@ -1,51 +1,80 @@
 # Google Flow Lessons (From Real Run)
 
-Use this playbook when creating a single video in Google Flow (`labs.google/fx/tools/flow`) with first/last frames.
+Use this playbook for creating one video in Google Flow (`labs.google/fx/tools/flow`) with either:
+- text prompt only (`Video aus Text`)
+- first/last frames plus prompt (`Video aus Frames`)
 
 ## Working Pattern
 1. Use one UI action at a time.
-2. After each action, take a screenshot and verify state before the next action.
-3. Do not queue multiple clicks/scripts without visual confirmation.
+2. Verify state after each action before moving on.
+3. Avoid batching clicks or scripts when UI is changing.
 
-## Reliable Flow Sequence (Frames -> One Video)
-1. Open mode dropdown and select `Video aus Frames`.
-2. Verify `x1` (one output) and target model in settings.
-3. Attach first and last frame images.
-4. Enter prompt using an input path that triggers app state updates.
-5. Confirm submit arrow/create is enabled.
-6. Click create once.
-7. Poll progress by screenshot until video card is complete.
+## Fast Preflight (Always)
+1. Set generation mode intentionally (`Video aus Text` or `Video aus Frames`).
+2. Open `Einstellungen`.
+3. Set `Modell` to `Veo 3.1 - Fast` (or latest `Veo 3.1` option available).
+4. Set `Ausgaben pro Prompt` to `1` (`x1`).
+5. Re-check mode/model/output once more before submit.
 
-## Important UI Quirks
-- Visual prompt text can appear while Flow still treats prompt as empty.
-- Symptom: toast says `Geben Sie vor dem Senden einen Prompt ein` even though text is visible.
-- Fix: trigger true input events (or genuine typing behavior) so internal state updates.
-- Switching modes/views can reset composer fields/frames; re-verify after each switch.
+## Path A: Text -> One Video
+1. Select `Video aus Text`.
+2. Complete preflight (`Veo 3.1`, `x1`).
+3. Enter prompt with real input events.
+4. Confirm create button (`Erstellen`) is enabled.
+5. Click create once.
+6. Poll until a playable video tile with controls appears.
 
-## Prompt Entry Guidance
-- Prefer real typing semantics or framework-compatible value setting plus `input`/`change`.
-- After prompt entry, verify submit control is enabled before clicking.
+## Path B: First + Last Frames -> One Video
+1. In image mode, generate first-frame image (`x1`) and last-frame image (`x1`).
+2. Download both generated images to local disk and verify files exist.
+3. Select `Video aus Frames`.
+4. Complete preflight (`Veo 3.1`, `x1`).
+5. For each frame slot (`add`):
+6. Click `add` -> choose `upload Hochladen` -> select the local image file (first slot = first frame, second slot = last frame).
+7. Verify both slots are populated (no remaining `add` controls).
+8. Enter prompt with real input events.
+9. Confirm create button (`Erstellen`) is enabled.
+10. Click create once.
+11. Poll until a playable video tile with controls appears.
 
-## Verification Checks Before Submit
-- Mode shows `Video aus Frames`.
-- Two frame thumbnails are present in composer.
-- Prompt is present and accepted (no empty-prompt toast on submit).
-- Output count is `x1`.
+## Frame Slot Gate (Required Before Submit)
+1. Do not submit if any frame `add` control is still visible in the composer.
+2. Required state: both `Erster Frame` and `Letzter Frame` chips are present and no `add` buttons remain.
+3. If dialog overlays are visible (`Ausblenden`, `Zuschneiden und speichern`), clear them first and then re-check slot state.
 
-## Progress/Completion Checks
-- While rendering, progress percentage may appear on the preview tile.
-- Final success signal: playable video tile/card appears with controls (play/download/etc.).
+## Upload Commit Rule
+1. `Hochladen` + crop save can still leave slot binding incomplete momentarily.
+2. After each upload, re-check the composer slot state (`Erster Frame` / `Letzter Frame`).
+3. If one slot still shows `add`, reopen that slot and repeat upload/crop once.
 
-## Troubleshooting
-- If create stays disabled:
-  - Re-enter prompt with true typing/input events.
-  - Re-check frames are still attached (mode switches can drop them).
-  - Re-open settings and verify output/model did not change.
+## Prompt Reliability Rule
+- Visual text alone is not enough; Flow may still treat prompt as empty.
+- Preferred method: real typing semantics or value set with `input` and `change` events.
+- If submit is disabled despite visible text, re-enter prompt with true typing behavior.
+
+## Completion and Download Rule
+1. Completion signal: video tile/card is present with playback/download controls.
+2. Try Flow's download button first.
+3. Verify local file exists on host (`/Users/normy/Downloads` or target path).
+4. If file is missing locally, read `video.currentSrc` and download via host-side `curl -L`.
+5. In Docker/VNC browser runtimes, expect browser download to fail host-save frequently; treat URL + `curl -L` as standard fallback.
+
+## Common Failure Checks
+1. Mode switched/reset unexpectedly after other actions.
+2. Output reverted from `x1` to default (`x2`).
+3. Model changed away from `Veo 3.1`.
+4. Frames dropped after mode/settings changes.
+5. Assuming generated images are always selectable from the in-app picker instead of uploading from local files.
+
+## Correction Note (2026-02-20)
+1. Previous assumption was wrong: generated images are not reliably selectable directly as frame assets in the picker list.
+2. Correct reliable method: generate images -> download locally -> attach via `upload Hochladen` for each frame slot.
+3. Treat this upload workflow as required default for controlled first/last-frame runs unless Flow behavior is re-verified in a future run.
 
 ## Continuous Update Rule
 After every Google Flow run, append a concise entry to `references/learnings/google-flow/experience-log.md` using:
-
 - `Date`:
+- `Task`:
 - `Context`:
 - `Failure signal`:
 - `Root cause`:

@@ -123,7 +123,7 @@ If blocked, report:
 Use `references/learnings/` as the canonical knowledge base.
 
 - `references/learnings/index.md`: topic registry and folder convention.
-- `references/learnings/general/`: cross-task lessons.
+- `references/learnings/general/`: cross-task fallback logs.
 - `references/learnings/<topic-slug>/`: topic-specific lessons and experience log.
 
 Topic folder convention:
@@ -133,14 +133,25 @@ Topic folder convention:
 ## Continuous Learning Loop (Required)
 Treat each real run as training data for future runs.
 
+Priority contract:
+- `lessons.md` is the source of truth for execution.
+- `experience-log.md` is supporting evidence used to refine or extend lessons.
+- If lesson and experience conflict, follow `lessons.md` and then update logs/lessons after the run.
+
 Before starting similar work:
 1. Load `references/learnings/index.md`.
 2. Map the task to a topic slug (for example `google-flow`).
-3. Load `references/learnings/general/experience-log.md`.
-4. Load topic files when present:
+3. Load topic `lessons.md` first when present:
    - `references/learnings/<topic-slug>/lessons.md`
+4. Load topic `experience-log.md` second when present:
    - `references/learnings/<topic-slug>/experience-log.md`
-5. If the topic folder does not exist, create it with `lessons.md` and `experience-log.md`.
+5. Load `references/learnings/general/experience-log.md` only as fallback context when topic files are missing or incomplete.
+6. If the topic folder does not exist, create it with `lessons.md` and `experience-log.md`.
+
+Before execution:
+1. Extract a short run checklist from topic `lessons.md`.
+2. Execute against that checklist.
+3. Use experience logs only to fill gaps not covered by lessons.
 
 During execution:
 1. Capture failure signal and the exact step where it appears.
@@ -155,6 +166,8 @@ After completion (or meaningful failure):
 ## References
 Load `references/computer-use-techniques.md` for command snippets and fallback templates.
 Load `references/learnings/index.md` to select the right topic folder.
-Load `references/learnings/general/experience-log.md` for cross-task patterns.
+Load topic `references/learnings/<topic-slug>/lessons.md` first.
+Load topic `references/learnings/<topic-slug>/experience-log.md` second.
+Load `references/learnings/general/experience-log.md` only as fallback for cross-task patterns.
 Load `references/learnings/google-flow/lessons.md` when automating Google Flow video creation.
-Load `references/learnings/google-flow/experience-log.md` for incremental Google Flow learnings.
+Load `references/learnings/google-flow/experience-log.md` after lessons for incremental learnings.

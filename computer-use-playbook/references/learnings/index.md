@@ -3,8 +3,13 @@
 Use one subfolder per app/site/workflow.
 
 ## Structure
-- `general/`: cross-task lessons and fallback logs.
+- `general/`: cross-task fallback logs.
 - `<topic-slug>/`: topic-specific lessons and experience log.
+
+## Load Priority
+1. Load `<topic-slug>/lessons.md` first (source of truth).
+2. Load `<topic-slug>/experience-log.md` second (supporting evidence).
+3. Load `general/experience-log.md` only if topic guidance is missing or incomplete.
 
 ## Topic Folder Convention
 Each topic folder should contain:

@@ -56,3 +56,19 @@
 - Root cause: UI delay before comment submit control becomes queryable after input.
 - Fix that worked: Use two-phase action: insert draft, then re-query and click `comments-comment-box__submit-button--cr`.
 - Reusable rule: For LinkedIn comments, avoid one-shot insert+submit scripts; separate into staged actions with a post-input re-query.
+
+- Date: 2026-02-19
+- Task: Publish AutoByteus Server TS open-source announcement on LinkedIn
+- Context: Needed a long-form technical launch post with branch/capability details and immediate publication.
+- Failure signal: No blocking failure; compose route had multiple similarly named controls.
+- Root cause: LinkedIn UI includes non-compose controls containing "Post" labels, which can mislead naive selectors.
+- Fix that worked: Use `https://www.linkedin.com/preload/sharebox/`, insert text into `.ql-editor[role="textbox"]` with `document.execCommand('insertText', ...)`, click the exact `Post` button, then verify via success toast and live share URL.
+- Reusable rule: For LinkedIn launches, pin to `/preload/sharebox/`, scope to editor + exact composer `Post`, and require two proofs: success toast and live post URL containing the opening sentence.
+
+- Date: 2026-02-20
+- Task: Publish distributed-agents architecture post on LinkedIn with infographic
+- Context: Posted long-form technical copy plus one infographic via `https://www.linkedin.com/preload/sharebox/`.
+- Failure signal: Attempted in-page `fetch('http://127.0.0.1:8765/...')` for generated local image failed.
+- Root cause: LinkedIn compose runs on HTTPS; mixed-content/local fetch path was blocked.
+- Fix that worked: Generate infographic directly in-browser canvas, attach via `#media-editor-file-selector__file-input`, then `Next` -> `Post`.
+- Reusable rule: For LinkedIn HTTPS composer, avoid local HTTP media fetch; use in-browser canvas-to-file upload when deterministic local file bridging is blocked.

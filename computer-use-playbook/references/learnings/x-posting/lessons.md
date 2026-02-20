@@ -1,21 +1,22 @@
 # X Posting Lessons
 
 ## Scope
-- Applies to Expost/X posting from `https://x.com/compose/post`.
+- Default compose route is `https://x.com/intent/post?text=...` for reliable server-side text prefill.
+- Use `https://x.com/compose/post` only as fallback when intent flow is unavailable.
 
 ## Core Rules
 - Use DOM-first and verify login state before compose actions.
 - If login/2FA/CAPTCHA appears, pause for human intervention and resume only after verification.
-- Treat text entry as human-in-the-loop when X rejects scripted input behavior.
-- Never publish when text is expected but composer text is empty.
+- Scope composer checks to the active dialog (`[role="dialog"]`) to avoid surface ambiguity.
+- Never publish when expected text is empty in the dialog editor.
 
 ## Pre-Publish Checklist
-- Confirm active composer elements are the primary pair: editor + `tweetButton`.
-- Confirm final post text is present in the active editor and matches intended copy.
+- Confirm active composer elements are dialog-scoped: editor + `[data-testid="tweetButton"]`.
+- Confirm final post text is present in dialog editor and matches intended copy.
 - Confirm image attachment state matches intent.
 - For text-only posts, no media preview is required.
 - For image posts, at least one attached media preview must be visible.
-- Confirm `Post` button is enabled.
+- Confirm dialog `Post` button is enabled (`disabled === false`).
 
 ## Publish Verification Checklist
 - Open profile immediately after click.
@@ -27,10 +28,11 @@
 ## Recovery Playbook
 - If malformed or image-only post is published by mistake, open the status URL first.
 - Delete the bad post.
-- Re-compose from a clean composer.
-- Require explicit text confirmation before repost.
+- Re-compose from a clean composer using `intent/post` prefill.
+- Re-verify dialog text and media before repost.
 
 ## Practical Notes From Run
 - X can render multiple compose surfaces (`tweetTextarea_0`, `tweetButton`, `tweetButtonInline`) at once.
-- Script-visible text can still fail to serialize into final published tweet payload.
-- Safest flow: automate navigation/media/verification, require human-confirmed text before final publish.
+- Script-visible text can fail to serialize in `/compose/post`.
+- Prefer `intent/post` to avoid non-trusted scripted text failures.
+- For media, attach through visible `input[type="file"]`; if local fetch is blocked, generate image in-browser (canvas -> File) and upload via DataTransfer.

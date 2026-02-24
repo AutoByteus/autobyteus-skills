@@ -34,6 +34,8 @@
 ## Solution Sketch (Required For `Small`, Optional Otherwise)
 
 - Use Cases In Scope:
+- Target Architecture Shape (for `Small`, mandatory):
+- New Layers/Modules/Boundary Interfaces To Introduce:
 - Touched Files/Modules:
 - API/Behavior Delta:
 - Key Assumptions:
@@ -64,6 +66,7 @@
 - Bottom-up: implement dependencies before dependents.
 - Test-driven: write unit tests and integration tests alongside implementation.
 - Mandatory modernization rule: no backward-compatibility shims or legacy branches.
+- Choose the proper structural change for architecture integrity; do not prefer local hacks just because they are smaller.
 - One file at a time is the default; use limited parallel work only when dependency edges require it.
 - Update progress after each meaningful status change (file state, test state, blocker state, or design follow-up state).
 

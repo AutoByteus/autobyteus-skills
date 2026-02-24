@@ -7,7 +7,7 @@ description: "Create software-engineering planning artifacts with triaged depth:
 
 ## Overview
 
-Produce a structured planning workflow for software changes: triage scope, build future-state runtime call stacks per use case, verify those call stacks with a dedicated review artifact, and drive implementation with plan + real-time progress tracking. For medium/large scope, include a full proposed design document organized by separation of concerns.
+Produce a structured planning workflow for software changes: triage scope, build future-state runtime call stacks per use case, verify those call stacks with a dedicated review artifact, and drive implementation with plan + real-time progress tracking. For medium/large scope, include a full proposed design document organized by architecture direction plus separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
@@ -150,7 +150,20 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Required for `Medium/Large`. Optional for `Small`.
 - Prerequisite: `requirements.md` is `Design-ready` (or `Refined`) and current for this ticket.
 - For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
-- Follow separation of concerns: each file/module owns a clear responsibility.
+- Architecture-first rule: define the target architecture shape before mapping work onto existing files.
+- Do not anchor design to current file layout when the layout is structurally wrong for the target behavior.
+- Layering fitness check (mandatory): assess whether current layering and cross-layer interactions are coherent for the target behavior.
+- Explicitly evaluate whether new layers, modules, boundary interfaces, or orchestration shells should be introduced.
+- Explicitly evaluate whether existing layers/modules should be split, merged, moved, or removed.
+- Record the architecture direction decision and rationale (`complexity`, `testability`, `operability`, `evolution cost`).
+- For straightforward local changes, one concise decision is enough; alternatives are optional.
+- For non-trivial or uncertain architecture changes, include a small alternatives comparison before deciding.
+- Choose the proper structural change for the problem (`Keep`, `Add`, `Split`, `Merge`, `Move`, `Remove`) without bias toward minimal edits.
+- `Keep` is a valid outcome when layering and boundary interactions are already coherent.
+- Functional/local correctness is not sufficient: if a bug fix "works" but degrades layering or responsibility boundaries, redesign the structure instead of accepting the patch.
+- Reject patch-on-patch hacks that bypass clear boundaries just to make a local change compile.
+- Follow separation of concerns after the target architecture direction is chosen: each file/module owns a clear responsibility.
+- For `Small`, the solution sketch in `implementation-plan.md` must still include a concise architecture sketch (target layers/boundaries and any new modules/files).
 - Apply separation-of-concerns at the correct technical boundary for the stack:
   - frontend/UI scope: evaluate responsibility at view/component level (each component should own a clear concern),
   - non-UI scope (backend/service/worker/domain): evaluate responsibility at file/module/service level,
@@ -160,7 +173,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - include target-state summary (to-be),
   - include explicit change inventory rows for `Add`, `Modify`, `Rename/Move`, `Remove`.
 - List files/modules and their public APIs.
-- For each file/module, state responsibility, key APIs, inputs/outputs, dependencies, and change type.
+- For each file/module, state target layer/boundary placement, responsibility, key APIs, inputs/outputs, dependencies, and change type.
 - Include a naming decisions section:
   - proposed file/module/API names,
   - rationale for each naming choice,
@@ -172,6 +185,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - choose corrective action per drifted item (`Rename`, `Split`, `Move`, or `N/A` with rationale),
   - map each corrective action to change inventory rows and implementation tasks.
 - Document dependency flow and cross-reference risk explicitly (including how cycles are avoided or temporarily tolerated).
+- Document allowed dependency directions between layers/boundaries and note any temporary violations with removal plan.
 - For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup and dead-code removal).
 - Capture data models and error-handling expectations if relevant.
 - Add a use-case coverage matrix in the design doc with at least:
@@ -207,12 +221,19 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Use the template in `assets/future-state-runtime-call-stack-template.md`.
 - Speak completion after `future-state-runtime-call-stack.md` is physically written/updated.
 
-### 4) Review Future-State Runtime Call Stacks (Future-State + Naming + Cleanliness Gate)
+### 4) Review Future-State Runtime Call Stacks (Future-State + Architecture + Naming + Cleanliness Gate)
 
 - Create `future-state-runtime-call-stack-review.md` as a mandatory review artifact.
 - Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation-plan.md` for `Small`), not parity with current code structure.
+- Review must challenge architecture choice itself (layering/boundaries/allocation), not only file-level separation of concerns.
 - Run review in explicit rounds and record each round in the same review artifact.
 - Review each use case against these criteria:
+  - architecture fit check (`Pass`/`Fail`): chosen architecture shape is appropriate for this use case and expected growth,
+  - layering fitness check (`Pass`/`Fail`): layering and interactions are logical and maintainable (no required layer-count change when current layering is already coherent),
+  - boundary placement check (`Pass`/`Fail`): responsibilities are assigned to the right layer/module boundary,
+  - existing-structure bias check (`Pass`/`Fail`): design is not forced to mirror current files when that harms target architecture,
+  - anti-hack check (`Pass`/`Fail`): no patch-on-patch tricks that hide architecture issues behind local fixes,
+  - local-fix degradation check (`Pass`/`Fail`): a functionally working fix does not degrade architecture or separation of concerns,
   - terminology and concept vocabulary is natural and intuitive (`Pass`/`Fail`),
   - file/API naming is clear and unsurprising for implementation mapping (`Pass`/`Fail`),
   - name-to-responsibility alignment under scope drift (`Pass`/`Fail`),
@@ -240,6 +261,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - Step D: start the next round from updated files only; do not carry unresolved edits in memory.
   - Step E: record clean-review streak state in the review artifact (`Reset`, `Candidate Go`, or `Go Confirmed`).
 - Gate `Go` criteria (all required):
+  - architecture fit check is `Pass` for all in-scope use cases,
+  - layering fitness check is `Pass` for all in-scope use cases,
+  - boundary placement check is `Pass` for all in-scope use cases,
+  - existing-structure bias check is `Pass` for all in-scope use cases,
+  - anti-hack check is `Pass` for all in-scope use cases,
+  - local-fix degradation check is `Pass` for all in-scope use cases,
   - terminology/concept vocabulary is `Pass` for all in-scope use cases,
   - file/API naming clarity is `Pass` for all in-scope use cases,
   - name-to-responsibility alignment under scope drift is `Pass` for all in-scope use cases,
@@ -253,6 +280,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - for any impacted `Add`/`Modify`/`Rename/Move`/`Remove` scope items, decommission/cleanup and obsolete/deprecated/dead-path checks are `Pass`,
   - two consecutive deep-review rounds have no blockers and no required write-backs.
 - If issues are found:
+  - if architecture fit/layering fitness/boundary placement/structure bias/anti-hack/local-fix degradation checks fail, revise architecture direction in the design basis first, then regenerate runtime call stacks and rerun review.
   - `Medium/Large`: revise the proposed design document, regenerate runtime call stacks, then rerun review.
   - `Small`: refine the implementation plan (and add design notes if needed), regenerate runtime call stacks, then rerun review.
 - If review findings expose requirement gaps/ambiguity, update `requirements.md` first (status `Refined`), then update design + runtime call stacks in the same loop.
@@ -284,6 +312,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - if issue scope is cross-cutting, touches unknown runtime paths, or root cause confidence is low, mark `Investigation Required` and reopen understanding stage first (`investigation-notes.md` must be updated before design/requirements write-backs),
     - if issue is clearly bounded with high root-cause confidence, continue classification directly.
   - `Local Fix` is allowed only when responsibility boundaries stay intact, no new use case/acceptance criterion is needed, and no requirement/design changes are needed,
+  - if a fix works functionally but degrades layering/separation-of-concerns, it is **not** `Local Fix`; classify as `Design Impact`,
   - classify as `Design Impact` when any of these apply:
     - fix adds new responsibility to an existing file/component/module,
     - file/component naming or responsibility drifts from current behavior,

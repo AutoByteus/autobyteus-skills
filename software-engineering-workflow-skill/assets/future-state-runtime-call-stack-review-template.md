@@ -29,6 +29,8 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 
 - Primary check: Is the future-state runtime call stack a coherent and implementable future-state model?
 - Not a pass criterion: matching current-code call paths exactly.
+- Not a required action: adding/removing layers by default; `Keep` can pass when layering is coherent and boundary placement is clear.
+- Local-fix-is-not-enough rule: if a fix works functionally but degrades architecture/layering/responsibility boundaries, mark `Fail` and require architectural write-back.
 - Any finding with a required design/call-stack update is blocking.
 
 ## Round History
@@ -59,15 +61,15 @@ Rule:
 
 ## Per-Use-Case Review
 
-| Use Case | Terminology & Concept Naturalness (`Pass`/`Fail`) | File/API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Business Flow Completeness (`Pass`/`Fail`) | Layer-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | No Legacy/Backward-Compat Branches (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UC-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| Use Case | Architecture Fit (`Pass`/`Fail`) | Layering Fitness (`Pass`/`Fail`) | Boundary Placement (`Pass`/`Fail`) | Existing-Structure Bias Check (`Pass`/`Fail`) | Anti-Hack Check (`Pass`/`Fail`) | Local-Fix Degradation Check (`Pass`/`Fail`) | Terminology & Concept Naturalness (`Pass`/`Fail`) | File/API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Business Flow Completeness (`Pass`/`Fail`) | Layer-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | No Legacy/Backward-Compat Branches (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UC-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 ## Findings
 
 - If no findings, write `None`.
 - Otherwise list only actionable findings:
-  - `[F-001] Use case: ... | Type: Vocabulary/Naming/Gap/Structure/Dependency/Redundancy/Simplification/Legacy/Decommission | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
+  - `[F-001] Use case: ... | Type: Architecture/Layering/Hack/LocalFixDegradation/Vocabulary/Naming/Gap/Structure/Dependency/Redundancy/Simplification/Legacy/Decommission | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
 
 Rule:
 - Any finding with a `Required update` is blocking and must be resolved in a later review round before implementation can start.
@@ -82,6 +84,12 @@ Rule:
 - Implementation can start: `Yes` / `No`
 - Clean-review streak at end of this round:
 - Gate rule checks (all must be `Yes` for `Implementation can start = Yes`):
+  - Architecture fit is `Pass` for all in-scope use cases:
+  - Layering fitness is `Pass` for all in-scope use cases:
+  - Boundary placement is `Pass` for all in-scope use cases:
+  - Existing-structure bias check is `Pass` for all in-scope use cases:
+  - Anti-hack check is `Pass` for all in-scope use cases:
+  - Local-fix degradation check is `Pass` for all in-scope use cases:
   - Terminology and concept vocabulary is natural/intuitive across in-scope use cases:
   - File/API naming clarity is `Pass` across in-scope use cases:
   - Name-to-responsibility alignment under scope drift is `Pass` across in-scope use cases:

@@ -44,19 +44,38 @@
 
 ## Target State (To-Be)
 
+## Architecture Direction Decision (Mandatory)
+
+- Chosen direction:
+- Rationale (`complexity`, `testability`, `operability`, `evolution cost`):
+- Layering fitness assessment (are current layering and interactions still coherent?): `Yes` / `No`
+- Outcome (`Keep`/`Add`/`Split`/`Merge`/`Move`/`Remove`):
+- Note: `Keep` is valid when layering and boundary interactions are already coherent.
+
+### Optional Alternatives (Use For Non-Trivial Or Uncertain Changes)
+
+| Option | Summary | Pros | Cons | Decision (`Chosen`/`Rejected`) | Rationale |
+| --- | --- | --- | --- | --- | --- |
+| A |  |  |  |  |  |
+| B |  |  |  |  |  |
+
 ## Change Inventory (Delta)
 
 | Change ID | Change Type (`Add`/`Modify`/`Rename/Move`/`Remove`) | Current Path | Target Path | Rationale | Impacted Areas | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | C-001 |  |  |  |  |  |  |
 
-## Architecture Overview
+## Target Architecture Shape And Boundaries (Mandatory)
+
+| Layer/Boundary | Purpose | Owns | Must Not Own | Notes |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
 
 ## File And Module Breakdown
 
-| File/Module | Change Type | Concern / Responsibility | Public APIs | Inputs/Outputs | Dependencies |
-| --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |
+| File/Module | Change Type | Layer / Boundary | Concern / Responsibility | Public APIs | Inputs/Outputs | Dependencies |
+| --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |
 
 ## Layer-Appropriate Separation Of Concerns Check
 
@@ -76,11 +95,31 @@
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
+## Existing-Structure Bias Check (Mandatory)
+
+| Candidate Area | Current-File-Layout Bias Risk | Architecture-First Alternative | Decision | Why |
+| --- | --- | --- | --- | --- |
+|  | Low/Medium/High |  | Keep/Change |  |
+
+## Anti-Hack Check (Mandatory)
+
+| Candidate Change | Shortcut/Hack Risk | Proper Structural Fix | Decision | Notes |
+| --- | --- | --- | --- | --- |
+|  | Low/Medium/High |  |  |  |
+
+Rule:
+- A functionally working local fix is still invalid here if it degrades layering or responsibility boundaries.
+
 ## Dependency Flow And Cross-Reference Risk
 
 | Module/File | Upstream Dependencies | Downstream Dependents | Cross-Reference Risk | Mitigation / Boundary Strategy |
 | --- | --- | --- | --- | --- |
 |  |  |  | Low/Medium/High |  |
+
+## Allowed Dependency Direction (Mandatory)
+
+- Allowed direction rules (example: `API -> Application -> Domain -> Infra`):
+- Temporary boundary violations and cleanup deadline:
 
 ## Decommission / Cleanup Plan
 

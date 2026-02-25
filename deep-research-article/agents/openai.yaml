@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Research Article"
+  short_description: "Deep research into one logical article."
+  default_prompt: "Do deep research on the topic and iteratively improve one logically structured article (thesis → moves → evidence → objections → takeaways). Keep a claim→evidence ledger, run a logic QA pass, then output a slide-extraction table for turning the article into an image-only deck."

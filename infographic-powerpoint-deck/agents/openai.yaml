@@ -1,0 +1,4 @@
+interface:
+  display_name: "Infographic PowerPoint Deck"
+  short_description: "Generate slide images + images-only PPTX."
+  default_prompt: "Create a cinematic infographic, image-only PowerPoint deck: propose a slide plan, generate one 16:9 slide image per slide with all text embedded, use a recurring motif pack + deck consistency lock for cohesion, then assemble an images-only PPTX."

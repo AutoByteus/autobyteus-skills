@@ -1,22 +1,29 @@
 ---
 name: infographic-powerpoint-deck
-description: Create image-based PowerPoint decks by (1) designing a slide plan, (2) generating one 16:9 infographic slide image per slide with all text baked into the image (Chinese/English supported), and (3) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants a polished, consistent visual style (infographic + cinematic illustrated backgrounds with strong “画面感”), prefers not to hand-layout PPT objects, or wants a repeatable “style profile” to iterate on over time.
+description: Create image-based PowerPoint decks by (1) designing a slide plan, (2) generating one 16:9 infographic slide image per slide with all text baked into the image (Chinese/English supported), and (3) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants polished, consistent visuals with extensible style packs (cinematic, editorial, warm pastoral, tech, youth social, academic, corporate), prefers not to hand-layout PPT objects, or wants a repeatable prompt workflow to iterate over time.
 ---
 
 # Infographic PowerPoint Deck
 
-## Quick start (default: images-only deck)
+## Quick start (default: images-only deck, style-pack architecture)
 
-1. Draft a slide list (8–20 slides) with: title, verse quote(s), key points, and a “visual scene” per slide.
+1. Pick one **style pack folder** (required) from `references/style-pack-catalog.md`.
+   - If user does not specify style, default to `editorial-light`.
+2. Compose the style block bundle:
+   - Run `scripts/compose_style_pack_blocks.py --pack-id <id>` (or manually read the style-pack files).
+   - This yields a consistent block set: profile + motif + consistency + scene bias.
+3. Draft a slide list (8–20 slides): title, quote(s), key points, scene ID.
+   - Scene IDs come from `references/scene-catalog.md`.
+   - If you need fast defaults, reuse presets from `references/scene-preset-library.md`.
    - If you already have a reasoning artifact (recommended): convert `slide_extraction.md` rows into slides.
-2. For each slide, write a **detailed generation prompt** that includes:
-   - Global style profile (colors, layout grid, typography, background richness)
-   - The **exact text that must appear** (verbatim, with punctuation)
-   - Right-side visuals (scene + icons + charts)
-   - Hard restrictions (no watermark/logo; no extra English unless explicitly required; readability; keep text unobstructed)
-3. Generate each slide as a **single 16:9 image** using the image generation tool.
-4. QA: spot-check readability + typos; regenerate only the broken slides.
-5. Assemble an images-only PPTX with `scripts/build_images_only_pptx.py`.
+   - If `slide_extraction.md` already includes `Recommended style pack ID` / `Scene ID` / `Layout hint`, use those fields directly.
+4. For each slide, fill `references/prompt_template.md`:
+   - Paste the composed style block bundle.
+   - Paste exact required text (verbatim).
+   - Add slide-specific scene layer details and icons.
+5. Generate each slide as one **16:9 image**.
+6. QA readability + text accuracy; regenerate only failed slides.
+7. Assemble images-only PPTX with `scripts/build_images_only_pptx.py`.
 
 Outputs to produce in the user’s workspace:
 - `slides_plan.md` (slide-by-slide content + visuals)
@@ -28,39 +35,35 @@ Outputs to produce in the user’s workspace:
 
 For higher-quality decks, start from a logically structured article + extraction table:
 - Use the `deep-research-article` skill to produce `article.md` and `slide_extraction.md`.
-- Then generate slide images from `slide_extraction.md` (each row → one slide prompt).
+- Prefer the deep-research handoff-contract columns (style pack ID, scene ID, layout hint, text budget) so each row maps directly to one slide prompt.
+- If the extraction table is legacy/simple format, normalize it using `references/deep_research_handoff_mapping.md` before prompt writing.
 
 ## Prompt stack (minimal vs full)
 
 - Minimal stack (recommended for most decks):
-  - `references/motif_pack.md` (pick A or B)
-  - `references/deck_consistency_block.md` (pick one lock block)
+  - `references/style-pack-catalog.md` (choose pack ID)
+  - `references/style-pack-system.md` (load order + composition rules)
+  - `references/style-packs/<pack-id>/` (pack-local blocks)
   - `references/typography_spacing_lock.md`
   - `references/text_fidelity_block.md`
   - `references/negative_prompt_block.md`
-- Full stack (use when you want maximum “cinematic narrative” control):
+- Full stack (use when you want maximum narrative + visual control):
   - Minimal stack +
   - `references/storyboard_library.md`
   - `references/shot_mood_library.md`
+  - `references/scene-catalog.md`
   - `references/scene_library.md`
   - `references/layout_library.md`
   - `references/chinese_quote_compression.md` (when quotes are long)
 
-## Style profile: “Bible Sharing Cinematic Infographic v3” (recommended)
+## Style-pack system (modular and scalable)
 
-Use this as the default “look” unless the user requests otherwise:
-- Canvas: 16:9 wide PPT slide image (single flat image).
-- Layout: **Left 55–60% text panel** (dark frosted-glass card, rounded corners) + **Right 40–45% hero visual**.
-- Palette: deep navy/indigo gradient background; body text white; emphasis gold `#F4C542`; small light-blue accents.
-- Background: cinematic matte-painting scenes at **low contrast** (harbor at dusk, city wall at night, scribe desk + candle, map texture, parchment, stained-glass light).
-- Iconography: thin-line vector icons; small checkmarks; subtle separators.
-- Typography: Simplified Chinese (high legibility); keep lines short; avoid tiny font sizes.
-- “画面感” add-ons (right side only; keep left panel clean):
-  - 3-layer scene: far/mid/foreground
-  - film lighting: volumetric rays, rim light, subtle vignette
-  - depth cues: haze/air perspective, soft bokeh/dust motes (minimal)
-- Recurring motif pack (recommended): apply a subtle, consistent motif set across every slide to make the deck feel like “one film”.
-  - Default: `references/motif_pack.md` → **Motif Pack A (Keynote Cinematic)**
+Use folderized style packs so each style is self-contained:
+- Each style pack lives in `references/style-packs/<pack-id>/`.
+- Each pack has its own `manifest.toml` and block files that define the look.
+- Packs can inherit from `base-core` to reuse shared constraints.
+- Prompts are composed as: **base-core + chosen pack + slide-specific content**.
+- This avoids cross-file mismatch and makes new style creation deterministic.
 
 Note: despite the Bible-themed examples, this workflow works for any topic. Swap scenes/props in `references/scene_library.md` to match your domain (product, research, training, etc.).
 
@@ -72,10 +75,11 @@ Read `references/prompt_template.md` and fill it per slide. Keep it extremely ex
 - Specify what must be **subtle/low-contrast** so text stays readable.
 
 If you need inspiration for “更有画面感”的场景素材与道具库, read `references/scene_library.md`.
+If you need stable scene IDs + tags for selection/filtering, read `references/scene-catalog.md`.
+If you need copy-ready visual scene blocks, read `references/scene-preset-library.md`.
 If you need fast, reliable infographic compositions, read `references/layout_library.md`.
 If you need “镜头语言/时间天气/光影情绪” presets, read `references/shot_mood_library.md`.
-If you want stronger deck cohesion, read `references/motif_pack.md` and include the motif pack verbatim in every slide prompt.
-If you want the deck to feel like one continuous film (less randomness), read `references/deck_consistency_block.md` and paste one lock block verbatim into every slide prompt.
+If you need style modularity, read `references/style-pack-system.md` and use `scripts/compose_style_pack_blocks.py`.
 If you want fewer typos and more readability, paste these into every slide prompt: `references/typography_spacing_lock.md`, `references/text_fidelity_block.md`, `references/negative_prompt_block.md`.
 If you want “像分镜一样”的观看节奏，read `references/storyboard_library.md`.
 If you have long verse blocks, read `references/chinese_quote_compression.md` and split quotes across slides (do not paraphrase).
@@ -95,6 +99,7 @@ Common failure fixes:
 - Tool call fails/intermittent errors: retry after a short wait; keep prompt stable; reduce scene complexity only if repeats.
 - Text too small: reduce bullet count; split into two slides; demand “大字号、舒适行距”.
 - Too busy: force “背景低对比、仅右侧画面、左侧纯净面板”.
+- Deck too dark: switch to `editorial-light` or `airy-relaxed`, disable vignette, force daylight scene IDs, and add brightness override.
 
 ## Operating mode (be patient; avoid “probe images”)
 
@@ -109,6 +114,24 @@ Some image tools only allow writing output images to specific directories (often
 2. Copy images into the project/workspace output folder.
 
 ## Bundled scripts
+
+### `scripts/compose_style_pack_blocks.py`
+- Compose inherited style-pack blocks into one paste-ready bundle.
+- Use before prompt writing to prevent style mismatch.
+
+Run:
+```bash
+python3 scripts/compose_style_pack_blocks.py --pack-id editorial-light
+```
+
+### `scripts/create_style_pack.py`
+- Scaffold a new style pack folder with manifest + block templates.
+- Use when existing packs are not enough and you need fast extension.
+
+Run:
+```bash
+python3 scripts/create_style_pack.py --pack-id warm-minimal --display-name "Warm Minimal" --keywords "温暖,平衡" --scene-tags "warm,clean"
+```
 
 ### `scripts/build_images_only_pptx.py`
 - Assemble an images-only PPTX by concatenating `slide*.png` full-screen in filename order.
@@ -126,6 +149,14 @@ python3 scripts/build_images_only_pptx.py --images-dir /path/to/slides --out /pa
 
 ## References
 - Read `references/prompt_template.md` when you need a high-detail prompt skeleton that produces the “rich background infographic” style reliably.
+- Read `references/style-pack-system.md` for composition rules and how to add new style packs.
+- Read `references/style-pack-catalog.md` for intent-to-style routing and pack selection.
+- Read `references/style-packs/` for self-contained style definitions.
+- Read `references/style_profile_library.md` for legacy style aliases (backward compatibility).
+- Read `references/deep_research_handoff_mapping.md` to normalize upstream `slide_extraction.md` fields from `deep-research-article`.
+- Read `references/scene-catalog.md` for reusable scene IDs and tags.
+- Read `references/scene-preset-library.md` for ready-to-paste scene visual blocks.
+- Read `references/scene-entry-template.md` when adding new scene IDs to the catalog.
 - Read `references/scene_library.md` to quickly add “场景化/电影感” elements (locations + props) without making the slide messy.
 - Read `references/layout_library.md` to choose a layout that matches your text density (so slides stay readable).
 - Read `references/shot_mood_library.md` for cinematic shot + lighting + time-of-day presets.

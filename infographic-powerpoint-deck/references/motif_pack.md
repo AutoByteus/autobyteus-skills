@@ -1,10 +1,13 @@
 # Recurring motif packs (deck cohesion booster)
 
+Legacy component library. Preferred flow is style-pack composition (`references/style-packs/`).
+Use this file when manually mixing motif and consistency blocks.
+
 Use a motif pack to make a deck feel like a single cohesive series. Keep motifs **subtle**, mostly on the right side / far background, and never behind the main text in a way that hurts readability.
 
 Tip: for even stronger cohesion (margins/light direction/texture consistency), combine with `references/deck_consistency_block.md` and paste one lock block into every slide prompt.
 
-## Motif Pack A (Keynote Cinematic) — recommended default
+## Motif Pack A (Keynote Cinematic)
 
 Include these on every slide (subtle, consistent):
 - **Gold geometry ring**: a thin-line gold circle/halo motif (same line width every slide), placed near the hero symbol area.
@@ -38,6 +41,23 @@ Avoid:
 - Overly dramatic contrast that fights the typography.
 - Too many glints (looks cheap).
 
+## Motif Pack C (Editorial Airy) — bright + relaxed
+
+Include these on every slide (lightweight, clean):
+- **Soft paper/fabric grain**: very light texture, mostly visible in flat areas.
+- **Gentle daylight gradient**: subtle top-left to bottom-right brightness flow (no dark corners).
+- **Accent dot/line system**: tiny geometric dots or thin dividers in style accent color.
+- **Card-edge glow**: minimal soft highlight around light text panels for separation.
+- **Clean icon halo**: faint neutral halo around key icons, no dramatic rim light.
+
+Do:
+- Keep motifs nearly invisible at first glance; they should only improve coherence.
+- Prefer bright, low-noise backgrounds so text is easy to read.
+
+Avoid:
+- Any vignette or heavy shadow treatment.
+- Overdecorating with too many pattern elements.
+
 ## How to apply (pasteable blocks)
 
 When writing slide prompts, add one of these (depending on which pack you chose):
@@ -50,4 +70,9 @@ When writing slide prompts, add one of these (depending on which pack you chose)
 ### Pack B pasteable block
 ```text
 本页需包含 Motif Pack B（Movie Poster Epic）所有元素，保持低对比、系列一致；不得影响左侧文字可读性。
+```
+
+### Pack C pasteable block
+```text
+本页需包含 Motif Pack C（Editorial Airy）所有元素，保持明亮、低噪点、系列一致；不得影响文字可读性。
 ```

@@ -1,0 +1,5 @@
+id = "warm-sermon"
+display_name = "Warm Sermon"
+inherits = ["base-core"]
+intent_keywords = ["温暖", "牧养", "见证", "讲章", "祷告会"]
+default_scene_tags = ["warm", "heritage", "pastoral", "daylight"]

@@ -1,8 +1,11 @@
 # Deck-level consistency blocks (reduce randomness across slides)
 
-Paste **one** block into every slide prompt. This acts like a “style lock” so the deck feels like one continuous film.
+Legacy component library. Preferred flow is style-pack composition (`references/style-packs/`).
+Use this file when manually selecting consistency rules.
 
-## Block 1 — Cinematic Keynote Lock (recommended default)
+Paste **one** block into every slide prompt. This acts like a “style lock” so the deck feels coherent across slides.
+
+## Block 1 — Cinematic Keynote Lock
 
 Paste this verbatim:
 
@@ -34,7 +37,26 @@ Paste this verbatim:
 - 禁止：不得添加额外文字/英文/logo/水印/随机字符。
 ```
 
+## Block 3 — Editorial Light Lock (bright + relaxed)
+
+Paste this verbatim:
+
+```text
+本套PPT为明亮编辑风系列（系列一致性强制规则）：
+- 版式锁定：左侧浅色文字卡片占 56%（允许±2%），右侧插画区占 44%（允许±2%）；卡片阴影轻微且一致。
+- 背景亮度锁定：整体中高亮度，禁止大面积深色背景压暗页面；禁止暗角（vignette）。
+- 光源锁定：以自然漫射光为主（可从左上或右上统一入光）；不使用强戏剧化体积光。
+- 色彩锁定：主背景使用浅色系（米白/浅灰/浅蓝），正文使用深灰蓝高对比；强调色统一且克制。
+- 纹理锁定：仅允许极弱纸纹/布纹（低噪点），不可出现明显颗粒或脏污质感。
+- 图标锁定：线性图标统一线宽与圆角，色彩跟随强调色，避免高饱和混乱配色。
+- 文字硬约束：任何一页不得牺牲可读性；所有指定中文逐字准确。
+- 禁止：不得添加额外文字/英文/logo/水印/随机字符。
+```
+
 ## How to use
 
 - Add the chosen block under a “系列一致性锁定” section in every slide prompt.
+- Match the block with style pack from `references/style-pack-catalog.md`:
+  - `cinematic-dark` → Block 1 or 2
+  - `editorial-light` / `airy-relaxed` / `clean-corporate` → Block 3
 - Combine with `references/motif_pack.md` (motifs) + `references/prompt_template.md` (structure).

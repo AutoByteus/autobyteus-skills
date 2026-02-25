@@ -12,6 +12,7 @@ Produce:
 2) `slide_extraction.md`: a table that maps the article into slide-sized claims + supporting evidence + suggested visuals
 
 This skill is intentionally topic-agnostic. For image-only decks, pair it with the `infographic-powerpoint-deck` skill after the article is approved.
+For the smoothest downstream handoff, follow `references/infographic_handoff_contract.md` when creating `slide_extraction.md`.
 
 In internet-backed mode, also produce a research package:
 - `source_dossier.md`
@@ -27,6 +28,8 @@ Ask only what’s necessary:
 - Audience + use case (sermon, lesson, blog, internal memo)
 - Desired length (minutes or word count)
 - Language (CN/EN/bilingual) and tone (academic / pastoral / simple)
+- Success criteria (what a “good final article” must achieve for this user)
+- Explicit non-goals/out-of-scope topics to prevent drift
 - For Bible: translation/version and whether to include cross-references
 - Must-use sources or explicit constraints (paywalled-only, region scope, date range)
 - Whether web research is prohibited by user/policy
@@ -89,9 +92,14 @@ Before drafting, build `claim_evidence_ledger.md`:
 
 Write an outline that is easy to defend:
 - Thesis (one sentence)
+- Mainline statement (one sentence): what the article must prove for this user, and what is explicitly out of scope
 - 3–6 supporting moves (each is a claim → evidence → implication)
 - Guardrails: what to omit, what not to overclaim
 - Transition logic: why move A leads to move B
+
+Before drafting, run a quick outline challenge:
+- For each move, state “if removed, what breaks?”
+- Remove or merge moves that don’t break anything important.
 
 ### Step 3 — Draft `article.md`
 
@@ -109,6 +117,8 @@ Run both:
 - `references/logic_qa_checklist.md`
 - `references/evidence_gates.md`
 - `references/objectivity_checks.md`
+- `references/mainline_coherence_gate.md`
+- `references/final_article_quality_gate.md`
 
 If any hard gate fails, return to Step 1 (source sweep) or Step 1b (evidence extraction).
 In no-web constrained mode, return to Step 1a and narrow claims as needed.
@@ -119,7 +129,8 @@ Deep research writing is normally iterative. Use `references/iteration_protocol.
 - revise thesis/outline if QA reveals gaps
 - rewrite sections for clarity and scope
 - add/remove evidence so every claim is supported
-- repeat QA until stop criteria are met
+- trim or rewrite off-mainline sections (anything that does not advance the thesis)
+- repeat QA + quality scoring until stop criteria are met
 
 ### Step 4c — Revision log (recommended for real iteration)
 
@@ -130,13 +141,15 @@ Humans keep track of what changed; do the same to avoid thrash:
 ### Step 5 — Create `slide_extraction.md` (presentation-ready mapping)
 
 Use the table template in `references/slide_extraction_template.md`.
+For strict compatibility with `infographic-powerpoint-deck`, apply `references/infographic_handoff_contract.md`.
 
 Each slide row should have:
 - Slide headline (one claim, not a topic)
-- Exact quote(s) or evidence anchor + source ID(s)
+- Exact must-appear text (title/quote/bullets) + evidence anchor + source ID(s)
 - 2–4 bullets (supporting logic)
 - Visual scene suggestion (location + hero symbol set + props)
-- “Text budget” note (short / medium / heavy) so slide layout can be chosen later
+- Scene ID (prefer IDs from infographic scene catalog) and recommended style pack ID (if known)
+- “Text budget” + layout hint so slide layout can be chosen later
 
 ## Output files (recommended)
 
@@ -159,6 +172,9 @@ Each slide row should have:
 - Read `references/logic_qa_checklist.md` for the reasoning QA pass.
 - Read `references/evidence_gates.md` for objective evidence sufficiency gates.
 - Read `references/objectivity_checks.md` for neutrality and confidence calibration checks.
+- Read `references/mainline_coherence_gate.md` to catch and remove sections that drift away from the core thesis/user intent.
+- Read `references/final_article_quality_gate.md` for final draft quality scoring before handoff.
 - Read `references/iteration_protocol.md` for iterative improvement and stop criteria.
 - Read `references/revision_log_template.md` to track iterations cleanly.
 - Read `references/slide_extraction_template.md` to map an article to slide-sized units.
+- Read `references/infographic_handoff_contract.md` to ensure `slide_extraction.md` is directly consumable by `infographic-powerpoint-deck`.

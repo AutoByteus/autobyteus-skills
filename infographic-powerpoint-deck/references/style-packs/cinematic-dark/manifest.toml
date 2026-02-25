@@ -1,0 +1,5 @@
+id = "cinematic-dark"
+display_name = "Cinematic Dark"
+inherits = ["base-core"]
+intent_keywords = ["电影感", "史诗", "张力", "警告", "climax"]
+default_scene_tags = ["dramatic", "night", "narrative"]

@@ -6,6 +6,12 @@
 - Length target:
 - Language/tone:
 
+## Mainline framing
+- Mainline statement (what this must prove):
+- Success criteria for final article:
+- Explicit out-of-scope items:
+- Likely off-mainline temptations to avoid:
+
 ## Definitions / glossary
 - Term:
 - Term:

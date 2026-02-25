@@ -6,12 +6,20 @@ Use before finalizing `article.md` and before generating slides.
 - Thesis is one sentence and matches what the body actually proves.
 - The article answers the user’s question/use case (not a different one).
 - Claims are appropriately scoped (no overreach).
+- You can state the mainline in one sentence (what it proves + what is out of scope).
 
 ## Argument flow
 - Each section has a claim (not just a topic).
 - Each claim has evidence (quote/data/observation) and reasoning (why it follows).
 - Transitions explain *why* the next move follows.
 - No missing premise: later conclusions don’t rely on undefined terms or unstated facts.
+- Each section explicitly advances one roadmap move (no orphan sections).
+
+## Mainline integrity
+- If a section is removed, the thesis becomes weaker/less clear; otherwise cut or compress it.
+- No “factual but irrelevant” detours (context that never affects conclusions).
+- Background/context is proportional and does not overshadow the core argument.
+- Every slide-critical claim is traceable to a mainline section (not a side note).
 
 ## Counterbalance
 - Alternative interpretations or objections are acknowledged (at least the strongest one).

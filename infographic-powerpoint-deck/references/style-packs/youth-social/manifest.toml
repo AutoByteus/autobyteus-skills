@@ -1,0 +1,5 @@
+id = "youth-social"
+display_name = "Youth Social"
+inherits = ["base-core"]
+intent_keywords = ["年轻", "活力", "社群", "传播", "新媒体"]
+default_scene_tags = ["vibrant", "social", "gradient", "optimistic"]

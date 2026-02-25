@@ -1,0 +1,5 @@
+id = "airy-relaxed"
+display_name = "Airy Relaxed"
+inherits = ["base-core"]
+intent_keywords = ["放松", "清新", "温和", "轻盈", "舒缓"]
+default_scene_tags = ["airy", "calm", "pastel", "open-space"]

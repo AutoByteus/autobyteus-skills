@@ -6,6 +6,10 @@
 
 ## Thesis (one sentence)
 
+## Mainline statement (one sentence)
+- What this article must prove for this audience:
+- Out-of-scope (explicitly not covered):
+
 ## Roadmap (3–6 moves)
 - Move 1:
 - Move 2:
@@ -14,6 +18,7 @@
 ## Body
 
 ### Move 1 — [Claim headline]
+- **Why this move exists:** how it advances the thesis
 - **Claim:** …
 - **Evidence:** (quotes, data, citation IDs e.g., [S1], [S4])
 - **Reasoning:** why the evidence supports the claim

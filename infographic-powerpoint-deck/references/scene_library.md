@@ -1,6 +1,7 @@
 # Scene library (v3+ “更有画面感”扩展库)
 
 Use this to make slides feel like a coherent cinematic story while keeping the **left text panel** clean.
+For reusable IDs and tags, pair this with `references/scene-catalog.md`.
 
 ## How to pick (per slide)
 
@@ -11,11 +12,15 @@ Pick:
 4) **3–6 Props/icons** (supporting details)
 
 Rule: keep the scene on the **right side** and **low-contrast** behind the text panel.
+If style is light/relaxed, prioritize daylight or bright-interior locations first.
 
 ---
 
 ## Locations (pick 1)
 
+- **Sunlit library/study (daylight)**: clean shelves silhouette, open desk, soft window light, calm academic tone.
+- **Atrium / colonnade (morning light)**: bright stone textures, airy depth, gentle shadows, structured clarity.
+- **Coastal promenade (clear day)**: open horizon, mild sea reflection, uplifting atmosphere.
 - **Corinth harbor (dusk/night)**: water reflections, anchored sails, distant city wall, stone colonnade silhouettes, salt air haze.
 - **City wall (night)**: window, rope, basket, torch/moonlight, stone texture, quiet tension.
 - **Scribe desk (candlelight)**: open Bible/scrolls (no text), wax seal, quill, soft volumetric light, dust motes.
@@ -82,4 +87,3 @@ Rule: keep the scene on the **right side** and **low-contrast** behind the text 
 - High-contrast realism competing with typography
 - Any extra words/logos/watermarks added by the model
 - “Stock-photo collage” with inconsistent lighting directions (breaks cohesion)
-

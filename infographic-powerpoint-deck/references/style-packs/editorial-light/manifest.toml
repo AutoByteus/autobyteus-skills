@@ -1,0 +1,5 @@
+id = "editorial-light"
+display_name = "Editorial Light"
+inherits = ["base-core"]
+intent_keywords = ["明亮", "清晰", "分享", "阅读舒适", "not dark"]
+default_scene_tags = ["daylight", "clean", "teaching"]

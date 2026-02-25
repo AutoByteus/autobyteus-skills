@@ -10,6 +10,7 @@ Pick:
 - 1–2 **Lighting** tricks (right side only)
 
 Keep these effects subtle; readability always wins.
+If the user asks for relaxed/bright style, prioritize daylight moods and avoid vignette-heavy lighting.
 
 ---
 
@@ -29,6 +30,9 @@ Keep these effects subtle; readability always wins.
 - **Dusk (warm→cool transition)**: hopeful tension; great for introductions and big themes.
 - **Night / moonlight**: quiet danger; great for city wall escape, deception warnings.
 - **Dawn**: resolve + response; great for application/closing.
+- **Daylight (clear sky)**: clarity + openness; best for teaching/training/explainer slides.
+- **Soft overcast day**: calm, neutral, low-glare readability for dense text pages.
+- **Bright interior daylight**: clean and focused; ideal for frameworks/checklists.
 - **Storm at sea**: crisis; use silhouettes and low contrast.
 - **Haze / mist**: spiritual ambiguity; great for “deception/another gospel” warnings.
 - **Candlelit interior**: discernment, Scripture, testing spirits; great for framework slides.
@@ -42,6 +46,8 @@ Keep these effects subtle; readability always wins.
 - **Subtle vignette**: slightly darker corners to focus attention.
 - **Specular glints**: tiny gold sparkles on chain cut / ring / wax seal (very minimal).
 - **Depth haze**: far background softer, lower contrast to separate layers.
+- **Ambient fill light**: softly lift shadows to keep the slide bright and relaxed.
+- **Bounce light**: gentle reflected light from floor/wall surfaces for cleaner midtones.
 
 ---
 
@@ -53,4 +59,5 @@ Keep these effects subtle; readability always wins.
 - **Oppression / abuse**: diagonal tension + street silhouettes + puppet strings + broken chain light break.
 - **Suffering / endurance**: montage silhouettes + storm/road + low contrast + strong composition grid.
 - **Care / burden**: night map + heart glow + gold connection lines.
-
+- **Calm explanation / onboarding**: daylight + soft overcast + top-down or medium shot + low-noise background.
+- **Hopeful call-to-action**: bright dawn/daylight + clean foreground symbol + gentle highlight edges.

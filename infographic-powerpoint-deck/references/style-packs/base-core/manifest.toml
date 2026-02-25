@@ -1,0 +1,5 @@
+id = "base-core"
+display_name = "Base Core"
+inherits = []
+intent_keywords = ["readability", "consistency", "image-only", "infographic"]
+default_scene_tags = ["clean", "low-contrast"]

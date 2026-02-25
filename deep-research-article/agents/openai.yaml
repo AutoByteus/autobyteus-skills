@@ -1,4 +1,4 @@
 interface:
   display_name: "Deep Research Article"
   short_description: "Deep research into one logical article."
-  default_prompt: "Do internet-backed deep research on the topic before drafting. Build a source dossier, extract evidence, maintain a claim→evidence ledger, iteratively improve one logically structured article (thesis → moves → evidence → objections → takeaways), pass logic/evidence QA gates, then output a slide-extraction table for an image-only deck."
+  default_prompt: "Do internet-backed deep research on the topic before drafting. Build a source dossier, extract evidence, maintain a claim→evidence ledger, iteratively improve one logically structured article (thesis → mainline statement → moves → evidence → objections → takeaways), pass logic/evidence/objectivity/mainline-coherence/final-quality QA gates, then output a slide-extraction table that follows the infographic handoff contract (style pack ID, scene ID, layout hint, text budget) for image-only deck generation."

@@ -1,0 +1,5 @@
+id = "clean-corporate"
+display_name = "Clean Corporate"
+inherits = ["base-core"]
+intent_keywords = ["商务", "培训", "汇报", "专业", "报告"]
+default_scene_tags = ["corporate", "minimal", "diagram-friendly"]

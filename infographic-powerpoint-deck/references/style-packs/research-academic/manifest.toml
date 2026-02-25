@@ -1,0 +1,5 @@
+id = "research-academic"
+display_name = "Research Academic"
+inherits = ["base-core"]
+intent_keywords = ["研究", "学术", "框架", "方法论", "证据"]
+default_scene_tags = ["academic", "neutral", "structured", "diagram"]

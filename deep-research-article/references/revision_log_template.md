@@ -6,9 +6,10 @@ One entry per iteration. Keep it short.
 - Changes:
 - Why:
 - Remaining risks / open questions:
+- Evidence gates pass/fail:
 
 ## v2
 - Changes:
 - Why:
 - Remaining risks / open questions:
-
+- Evidence gates pass/fail:

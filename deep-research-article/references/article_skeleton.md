@@ -15,7 +15,7 @@
 
 ### Move 1 — [Claim headline]
 - **Claim:** …
-- **Evidence:** (quotes, data, citations)
+- **Evidence:** (quotes, data, citation IDs e.g., [S1], [S4])
 - **Reasoning:** why the evidence supports the claim
 - **So what:** implication / application
 
@@ -30,5 +30,4 @@
 - 3–7 takeaways phrased as actionably as possible
 
 ## Sources (if applicable)
-- [link] — 1-line why relevant
-
+- [S1] [link] — 1-line why relevant

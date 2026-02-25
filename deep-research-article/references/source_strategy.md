@@ -1,33 +1,33 @@
-# Source strategy (what “deep research” means in practice)
+# Source strategy (how to choose depth and source mix)
 
-Use this to decide how much research to do, what kinds of sources to use, and how to handle uncertainty.
+Use this with `web_research_protocol.md`.
 
-## Default source tiers
+## Source tiers
 
-- **Primary** (best): original texts, first-party docs, statutes/standards, datasets, original papers.
-- **Secondary**: textbooks, peer review summaries, reputable explainers, domain experts.
-- **Tertiary**: general summaries; use to orient, not to justify key claims.
+- **Primary**: original papers, first-party reports, datasets, statutes/standards, official documentation.
+- **Secondary**: peer-reviewed syntheses, high-quality reviews, reputable institutional analysis.
+- **Tertiary**: explainers and summaries for orientation only.
 
-## Research depth levels (pick one)
+Default preference: primary > secondary > tertiary.
 
-- **Level 1 — Light**: rely on user-provided material + 1–3 primary/authoritative sources.
-- **Level 2 — Normal**: add 5–10 sources; triangulate any “load-bearing” fact across at least 2 sources.
-- **Level 3 — Deep**: build a claim→evidence ledger; explicitly note competing viewpoints; document uncertainty.
+## Depth modes
 
-## Bible-specific guidance (non-denominational)
+- **Normal**: >= 8 sources, mixed types, triangulation for major claims.
+- **Deep**: >= 12 sources, explicit counterevidence set, stronger uncertainty accounting.
 
-Primary source is the passage in context (book, authorial flow).
-Optional secondary sources: cross-references, lexicon notes, commentaries.
+## Bible-specific guidance
+
+Primary source is the passage in context.
+Secondary sources can include cross-references, lexicons, and commentaries.
 
 Rules:
-- Don’t let a commentary override the passage; use it to test interpretations.
-- Label interpretive moves as interpretation (not “the text says”).
+- Do not let commentary override passage-level observations.
+- Mark clearly when moving from observation to interpretation.
 
 ## Uncertainty handling
 
-- Maintain an “Open questions / uncertain claims” list in `research_notes.md`.
-- If a claim matters to the thesis and is uncertain, do one of:
-  - find stronger sources
-  - narrow the claim
-  - present it as a hypothesis with caveats
-
+- Track unresolved points in `research_notes.md`.
+- If a claim is uncertain and load-bearing:
+  - strengthen evidence, OR
+  - narrow the claim, OR
+  - present as tentative with caveats.

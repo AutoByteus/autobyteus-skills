@@ -18,9 +18,13 @@
 - Claim:
 - Claim:
 
-## Evidence pool
-- Quote / datum:
-- Quote / datum:
+## Evidence pool (use Source IDs)
+- S1:
+  - Extract:
+  - Why relevant:
+- S2:
+  - Extract:
+  - Why relevant:
 
 ## Alternative interpretations / objections
 - Alternative:
@@ -28,11 +32,10 @@
 
 ## Load-bearing facts (with sources)
 - Fact:
-  - Source:
+  - Source ID(s):
   - Why it matters:
   - Confidence (low/med/high):
 
 ## Open questions / uncertainty
 - Question:
 - Uncertain point:
-

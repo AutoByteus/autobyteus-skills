@@ -26,3 +26,5 @@ Use before finalizing `article.md` and before generating slides.
 - For Bible: quotes match the chosen translation; you don’t import assumptions from outside the passage without labeling them.
 - Every load-bearing claim has an evidence anchor (quote/data) or is explicitly labeled as a hypothesis.
 - Uncertainty is not hidden: the article either resolves it, narrows claims, or adds a caveat.
+- Load-bearing claims are traceable to source IDs in the claim ledger.
+- Article-level conclusions do not rest on a single weak or tertiary source.

@@ -1,6 +1,6 @@
 ---
 name: deep-research-article
-description: "Do deep research and synthesize it into one logically structured article with clear thesis, argument flow, evidence, objections, and takeaways. Use when the user wants thinking before slides: sermon notes, Bible passage study, policy/tech explainers, product narratives, or any topic where the presentation should be built from a strong reasoning artifact. Output includes (1) one cohesive article and (2) a slide-extraction table for turning the article into an image-only deck."
+description: "Do deep research and synthesize it into one logically structured article with clear thesis, argument flow, evidence, objections, and takeaways. By default, this skill requires internet source collection and deep reading before drafting. Use when the user wants thinking before slides: sermon notes, Bible passage study, policy/tech explainers, product narratives, or any topic where the presentation should be built from a strong reasoning artifact. Output includes (1) one cohesive article and (2) a slide-extraction table for turning the article into an image-only deck."
 ---
 
 # Deep Research Article
@@ -13,38 +13,77 @@ Produce:
 
 This skill is intentionally topic-agnostic. For image-only decks, pair it with the `infographic-powerpoint-deck` skill after the article is approved.
 
+In internet-backed mode, also produce a research package:
+- `source_dossier.md`
+- `evidence_extract.md`
+- `research_notes.md`
+- `claim_evidence_ledger.md`
+
 ## Workflow
 
-### Step 0 — Confirm constraints (ask 3–6 quick questions)
+### Step 0 — Confirm constraints and research mode
 
 Ask only what’s necessary:
 - Audience + use case (sermon, lesson, blog, internal memo)
 - Desired length (minutes or word count)
 - Language (CN/EN/bilingual) and tone (academic / pastoral / simple)
 - For Bible: translation/version and whether to include cross-references
-- For general topics: must-use sources or “no web research” constraint
+- Must-use sources or explicit constraints (paywalled-only, region scope, date range)
+- Whether web research is prohibited by user/policy
 
-### Step 1 — Research notes (separate from writing)
+Default mode is **internet-backed deep research**. Only skip internet if user explicitly asks for no-web research.
 
-Start by choosing a source strategy (so “deep research” isn’t just vibes). See `references/source_strategy.md`.
+### Step 1 — Internet source sweep (required by default)
 
-Create a scratchpad of:
-- Key definitions/terms
-- What the text/topic actually claims (avoid assumptions)
-- Alternative interpretations / objections
-- 5–12 “load-bearing” facts with sources (if web research is used)
+Follow `references/web_research_protocol.md` and create `source_dossier.md` using `references/source_dossier_template.md`.
+
+Minimum source counts:
+- **Normal**: at least 8 sources
+- **Deep**: at least 12 sources
+
+Coverage requirements:
+- At least 2 source types (e.g., primary + secondary)
+- At least 2 sources that present meaningful tension/alternative interpretation
+- For time-sensitive topics: include recent sources and clearly note dates
+
+Drafting is blocked until this step is complete.
+
+### Step 1a — No-web fallback (only when explicitly requested)
+
+If the user explicitly forbids web research:
+- Use only provided/local materials.
+- Build `source_dossier.md` from local sources.
+- Mark mode as `no-web constrained` in the dossier.
+- Keep the same extraction/ledger/QA flow, but clearly flag evidence limits in the article.
+
+### Step 1b — Evidence extraction (deep reading)
+
+Create `evidence_extract.md` from the dossier using `references/evidence_extraction_template.md`.
+
+For each major source, record:
+- exact claim/data point extracted
+- what it supports or challenges
+- uncertainty/caveat
 
 For Bible passages:
 - Note structure (pericope boundaries), repeated words, contrasts, commands, warnings, comfort.
 - Identify “center of gravity” (main burden) and what the text is **not** saying.
 
-Recommended artifact: create `research_notes.md` using `references/research_notes_template.md`.
+### Step 1c — Research notes (synthesis scratchpad)
 
-### Step 1b — Claim→evidence ledger (prevents unsupported leaps)
+Create `research_notes.md` using `references/research_notes_template.md`:
+- key definitions
+- observations from sources/text
+- competing interpretations
+- load-bearing facts with source IDs
+- open questions
 
-Before drafting, build a small table that forces every major claim to have an evidence anchor.
+### Step 1d — Claim→evidence ledger (required)
+
+Before drafting, build `claim_evidence_ledger.md`:
 - Use `references/claim_evidence_ledger_template.md`.
-- Mark each claim’s **confidence** and what would falsify it.
+- Every major claim must have at least one evidence anchor and source ID.
+- Mark confidence and disconfirmation condition.
 
 ### Step 2 — Argument outline (the real engine)
 
@@ -61,11 +100,18 @@ Use the skeleton in `references/article_skeleton.md`.
 Rules:
 - Prefer short paragraphs with explicit signposting (“因此/所以/因为/然而”).
 - Separate observation vs application.
-- If you used web research: include a sources section with links (or footnotes).
+- Include explicit citations (source IDs and links) for load-bearing claims.
+- If evidence is mixed, present both sides and state your judgment criteria.
 
-### Step 4 — Logic QA pass
+### Step 4 — QA gates (logic + evidence)
 
-Run the checklist in `references/logic_qa_checklist.md` and fix issues before moving on.
+Run both:
+- `references/logic_qa_checklist.md`
+- `references/evidence_gates.md`
+- `references/objectivity_checks.md`
+
+If any hard gate fails, return to Step 1 (source sweep) or Step 1b (evidence extraction).
+In no-web constrained mode, return to Step 1a and narrow claims as needed.
 
 ### Step 4b — Iterate until it “locks” (human-like drafting)
 
@@ -87,7 +133,7 @@ Use the table template in `references/slide_extraction_template.md`.
 
 Each slide row should have:
 - Slide headline (one claim, not a topic)
-- Exact quote(s) or evidence anchor
+- Exact quote(s) or evidence anchor + source ID(s)
 - 2–4 bullets (supporting logic)
 - Visual scene suggestion (location + hero symbol set + props)
 - “Text budget” note (short / medium / heavy) so slide layout can be chosen later
@@ -96,15 +142,23 @@ Each slide row should have:
 
 - `article.md`
 - `slide_extraction.md`
-- `research_notes.md` (recommended for iteration)
+- `source_dossier.md` (required in internet-backed mode)
+- `evidence_extract.md` (required in internet-backed mode)
+- `research_notes.md` (required)
+- `claim_evidence_ledger.md` (required)
 - `revision_log.md` (optional, but helpful)
 
 ## References
 - Read `references/article_skeleton.md` when drafting `article.md`.
+- Read `references/web_research_protocol.md` for the required search/deep-reading workflow.
+- Read `references/source_dossier_template.md` to structure source collection.
+- Read `references/evidence_extraction_template.md` for claim-level extraction.
 - Read `references/source_strategy.md` to pick sources and record uncertainty.
 - Read `references/research_notes_template.md` to structure `research_notes.md`.
 - Read `references/claim_evidence_ledger_template.md` to prevent unsupported claims.
 - Read `references/logic_qa_checklist.md` for the reasoning QA pass.
+- Read `references/evidence_gates.md` for objective evidence sufficiency gates.
+- Read `references/objectivity_checks.md` for neutrality and confidence calibration checks.
 - Read `references/iteration_protocol.md` for iterative improvement and stop criteria.
 - Read `references/revision_log_template.md` to track iterations cleanly.
 - Read `references/slide_extraction_template.md` to map an article to slide-sized units.

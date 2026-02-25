@@ -20,6 +20,10 @@ Use this after Step 4 (Logic QA) and before finalizing `article.md`.
 - Update the claim→evidence ledger if thesis/moves changed (so the deck won’t drift).
 - Update “Open questions / uncertainty” so you know what’s still shaky.
 
+If evidence coverage is weak:
+- go back to source sweep and add better sources,
+- update source dossier and extraction before rewriting.
+
 4) **Write a short revision note (recommended)**
 Add at the top of the file (or as a separate section) a 3–6 line note:
 - What changed
@@ -39,6 +43,7 @@ All must be true:
 - No slide-critical claims rely on unstated premises.
 - Language is consistent and readable (no jargon drift).
 - If web research used: sources exist for load-bearing claims.
+- Evidence gates are passed (`references/evidence_gates.md`).
 
 ## Slide readiness check (fast)
 

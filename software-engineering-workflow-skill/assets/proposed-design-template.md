@@ -143,7 +143,7 @@ Rule:
 
 ## Change Traceability To Implementation Plan
 
-| Change ID | Implementation Plan Task(s) | Verification (Unit/Integration/API/E2E/System) | Status |
+| Change ID | Implementation Plan Task(s) | Verification (Unit/Integration/API/E2E) | Status |
 | --- | --- | --- | --- |
 | C-001 |  |  | Planned |
 

@@ -43,7 +43,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
   - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
   - implementation execution stage (`started`, then implementation completion + file-level verification result),
-  - aggregated system validation stage (`started`, then API/E2E/system scenario execution result),
+  - internal code review stage (`started`, then `internal-code-review.md` gate result recorded as `Pass`/`Fail`),
+  - aggregated API/E2E validation stage (`started`, then API/E2E scenario execution result),
   - validation feedback escalation stage (when failing aggregated validation scenarios are classified as `Local Fix`/`Design Impact`/`Requirement Gap`, with next-step decision),
   - re-investigation stage (when escalation indicates deeper understanding is required; `started`, then `investigation-notes.md` updated and unknowns reduced),
   - post-validation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
@@ -66,11 +67,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the future-state runtime call stack review gate is fully satisfied for the current scope.
 - Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
-- Do not start aggregated system validation until implementation execution is complete with required unit/integration verification.
-- Do not start post-validation `docs/` synchronization until aggregated system validation is complete (or explicit infeasibility and residual risk are recorded).
+- Do not start internal code review until implementation execution is complete with required unit/integration verification.
+- Do not start aggregated API/E2E validation until internal code review gate is `Pass`.
+- Do not start post-validation `docs/` synchronization until aggregated API/E2E validation is complete (or explicit infeasibility and residual risk are recorded).
 - Do not close the task until post-validation `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
-- Treat technical completion and ticket archival as separate gates: technical completion ends at validated implementation + aggregated validation + docs sync; archival to `tickets/done/` requires explicit user confirmation.
+- Treat technical completion and ticket archival as separate gates: technical completion ends at validated implementation + internal code review + aggregated validation + docs sync; archival to `tickets/done/` requires explicit user confirmation.
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after write-backs from a blocking round.
@@ -78,12 +80,16 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - First clean round is provisional (`Candidate Go`), second consecutive clean round is confirmation (`Go Confirmed`).
 - Any review finding with a required design/call-stack update is blocking; regenerate affected artifacts and re-review before proceeding.
 - If design/review reveals missing understanding or requirement ambiguity, return to understanding + requirements stages, update `requirements.md`, then continue design/review.
-- If aggregated validation feedback reveals design-impacting issues, pause implementation and run an investigation checkpoint first: update `investigation-notes.md` with new evidence and root-cause confidence before any design/requirements write-backs.
-- After the design-impact investigation checkpoint:
-  - if requirement-level gaps are discovered, reclassify to `Requirement Gap` and update `requirements.md` first,
-  - otherwise continue with design basis update -> call-stack regeneration -> review re-entry.
-- If aggregated validation feedback reveals missing requirements, pause implementation and return to requirements/design/future-state-runtime-call-stack/review stages before continuing implementation.
-- If aggregated validation feedback is large, cross-cutting, or root cause is unclear, pause implementation and return to understanding stage first: update `investigation-notes.md`, then refine requirements/design/future-state runtime call stacks/review before resuming implementation.
+- Re-entry declaration rule (mandatory): when a post-implementation gate (`Stage 5.5` internal code review or `Stage 6` aggregated validation) finds issues, explicitly record:
+  - trigger stage (`5.5`/`6`),
+  - classification (`Local Fix`/`Design Impact`/`Requirement Gap`),
+  - required return stage path before any code edit.
+- No-direct-patch rule (mandatory): for post-implementation gate findings, do not edit source code first. Update required upstream artifacts first based on classification path.
+- Re-entry mapping (mandatory):
+  - `Local Fix`: update implementation artifacts (`implementation-plan.md` / `implementation-progress.md` / `internal-code-review.md` as applicable), then implement fix, then rerun `Stage 5` and `Stage 5.5` before returning to `Stage 6`.
+  - `Design Impact`: return to `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`, then continue to `Stage 6`.
+  - `Requirement Gap`: return to `Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`, then continue to `Stage 6`.
+  - unclear or cross-cutting root cause: return to `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`, then continue to `Stage 6`.
 - If the user asks for all artifacts in one turn, still enforce stage gates within that turn (iterate review rounds first; only then produce implementation artifacts).
 - No mental-only review refinements: if a round finds issues, update the affected artifact files immediately in the same round before starting the next round.
 - For each review round, record explicit write-backs in `future-state-runtime-call-stack-review.md`:
@@ -323,7 +329,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - integration tests across module/service boundaries.
 - Stage separation rule (mandatory):
   - Stage 5 verifies implementation quality at file/module/service boundary level (unit/integration).
-  - Stage 6 verifies aggregated multi-module behavior (API/E2E/system).
+  - Stage 5.5 verifies code structure and maintainability before aggregated validation.
+  - Stage 6 verifies aggregated cross-boundary behavior (API/E2E).
 - Include requirement traceability in plan/progress (`requirement -> design section -> call stack/use_case -> implementation tasks/tests`).
 - Integration test coverage is required for behavior that crosses module boundaries, process boundaries, storage boundaries, or external API boundaries. If any such behavior is not covered, record a concrete rationale.
 - Finalize planning artifacts before kickoff:
@@ -353,11 +360,35 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Use `assets/implementation-plan-template.md` and `assets/implementation-progress-template.md`.
 - Speak when `implementation-plan.md` is written/updated, when `implementation-progress.md` is created/updated, and when implementation execution completes.
 
-### 6) Run Aggregated System Validation (API/E2E/System, Mandatory)
+### 5.5) Run Internal Code Review Gate (Mandatory, Pre-Aggregated Validation)
 
-- Run this stage after implementation execution completes with required unit/integration tests passing.
+- Run this stage immediately after `Stage 5` completes.
+- Create/update `tickets/in-progress/<ticket-name>/internal-code-review.md` as the canonical internal review artifact.
+- Scope:
+  - source files only (exclude tests),
+  - include changed files and directly impacted related files when structural risk exists.
+- Mandatory review checks:
+  - separation-of-concerns and responsibility boundaries,
+  - architecture/layer boundary consistency with design basis,
+  - naming-to-responsibility alignment and drift,
+  - duplication and patch-on-patch complexity smells.
+- Source file size policy (mandatory):
+  - for any changed source file with line count `> 300`, run explicit SoC split assessment and record result.
+  - for any changed source file with line count `> 400` that adds or expands functionality, classify as `Design Impact` by default.
+  - for `> 400` cases, do not continue by default; trigger re-entry to design chain (`Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`).
+  - exception path for `> 400` is allowed only with explicit rationale in `internal-code-review.md` (`why split now is not viable`, `risk containment`, `next split plan`).
+- Gate decision:
+  - `Pass`: continue to `Stage 6`.
+  - `Fail`: apply re-entry declaration + no-direct-patch rule and follow re-entry mapping before any source code edits.
+- If `Stage 6` later requires code changes, rerun `Stage 5.5` before resuming `Stage 6`.
+- Use `assets/internal-code-review-template.md`.
+- Speak when `internal-code-review.md` is created/updated and when internal code review gate result is finalized.
+
+### 6) Run Aggregated API/E2E Validation (Mandatory)
+
+- Run this stage only after `Stage 5.5` internal code review gate is `Pass`.
 - Aggregated validation is scenario-level verification of broader interactions, not file-level checks.
-- Create/update `tickets/in-progress/<ticket-name>/system-validation.md` as the canonical scenario + result artifact.
+- Create/update `tickets/in-progress/<ticket-name>/aggregated-validation.md` as the canonical scenario + result artifact.
 - Scenario sources (mandatory):
   - requirement-driven scenarios (must cover all critical requirements and flows),
   - design-risk-driven scenarios (must cover technical risks introduced by architecture/design choices).
@@ -365,13 +396,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `scenario_id`,
   - mapped `requirement_id` and `use_case_id` values,
   - source type (`Requirement`/`Design-Risk`),
-  - validation level (`API`/`E2E`/`System`),
+  - validation level (`API`/`E2E`),
   - expected outcome,
   - execution command/harness,
   - result (`Passed`/`Failed`/`Blocked`/`N/A`).
 - Manual testing policy: do not include manual testing in the default workflow.
 - Feasibility policy:
-  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `system-validation.md` and `implementation-progress.md`,
+  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `aggregated-validation.md` and `implementation-progress.md`,
   - record compensating automated evidence and residual risk notes for each infeasible critical scenario.
 - Test feedback escalation policy (mandatory):
   - classify each failing aggregated validation scenario as exactly one of `Local Fix`, `Design Impact`, or `Requirement Gap`,
@@ -389,19 +420,21 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - failing behavior reveals missing functionality/use case not captured in current requirements,
     - acceptance criteria are missing/ambiguous for observed behavior,
     - newly discovered technical or integration constraints require requirement-level updates.
-  - for `Design Impact`, stop implementation and always run an investigation checkpoint first (`Investigation Required = Yes`): update `investigation-notes.md` with evidence, root-cause confidence, and boundary impact before any design write-backs.
-  - if the design-impact investigation checkpoint discovers requirement-level gaps, reclassify to `Requirement Gap` and follow the requirement-gap path.
-  - for `Design Impact` (after checkpoint, still design impact): update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation and rerun affected validation scenarios.
-  - for `Requirement Gap`: stop implementation, update `requirements.md` first (status `Refined`), then update design basis, regenerate runtime call stacks, rerun review until stability gate `Go Confirmed`, then resume implementation and rerun affected validation scenarios.
+  - apply re-entry declaration + no-direct-patch rule before any code edits.
+  - for `Local Fix`, update implementation/review artifacts first, then apply fix, rerun `Stage 5` + `Stage 5.5`, then rerun affected scenarios.
+  - for `Design Impact`, run investigation checkpoint first (`Investigation Required = Yes`), then follow mandatory full-chain re-entry (`Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`) before rerunning affected scenarios.
+  - if the design-impact investigation checkpoint discovers requirement-level gaps, reclassify to `Requirement Gap` and follow requirement-gap path.
+  - for `Requirement Gap`, follow mandatory full-chain re-entry (`Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`) before rerunning affected scenarios.
+  - for unclear/cross-cutting root cause, follow mandatory full-chain re-entry from understanding (`Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`) before rerunning affected scenarios.
   - do not keep appending fixes that make files/components bigger without re-evaluating separation of concerns and design intent.
 - Stage completion gate:
   - critical aggregated scenarios pass, or infeasible critical scenarios have concrete constraints + compensating evidence + residual risk explicitly documented.
-- Use `assets/system-validation-template.md`.
-- Speak when `system-validation.md` is created/updated and when aggregated validation stage completes.
+- Use `assets/aggregated-validation-template.md`.
+- Speak when `aggregated-validation.md` is created/updated and when aggregated validation stage completes.
 
 ### 7) Synchronize Project Documentation (Mandatory Post-Validation)
 
-- After aggregated system validation is complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
+- After aggregated API/E2E validation is complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
 - Treat `docs/` as the long-lived canonical source of truth for the current codebase.
 - Treat ticket artifacts under `tickets/` as task-local, time-bound records; they are not the long-term source of truth.
 - If relevant docs do not exist yet, create new docs in `docs/` with clear natural names that match current functionality.
@@ -417,10 +450,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 8) Final Handoff
 
-- Complete handoff only after implementation execution, aggregated system validation, and docs synchronization are complete.
+- Complete handoff only after implementation execution, aggregated API/E2E validation, and docs synchronization are complete.
 - Handoff summary must include:
   - delivered scope vs planned scope,
-  - verification summary (unit/integration plus API/E2E/system aggregated validation, documented infeasibility reasons/constraints, and compensating automated evidence),
+  - verification summary (unit/integration plus API/E2E aggregated validation, documented infeasibility reasons/constraints, and compensating automated evidence),
   - docs files updated (or explicit no-impact rationale).
 - Ticket state transition:
   - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff,
@@ -447,8 +480,11 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 5 (only after gate `Go Confirmed`):
   - finalize/update `tickets/in-progress/<ticket-name>/implementation-plan.md`
   - `tickets/in-progress/<ticket-name>/implementation-progress.md`
-- Stage 6 (aggregated system validation):
-  - create/update `tickets/in-progress/<ticket-name>/system-validation.md`
+- Stage 5.5 (internal code review gate):
+  - create/update `tickets/in-progress/<ticket-name>/internal-code-review.md`
+  - record gate result (`Pass`/`Fail`) and any re-entry declaration before `Stage 6`
+- Stage 6 (aggregated API/E2E validation, only after `Stage 5.5 = Pass`):
+  - create/update `tickets/in-progress/<ticket-name>/aggregated-validation.md`
   - record scenario execution results and any escalation decisions in `tickets/in-progress/<ticket-name>/implementation-progress.md`
 - Stage 7 (post-validation documentation sync):
   - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
@@ -466,4 +502,5 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - `assets/future-state-runtime-call-stack-review-template.md`
 - `assets/implementation-plan-template.md`
 - `assets/implementation-progress-template.md`
-- `assets/system-validation-template.md`
+- `assets/internal-code-review-template.md`
+- `assets/aggregated-validation-template.md`

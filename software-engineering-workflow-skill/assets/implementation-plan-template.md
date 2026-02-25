@@ -5,9 +5,9 @@
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> draft implementation plan (solution sketch) -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize implementation plan -> implementation progress tracking -> aggregated system validation -> docs sync
-  - `Medium` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> implementation progress tracking -> aggregated system validation -> docs sync
-  - `Large` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> implementation progress tracking -> aggregated system validation -> docs sync
+  - `Small` -> draft implementation plan (solution sketch) -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize implementation plan -> implementation progress tracking -> internal code review gate -> aggregated API/E2E validation -> docs sync
+  - `Medium` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> implementation progress tracking -> internal code review gate -> aggregated API/E2E validation -> docs sync
+  - `Large` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> implementation plan -> implementation progress tracking -> internal code review gate -> aggregated API/E2E validation -> docs sync
 
 ## Upstream Artifacts (Required)
 
@@ -110,19 +110,34 @@
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
+## Internal Code Review Gate Plan (Stage 5.5)
+
+- Gate artifact path: `tickets/in-progress/<ticket-name>/internal-code-review.md`
+- Source-file scope only (exclude tests):
+- `>300` line changed source files SoC assessment approach:
+- `>400` line changed source file policy and expected action:
+- Allowed exceptions and required rationale style:
+
+| File | Current Line Count | Adds/Expands Functionality (`Yes`/`No`) | SoC Risk (`Low`/`Medium`/`High`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) | Expected Review Classification if not addressed |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
 ## Test Strategy
 
 - Unit tests:
 - Integration tests:
 - Stage 5 boundary: file/module/service-level verification only (unit + integration).
+- Stage 5.5 handoff notes for internal code review:
+  - predicted design-impact hotspots:
+  - files likely to exceed size/SoC thresholds:
 - Stage 6 handoff notes for aggregated validation:
-  - critical flows to validate (API/E2E/System):
+  - critical flows to validate (API/E2E):
   - expected scenario count:
   - known environment constraints:
 
-## Aggregated System Validation Scenario Catalog (Stage 6 Input)
+## Aggregated API/E2E Validation Scenario Catalog (Stage 6 Input)
 
-| Scenario ID | Source Type (`Requirement`/`Design-Risk`) | Requirement ID(s) | Use Case ID(s) | Validation Level (`API`/`E2E`/`System`) | Expected Outcome |
+| Scenario ID | Source Type (`Requirement`/`Design-Risk`) | Requirement ID(s) | Use Case ID(s) | Validation Level (`API`/`E2E`) | Expected Outcome |
 | --- | --- | --- | --- | --- | --- |
 | SV-001 | Requirement | R-001 | UC-001 | API |  |
 
@@ -137,11 +152,12 @@
   - `Design Impact`: responsibility boundaries drift, architecture change needed, or patch-on-patch complexity appears.
   - `Requirement Gap`: missing/ambiguous requirement or newly discovered requirement-level constraint.
 - Required action:
-  - `Local Fix` -> implement fix and rerun affected scenarios.
-  - `Design Impact` -> set `Investigation Required = Yes` (mandatory checkpoint), update `investigation-notes.md`, then decide next path.
+  - `Local Fix` -> update implementation/review artifacts first, then implement fix, rerun `Stage 5` + `Stage 5.5`, then rerun affected scenarios.
+  - `Design Impact` -> set `Investigation Required = Yes` (mandatory checkpoint), update `investigation-notes.md`, then follow full-chain re-entry.
   - if requirement-level gaps are discovered during the design-impact investigation checkpoint -> reclassify as `Requirement Gap` and follow the requirement-gap path.
-  - `Design Impact` (after checkpoint, still design impact) -> update design basis; regenerate call stacks; re-run review to `Go Confirmed`; rerun affected scenarios.
-  - `Requirement Gap` -> stop implementation; update `requirements.md` to `Refined`; update design basis; regenerate call stacks; re-run review to `Go Confirmed`; rerun affected scenarios.
+  - `Design Impact` (after checkpoint, still design impact) -> return to `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`; rerun affected scenarios.
+  - `Requirement Gap` -> return to `Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`; rerun affected scenarios.
+  - unclear/cross-cutting root cause -> return to `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`; rerun affected scenarios.
   - when `Investigation Required = Yes`, understanding-stage re-entry is mandatory before design/requirements updates.
 
 ## Cross-Reference Exception Protocol

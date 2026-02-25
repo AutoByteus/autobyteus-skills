@@ -1,7 +1,8 @@
-# System Validation
+# Aggregated Validation
 
-Use this document for Stage 6 aggregated validation (API/E2E/System).
+Use this document for Stage 6 aggregated validation (API/E2E).
 Do not use this file for unit/integration tracking; that belongs in `implementation-progress.md`.
+Stage 6 may start only after `Stage 5.5` internal code review gate result is `Pass`.
 
 ## Validation Scope
 
@@ -20,7 +21,7 @@ Do not use this file for unit/integration tracking; that belongs in `implementat
 
 ## Scenario Catalog
 
-| Scenario ID | Source Type (`Requirement`/`Design-Risk`) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`/`System`) | Objective/Risk | Expected Outcome | Command/Harness | Status (`Not Started`/`In Progress`/`Passed`/`Failed`/`Blocked`/`N/A`) |
+| Scenario ID | Source Type (`Requirement`/`Design-Risk`) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`) | Objective/Risk | Expected Outcome | Command/Harness | Status (`Not Started`/`In Progress`/`Passed`/`Failed`/`Blocked`/`N/A`) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | SV-001 | Requirement | R-001 | UC-001 | API | N/A |  |  | Not Started |
 
@@ -31,9 +32,13 @@ Do not use this file for unit/integration tracking; that belongs in `implementat
 | YYYY-MM-DD | SV-001 |  |  |  |  |  |  |  |  |  | No |
 
 Rules:
+- `Local Fix` requires artifact update first, then fix, then rerun `Stage 5` + `Stage 5.5` before rerunning affected scenarios.
 - `Design Impact` requires `Investigation Required = Yes` and investigation checkpoint before design write-backs.
 - If requirement-level gaps are found during design-impact investigation, reclassify to `Requirement Gap`.
-- `Design Impact` and `Requirement Gap` both require review re-entry to `Go Confirmed` before final validation completion.
+- No direct source-code patching is allowed before required upstream artifacts are updated.
+- `Design Impact` requires full-chain re-entry: `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5` before rerunning affected scenarios.
+- `Requirement Gap` requires full-chain re-entry: `Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5` before rerunning affected scenarios.
+- unclear/cross-cutting root cause requires full-chain re-entry: `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 5.5`.
 
 ## Feasibility And Risk Record
 

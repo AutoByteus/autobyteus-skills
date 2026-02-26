@@ -26,6 +26,16 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Never auto-move a ticket to `done` based only on internal assessment.
 - If the user specifies a different location, follow the user-specified path.
 
+### Ticket + Worktree Bootstrap (Mandatory First Action)
+
+- Before investigation, bootstrap work context in this order:
+  - create/use `tickets/in-progress/<ticket-name>/`,
+  - if the project is a git repository, create/switch to a dedicated worktree/branch for the ticket before writing artifacts (`codex/<ticket-name>` branch naming),
+  - create/update `requirements.md` with status `Draft` from user-provided requirement intent.
+- Investigation must not start before the ticket bootstrap and `requirements.md` `Draft` are physically written.
+- If a dedicated worktree already exists for the ticket, reuse it instead of creating a new one.
+- If the environment is not a git repository, continue without worktree setup and still enforce ticket-folder + `Draft` requirement capture.
+
 ### Audible Notifications (Speak Tool, Required)
 
 - Use the `Speak` tool for key stage-boundary updates so the user does not need to watch the screen continuously.
@@ -35,9 +45,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
 - Required speak stages:
   - workflow kickoff (`task accepted`, `next stage`),
+  - ticket/worktree bootstrap stage (`started`, then ticket bootstrap + `requirements.md` `Draft` captured),
   - understanding pass stage (`started`, then `investigation-notes.md` captured and baseline understanding confirmed),
   - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
-  - requirements stage (`started`, then `requirements.md` `Draft` captured, then `Design-ready` confirmed),
+  - requirements stage (`started`, then `requirements.md` refined to `Design-ready`),
   - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
   - future-state runtime call stack stage (`started`, then `future-state-runtime-call-stack.md` written/updated),
   - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
@@ -63,6 +74,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Work in explicit stages and complete each gate before producing downstream artifacts.
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
+- Do not start investigation until ticket/worktree bootstrap is complete and `requirements.md` status `Draft` is physically written.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
 - Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the future-state runtime call stack review gate is fully satisfied for the current scope.
@@ -100,10 +112,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - A review round cannot be considered complete until its required file updates are physically written.
 - Speak each completed round status only after the round record and required write-backs are physically written.
 
-### 0) Capture Initial Requirement Snapshot + Understanding Pass + Triage
+### 0) Bootstrap Ticket + Capture Draft Requirement + Understanding Pass + Triage
 
-- Capture an initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
-- Then run deep understanding from problem context and relevant codebase/runtime context before choosing artifacts.
+- Run mandatory first-action sequence:
+  - create/use `tickets/in-progress/<ticket-name>/`,
+  - if git repo, create/switch ticket worktree/branch,
+  - capture initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints),
+  - then run deep understanding from problem context and relevant codebase/runtime context before choosing downstream artifacts.
 - Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
@@ -126,9 +141,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Medium`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
   - `Large`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
-- Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`).
+- Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`) and `investigation-notes.md` is current.
 
-### 1) Write Requirements Document (Mandatory)
+### 1) Refine Requirements Document To Design-Ready (Mandatory)
 
 - Create/update `tickets/in-progress/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
 - Requirement writing is mandatory even for small tasks (small can be concise).
@@ -466,10 +481,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 If the user does not specify file paths, write to a project-local ticket folder in stage order:
 These defaults list file-producing stages; gating and handoff rules still follow the full workflow above.
 
-- Stage 0 (investigation notes):
+- Stage 0 (bootstrap + draft requirement + investigation):
+  - create/use `tickets/in-progress/<ticket-name>/`
+  - if git repo, create/switch ticket worktree/branch
+  - `tickets/in-progress/<ticket-name>/requirements.md` (`Draft`)
   - `tickets/in-progress/<ticket-name>/investigation-notes.md`
-- Stage 1 (requirements foundation):
-  - `tickets/in-progress/<ticket-name>/requirements.md`
+- Stage 1 (requirements refinement to `Design-ready`):
+  - update `tickets/in-progress/<ticket-name>/requirements.md` in place
 - Stage 2 (design basis):
   - `Small`: start/refine `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
   - `Medium/Large`: create/refine `tickets/in-progress/<ticket-name>/proposed-design.md`.

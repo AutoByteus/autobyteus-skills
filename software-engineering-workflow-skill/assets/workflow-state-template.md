@@ -52,9 +52,14 @@ Update this file before every stage transition and before any source-code edit.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | T-001 | YYYY-MM-DD | 0 | 1 | Requirements refined to design-ready | N/A | Locked | requirements.md, workflow-state.md |
 
+## Audible Notification Log (Optional Tracking)
+
+| Date | Trigger Type (`Transition`/`Gate`/`Re-entry`/`LockChange`) | Summary Spoken | Speak Tool Result (`Success`/`Failed`) | Fallback Text Logged |
+| --- | --- | --- | --- | --- |
+| YYYY-MM-DD | Transition | Stage 0 complete, moving to Stage 1 requirements refinement. | Success | N/A |
+
 ## Process Violation Log
 
 | Date | Violation ID | Violation | Detected At Stage | Action Taken | Cleared |
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | V-001 | Source code edited while `Code Edit Permission = Locked` | 2 | Stopped edits, declared re-entry, updated upstream artifacts | No |
-

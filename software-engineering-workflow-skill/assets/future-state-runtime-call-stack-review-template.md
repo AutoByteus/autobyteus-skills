@@ -114,6 +114,7 @@ Rule:
 
 ## Speak Log (Optional Tracking)
 
-- Round started spoken: `Yes` / `No`
-- Round completion spoken (after write-backs recorded): `Yes` / `No`
-- If `No`, fallback text update recorded: `Yes` / `No`
+- Stage/gate transition spoken after `workflow-state.md` update: `Yes` / `No`
+- Review gate decision spoken after persisted gate evidence: `Yes` / `No`
+- Re-entry or lock-state change spoken (if applicable): `Yes` / `No` / `N/A`
+- If any required speech was not emitted, fallback text update recorded: `Yes` / `No` / `N/A`

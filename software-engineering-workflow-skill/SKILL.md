@@ -59,35 +59,29 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### Audible Notifications (Speak Tool, Required)
 
-- Use the `Speak` tool for key stage-boundary updates so the user does not need to watch the screen continuously.
+- Use the `Speak` tool for workflow-state transition updates so the user can follow where execution is and what is next.
 - Playback rule (mandatory): for required audible notifications, call `Speak` with `play=true` explicitly.
-- Do not set `play=false` by default for required stage notifications.
+- Do not set `play=false` by default for required transition notifications.
 - Exception: set `play=false` only when the user explicitly requests silent mode.
-- Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
-- Required speak stages:
+- Transition-driven speak rule (mandatory):
+  - speak only when `workflow-state.md` is updated for a stage transition, gate decision, re-entry decision, or code-edit lock/unlock change,
+  - do not speak for low-level command execution, intermediate analysis notes, or partial drafts.
+- Required audible events:
   - workflow kickoff (`task accepted`, `next stage`),
-  - ticket/worktree bootstrap stage (`started`, then ticket bootstrap + `requirements.md` `Draft` captured),
-  - understanding pass stage (`started`, then `investigation-notes.md` captured and baseline understanding confirmed),
-  - scope triage (`started`, then chosen depth finalized: `Small`/`Medium`/`Large`),
-  - requirements stage (`started`, then `requirements.md` refined to `Design-ready`),
-  - proposed design stage when in scope (`Medium`/`Large`) (`started`, then `proposed-design.md` written/updated),
-  - future-state runtime call stack stage (`started`, then `future-state-runtime-call-stack.md` written/updated),
-  - review loop (each round `started`, then round result with `No-Go`/`Candidate Go`/`Go Confirmed` and write-back status),
-  - implementation planning stage (`started`, then `implementation-plan.md` finalized + `implementation-progress.md` initialized),
-  - implementation execution stage (`started`, then implementation completion + file-level verification result),
-  - internal code review stage (`started`, then `internal-code-review.md` gate result recorded as `Pass`/`Fail`),
-  - aggregated API/E2E validation stage (`started`, then API/E2E scenario execution result),
-  - validation feedback escalation stage (when failing aggregated validation scenarios are classified as `Local Fix`/`Design Impact`/`Requirement Gap`, with next-step decision),
-  - re-investigation stage (when escalation indicates deeper understanding is required; `started`, then `investigation-notes.md` updated and unknowns reduced),
-  - post-validation docs sync stage (`started`, then `docs/` synchronization completed or explicit no-impact decision recorded),
-  - final handoff (`started`, then completed artifact summary).
-- Speak trigger policy:
-  - do not skip required stage-boundary speak events,
-  - required stage-boundary `Speak` calls must use `play=true` unless user-requested silent mode is active,
-  - for completion events, speak only after the milestone is durably completed (file written + gate state known),
-  - do not speak for intermediate thinking or partial drafts between required stage-boundary events,
-  - if multiple milestone updates happen close together, batch them into one short status message.
-- Keep each spoken message short (1-2 sentences), status-first, with one clear next-step statement.
+  - every stage transition (`From Stage -> To Stage`) after `workflow-state.md` transition log is appended,
+  - every gate decision (`Pass`/`Fail`/`Blocked`) after gate evidence is written,
+  - every re-entry declaration (classification + return path) after `workflow-state.md` re-entry section is updated,
+  - every `Code Edit Permission` change (`Locked`/`Unlocked`) after snapshot update.
+- Speak ordering rule:
+  - update `workflow-state.md` first,
+  - then emit audible notification reflecting the persisted state.
+- Spoken message content (mandatory):
+  - current stage,
+  - what just completed/changed (transition or gate result),
+  - next stage/action,
+  - code-edit lock state when it changed.
+- If multiple transitions happen close together, batch them into one short message after the final persisted update.
+- Keep each spoken message short (1-2 sentences), status-first, and action-oriented.
 - If the `Speak` tool fails or is unavailable, continue the workflow and provide the same update in text.
 - Do not speak secrets, tokens, or full sensitive payloads.
 
@@ -139,7 +133,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - changed sections,
   - which findings were resolved.
 - A review round cannot be considered complete until its required file updates are physically written.
-- Speak each completed round status only after the round record and required write-backs are physically written.
+- If announcing review-round status, do it only after the round record/write-backs are physically written and the related Stage 4 gate status is persisted in `workflow-state.md`.
 
 ### 0) Bootstrap Ticket + Capture Draft Requirement + Understanding Pass + Triage
 
@@ -172,7 +166,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Large`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 - Before transitioning to Stage 1, update `workflow-state.md` snapshot + transition log + stage gate evidence.
-- Speak completion after triage depth is finalized (`Small`/`Medium`/`Large`) and `investigation-notes.md` is current.
+- After triage depth is finalized (`Small`/`Medium`/`Large`) and `investigation-notes.md` is current, announce only with the persisted `workflow-state.md` transition/gate update.
 
 ### 1) Refine Requirements Document To Design-Ready (Mandatory)
 
@@ -201,7 +195,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Refine requirements from the latest `investigation-notes.md`; do not derive requirements from memory-only investigation.
 - Design-ready requirement gate must make expected behavior clear enough to draft design and runtime call stacks.
 - If understanding is not sufficient to reach `Design-ready`, continue understanding pass and refine requirements first.
-- Speak completion after `requirements.md` reaches `Design-ready` and is confirmed as design input.
+- After `requirements.md` reaches `Design-ready` and is confirmed as design input, announce only with the persisted `workflow-state.md` transition/gate update.
 
 ### Core Modernization Policy (Mandatory)
 
@@ -261,7 +255,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - mapped sections in runtime call stack doc.
 - Version the design during review loops (`v1`, `v2`, ...) and record what changed between rounds.
 - Use the template in `assets/proposed-design-template.md` as a starting point.
-- Speak completion after `proposed-design.md` is physically written/updated.
+- Do not speak solely because `proposed-design.md` changed; announce only when the related `workflow-state.md` transition/gate update is persisted.
 
 ### 3) Build Future-State Runtime Call Stacks Per Use Case
 
@@ -289,7 +283,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Note key data transformations (input schema -> domain model -> output payload).
 - Version call stacks to match design revisions from review loops (`v1`, `v2`, ...).
 - Use the template in `assets/future-state-runtime-call-stack-template.md`.
-- Speak completion after `future-state-runtime-call-stack.md` is physically written/updated.
+- Do not speak solely because `future-state-runtime-call-stack.md` changed; announce only when the related `workflow-state.md` transition/gate update is persisted.
 
 ### 4) Review Future-State Runtime Call Stacks (Future-State + Architecture + Naming + Cleanliness Gate)
 
@@ -410,7 +404,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - implementation plan scope is delivered (or deviations are explicitly documented),
   - required unit/integration tests pass.
 - Use `assets/implementation-plan-template.md` and `assets/implementation-progress-template.md`.
-- Speak when `implementation-plan.md` is written/updated, when `implementation-progress.md` is created/updated, and when implementation execution completes.
+- Do not speak for routine `implementation-plan.md`/`implementation-progress.md` edits. Announce only for persisted `workflow-state.md` events (Stage 5 entry, lock/unlock change, gate/transition outcomes).
 
 ### 5.5) Run Internal Code Review Gate (Mandatory, Pre-Aggregated Validation)
 
@@ -435,7 +429,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Fail`: apply re-entry declaration + no-direct-patch rule and follow re-entry mapping before any source code edits.
 - If `Stage 6` later requires code changes, rerun `Stage 5.5` before resuming `Stage 6`.
 - Use `assets/internal-code-review-template.md`.
-- Speak when `internal-code-review.md` is created/updated and when internal code review gate result is finalized.
+- Do not speak for `internal-code-review.md` edits alone. Announce when `workflow-state.md` records Stage 5.5 entry, gate result, and any re-entry declaration.
 
 ### 6) Run Aggregated API/E2E Validation (Mandatory)
 
@@ -497,7 +491,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - if any acceptance criterion is infeasible due to environment constraints, Stage 6 remains `Blocked` until explicit user waiver is recorded with constraints + compensating evidence + residual risk.
 - Before transitioning to Stage 7, update `workflow-state.md` with Stage 6 gate result and transition evidence.
 - Use `assets/aggregated-validation-template.md`.
-- Speak when `aggregated-validation.md` is created/updated and when aggregated validation stage completes.
+- Do not speak for `aggregated-validation.md` edits alone. Announce when `workflow-state.md` records Stage 6 entry, gate result, and any re-entry declaration/lock-state change.
 
 ### 7) Synchronize Project Documentation (Mandatory Post-Validation)
 
@@ -513,7 +507,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - updated operational or testing procedures when behavior changed.
 - If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation-progress.md`.
 - Docs synchronization is complete only when docs content aligns with the final implemented behavior.
-- Speak completion after docs synchronization result is recorded (`Updated`/`No impact`).
+- After docs synchronization result is recorded (`Updated`/`No impact`), announce only with the persisted `workflow-state.md` transition/gate update.
 
 ### 8) Final Handoff
 
@@ -526,7 +520,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff,
   - move ticket to `tickets/done/<ticket-name>/` only after explicit user confirmation that the ticket is finished/verified or explicit user move instruction.
   - if the user reopens a completed ticket, move it back to `tickets/in-progress/<ticket-name>/` before any additional artifact updates.
-- Speak final handoff completion after all required artifacts and docs sync outputs are written.
+- Speak final handoff completion only after all required artifacts/docs outputs are written and the final `workflow-state.md` transition/gate state is persisted.
 
 ## Output Defaults
 

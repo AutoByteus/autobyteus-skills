@@ -44,7 +44,7 @@ This document tracks implementation and testing progress in real time, including
 
 | Date | Previous Scope | New Scope | Trigger | Required Action |
 | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | Small | Medium | Example: architectural complexity exceeded small-scope assumptions | Follow classified re-entry path (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`), rerun review to `Go Confirmed`, then resume implementation. |
+| YYYY-MM-DD | Small | Medium | Example: architectural complexity exceeded small-scope assumptions | Follow classified re-entry path (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`), rerun review to `Go Confirmed`, then resume implementation. |
 
 ## File-Level Progress Table (Stage 6)
 
@@ -58,7 +58,7 @@ This document tracks implementation and testing progress in real time, including
 
 | Date | Scenario ID | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`) | Status | Failure Summary | Investigation Required (`Yes`/`No`) | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Action Path Taken | `investigation-notes.md` Updated | Requirements Updated | Design Updated | Call Stack Regenerated | Resume Condition Met |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | AV-001 | Requirement | AC-001 | R-001 | UC-001 | API | Failed | Missing flow branch for fallback path | Yes | Design Impact | Re-entered Stage 1 -> 3 chain before retry | Yes | No | Yes | Yes | Yes |
+| YYYY-MM-DD | AV-001 | Requirement | AC-001 | R-001 | UC-001 | API | Failed | Missing flow branch for fallback path | Yes | Design Impact | Re-entered `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7` before retry | Yes | No | Yes | Yes | Yes |
 
 Rules:
 - Stage 6 failure classification (before Stage 7):
@@ -97,9 +97,9 @@ Rules:
 
 ## Code Review Log (Stage 8)
 
-| Date | Review Round | File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `501-700` SoC Check | `>700` Hard Check | `>220` Changed-Line Delta Gate | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Pass | Fail | Fail | Design Impact | Yes | Yes | Fail | Returned to Stage 1 -> 3 chain before further edits. |
+| Date | Review Round | File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Fail | Fail | Design Impact | Yes | Yes | Fail | Exceeded `>500` hard limit; returned to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8` before further edits. |
 
 Rules:
 - Include source and test files in review scope.
@@ -107,9 +107,10 @@ Rules:
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
   - changed-line delta: `git diff --numstat <base-ref>...HEAD -- <file-path>`
 - Enforcement baseline uses effective non-empty line count.
-- If effective non-empty line count is `501-700`, explicit SoC split assessment is mandatory.
-- If effective non-empty line count is `>700` and functionality is expanded, default classification is `Design Impact` and `Decision = Fail` unless explicit exception rationale exists.
-- If a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even when effective file size is `<=700`.
+- If any changed source file has effective non-empty line count `>500`, default classification is `Design Impact` and `Decision = Fail`.
+- For `>500` hard-limit cases, do not proceed to Stage 9; apply re-entry mapping first and then rerun `Stage 6 -> Stage 7 -> Stage 8`.
+- No soft middle band (`501-700`) and no default exception path in this workflow.
+- If a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even when effective file size is `<=500`.
 - For `Fail`, do not proceed to `Stage 9`; apply re-entry mapping first and rerun `Stage 6 -> Stage 7 -> Stage 8`.
 - Any decoupling failure (tight coupling or unjustified cycle) is blocking and requires classified re-entry before further source edits.
 - Any backward-compatibility mechanism or legacy-retention finding is blocking and requires classified re-entry before further source edits.
@@ -154,6 +155,6 @@ Rules:
   - required escalation actions (`Local Fix`/`Design Impact`/`Requirement Gap`) are resolved and logged.
 - Mark Stage 8 code review complete only when:
   - `code-review.md` exists and gate decision is recorded,
-  - file-size/SoC checks are recorded for all changed source files,
+  - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
 - Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).

@@ -158,7 +158,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 5 | Runtime Review Gate | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + decoupling preserved | Unlocked |
 | 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance criteria closure complete | Unlocked |
-| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with decoupling/no-backward-compat/no-legacy checks | Locked |
+| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit + required `>220` delta-gate assessments + shared-principles/layering + decoupling/no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs/` updates complete or no-impact rationale recorded | Locked |
 | 10 | Final Handoff | Delivery summary + ticket state decision recorded | Locked |
 
@@ -174,7 +174,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 5 Review Gate | Runtime review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, and decoupling boundaries stay intact (no new unjustified cycles/tight coupling) | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
-| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including decoupling + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
+| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit + required `>220` delta-gate assessments + shared-principles/layering + decoupling + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | Docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
 | 10 Final Handoff | Handoff summary complete; ticket move to `done` only on explicit user confirmation | Stay in `10`/`in-progress` until explicit user completion instruction | End |
 
@@ -273,6 +273,17 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Prefer clean replacement and explicit deletion of obsolete code, files, tests, flags, and adapters in the same ticket.
 - Do not add compatibility exceptions in this workflow.
 
+### Shared Architecture Principles (Design + Review, Mandatory)
+
+- Design and review must use the same principles and vocabulary. Review is a check of design quality, not a different rule system.
+- Separation of concerns (SoC) is the cause: responsibilities are split so each module/file/component owns one clear concern.
+- Layering is usually an emergent result of strong SoC plus clear dependency direction; layering is not a fixed tier taxonomy by default.
+- Decoupling is the dependency-quality rule: boundaries are replaceable, dependencies stay one-way, and unjustified cycles are rejected.
+- Layering/extraction trigger rule (mandatory): if coordination policy is repeated across callers (provider selection, fallback, retry, aggregation, routing, fan-out), extract that policy into an orchestration/registry/manager boundary.
+- Responsibility-overload trigger rule (mandatory): if one file/module starts owning multiple concerns, split concerns and lift coordination into a higher-order boundary.
+- Anti-overlayering rule (mandatory): do not add a layer that only pass-throughs and owns no coordination policy or boundary concern.
+- `Keep` is valid when current layers/boundaries are already coherent for in-scope behavior and expected evolution.
+
 ### 3) Draft The Proposed Design Document
 
 - Required for `Medium/Large`. Optional for `Small`.
@@ -280,9 +291,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
 - Architecture-first rule: define the target architecture shape before mapping work onto existing files.
 - Do not anchor design to current file layout when the layout is structurally wrong for the target behavior.
-- Layering fitness check (mandatory): assess whether current layering and cross-layer interactions are coherent for the target behavior.
+- Layering fitness check (mandatory): assess whether current layering and cross-layer interactions are coherent for the target behavior; treat layering as emergent architecture structure, not fixed tier labels.
 - Explicitly evaluate whether new layers, modules, boundary interfaces, or orchestration shells should be introduced.
 - Explicitly evaluate whether existing layers/modules should be split, merged, moved, or removed.
+- Apply layering/extraction trigger checks explicitly: when provider choice/fallback/retry/aggregation/routing logic repeats across callers, extract orchestration/registry/manager responsibilities into a higher-order boundary.
+- Reject overlayering: if a proposed layer is only a pass-through with no owned policy/boundary, keep structure flatter.
 - Record the architecture direction decision and rationale (`complexity`, `testability`, `operability`, `evolution cost`).
 - For straightforward local changes, one concise decision is enough; alternatives are optional.
 - For non-trivial or uncertain architecture changes, include a small alternatives comparison before deciding.
@@ -363,11 +376,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation-plan.md` for `Small`), not parity with current code structure.
 - Review must challenge architecture choice itself (layering/boundaries/allocation), not only file-level separation of concerns.
 - Review must explicitly evaluate decoupling quality, not only local correctness.
+- Review must reuse the same shared architecture principles from Stage 3 (SoC cause, layering emergent result, decoupling dependency quality); do not apply a different principle set in review.
 - Run review in explicit rounds and record each round in the same review artifact.
 - In every round, run a dedicated missing-use-case discovery sweep before verdicting the round.
 - Review each use case against these criteria:
   - architecture fit check (`Pass`/`Fail`): chosen architecture shape is appropriate for this use case and expected growth,
-  - layering fitness check (`Pass`/`Fail`): layering and interactions are logical and maintainable (no required layer-count change when current layering is already coherent),
+  - shared-principles alignment check (`Pass`/`Fail`): SoC is treated as cause, layering as emergent result, and decoupling directionality is preserved consistently with Stage 3 design basis,
+  - layering fitness check (`Pass`/`Fail`): layering and interactions are logical and maintainable, with layering treated as emergent from SoC/coordination needs (no fixed-tier requirement, no required layer-count change when current layering is already coherent),
   - boundary placement check (`Pass`/`Fail`): responsibilities are assigned to the right layer/module boundary,
   - decoupling check (`Pass`/`Fail`): dependency directions stay one-way, avoid tight cross-module coupling, and avoid cyclic cross-references,
   - existing-structure bias check (`Pass`/`Fail`): design is not forced to mirror current files when that harms target architecture,
@@ -406,6 +421,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - Step F: record clean-review streak state in the review artifact (`Reset`, `Candidate Go`, or `Go Confirmed`).
 - Gate `Go` criteria (all required):
   - architecture fit check is `Pass` for all in-scope use cases,
+  - shared-principles alignment check is `Pass` for all in-scope use cases,
   - layering fitness check is `Pass` for all in-scope use cases,
   - boundary placement check is `Pass` for all in-scope use cases,
   - decoupling check is `Pass` for all in-scope use cases,
@@ -429,7 +445,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no new use cases are discovered in either of the two clean rounds,
   - legacy-retention cleanup check is `Pass` for all in-scope use cases,
   - backward-compatibility mechanism check is `Pass` for all in-scope use cases,
-  - two consecutive deep-review rounds have no blockers and no required persisted artifact updates.
+  - two consecutive deep-review rounds have no blockers, no required persisted artifact updates, and no newly discovered use cases.
 - If issues are found:
   - classify each blocking round as exactly one of `Design Impact`/`Requirement Gap`/`Unclear` and record it in `future-state-runtime-call-stack-review.md` and `workflow-state.md`.
   - `Design Impact` (clear and high-confidence design issue): update design basis in Stage 3 (`Medium/Large`: `proposed-design.md`; `Small`: design section in `implementation-plan.md`), regenerate call stacks in Stage 4, then return to Stage 5.
@@ -560,6 +576,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - include changed files and directly impacted related files when structural risk exists.
 - Mandatory review checks:
   - separation-of-concerns and responsibility boundaries,
+  - layering quality under shared principles (layering emerges from SoC and coordination needs; reject both missing orchestration extraction and unjustified pass-through layers),
   - explicit decoupling quality (low coupling, clear dependency direction, no unjustified cycles),
   - architecture/layer boundary consistency with design basis,
   - naming-to-responsibility alignment and drift,
@@ -572,13 +589,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - per-file changed-line delta command: `git diff --numstat <base-ref>...HEAD -- <file-path>`
   - enforcement baseline uses effective non-empty line count.
   - for changed source files with effective non-empty line count `<= 500`, run normal review checks.
-  - for changed source files with effective non-empty line count `501-700`, SoC split assessment is mandatory and must include itemized split candidates.
-  - for changed source files with effective non-empty line count `> 700` that add or expand functionality, default classification is `Design Impact`.
-  - for `> 700` default-design-impact cases, do not continue by default; trigger re-entry with investigation checkpoint first (`Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`).
-  - exception path for `> 700` is allowed only with explicit rationale in `code-review.md` (`why split now is not viable`, `risk containment`, `near-term split plan`).
-  - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 700`.
+  - hard limit rule: if any changed source file has effective non-empty line count `> 500`, default classification is `Design Impact` and Stage 8 decision is `Fail`.
+  - for `> 500` hard-limit cases, do not continue by default; trigger re-entry with investigation checkpoint first (`Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`).
+  - no soft middle band (`501-700`) and no default exception path in this workflow.
+  - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-  - `Pass`: continue to `Stage 9` only when all mandatory review checks (including decoupling and no-backward-compat/no-legacy checks) are `Pass`.
+  - `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + shared-principles/layering + decoupling + no-backward-compat/no-legacy checks) are `Pass`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - If code review requires source changes, rerun `Stage 6 -> Stage 7 -> Stage 8`.
 - Use `assets/code-review-template.md`.

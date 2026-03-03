@@ -15,11 +15,15 @@ interface:
     use cases);
     Stage 6 implements source + unit/integration (bottom-up per file); Stage 7
     implements API/E2E tests and executes the acceptance-criteria closure gate;
-    Stage 8 runs code review only after Stage 7 passes; Stage 9 syncs docs; Stage
-    10 performs final handoff. Across design/review/implementation, enforce
-    decoupling explicitly (clear one-way dependency direction; no unjustified
-    cycles/tight coupling) and enforce modernization explicitly (no backward
-    compatibility mechanisms, no legacy old-behavior retention). Stage movement is
+    Stage 8 runs code review only after Stage 7 passes and enforces hard file-size
+    policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
+    effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
+    middle band; and `>220` changed-line delta requires recorded design-impact
+    assessment); Stage 9 syncs docs; Stage 10 performs final handoff. Across
+    design/review/implementation, enforce shared architecture principles (`SoC`
+    as cause, layering as emergent result, decoupling as one-way replaceable
+    boundaries), and enforce modernization explicitly (no backward compatibility
+    mechanisms, no legacy old-behavior retention). Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
     immediately to the mapped path. No source-code edits are allowed unless

@@ -19,26 +19,29 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 
 ## Source File Size And SoC Audit (Mandatory)
 
-| File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `501-700` SoC Assessment | `>700` Hard Check | `>220` Changed-Line Delta Gate | Preliminary Classification (`N/A`/`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | Pass/Fail/N/A | Pass/Fail/N/A | Pass/Fail/N/A |  |  |
+| File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Preliminary Classification (`N/A`/`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
+| --- | --- | --- | --- | --- | --- | --- |
+|  |  |  | Pass/Fail/N/A | Pass/Fail/N/A |  |  |
 
 Rules:
 - Use explicit measurement commands per changed source file:
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
   - changed-line delta: `git diff --numstat <base-ref>...HEAD -- <file-path>`
 - Enforcement baseline uses effective non-empty line count.
-- For effective non-empty line count `<=500`, normal review applies (`501-700` and `>700` checks can be `N/A`).
-- For effective non-empty line count `501-700`, SoC split assessment is mandatory and must include itemized split candidates.
-- For effective non-empty line count `>700` with functionality expansion, default classification is `Design Impact`.
-- `>700` exception is allowed only with explicit rationale and near-term split plan.
-- Delta gate: if a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even if file size is `<=700`.
+- For effective non-empty line count `<=500`, normal review applies.
+- Hard limit rule: if any changed source file has effective non-empty line count `>500`, default classification is `Design Impact` and Stage 8 decision is `Fail`.
+- For `>500` hard-limit cases, do not continue by default; apply re-entry mapping first.
+- No soft middle band (`501-700`) and no default exception path in this workflow.
+- Delta gate: if a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even if file size is `<=500`.
 - During Stage 8, `workflow-state.md` should show `Current Stage = 8` and `Code Edit Permission = Locked`.
 
 ## Decoupling And Legacy Rejection Checks (Mandatory)
 
 | Check | Result (`Pass`/`Fail`) | Evidence | Required Action |
 | --- | --- | --- | --- |
+| Shared-principles alignment check (`SoC` cause, emergent layering, decoupling directionality) |  |  |  |
+| Layering extraction check (repeated coordination policy extracted into orchestration/registry/manager boundary where needed) |  |  |  |
+| Anti-overlayering check (no unjustified pass-through-only layer) |  |  |  |
 | Decoupling check (low coupling, clear dependency direction, no unjustified cycles) |  |  |  |
 | No backward-compatibility mechanisms (no compatibility wrappers/dual-path behavior) |  |  |  |
 | No legacy code retention for old behavior |  |  |  |
@@ -70,6 +73,11 @@ Rules:
 - Decision: `Pass` / `Fail`
 - Implementation can proceed to `Stage 9`: `Yes` / `No`
 - Mandatory pass checks:
+  - All changed source files have effective non-empty line count `<=500`
+  - Required `>220` changed-line delta-gate assessments are recorded for all applicable changed source files
+  - Shared-principles alignment check = `Pass`
+  - Layering extraction check = `Pass`
+  - Anti-overlayering check = `Pass`
   - Decoupling check = `Pass`
   - No backward-compatibility mechanisms = `Pass`
   - No legacy code retention = `Pass`

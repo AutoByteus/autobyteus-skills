@@ -45,14 +45,30 @@
 
 ## Target State (To-Be)
 
+## Shared Architecture Principles (Design + Review, Mandatory)
+
+- Principle alignment statement (design and review use the same rules):
+- SoC cause statement (how concerns are split and owned):
+- Layering result statement (how layering emerges from SoC + dependency direction for this scope):
+- Decoupling rule statement (one-way, replaceable boundaries; no unjustified cycles):
+
 ## Architecture Direction Decision (Mandatory)
 
 - Chosen direction:
 - Rationale (`complexity`, `testability`, `operability`, `evolution cost`):
-- Layering fitness assessment (are current layering and interactions still coherent?): `Yes` / `No`
+- Layering fitness assessment (are current layering and interactions still coherent under emergent-layering rules?): `Yes` / `No`
 - Decoupling assessment (are boundaries low-coupled with clear one-way dependency directions?): `Yes` / `No`
 - Outcome (`Keep`/`Add`/`Split`/`Merge`/`Move`/`Remove`):
 - Note: `Keep` is valid when layering and boundary interactions are already coherent.
+
+## Layering Emergence And Extraction Checks (Mandatory)
+
+| Check | Result (`Yes`/`No`) | Evidence | Decision |
+| --- | --- | --- | --- |
+| Repeated coordination policy across callers (provider selection/fallback/retry/aggregation/routing/fan-out) exists |  |  | Extract orchestration boundary / Keep |
+| Responsibility overload exists in one file/module (multiple concerns mixed) |  |  | Split + lift coordination / Keep |
+| Proposed new layer owns concrete coordination policy (not pass-through only) |  |  | Keep layer / Remove layer |
+| Current layering can remain unchanged without SoC/decoupling degradation |  |  | Keep / Change |
 
 ### Optional Alternatives (Use For Non-Trivial Or Uncertain Changes)
 
@@ -90,6 +106,7 @@
 - UI/frontend scope: responsibility is clear at view/component/store boundaries.
 - Non-UI scope: responsibility is clear at file/module/service boundaries.
 - Integration/infrastructure scope: each adapter/module owns one integration concern with clear contracts.
+- Layering note: layering should emerge from SoC + coordination needs, not forced fixed-tier naming.
 - Decoupling check: dependencies follow allowed direction, avoid tight cross-module coupling, and avoid unjustified cycles.
 
 ## Naming Decisions (Natural And Implementation-Friendly)

@@ -27,7 +27,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 5 Review Gate | Not Started | Runtime review `Go Confirmed` (two clean rounds, no blockers/persisted updates/new use cases) |  |
 | 6 Implementation | Not Started | Plan/progress current + source + unit/integration verification complete + no backward-compat/legacy retention + decoupling preserved |  |
 | 7 API/E2E Testing | Not Started | API/E2E test implementation complete + AC scenario gate complete |  |
-| 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + decoupling/no-backward-compat/no-legacy checks satisfied for `Pass` |  |
+| 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + shared-principles/layering + decoupling/no-backward-compat/no-legacy checks satisfied for `Pass` |  |
 | 9 Docs Sync | Not Started | Docs updated or no-impact rationale recorded |  |
 | 10 Handoff / Ticket State | Not Started | Final handoff complete + ticket state decision recorded |  |
 
@@ -43,7 +43,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 5 | Runtime review `Go Confirmed` (two clean rounds with no blockers/no required persisted artifact updates/no newly discovered use cases) | classified re-entry then rerun (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) |
 | 6 | Source + required unit/integration verification complete, no backward-compatibility/legacy-retention paths remain in scope, and decoupling boundaries remain valid (no new unjustified cycles/tight coupling) | local issues: stay in `6`; otherwise classified re-entry (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) |
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
-| 8 | Code review gate decision is `Pass` with decoupling/no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
+| 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and shared-principles/layering + decoupling/no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
 | 9 | Docs updated or no-impact rationale recorded | stay in `9` |
 | 10 | Final handoff complete; ticket move requires explicit user confirmation | stay in `10`/`in-progress` |
 

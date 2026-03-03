@@ -1,5 +1,11 @@
 # Computer Use Techniques Reference
 
+## Usage Contract
+- This file is secondary guidance.
+- Do not use these techniques before loading topic `lessons.md`.
+- If lessons and this reference conflict, follow `lessons.md`.
+- Use this file mainly for filling implementation gaps during bounded self-learning.
+
 ## Browser-First Rule
 For browser tasks:
 1. Use browser MCP tools first (`open_tab`, `navigate_to`, `read_page`, `dom_snapshot`, `run_script`, `screenshot`).

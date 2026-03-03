@@ -1,36 +1,37 @@
 # X Posting Lessons
 
 ## Scope
-- Applies to Expost/X posting from `https://x.com/compose/post`.
+- Applies to X/Twitter/Expost posting via `https://x.com/compose/post`.
+
+## Operating Mode
+- Run in lesson-lock mode: execute the primary workflow first and do not improvise before documented fallbacks.
 
 ## Core Rules
-- Use DOM-first and verify login state before compose actions.
-- If login/2FA/CAPTCHA appears, pause for human intervention and resume only after verification.
-- Treat text entry as human-in-the-loop when X rejects scripted input behavior.
-- Never publish when text is expected but composer text is empty.
+- Verify login state first; if login/2FA/CAPTCHA appears, pause for human intervention.
+- Never publish until the user explicitly approves the exact final draft for this run.
+- Preserve user voice and structure; do not reframe into marketing copy unless requested.
+- Never publish when expected text is empty in the active editor.
+- Do not auto-shorten by default; only compress when the user requests it or platform capability requires it.
 
-## Pre-Publish Checklist
-- Confirm active composer elements are the primary pair: editor + `tweetButton`.
-- Confirm final post text is present in the active editor and matches intended copy.
-- Confirm image attachment state matches intent.
-- For text-only posts, no media preview is required.
-- For image posts, at least one attached media preview must be visible.
-- Confirm `Post` button is enabled.
+## Mandatory Primary Workflow
+1. Build `https://x.com/compose/post?text=...` using URL-encoded approved draft.
+2. Navigate to the compose URL and wait for the composer to settle.
+3. Verify the active editor is non-empty and contains the intended opening line.
+4. Verify publish control is enabled on the same compose surface:
+   - prefer enabled `tweetButtonInline` when present,
+   - otherwise use enabled `tweetButton`.
+5. Verify media state matches intent:
+   - text-only: no media required,
+   - media post: at least one media preview visible.
+6. Click publish once.
+7. Open profile immediately and capture the newest status URL.
+8. Open the status URL and verify rendered opening line and media count.
+9. Capture one evidence screenshot.
 
-## Publish Verification Checklist
-- Open profile immediately after click.
-- Confirm newest status URL.
-- Confirm rendered text content is correct.
-- Confirm media count is correct.
-- Capture one evidence screenshot.
+## Allowed Fallbacks (Only If Primary Step Fails)
+- If compose URL prefill fails due platform behavior, use active-editor insertion with real input semantics (`execCommand('insertText', ...)` or equivalent `input`/`change` event flow), then re-run all pre-publish gates.
+- If no publish control is enabled, re-check active composer surface and focus state before any new insertion attempt.
+- If UI is blocked by auth/security gates, switch to human-in-the-loop; do not bypass.
 
-## Recovery Playbook
-- If malformed or image-only post is published by mistake, open the status URL first.
-- Delete the bad post.
-- Re-compose from a clean composer.
-- Require explicit text confirmation before repost.
-
-## Practical Notes From Run
-- X can render multiple compose surfaces (`tweetTextarea_0`, `tweetButton`, `tweetButtonInline`) at once.
-- Script-visible text can still fail to serialize into final published tweet payload.
-- Safest flow: automate navigation/media/verification, require human-confirmed text before final publish.
+## Recovery
+- If a malformed or image-only post is published, open status URL first, delete the bad post, then repost from a clean composer using the primary workflow.

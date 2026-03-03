@@ -56,3 +56,35 @@
 - Root cause: UI delay before comment submit control becomes queryable after input.
 - Fix that worked: Use two-phase action: insert draft, then re-query and click `comments-comment-box__submit-button--cr`.
 - Reusable rule: For LinkedIn comments, avoid one-shot insert+submit scripts; separate into staged actions with a post-input re-query.
+
+- Date: 2026-02-25
+- Task: Publish long-form text post with external references and workflow link
+- Context: User-approved draft required exact wording plus source links and GitHub workflow reference.
+- Failure signal: First insertion path showed long text, then editor collapsed to partial content with many blank lines.
+- Root cause: LinkedIn Quill composer intermittently dropped content with the initial insertion method.
+- Fix that worked: Use `https://www.linkedin.com/preload/sharebox/`, insert via `editor.textContent` + `InputEvent`, verify full expected length, verify `Post` enabled, publish, then verify live post text on share URL.
+- Reusable rule: For long LinkedIn posts, never trust first insertion result; require length check + start/end text check before clicking `Post`.
+
+- Date: 2026-02-26
+- Task: Publish Codex voice-update post after feed-surface automation failure
+- Context: Feed page interactions did not reliably open the composer using synthetic clicks.
+- Failure signal: On `https://www.linkedin.com/feed/`, `Start a post` clicks were ignored and no editor/post controls became available.
+- Root cause: Feed-surface event path was unreliable for scripted interaction in this run.
+- Fix that worked: Switched to `https://www.linkedin.com/preload/sharebox/`, inserted into `.ql-editor[role="textbox"]` using Quill-compatible text insertion, verified `Post` enabled, published, then used `View post` toast link and verified live post text.
+- Reusable rule: If feed composer fails to open, immediately pivot to `/preload/sharebox/` and complete publish via Quill checks.
+
+- Date: 2026-02-26
+- Task: Prepare LinkedIn draft for workflow-state-machine infographic share (no publish)
+- Context: User requested efficient cross-platform post preparation and planned to attach image manually.
+- Failure signal: None.
+- Root cause: N/A.
+- Fix that worked: Opened `https://www.linkedin.com/preload/sharebox/`, inserted long-form draft into `.ql-editor[role=\"textbox\"]` with `InputEvent`, verified expected text length and `Post` enabled, then captured screenshot evidence.
+- Reusable rule: For draft-only LinkedIn runs, stop before publish and hand off with verified composer text + screenshot evidence.
+
+- Date: 2026-02-26
+- Task: Publish approved workflow-update post on LinkedIn
+- Context: User approved final draft text and requested immediate publish.
+- Failure signal: Screenshot capture retried due intermittent timeout on LinkedIn rendered page.
+- Root cause: LinkedIn page screenshot call intermittently timed out while waiting for font/render stability.
+- Fix that worked: Publish from `/preload/sharebox/` via `button.share-actions__primary-action`, verify success via toast + share URL (`/feed/update/...`), then rely on existing captured evidence screenshot.
+- Reusable rule: For LinkedIn publish, treat toast + canonical post URL as primary success criteria; screenshot is supporting evidence and may require retry.

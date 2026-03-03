@@ -2,6 +2,9 @@
 
 Use this file as the fallback log when a task-specific topic log does not exist yet.
 
+Promotion rule:
+- If a reusable pattern proves reliable, move it from this general log into a topic `lessons.md` as soon as possible.
+
 ## Entry Format
 - Date:
 - Task:

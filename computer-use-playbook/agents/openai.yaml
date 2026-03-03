@@ -1,4 +1,4 @@
 interface:
   display_name: "Computer Use Playbook"
   short_description: "DOM-first automation across browser and desktop"
-  default_prompt: "Use $computer-use-playbook for browser-first automation with explicit tab_id per browser call, then escalate to vision/native only when needed, with speak-based user handoff for login/CAPTCHA gates."
+  default_prompt: "Use $computer-use-playbook with strict precedence: existing lessons first, documented lesson fallbacks second, bounded self-learning only when lessons are insufficient and no human gate exists, then promote successful new rules into lessons. Resolve canonical topic slug, enforce pre-publish gates plus live URL verification, keep explicit tab_id per browser call, and escalate to vision/native only when DOM-first paths fail."

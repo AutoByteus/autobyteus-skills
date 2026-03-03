@@ -3,8 +3,28 @@
 Use one subfolder per app/site/workflow.
 
 ## Structure
-- `general/`: cross-task lessons and fallback logs.
+- `general/`: cross-task fallback logs.
 - `<topic-slug>/`: topic-specific lessons and experience log.
+
+## Load Priority
+1. Load `<topic-slug>/lessons.md` first (source of truth).
+2. Load `<topic-slug>/experience-log.md` second (supporting evidence).
+3. Load `general/experience-log.md` only if topic guidance is missing or incomplete.
+
+## Execution Precedence
+1. Execute existing `lessons.md` first.
+2. If a lesson step fails, use documented lesson fallbacks.
+3. If lessons/fallbacks are insufficient and there is no human gate, run bounded self-learning attempts.
+4. Promote successful new patterns back into `lessons.md`.
+5. Log run details in `experience-log.md`.
+
+## Topic Resolution (Use Canonical Slugs)
+- X / Twitter / Expost -> `x-posting`
+- LinkedIn / linkedin.com -> `linkedin-posting`
+- Google Flow / labs.google/fx/tools/flow -> `google-flow`
+- Xiaohongshu -> `xiaohongshu-posting`
+
+Do not create near-duplicate topic folders when a canonical topic already exists.
 
 ## Topic Folder Convention
 Each topic folder should contain:

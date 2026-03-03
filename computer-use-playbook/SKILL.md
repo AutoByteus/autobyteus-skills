@@ -8,6 +8,24 @@ description: Use when tasks involve cross-application computer use (browser, fil
 ## Overview
 Use this skill for end-to-end computer automation across browser and desktop surfaces. Browser use is a major track, but not the only one. Prefer deterministic methods first, then escalate to visual/native automation only when required. For browser MCP workflows, treat `tab_id` as a required handle for all stateful actions.
 
+## Execution Mode (Default: Lesson-Lock)
+When a matching topic already exists under `references/learnings/<topic-slug>/lessons.md`, run in lesson-lock mode.
+
+- Execute the lesson checklist as written before trying any novel approach.
+- Do not create a new topic slug when an existing topic clearly matches.
+- Do not publish until all pre-publish lesson gates pass.
+- If a lesson step fails, try only fallbacks documented in the same `lessons.md` first.
+- Use `experience-log.md` only to fill missing detail, not to override lesson rules.
+- If documented lesson paths fail and the task is not human-gated, run bounded self-learning attempts, then codify the winning pattern.
+
+## Precedence Ladder (No Ambiguity)
+Always follow this order:
+1. Reuse existing `lessons.md` for the resolved topic slug.
+2. If a lesson step fails, use only fallbacks already documented in that same `lessons.md`.
+3. If no documented fallback works and no human gate is present, perform bounded self-learning to discover a reliable path.
+4. Once a reliable path is found, update `lessons.md` and `experience-log.md` so the next run is mechanical.
+5. Request human intervention only for login/2FA/CAPTCHA/security/policy gates or true hard blocks.
+
 ## Playbook Structure
 1. Browser use (primary for web tasks): browser MCP tools, DOM snapshots, scripts, screenshots.
 2. Filesystem use: shell-native operations for deterministic file/process work.
@@ -123,8 +141,14 @@ If blocked, report:
 Use `references/learnings/` as the canonical knowledge base.
 
 - `references/learnings/index.md`: topic registry and folder convention.
-- `references/learnings/general/`: cross-task lessons.
+- `references/learnings/general/`: cross-task fallback logs.
 - `references/learnings/<topic-slug>/`: topic-specific lessons and experience log.
+
+Known canonical topic slugs:
+- `x-posting` (X / Twitter / Expost publishing)
+- `linkedin-posting` (LinkedIn posting/comments)
+- `google-flow`
+- `xiaohongshu-posting`
 
 Topic folder convention:
 - `lessons.md` for stable workflow rules.
@@ -133,28 +157,55 @@ Topic folder convention:
 ## Continuous Learning Loop (Required)
 Treat each real run as training data for future runs.
 
+Priority contract:
+- `lessons.md` is the source of truth for execution.
+- `experience-log.md` is supporting evidence used to refine or extend lessons.
+- If lesson and experience conflict, follow `lessons.md` and then update logs/lessons after the run.
+
 Before starting similar work:
 1. Load `references/learnings/index.md`.
-2. Map the task to a topic slug (for example `google-flow`).
-3. Load `references/learnings/general/experience-log.md`.
-4. Load topic files when present:
+2. Resolve the task to a canonical topic slug:
+   - X/Twitter/Expost -> `x-posting`
+   - LinkedIn/linkedin.com -> `linkedin-posting`
+   - Google Flow/labs.google/fx/tools/flow -> `google-flow`
+   - Xiaohongshu -> `xiaohongshu-posting`
+3. If the canonical topic exists, use it directly and do not create a variant slug.
+4. Load topic `lessons.md` first when present:
    - `references/learnings/<topic-slug>/lessons.md`
+5. Load topic `experience-log.md` second when present:
    - `references/learnings/<topic-slug>/experience-log.md`
-5. If the topic folder does not exist, create it with `lessons.md` and `experience-log.md`.
+6. Load `references/learnings/general/experience-log.md` only as fallback context when topic files are missing or incomplete.
+7. If no topic folder exists, create it with `lessons.md` and `experience-log.md`, then run bounded self-learning to establish initial reliable lessons.
+
+Before execution:
+1. Extract an ordered run checklist from topic `lessons.md` with step IDs.
+2. Execute step-by-step and mark each step pass/fail using state evidence.
+3. For publish flows, allow one publish action only after all pre-publish gates are passed.
+4. Use experience logs only to fill gaps not covered by lessons.
 
 During execution:
-1. Capture failure signal and the exact step where it appears.
-2. Record the minimal fix that resolved it.
+1. Capture failure signal and the exact checklist step where it appears.
+2. If blocked, apply only documented lesson fallback paths before any new approach.
 3. Keep one-action-at-a-time execution where UI state is fragile.
+4. If no documented fallback works and the issue is not human-gated, run bounded self-learning:
+   - try at most 2-3 alternative deterministic paths,
+   - verify each attempt with explicit state evidence,
+   - stop once one reliable path is found.
+5. If blocked by login/2FA/CAPTCHA/security/policy gates, pause and request human intervention with evidence.
 
 After completion (or meaningful failure):
 1. Append a short run note to `references/learnings/<topic-slug>/experience-log.md`.
 2. Include: date, context, failure signal, root cause, fix pattern, reusable rule.
-3. Keep entries concise and deduplicated by updating prior rules instead of adding noisy repeats.
+3. If a new reliable rule or fallback was discovered, promote it into topic `lessons.md` immediately.
+4. Keep entries concise and deduplicated by updating prior rules instead of adding noisy repeats.
 
 ## References
 Load `references/computer-use-techniques.md` for command snippets and fallback templates.
 Load `references/learnings/index.md` to select the right topic folder.
-Load `references/learnings/general/experience-log.md` for cross-task patterns.
+Load topic `references/learnings/<topic-slug>/lessons.md` first.
+Load topic `references/learnings/<topic-slug>/experience-log.md` second.
+Load `references/learnings/general/experience-log.md` only as fallback for cross-task patterns.
+Load `references/learnings/x-posting/lessons.md` for all X/Twitter/Expost publishing.
+Load `references/learnings/linkedin-posting/lessons.md` for all LinkedIn publishing.
 Load `references/learnings/google-flow/lessons.md` when automating Google Flow video creation.
-Load `references/learnings/google-flow/experience-log.md` for incremental Google Flow learnings.
+Load `references/learnings/google-flow/experience-log.md` after lessons for incremental learnings.

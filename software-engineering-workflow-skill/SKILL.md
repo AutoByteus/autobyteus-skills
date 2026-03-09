@@ -22,6 +22,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - active work path: `tickets/in-progress/<ticket-name>/`
   - completed archive path: `tickets/done/<ticket-name>/`
 - Move rule (mandatory): move a ticket from `in-progress` to `done` only when the user explicitly confirms completion (for example: "done", "finished", or "verified") or explicitly asks to move it.
+- Final archive ordering rule (mandatory): when explicit user completion/verification also triggers repository finalization, move the ticket folder to `tickets/done/<ticket-name>/` before the final commit so the committed state includes the archived ticket path.
 - Reopen rule (mandatory): if the user asks to continue/reopen a completed ticket, move it from `tickets/done/<ticket-name>/` back to `tickets/in-progress/<ticket-name>/` before making new updates.
 - Never auto-move a ticket to `done` based only on internal assessment.
 - If the user specifies a different location, follow the user-specified path.
@@ -105,9 +106,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not start API/E2E test implementation and execution until implementation execution is complete with required unit/integration verification and Stage 6 modernization/decoupling checks are satisfied.
 - Do not start code review until API/E2E test gate is `Pass`.
 - Do not start post-testing `docs/` synchronization until code review is complete (for infeasible acceptance criteria in Stage 7, explicit user waiver + constraints + compensating evidence + residual risk must be recorded).
-- Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale).
+- Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
+- User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, release, or move the ticket to `done` before that user signal.
+- Git finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the latest personal branch from remote, merge the ticket branch into that personal branch, push the updated personal branch, and use the release script to release a new version.
+- Personal-branch resolution rule (mandatory): determine the latest personal branch from repository context or explicit user instruction; if it cannot be derived with high confidence, pause Stage 10 and ask once before merge/release instead of guessing.
+- Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, personal-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
-- Treat technical completion and ticket archival as separate gates: technical completion ends at implementation + API/E2E test gate + code review + docs sync; archival to `tickets/done/` requires explicit user confirmation.
+- Treat engineering completion, user verification, and ticket archival as separate gates: engineering completion ends at implementation + API/E2E test gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/` and run required Stage 10 git finalization/release work when the project is a git repository.
 - `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after required upstream artifact updates from a blocking round.
@@ -160,7 +165,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance criteria closure complete | Unlocked |
 | 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit + required `>220` delta-gate assessments + shared-principles/layering + decoupling + module/file placement + no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs/` updates complete or no-impact rationale recorded | Locked |
-| 10 | Final Handoff | Delivery summary + ticket state decision recorded | Locked |
+| 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> git finalization/release (when git repo) + ticket state decision recorded | Locked |
 
 ### Stage Transition Contract (Enforcement)
 
@@ -176,7 +181,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
 | 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit + required `>220` delta-gate assessments + shared-principles/layering + decoupling + module/file placement + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | Docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
-| 10 Final Handoff | Handoff summary complete; ticket move to `done` only on explicit user confirmation | Stay in `10`/`in-progress` until explicit user completion instruction | End |
+| 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization is complete | End |
 
 ### Transition Matrix (Pass/Fail/Blocked)
 
@@ -199,6 +204,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | Stage 8 fail classified `Design Impact` | `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Re-open investigation, then return to design chain before re-review. |
 | Stage 8 fail classified `Requirement Gap` | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Return to requirements then rerun full downstream chain. |
 | Stage 8 failure (`Unclear`/cross-cutting root cause) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Re-open Stage 0 controls in the same ticket context, then rerun full chain before re-review. |
+| Stage 10 awaiting explicit user verification | stay in `Stage 10 (In Progress)` | Wait for explicit user completion/verification before moving the ticket to `done` and starting repository finalization. |
+| Stage 10 archival/repository finalization blocked | stay in `Stage 10 (Blocked)` | Record the move/commit/git/release blocker, resolve it, then finish handoff. |
 
 ### 0) Bootstrap Ticket + Capture Draft Requirement
 
@@ -552,7 +559,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - result (`Passed`/`Failed`/`Blocked`/`N/A`).
 - API test depth rule (mandatory): when scenario level is `API`, validate contract-level behavior including required fields/schema shape, status codes, and error payload behavior for mapped acceptance criteria.
 - Cross-boundary test rule (mandatory): for client/server or multi-service scope, include API/E2E scenarios that validate cross-boundary interaction behavior (request -> boundary handoff -> downstream effect -> returned state).
-- Manual testing policy: do not include manual testing in the default workflow.
+- Manual testing policy: do not include manual testing in the default workflow. If the user performs manual verification outside the workflow, treat the user's explicit completion/verification message as the Stage 10 trigger to move the ticket to `done` and start repository finalization.
 - Feasibility policy:
   - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md` and `implementation-progress.md`,
   - record compensating automated evidence and residual risk notes for each infeasible critical scenario,
@@ -639,9 +646,20 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - delivered scope vs planned scope,
   - verification summary (unit/integration plus API/E2E testing, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
   - docs files updated (or explicit no-impact rationale).
+- After the handoff summary is written, keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Before that user signal, do not move the ticket to `done`, commit, push, merge, or release.
+- After the explicit user completion/verification signal, move the ticket folder to `tickets/done/<ticket-name>/` first so the archived ticket path is included in the final committed state.
+- If the project is a git repository, repository finalization is mandatory after that move and must run in this order before Stage 10 is marked complete:
+  - commit all in-scope changes on the ticket branch/worktree, including the moved ticket files,
+  - push the ticket branch to remote,
+  - update the latest personal branch from remote before merging,
+  - merge the ticket branch into the updated personal branch,
+  - push the updated personal branch to remote,
+  - use the release script to release a new version.
+- Resolve the latest personal branch from repo context or explicit user instruction. If the branch cannot be identified confidently, stop and ask once before merge/release instead of guessing.
+- If moving the ticket to `done` or any repository-finalization step fails (commit/push/merge conflict/remote rejection/release-script failure), record the blocker in `workflow-state.md`, keep Stage 10 open, and resume only after the blocker is resolved.
 - Ticket state transition:
-  - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff,
-  - move ticket to `tickets/done/<ticket-name>/` only after explicit user confirmation that the ticket is finished/verified or explicit user move instruction.
+  - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff and while waiting for explicit user completion/verification,
+  - on explicit user confirmation that the ticket is finished/verified (or explicit user move instruction), first move the ticket to `tickets/done/<ticket-name>/`, then run repository finalization if applicable.
   - if the user reopens a completed ticket, move it back to `tickets/in-progress/<ticket-name>/` before any additional artifact updates.
 - Speak final handoff completion only after all required artifacts/docs outputs are written and the final `workflow-state.md` transition/gate state is persisted.
 
@@ -691,10 +709,15 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
   - create missing relevant docs in `docs/` when no existing doc covers the implemented functionality
   - record docs sync result in `tickets/in-progress/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
-- Stage 10 (ticket state transition):
+- Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
+  - persist the handoff summary and wait for explicit user completion/verification instruction
+  - on explicit user completion/verification instruction, first move the ticket folder to `tickets/done/<ticket-name>/`
+  - if git repo and the user explicitly confirms completion/verification, commit all in-scope changes on the ticket branch/worktree, including the moved ticket files
+  - if git repo and the user explicitly confirms completion/verification, push the ticket branch to remote
+  - if git repo and the user explicitly confirms completion/verification, update the latest personal branch from remote, merge the ticket branch into it, and push the updated personal branch
+  - if git repo and the user explicitly confirms completion/verification, use the release script to release a new version
   - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
-  - on explicit user completion/verification instruction, move ticket folder to `tickets/done/<ticket-name>/`
   - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
 
 ## Templates

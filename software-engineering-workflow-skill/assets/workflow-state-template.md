@@ -29,7 +29,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 7 API/E2E Testing | Not Started | API/E2E test implementation complete + AC scenario gate complete |  |
 | 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + shared-principles/layering + decoupling + module/file placement + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
 | 9 Docs Sync | Not Started | Docs updated or no-impact rationale recorded |  |
-| 10 Handoff / Ticket State | Not Started | Final handoff complete + ticket state decision recorded |  |
+| 10 Handoff / Ticket State | Not Started | Final handoff ready + explicit user verification received + ticket moved to `done` + git finalization/release complete when git repo + ticket state decision recorded |  |
 
 ## Stage Transition Contract (Quick Reference)
 
@@ -45,7 +45,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
 | 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and shared-principles/layering + decoupling + module/file placement + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
 | 9 | Docs updated or no-impact rationale recorded | stay in `9` |
-| 10 | Final handoff complete; ticket move requires explicit user confirmation | stay in `10`/`in-progress` |
+| 10 | Final handoff is complete, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | stay in `10` |
 
 ## Transition Matrix (Reference)
 
@@ -68,10 +68,13 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | Stage 8 failure (`Design Impact`) | `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
 | Stage 8 failure (`Requirement Gap`) | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
 | Stage 8 failure (`Unclear`/cross-cutting root cause) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
+| Stage 10 awaiting explicit user verification | stay in `10` | In Progress |
+| Stage 10 archival/repository finalization blocked | stay in `10` | Blocked |
 
 Note:
 - In re-entry paths, Stage 0 means re-open bootstrap controls in the same ticket/worktree (`workflow-state.md`, lock state, artifact baselines); do not create a new ticket folder.
 - For Stage 5 failures, record classified re-entry first; then persist artifact updates in the returned upstream stage before running the next Stage 5 round.
+- Stage 10 can remain `In Progress` while waiting for explicit user completion/verification before moving the ticket to `done` and starting repository finalization.
 
 ## Pre-Edit Checklist (Stage 6 Source-Code Edits)
 

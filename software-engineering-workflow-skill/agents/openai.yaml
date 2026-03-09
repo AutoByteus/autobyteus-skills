@@ -19,7 +19,13 @@ interface:
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
     effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
     middle band; and `>220` changed-line delta requires recorded design-impact
-    assessment); Stage 9 syncs docs; Stage 10 performs final handoff. Across
+    assessment); Stage 9 syncs docs; Stage 10 performs final handoff, waits for
+    explicit user completion/verification (for example after manual testing),
+    then moves the ticket folder to `tickets/done/<ticket-name>/`, and only
+    after that, when the project is a git repository, commits and pushes the
+    ticket branch, updates the latest personal branch from remote, merges the
+    ticket branch into that personal branch, pushes the updated personal
+    branch, and uses the release script to release a new version. Across
     design/review/implementation, enforce shared architecture principles (`SoC`
     as cause, layering as emergent result, decoupling as one-way replaceable
     boundaries, and module/file placement as folder ownership matching concern), and

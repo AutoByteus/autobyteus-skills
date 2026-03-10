@@ -108,7 +108,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not start post-testing `docs/` synchronization until code review is complete (for infeasible acceptance criteria in Stage 7, explicit user waiver + constraints + compensating evidence + residual risk must be recorded).
 - Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
 - User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, release, or move the ticket to `done` before that user signal.
+- Release-notes artifact rule (mandatory when applicable): if the ticket leads to a user-facing app release or any GitHub Release body, Stage 10 must also persist `release-notes.md` with short functional user-facing notes before final release. If not applicable, record an explicit `release-notes not required` rationale in the handoff summary.
 - Git finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the latest personal branch from remote, merge the ticket branch into that personal branch, push the updated personal branch, and use the release script to release a new version.
+- Release publication handoff rule (mandatory when release notes are required): during repository finalization, pass the ticket `release-notes.md` artifact into the project release path (for example via the release script or the repo's release-body source file) before the release tag is created so the tagged revision contains the curated notes.
 - Personal-branch resolution rule (mandatory): determine the latest personal branch from repository context or explicit user instruction; if it cannot be derived with high confidence, pause Stage 10 and ask once before merge/release instead of guessing.
 - Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, personal-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
@@ -645,7 +647,17 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Handoff summary must include:
   - delivered scope vs planned scope,
   - verification summary (unit/integration plus API/E2E testing, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
-  - docs files updated (or explicit no-impact rationale).
+  - docs files updated (or explicit no-impact rationale),
+  - release-note status (`created` with artifact path, or explicit `not required` rationale).
+- When release notes are required, create/update `release-notes.md` in the ticket folder before waiting for user verification.
+- Release-note content rules (mandatory when release notes are required):
+  - use short user-facing functional notes only,
+  - do not include internal refactors, dependency bumps, tests, docs-only changes, or low-level implementation detail,
+  - target `3` to `7` bullets total across all sections,
+  - use the template in `assets/release-notes-template.md`,
+  - default sections are `## What's New`, `## Improvements`, and `## Fixes`,
+  - omit empty sections instead of writing filler content,
+  - do not include upgrade steps unless the user explicitly asks for them.
 - After the handoff summary is written, keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Before that user signal, do not move the ticket to `done`, commit, push, merge, or release.
 - After the explicit user completion/verification signal, move the ticket folder to `tickets/done/<ticket-name>/` first so the archived ticket path is included in the final committed state.
 - If the project is a git repository, repository finalization is mandatory after that move and must run in this order before Stage 10 is marked complete:
@@ -712,11 +724,12 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
   - persist the handoff summary and wait for explicit user completion/verification instruction
+  - when the release is user-facing or publishes a GitHub Release body, create/update `tickets/in-progress/<ticket-name>/release-notes.md` using `assets/release-notes-template.md`; otherwise record explicit no-note rationale in the handoff summary
   - on explicit user completion/verification instruction, first move the ticket folder to `tickets/done/<ticket-name>/`
   - if git repo and the user explicitly confirms completion/verification, commit all in-scope changes on the ticket branch/worktree, including the moved ticket files
   - if git repo and the user explicitly confirms completion/verification, push the ticket branch to remote
   - if git repo and the user explicitly confirms completion/verification, update the latest personal branch from remote, merge the ticket branch into it, and push the updated personal branch
-  - if git repo and the user explicitly confirms completion/verification, use the release script to release a new version
+  - if git repo and the user explicitly confirms completion/verification, use the release script to release a new version and feed it the archived ticket release-notes artifact (typically `tickets/done/<ticket-name>/release-notes.md`) when release notes are required
   - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
   - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
 
@@ -730,3 +743,4 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - `assets/code-review-template.md`
 - `assets/api-e2e-testing-template.md`
 - `assets/workflow-state-template.md`
+- `assets/release-notes-template.md`

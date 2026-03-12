@@ -15,6 +15,7 @@ Use this after Step 4 (Logic QA) and before finalizing `article.md`.
 - **Evidence fix**: claims lack support or have weak support → add quotes/data/citations; remove overclaims.
 - **Clarity fix**: writing is correct but hard to follow → shorten paragraphs, add signposts, tighten definitions.
 - **Mainline fix**: a section is factual but off-topic for user intent → cut/merge/reframe so it serves one roadmap move.
+- **Depth fix**: article is logically sound but too compressed → expand evidence synthesis, counterarguments, definitions, and implications inside the body instead of appending a thin source list.
 
 3) **Revise `article.md`**
 - Keep structure stable unless outline changes.
@@ -50,9 +51,10 @@ All must be true:
 - Evidence gates are passed (`references/evidence_gates.md`).
 - Mainline coherence gate is passed (`references/mainline_coherence_gate.md`).
 - Final article quality gate is passed (`references/final_article_quality_gate.md`).
+- The article meets the default long-form depth standard unless the user explicitly requested brevity.
 
-## Slide readiness check (fast)
+## Downstream handoff readiness check (fast)
 
-Before creating `slide_extraction.md`, confirm:
+Before handing the article to any downstream slide-conversion step, confirm:
 - You can summarize the article in **6 slide headlines** (claims).
 - You can point to the exact evidence anchor for each headline.

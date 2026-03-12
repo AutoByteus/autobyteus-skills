@@ -1,6 +1,6 @@
 # Logic QA checklist (quick but strict)
 
-Use before finalizing `article.md` and before generating slides.
+Use before finalizing `article.md` and before any downstream handoff.
 
 ## Scope + thesis
 - Thesis is one sentence and matches what the body actually proves.

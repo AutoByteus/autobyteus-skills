@@ -1,56 +1,85 @@
 ---
 name: infographic-powerpoint-deck
-description: Create image-based PowerPoint decks by (1) designing a slide plan, (2) generating one 16:9 infographic slide image per slide with all text baked into the image (English by default; multilingual slide text supported), and (3) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants polished, consistent visuals with extensible style packs (cinematic dark, cinematic light, cinematic editorial, animated feature, editorial, warm pastoral, tech, youth social, academic, corporate), prefers not to hand-layout PPT objects, or wants a repeatable prompt workflow to iterate over time.
+description: Create image-based PowerPoint decks by (1) turning raw article content or notes into a slide plan, (2) generating one 16:9 infographic slide image per slide with all text baked into the image (English by default; multilingual slide text supported), and (3) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants polished, consistent visuals with extensible style packs (cinematic dark, cinematic light, cinematic editorial, animated feature, editorial, warm pastoral, tech, youth social, academic, corporate), prefers not to hand-layout PPT objects, or wants a repeatable prompt workflow to iterate over time.
 ---
 
 # Infographic PowerPoint Deck
 
+## Default input model (raw article first)
+
+This skill should work directly from the user's raw article content by default.
+
+If the user provides a full article, sermon, report, or long notes:
+1. Read the source content and infer the audience, tone, density, and argument/story structure.
+2. Choose a deck archetype using `references/deck_archetype_routing.md`.
+3. Choose one deck-level style pack from that archetype unless the user explicitly overrides style.
+4. Build the slide plan from the article structure.
+5. Auto-route layouts per slide using `references/layout_routing_policy.md`.
+6. Write one image prompt per slide and generate the deck.
+
+If the user already provides a `slide_extraction.md` or equivalent structured slide table, you can skip the article-intake step and use that directly.
+
+If the user provides one or more reference slides/screenshots, use `references/reference_slide_intake.md` to extract the reusable visual grammar before writing prompts.
+
 ## Quick start (default: images-only deck, style-pack architecture)
 
-1. Pick one **style pack folder** (required) from `references/style-pack-catalog.md`.
-   - If user does not specify style, default to `editorial-light`.
-2. Compose the style block bundle:
+1. Start from either:
+   - raw article content / notes and use `references/article_intake_workflow.md`, or
+   - a prebuilt `slide_extraction.md` / slide table
+   - optional reference slide images / screenshots and use `references/reference_slide_intake.md`
+2. Infer one **deck archetype** using `references/deck_archetype_routing.md`.
+   - If the user explicitly requests a style, use that as an override.
+3. Pick one **style pack folder**.
+   - If user does not specify style and archetype does not strongly imply a different choice, default to `editorial-light`.
+   - Style pack chooses the deck's visual language (palette, lighting, typography attitude, scene bias). It does **not** force one fixed layout for every slide.
+4. Compose the style block bundle:
    - Run `scripts/compose_style_pack_blocks.py --pack-id <id>` (or manually read the style-pack files).
    - This yields a consistent block set: profile + motif + consistency + scene bias.
-3. Draft a slide list (8–20 slides): title, quote(s), key points, scene ID.
+5. Draft a slide list (8–20 slides): role, title, quote(s), key points, scene ID, and text budget. Add `layout hint` only when you need an explicit override.
    - Scene IDs come from `references/scene-catalog.md`.
    - If you need fast defaults, reuse presets from `references/scene-preset-library.md`.
    - If you already have a reasoning artifact (recommended): convert `slide_extraction.md` rows into slides.
-   - If `slide_extraction.md` already includes `Recommended style pack ID` / `Scene ID` / `Layout hint`, use those fields directly.
-4. For each slide, fill `references/prompt_template.md`:
+   - If `slide_extraction.md` already includes `Recommended style pack ID` / `Scene ID` / `Layout hint`, treat `Layout hint` as an override when present. Otherwise auto-route the layout.
+   - Prefer slide roles such as opening, context, key-claim, evidence, contrast, application, and closing.
+6. For each slide, fill `references/prompt_template.md`:
    - Paste the composed style block bundle.
    - Write the prompt instructions in English by default.
    - Paste exact required on-slide text (verbatim) in the user-specified language(s).
    - Add slide-specific scene layer details and icons.
-5. Generate each slide as one **16:9 image**.
+7. Generate each slide as one **16:9 image**.
    - Allowed slide-creation modes in this skill are **image generation** and **image editing/reference** only.
    - In the slide prompt text, explicitly include a ratio lock sentence (e.g., `Hard canvas constraint: 16:9 widescreen. Do not generate a square image.`).
    - In the tool call, explicitly set ratio config when supported (e.g., `generation_config` with `aspect_ratio: "16:9"`).
    - If consistency needs reinforcement, you may use an approved prior slide image or background exploration image as an input/edit reference, but the image tool must still render the final full slide image.
-6. QA readability + text accuracy; regenerate only failed slides.
+8. QA readability + text accuracy; regenerate only failed slides.
    - If any slide is not 16:9 or has text defects, regenerate the image directly.
    - Do **not** crop, pad, resize, or post-process generated images unless the user explicitly asks.
    - Do **not** render text afterward with Python/PIL/PPT overlays as part of the normal skill workflow.
-7. Assemble images-only PPTX with `scripts/build_images_only_pptx.py`.
+9. Assemble images-only PPTX with `scripts/build_images_only_pptx.py`.
 
 Outputs to produce in the user’s workspace:
-- `slides_plan.md` (slide-by-slide content + visuals)
+- `slides_plan.md` (slide-by-slide content + visuals; include inferred audience, tone, deck archetype, chosen style pack, and routing bias at the top)
 - `prompts.md` (the exact prompts used for each slide)
 - `slides/slide01.png ...` (final 16:9 images)
 - `deck_images_only.pptx` (concatenated images)
 
-## Recommended upstream artifact (thinking before slides)
+## Optional structured slide table input
 
-For higher-quality decks, start from a logically structured article + extraction table:
-- Use the `deep-research-article` skill to produce `article.md` and `slide_extraction.md`.
-- Prefer the deep-research handoff-contract columns (style pack ID, scene ID, layout hint, text budget) so each row maps directly to one slide prompt.
-- If the extraction table is legacy/simple format, normalize it using `references/deep_research_handoff_mapping.md` before prompt writing.
+For higher-quality multi-step workflows, you may start from either a raw article or an already-structured slide table:
+- Raw article content is a valid first-class input to this skill. Use `references/article_intake_workflow.md`.
+- If the slide table already carries preferred columns (style pack ID, scene ID, text budget, optional layout hint override), map rows directly into slide prompts.
+- If the extraction table is legacy/simple format, normalize it using `references/slide_table_normalization.md` before prompt writing.
 
 ## Prompt stack (minimal vs full)
 
 - Minimal stack (recommended for most decks):
+  - `references/article_intake_workflow.md` (when starting from raw article content)
+  - `references/deck_archetype_routing.md` (infer the overall deck form first)
   - `references/style-pack-catalog.md` (choose pack ID)
   - `references/style-pack-system.md` (load order + composition rules)
+  - `references/layout_routing_policy.md` (auto-route layouts by default)
+  - `references/prompt_example_library.md` (use examples and anti-examples to avoid panel drift)
+  - `references/reference_slide_intake.md` (when user wants the deck to learn from a reference slide)
   - `references/style-packs/<pack-id>/` (pack-local blocks)
   - `references/typography_spacing_lock.md`
   - `references/text_fidelity_block.md`
@@ -75,28 +104,66 @@ Use folderized style packs so each style is self-contained:
 
 Note: despite the Bible-themed examples, this workflow works for any topic. Swap scenes/props in `references/scene_library.md` to match your domain (product, research, training, etc.).
 
+## Decision model (keep style, layout, and scene separate)
+
+- **Deck archetype** = article-level viewing model: what kind of deck best fits the source content.
+- **Style pack** = deck-level visual language: palette, lighting, texture, typography attitude, scene bias.
+- **Layout** = slide-level composition: split-panel, framework, comparison, warning, or full-bleed overlay. It should normally be auto-routed by the skill.
+- **Scene ID / visual scene** = what the slide depicts.
+- **Text budget** = how much copy the layout needs to carry.
+
+Use the deck archetype to drive the rest of the decisions:
+- deck archetype -> style pack
+- deck archetype -> routing bias
+- article structure -> slide roles
+- slide roles + text budget -> layout routing
+- optional reference slide -> prompt wording, layout bias, and possible style-pack refinement
+
+Use one style pack across the deck by default, and let the skill choose layout **per slide** unless the user explicitly overrides it:
+- Short emotional or opener slides often route to `L4`, `L5`, or `L6`.
+- In cinematic, editorial, warm, airy, animated, and youth decks, short/medium context or application slides should try `L4` or `L6` before `L1` if the scene can provide a calm text-safe zone.
+- Teaching, framework, and comparison slides often route to `L1`, `L2`, `L3`, `L7`, or `L8` only when structure or density really requires those layouts.
+- The same style pack can legitimately use both split-panel and full-bleed layouts inside one deck.
+- If you need article-first intake guidance, read `references/article_intake_workflow.md`.
+- If you need archetype routing guidance, read `references/deck_archetype_routing.md`.
+- If you need routing guidance, read `references/layout_routing_policy.md`.
+
 ## Slide prompt recipe (copy/paste template)
 
 Read `references/prompt_template.md` and fill it per slide. Keep it extremely explicit:
+- Start from the inferred article structure and deck archetype, not from arbitrary slide decoration.
 - Put **all required on-slide text** under a `Must-appear text (verbatim)` section.
 - For visuals, describe **scene layers** (far/mid/foreground), plus 3–8 concrete objects.
 - Specify what must be **subtle/low-contrast** so text stays readable.
 - Keep prompt instructions in English by default even when the required on-slide text is Chinese, German, or bilingual.
+- Do not clutter concrete prompts with redundant language metadata in the default English case. Only state prompt/output language explicitly when the slide uses non-English or multilingual rendered text, or when the language setup might otherwise be ambiguous.
+- Use both layout families intentionally: split-panel infographic layouts for dense teaching content, and full-bleed cinematic overlay layouts for title cards, quote slides, and scene-led emotional beats.
+- Treat split-panel wording as explicit layout instructions, not as generic presentation language. If the user prefers text directly on the image, route away from `L1` before writing the prompt.
+- For full-bleed layouts, default to direct text on the image itself with composition-based readability support. Do not ask for visible rounded rectangles, frosted cards, or caption boxes unless the user explicitly wants that treatment.
+- Do not ask the user for per-slide layouts by default. Route layouts internally from slide role, text budget, and overall deck style. Only use explicit `Layout hint` when the user or upstream artifact provides one.
+- Do not ask the user for style-pack IDs by default when the article content already makes the fit obvious. Infer archetype first, then select style.
 
+If you need article-first intake guidance, read `references/article_intake_workflow.md`.
+If you need deck archetype selection guidance, read `references/deck_archetype_routing.md`.
 If you need inspiration for more cinematic scene material and prop ideas, read `references/scene_library.md`.
 If you need stable scene IDs + tags for selection/filtering, read `references/scene-catalog.md`.
 If you need copy-ready visual scene blocks, read `references/scene-preset-library.md`.
-If you need fast, reliable infographic compositions, read `references/layout_library.md`.
+If you need fast, reliable infographic compositions or full-bleed title-card layouts, read `references/layout_library.md`.
+If you need automatic routing rules for when to use each layout, read `references/layout_routing_policy.md`.
+If you need concrete good/bad prompt examples before writing prompts, read `references/prompt_example_library.md`.
+If the user gives a screenshot or example slide and wants the skill to learn from it, read `references/reference_slide_intake.md`.
 If you need shot-language / time-of-day / weather / lighting presets, read `references/shot_mood_library.md`.
 If you need style modularity, read `references/style-pack-system.md` and use `scripts/compose_style_pack_blocks.py`.
 If you want fewer typos and more readability, paste these into every slide prompt: `references/typography_spacing_lock.md`, `references/text_fidelity_block.md`, `references/negative_prompt_block.md`.
 If you want storyboard-like viewing rhythm, read `references/storyboard_library.md`.
-If you have long Chinese quote or source-text blocks, read `references/chinese_quote_compression.md` and split them across slides (do not paraphrase).
+If a slide uses language-specific rendering constraints or long non-Latin quote blocks, read the relevant reference note before writing the concrete prompt (for example, `references/chinese_quote_compression.md`).
 
 ## Quality bar (and how to iterate)
 
 For each slide:
-- **Readability first**: text never overlaps busy imagery; use a dedicated text panel.
+- **Content fit first**: the deck should reflect the structure and intent of the article, not just produce isolated pretty slides.
+- **Readability first**: text never overlaps busy imagery; use either a dedicated text panel or a deliberately clean overlay-safe region, depending on the selected layout.
+- **Auto-layout first**: unless the user explicitly overrides, let the skill choose the layout from slide role, text budget, and style rather than forcing one composition family.
 - **No hallucinated text**: forbid extra words/logos/watermarks.
 - **Text fidelity in the requested language/script**: if any character, accent, word, or punctuation is wrong, regenerate that slide with:
   - shorter quote blocks,
@@ -105,10 +172,15 @@ For each slide:
 - **Engagement**: add background scenes + textures + icon clusters, but keep them low-contrast.
 
 Common failure fixes:
+- Deck feels visually polished but structurally wrong: revisit `references/article_intake_workflow.md` and `references/deck_archetype_routing.md`; fix the slide roles or archetype before rewriting prompts.
 - Tool call fails/intermittent errors: retry after a short wait; keep prompt stable; reduce scene complexity only if repeats.
 - Text too small: reduce bullet count; split into two slides; demand large type and comfortable line spacing.
 - Too busy: force a low-contrast background, keep the scene mostly on the right, and keep the left panel clean.
 - Deck too dark: switch to `editorial-light` or `airy-relaxed`, disable vignette, force daylight scene IDs, and add brightness override.
+- Full-bleed overlay feels boxed in: remove visible cards, rounded rectangles, frosted panels, and boxed banners; ask for direct text on the image with only subtle local contrast support.
+- Panel drift appears on a cinematic/editorial/warm slide: compare against `references/prompt_example_library.md`, reroute `L1` to `L4` or `L6`, and remove any `text panel` wording before retrying.
+- Auto-routed layout feels wrong: reroute the slide using `references/layout_routing_policy.md`; do not keep forcing a weak layout just because an earlier guess picked it.
+- Language/script fidelity drifts: shorten copy first, simplify the background, use the relevant language-specific rendering reference, and only then adjust style/layout.
 - Ratio mismatch: regenerate that slide with stricter 16:9 constraint in prompt; do not crop or otherwise post-process.
   - Ensure both prompt text and tool-call config specify 16:9 in the same retry.
 
@@ -162,16 +234,19 @@ python3 scripts/build_images_only_pptx.py --images-dir /path/to/slides --out /pa
 
 ## References
 - Read `references/prompt_template.md` when you need a high-detail prompt skeleton that produces the “rich background infographic” style reliably.
+- Read `references/article_intake_workflow.md` when the user gives full article content and expects the skill to infer the deck strategy.
+- Read `references/deck_archetype_routing.md` when deciding what overall presentation form best fits the article.
 - Read `references/style-pack-system.md` for composition rules and how to add new style packs.
 - Read `references/style-pack-catalog.md` for intent-to-style routing and pack selection.
 - Read `references/style-packs/` for self-contained style definitions.
 - Read `references/style_profile_library.md` for legacy style aliases (backward compatibility).
-- Read `references/deep_research_handoff_mapping.md` to normalize upstream `slide_extraction.md` fields from `deep-research-article`.
+- Read `references/slide_table_normalization.md` to normalize legacy or underspecified upstream `slide_extraction.md` tables before prompt writing.
 - Read `references/scene-catalog.md` for reusable scene IDs and tags.
 - Read `references/scene-preset-library.md` for ready-to-paste scene visual blocks.
 - Read `references/scene-entry-template.md` when adding new scene IDs to the catalog.
 - Read `references/scene_library.md` to quickly add scene-based / cinematic elements (locations + props) without making the slide messy.
 - Read `references/layout_library.md` to choose a layout that matches your text density (so slides stay readable).
+- Read `references/layout_routing_policy.md` to auto-route layouts when the user does not explicitly request them.
 - Read `references/shot_mood_library.md` for cinematic shot + lighting + time-of-day presets.
 - Read `references/motif_pack.md` to make the whole deck feel like a single cohesive series.
 - Read `references/deck_consistency_block.md` to lock margins/light direction/texture/icon style across the whole deck.

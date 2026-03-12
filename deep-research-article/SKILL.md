@@ -1,18 +1,17 @@
 ---
 name: deep-research-article
-description: "Do deep research and synthesize it into one logically structured article with clear thesis, argument flow, evidence, objections, and takeaways. By default, this skill requires internet source collection and deep reading before drafting. Use when the user wants thinking before slides: sermon notes, Bible passage study, policy/tech explainers, product narratives, or any topic where the presentation should be built from a strong reasoning artifact. Output includes (1) one cohesive article and (2) a slide-extraction table for turning the article into an image-only deck."
+description: "Do deep research and synthesize it into one logically structured article with clear thesis, argument flow, evidence, objections, and takeaways. By default, this skill requires internet source collection and deep reading before drafting. Use when the user wants a strong reasoning artifact first: sermon notes, Bible passage study, policy/tech explainers, product narratives, or any topic where downstream artifacts should start from an approved article."
 ---
 
 # Deep Research Article
 
-## Overview (two artifacts)
+## Overview (primary artifact)
 
 Produce:
 1) `article.md`: one coherent article with strong reasoning and transitions
-2) `slide_extraction.md`: a table that maps the article into slide-sized claims + supporting evidence + suggested visuals
 
-This skill is intentionally topic-agnostic. For image-only decks, pair it with the `infographic-powerpoint-deck` skill after the article is approved.
-For the smoothest downstream handoff, follow `references/infographic_handoff_contract.md` when creating `slide_extraction.md`.
+This skill is intentionally topic-agnostic.
+If the user later wants an image-only deck, pass the approved article directly to `infographic-powerpoint-deck`, which can ingest raw articles or structured slide tables.
 
 In internet-backed mode, also produce a research package:
 - `source_dossier.md`
@@ -35,6 +34,7 @@ Ask only what’s necessary:
 - Whether web research is prohibited by user/policy
 
 Default mode is **internet-backed deep research**. Only skip internet if user explicitly asks for no-web research.
+If the user does not specify a length, do **not** default to a short article. Read `references/longform_depth_standard.md` and use the long-form depth defaults there.
 
 ### Step 1 — Internet source sweep (required by default)
 
@@ -104,11 +104,15 @@ Before drafting, run a quick outline challenge:
 ### Step 3 — Draft `article.md`
 
 Use the skeleton in `references/article_skeleton.md`.
+Also read `references/longform_depth_standard.md`.
 
 Rules:
 - Prefer short paragraphs with explicit signposting (“因此/所以/因为/然而”).
 - Separate observation vs application.
 - Include explicit citations (source IDs and links) for load-bearing claims.
+- Default to a substantial long-form article unless the user explicitly asked for a brief.
+- Integrate evidence into the body itself. Do not outsource the reasoning to a references section or tell the reader to “see the sources” instead of explaining the point.
+- A 3–6 move outline does **not** mean a short article. Each move may need multiple subsections or several paragraphs of evidence synthesis, tension, and implications.
 - If evidence is mixed, present both sides and state your judgment criteria.
 
 ### Step 4 — QA gates (logic + evidence)
@@ -138,23 +142,15 @@ Humans keep track of what changed; do the same to avoid thrash:
 - Add a short “Revision notes” section to `article.md`, or keep a separate `revision_log.md`.
 - Use `references/revision_log_template.md`.
 
-### Step 5 — Create `slide_extraction.md` (presentation-ready mapping)
+### Step 5 — Stop at the approved article
 
-Use the table template in `references/slide_extraction_template.md`.
-For strict compatibility with `infographic-powerpoint-deck`, apply `references/infographic_handoff_contract.md`.
-
-Each slide row should have:
-- Slide headline (one claim, not a topic)
-- Exact must-appear text (title/quote/bullets) + evidence anchor + source ID(s)
-- 2–4 bullets (supporting logic)
-- Visual scene suggestion (location + hero symbol set + props)
-- Scene ID (prefer IDs from infographic scene catalog) and recommended style pack ID (if known)
-- “Text budget” + layout hint so slide layout can be chosen later
+The normal end state of this skill is an approved `article.md` plus the supporting research package.
+Do **not** create `slide_extraction.md` as part of the default deep-research workflow.
+If the user wants slides after the article is approved, hand the article directly to `infographic-powerpoint-deck`.
 
 ## Output files (recommended)
 
 - `article.md`
-- `slide_extraction.md`
 - `source_dossier.md` (required in internet-backed mode)
 - `evidence_extract.md` (required in internet-backed mode)
 - `research_notes.md` (required)
@@ -174,7 +170,6 @@ Each slide row should have:
 - Read `references/objectivity_checks.md` for neutrality and confidence calibration checks.
 - Read `references/mainline_coherence_gate.md` to catch and remove sections that drift away from the core thesis/user intent.
 - Read `references/final_article_quality_gate.md` for final draft quality scoring before handoff.
+- Read `references/longform_depth_standard.md` so the final article defaults to paper-grade depth rather than a short summary.
 - Read `references/iteration_protocol.md` for iterative improvement and stop criteria.
 - Read `references/revision_log_template.md` to track iterations cleanly.
-- Read `references/slide_extraction_template.md` to map an article to slide-sized units.
-- Read `references/infographic_handoff_contract.md` to ensure `slide_extraction.md` is directly consumable by `infographic-powerpoint-deck`.

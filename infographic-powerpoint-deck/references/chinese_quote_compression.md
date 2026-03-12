@@ -2,6 +2,8 @@
 
 Goal: keep Chinese text **accurate** while preventing tiny fonts and wall-of-text slides.
 
+If you need broader Chinese rendering guidance beyond quote splitting, also read `references/chinese_text_rendering_playbook.md`.
+
 ## When to split
 
 Split into 2+ slides if any is true:
@@ -22,6 +24,11 @@ Split into 2+ slides if any is true:
 3) **List overflow**
 - Slide A: first half of list + same scene
 - Slide B: second half of list + same scene (slight camera change)
+
+## Copy shaping note
+
+- If the user already provided exact Chinese text, keep it exact.
+- If you are drafting or translating Chinese copy for the slide, prefer shorter fully Chinese lines over mixed Chinese + Latin abbreviations unless the user explicitly wants mixed-script text.
 
 ## Pasteable rules block
 

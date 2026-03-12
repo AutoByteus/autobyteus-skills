@@ -5,5 +5,6 @@ Base constraints (required for every style pack):
 - Text limits: do not add any extra text, logos, watermarks, or random characters in any language.
 - Readability first: keep the text area high-contrast and sharp. The background must not invade the text area.
 - Information structure: keep a clear title hierarchy, generous whitespace, and no tiny text.
-- Series consistency: use one style pack for the whole deck unless the user explicitly requests mixing.
+- Style/layout separation: style pack defines visual language; layout is chosen separately per slide.
+- Series consistency: use one style pack for the whole deck unless the user explicitly requests mixing. Layout may still vary slide by slide.
 ```

@@ -14,7 +14,8 @@ Use this file only as a legacy alias table.
 | Style C (Airy Relaxed) | `airy-relaxed` |
 | Style D (Clean Corporate) | `clean-corporate` |
 
-Default remains: `editorial-light`.
+Fallback when user intent and inferred archetype are both unclear: `editorial-light`.
+Style packs remain compatible with multiple layout families; choose the layout separately per slide.
 
 Additional direct packs (no legacy alias name required):
 - `cinematic-light`

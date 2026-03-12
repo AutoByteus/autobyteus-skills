@@ -1,6 +1,6 @@
 # Scene library (v3+ cinematic expansion)
 
-Use this to make slides feel like a coherent cinematic story while keeping the **left text panel** clean.
+Use this to make slides feel like a coherent cinematic story while keeping the **text zone** clean and readable.
 For reusable IDs and tags, pair this with `references/scene-catalog.md`.
 
 ## How to pick (per slide)
@@ -11,7 +11,7 @@ Pick:
 3) **1 Hero symbol set** (what it means)
 4) **3–6 Props/icons** (supporting details)
 
-Rule: keep the scene on the **right side** and **low-contrast** behind the text panel.
+Rule: in split-panel layouts, keep the scene on the **right side** and **low-contrast** behind the text panel. In full-bleed layouts, shape the scene so one area stays calm enough for direct text-on-image placement.
 If style is light/relaxed, prioritize daylight or bright-interior locations first.
 
 ---
@@ -57,7 +57,7 @@ Use this when the slide should feature a person or character rather than only sy
   - expression and emotional tone
   - gaze direction
   - rendering treatment (`realistic cinematic`, `stylized cinematic`, `stylized 3D animated`)
-- Keep the figure on the right side or otherwise away from the main text panel.
+- Keep the figure on the right side or otherwise away from the main text zone.
 - If using an animated look, keep materials, facial proportions, and lighting consistent across the deck.
 
 ---
@@ -92,13 +92,14 @@ Use this when the slide should feature a person or character rather than only sy
   - parchment grain overlay
   - harbor/city-wall silhouette in far background
 - Keep icon stroke width consistent (thin-line).
-- Keep the same left-panel style (size, corner radius, opacity).
+- Keep the same text-support treatment across the deck: split-panel slides may reuse a stable panel style, while full-bleed slides should reuse stable direct-overlay behavior without obvious caption boxes.
 
 ---
 
 ## Anti-patterns
 
-- Busy imagery behind the text panel (kills readability)
+- Busy imagery behind the main text area (kills readability)
+- Obvious caption boxes or pasted-on cards in full-bleed cinematic layouts
 - Too many props in one slide (no focal point)
 - High-contrast realism competing with typography
 - Any extra words/logos/watermarks added by the model

@@ -64,9 +64,9 @@ def main() -> int:
         pack_dir / "10-style-profile.md",
         """```text
 Style Pack: <pack-id> (<display name>)
-- Layout: left text panel X%, right illustration zone X%.
+- Layout behavior: preferred layout families (direct-overlay-first / split-panel / mixed), plus split-panel proportions only if relevant. If the pack is cinematic/editorial/warm/story-led, describe split-panel as a fallback rather than a default.
 - Color palette: primary background, body text, accent color.
-- Panel treatment: card / frosted glass / solid panel style.
+- Text treatment: if split-panel fallback is used, describe that panel style; also describe full-bleed direct-overlay behavior with no obvious caption box by default.
 - Lighting: brightness, contrast, and whether vignette is allowed.
 - Background bias: preferred visual semantics or scene classes.
 ```""",

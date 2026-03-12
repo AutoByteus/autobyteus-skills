@@ -34,6 +34,16 @@ Score each dimension from 1 to 5:
 - Guardrails are concrete (not abstract warnings only).
 - The article can be transformed into slide claims without ambiguity.
 
+6) **Depth and completeness**
+- The article is developed enough to justify the phrase `deep research`.
+- Major moves are expanded into real analysis, not outline fragments.
+- Definitions, tensions, caveats, and implications are sufficiently spelled out.
+
+7) **Citation integration**
+- Evidence is integrated into the body, not deferred to “see sources below”.
+- Load-bearing paragraphs contain embedded citations or explicit source anchors.
+- The references section documents the argument; it does not replace the argument.
+
 ## Red-flag auto-fail conditions
 
 Any one of these means fail:
@@ -41,15 +51,16 @@ Any one of these means fail:
 - A load-bearing claim lacks a source ID or caveat.
 - A major conclusion relies on a single weak/tertiary source.
 - The article contradicts the declared out-of-scope boundary.
+- The article falls materially below the default long-form depth standard without an explicit user request for brevity.
+- The body mostly gestures at evidence instead of integrating it into the prose.
 
 ## Pass threshold
 
 Pass only if:
 - no red-flag auto-fail exists, and
-- all five dimensions score >= 4.
+- all seven dimensions score >= 4.
 
 If not passed:
 - revise the top 2 weakest dimensions first,
 - update `revision_log.md`,
 - rerun this gate.
-

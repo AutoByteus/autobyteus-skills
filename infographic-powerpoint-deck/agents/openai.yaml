@@ -1,4 +1,4 @@
 interface:
   display_name: "Infographic PowerPoint Deck"
   short_description: "Generate slide images + images-only PPTX."
-  default_prompt: "Create an image-only PowerPoint deck with style-pack architecture: select a style pack (default editorial-light), compose its blocks, write prompts in English by default, keep required on-slide text verbatim in the user-specified language(s), generate one 16:9 slide image per slide, and assemble an images-only PPTX."
+  default_prompt: "Create an image-only PowerPoint deck from the user's article or notes: infer the deck archetype, choose one deck-level style pack (fallback editorial-light only when the fit is unclear), auto-choose the best layout for each slide unless the user explicitly overrides it, prefer direct text-on-image full-bleed layouts for cinematic, editorial, warm, airy, animated, and youth-oriented decks when the text budget and scene allow, bias structured or report-like decks toward split-panel layouts, write prompts in English by default, keep required on-slide text verbatim in the user-specified language(s), generate one 16:9 slide image per slide, and assemble an images-only PPTX."

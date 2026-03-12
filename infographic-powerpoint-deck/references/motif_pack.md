@@ -35,7 +35,7 @@ Include these on every slide (still controlled):
 
 Do:
 - Use wide/medium shots more often to feel “cinematic”.
-- Keep silhouettes low contrast so the text panel stays clean.
+- Keep silhouettes low contrast so the text area stays clean.
 
 Avoid:
 - Overly dramatic contrast that fights the typography.
@@ -47,7 +47,7 @@ Include these on every slide (lightweight, clean):
 - **Soft paper/fabric grain**: very light texture, mostly visible in flat areas.
 - **Gentle daylight gradient**: subtle top-left to bottom-right brightness flow (no dark corners).
 - **Accent dot/line system**: tiny geometric dots or thin dividers in style accent color.
-- **Card-edge glow**: minimal soft highlight around light text panels for separation.
+- **Text-edge support**: minimal soft glow or tonal shaping around the text area when needed for separation.
 - **Clean icon halo**: faint neutral halo around key icons, no dramatic rim light.
 
 Do:
@@ -64,12 +64,12 @@ When writing slide prompts, add one of these (depending on which pack you chose)
 
 ### Pack A pasteable block
 ```text
-This slide must include all elements from Motif Pack A (Keynote Cinematic). Keep them low-contrast and series-consistent, and do not reduce left-panel readability.
+This slide must include all elements from Motif Pack A (Keynote Cinematic). Keep them low-contrast and series-consistent, and do not reduce main text readability.
 ```
 
 ### Pack B pasteable block
 ```text
-This slide must include all elements from Motif Pack B (Movie Poster Epic). Keep them low-contrast and series-consistent, and do not reduce left-panel readability.
+This slide must include all elements from Motif Pack B (Movie Poster Epic). Keep them low-contrast and series-consistent, and do not reduce main text readability.
 ```
 
 ### Pack C pasteable block

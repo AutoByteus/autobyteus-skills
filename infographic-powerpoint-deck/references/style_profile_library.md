@@ -15,7 +15,7 @@ Use this file only as a legacy alias table.
 | Style D (Clean Corporate) | `clean-corporate` |
 
 Fallback when user intent and inferred archetype are both unclear: `editorial-light`.
-Style packs remain compatible with multiple layout families; choose the layout separately per slide.
+Style packs remain compatible with multiple layout families; choose the layout separately per slide, including split layouts, didactic board layouts, and full-bleed overlays.
 
 Additional direct packs (no legacy alias name required):
 - `cinematic-light`

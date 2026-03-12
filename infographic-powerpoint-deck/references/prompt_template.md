@@ -79,6 +79,7 @@ Rules:
 - If content comes from an upstream `slides_content_plan.md` or equivalent content slide table, copy from `Must-appear text (verbatim)` first.
 - If content comes from a raw article intake workflow, derive this block from the inferred slide role and preserve any must-keep lines from the source.
 - Keep quote blocks short; if too long, split into 2 slides.
+- If the slide is a didactic infographic or teaching-poster layout, include every visible section header, label, formula caption, module title, and diagram annotation here. Do not expect the model to invent accurate labels on its own.
 - If any character, word, accent, punctuation mark, or spacing is wrong in output, regenerate with stricter instruction: `All must-appear text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`
 - For long Chinese passages, follow `references/chinese_quote_compression.md` (split, do not paraphrase).
 - If you are authoring Chinese copy from scratch rather than copying user-provided text, prefer concise fully Chinese phrasing over mixed Chinese + English abbreviations unless the user explicitly wants mixed-script text.
@@ -94,10 +95,12 @@ Rules:
 - Never use panel wording unless you actually chose a panel-based layout. The words `text panel`, `left panel`, `card`, `caption box`, `rounded rectangle`, and `frosted panel` are instructions, not harmless descriptions.
 - For cinematic, editorial, warm, airy, animated, and youth packs, try a direct-overlay composition first for slides that only need 1 title plus up to 4 short lines.
 - If the slide is a context, key-claim, or application slide with medium text but the scene can provide a calm wall, sky, window light, colonnade, or other text-safe zone, prefer `L4` or `L6` before falling back to `L1`.
-- If using panel-based layouts (`L1`, `L2`, `L3`, `L7`, `L8`):
+- If the slide is a self-contained didactic explainer with mirrored comparisons, labeled diagrams, strengths-vs-weaknesses blocks, or 2x2 teaching grids, prefer `L9`, `L10`, or `L11` over compressing it into a sparse keynote layout.
+- If using panel-based or board-style layouts (`L1`, `L2`, `L3`, `L7`, `L8`, `L9`, `L10`, `L11`):
   - Put title at top-left or upper-left.
-  - Put the quote / insight / bullet sections inside the text panel with clear section headers.
-  - Keep the main hero visual away from the text panel.
+  - Put the quote / insight / bullet / label sections inside the text panel or information zones with clear section headers.
+  - Keep the main hero visual or diagram modules away from the densest text zones.
+  - For `L9`, `L10`, or `L11`, use thin dividers, repeated module structure, and bright clean surfaces rather than cinematic scenery.
 - If using full-bleed layouts (`L4`, `L5`, `L6`):
   - Let the image fill the full slide.
   - Place text directly on the image.
@@ -107,6 +110,7 @@ Rules:
   - Keep text short enough that the image still carries the slide.
   - Protect readability with contrast, negative space, and restrained text count.
 - Maintain generous whitespace and alignment discipline in every layout.
+- Do not strip necessary labels, formulas, or captions merely to imitate a low-text deck. If the slide is meant to teach as a self-contained infographic, keep the information and route into the correct didactic layout instead.
 
 ## 3) Visual scene (be concrete)
 

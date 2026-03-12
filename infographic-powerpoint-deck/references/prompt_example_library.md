@@ -91,3 +91,59 @@ Keep the right illustration calm and secondary.
 Why this example exists:
 - Chinese medium-density slides often hold fidelity better in a structured split layout
 - the right-side image still carries narrative mood, but the text stays controlled
+
+## Example E: didactic mirrored comparison explainer
+
+Use when:
+- expectation vs reality
+- before vs after
+- old model vs new model
+- two experiments or two cases must be compared side by side with labels
+
+```text
+Use layout L9 mirrored comparison explainer.
+Put one large title row across the top.
+Split the lower body into two mirrored teaching zones with a central divider.
+Each side may include a short subhead, a labeled diagram, one process arrow, and one short result line.
+Keep the background bright and diagram-friendly, not scenic.
+Every visible label, formula, and annotation must be listed in Must-appear text.
+Do not invent extra labels.
+```
+
+## Example F: concept explainer board
+
+Use when:
+- one historical figure, model, or concept anchors the slide
+- the top half needs one hero portrait/object/diagram
+- the lower half needs strengths vs weaknesses, claim vs limitation, or cause vs effect
+
+```text
+Use layout L10 concept explainer board.
+Put the title across the top.
+Use the upper band for one portrait, object, or concept diagram plus one short caption.
+Split the lower band into two analytical blocks with strong section headers.
+Allow more visible words than a keynote slide, but keep the board clean and self-contained.
+Do not let the model improvise extra labels beyond the provided text.
+```
+
+## Example G: catalog grid / repertoire board
+
+Use when:
+- four or six methods / reactions / categories / cases must appear on one slide
+- the slide should stand alone as a compact teaching board
+
+```text
+Use layout L11 catalog grid.
+Put the title across the top.
+Below it, create a 2x2 or 2x3 teaching grid with thin dividers and generous whitespace.
+Each module may contain one short header, one or two descriptor lines, and a mini diagram or icon.
+Keep the background almost white and highly readable.
+Every visible module label must be listed in Must-appear text.
+```
+
+## Density note
+
+- Do not assume a good infographic slide is always low-text.
+- Some decks are sparse keynote decks.
+- Others are self-contained didactic infographics where more words are correct because the slide itself is delivering the explanation.
+- In those cases, route into `L9`, `L10`, or `L11` instead of stripping information away.

@@ -129,7 +129,7 @@ Note: despite the Bible-themed examples, this workflow works for any topic. Swap
 - **Content plan** = content-level communication model: what the deck needs to say and how many slides are needed to say it well.
 - **Deck archetype** = deck-level viewing model: what kind of visual presentation best fits the approved content plan.
 - **Style pack** = deck-level visual language: palette, lighting, texture, typography attitude, scene bias.
-- **Layout** = slide-level composition: split-panel, framework, comparison, warning, or full-bleed overlay. It should normally be auto-routed during visual planning.
+- **Layout** = slide-level composition: split-panel, framework, comparison, warning, didactic teaching board, or full-bleed overlay. It should normally be auto-routed during visual planning.
 - **Scene ID / visual scene** = slide-level depiction choice chosen during visual planning.
 - **Text budget** = production constraint describing how much copy the chosen layout needs to carry.
 
@@ -155,10 +155,15 @@ If an explicit brevity request would force harmful compression, preserve the con
 
 Do not collapse a rich article into a short deck merely because the skill can make a shorter deck.
 
+Infographic does **not** mean one universal text density.
+Some decks should feel like sparse keynote slides.
+Other decks should feel like self-contained didactic infographics or teaching posters with more visible words, labels, formulas, diagram captions, and explanatory sections.
+Choose the density and layout family that best serves the content instead of forcing every deck toward the same low-text aesthetic.
+
 Use one style pack across the deck by default, and let the skill choose layout **per slide** unless the user explicitly overrides it:
 - Short emotional or opener slides often route to `L4`, `L5`, or `L6`.
 - In cinematic, editorial, warm, airy, animated, and youth decks, short/medium context or application slides should try `L4` or `L6` before `L1` if the scene can provide a calm text-safe zone.
-- Teaching, framework, and comparison slides often route to `L1`, `L2`, `L3`, `L7`, or `L8` only when structure or density really requires those layouts.
+- Teaching, framework, comparison, and didactic poster slides often route to `L1`, `L2`, `L3`, `L7`, `L8`, `L9`, `L10`, or `L11` when structure or density requires those layouts.
 - The same style pack can legitimately use both split-panel and full-bleed layouts inside one deck.
 - If you need article-first intake guidance, read `references/article_intake_workflow.md`.
 - If you need archetype routing guidance, read `references/deck_archetype_routing.md`.
@@ -169,11 +174,12 @@ Use one style pack across the deck by default, and let the skill choose layout *
 Read `references/prompt_template.md` and fill it per slide. Keep it extremely explicit:
 - Start from the inferred article structure and deck archetype, not from arbitrary slide decoration.
 - Put **all required on-slide text** under a `Must-appear text (verbatim)` section.
+- If the slide is a dense didactic infographic, include every visible section header, label, callout, formula label, diagram caption, and module heading in `Must-appear text (verbatim)` rather than expecting the model to invent them correctly.
 - For visuals, describe **scene layers** (far/mid/foreground), plus 3–8 concrete objects.
 - Specify what must be **subtle/low-contrast** so text stays readable.
 - Keep prompt instructions in English by default even when the required on-slide text is Chinese, German, or bilingual.
 - Do not clutter concrete prompts with redundant language metadata in the default English case. Only state prompt/output language explicitly when the slide uses non-English or multilingual rendered text, or when the language setup might otherwise be ambiguous.
-- Use both layout families intentionally: split-panel infographic layouts for dense teaching content, and full-bleed cinematic overlay layouts for title cards, quote slides, and scene-led emotional beats.
+- Use both presentation families intentionally: split-panel / board-style infographic layouts for dense teaching content, didactic poster layouts for self-contained educational slides, and full-bleed cinematic overlay layouts for title cards, quote slides, and scene-led emotional beats.
 - Treat split-panel wording as explicit layout instructions, not as generic presentation language. If the user prefers text directly on the image, route away from `L1` before writing the prompt.
 - For full-bleed layouts, default to direct text on the image itself with composition-based readability support. Do not ask for visible rounded rectangles, frosted cards, or caption boxes unless the user explicitly wants that treatment.
 - Do not ask the user for per-slide layouts by default. Route layouts internally from slide role, text budget, and overall deck style. Only use explicit `Layout hint` when the user or `slides_visual_plan.md` provides one.
@@ -206,11 +212,13 @@ For each slide:
   - `All must-appear text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`,
   - simpler backgrounds.
 - **Engagement**: add background scenes + textures + icon clusters, but keep them low-contrast.
+- **Didactic density is allowed when the content needs it**: a self-contained teaching slide may legitimately carry more visible words than a keynote slide, as long as hierarchy, spacing, and diagram structure stay clear.
 
 Common failure fixes:
 - Deck feels visually polished but structurally wrong: revisit `references/article_intake_workflow.md` and `references/deck_archetype_routing.md`; fix the slide roles or archetype before rewriting prompts.
 - Tool call fails/intermittent errors: retry after a short wait; keep prompt stable; reduce scene complexity only if repeats.
 - Text too small: reduce bullet count; split into two slides; demand large type and comfortable line spacing.
+- Slide feels too empty for an infographic teaching use case: reroute to `L9`, `L10`, or `L11` and explicitly include the needed labels, captions, formulas, or comparison headings instead of pretending the content is sparse.
 - Too busy: force a low-contrast background, keep the scene mostly on the right, and keep the left panel clean.
 - Deck too dark: switch to `editorial-light` or `airy-relaxed`, disable vignette, force daylight scene IDs, and add brightness override.
 - Full-bleed overlay feels boxed in: remove visible cards, rounded rectangles, frosted panels, and boxed banners; ask for direct text on the image with only subtle local contrast support.

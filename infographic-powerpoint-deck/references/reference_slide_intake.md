@@ -12,7 +12,7 @@ This is not model training. It is a reusable extraction workflow:
 - inspect the reference
 - abstract the visual grammar
 - reuse that grammar in prompts
-- optionally turn it into a new reusable style pack or prompt example
+- optionally turn it into a new reusable style pack, layout family, archetype note, or prompt example
 
 ## What to extract from a reference slide
 
@@ -20,6 +20,7 @@ For each strong example, capture:
 
 1. Layout family
 - direct overlay or split-panel
+- didactic board / teaching poster / catalog grid when relevant
 - title-safe zone
 - text anchor area
 - whether the text sits on architecture/sky/light or inside a deliberate panel
@@ -55,6 +56,13 @@ For each strong example, capture:
 - dark text on noisy background
 - copied logos or branding marks
 
+6. Deck-family signal
+- sparse keynote
+- balanced teaching deck
+- didactic self-contained infographic
+- research poster / classroom explainer
+- cinematic story deck
+
 ## Decision rule: what should be updated?
 
 After extracting the reference, decide which reusable level it belongs to:
@@ -82,6 +90,7 @@ Use when:
 Do:
 - add or update examples in `references/prompt_example_library.md`
 - add routing notes in `references/layout_routing_policy.md` or `references/layout_library.md` if needed
+- if the example represents a recurring new deck family, update `references/deck_archetype_routing.md` as well
 
 ### C. New style pack or style-pack refinement
 
@@ -94,6 +103,19 @@ Do:
 - either refine the nearest existing pack
 - or scaffold a new pack with `scripts/create_style_pack.py`
 - register it in `references/style-pack-catalog.md`
+
+### D. New deck family / layout family
+
+Use when:
+- the example is not mainly a new color/style problem
+- the main novelty is how the information is organized on the slide
+- the same structural pattern could recur across many topics
+
+Do:
+- define the layout family in `references/layout_library.md`
+- add routing rules in `references/layout_routing_policy.md`
+- add one concrete wording pattern in `references/prompt_example_library.md`
+- if the pattern changes deck-level behavior, add or refine an archetype in `references/deck_archetype_routing.md`
 
 ## Reuse rule
 
@@ -113,10 +135,12 @@ If a reference slide is provided, add a short section near the top of `slides_vi
 - `Reference slide signals`
 - `Chosen reusable interpretation`
 - `Nearest style pack`
+- `Nearest deck family / layout family`
 - `Any new prompt example or pack created`
 
 ## Fast heuristic
 
 - If the user says `use this exact feel` and the slide is mostly one good composition idea, update `prompt_example_library.md`.
 - If the user says `we will use this kind of look again and again`, refine or add a style pack.
+- If the user’s example is mainly a new way of organizing information, add or refine a layout family and routing rule instead of forcing it into an unrelated existing layout.
 - If the user only wants the current deck to resemble it, keep it local to the deck and use reference-derived prompt notes.

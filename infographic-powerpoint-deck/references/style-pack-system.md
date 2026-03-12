@@ -31,7 +31,7 @@ Never mix blocks from different style packs in one deck unless explicitly reques
 
 - **Style pack** defines palette, lighting, texture, typography attitude, and scene bias.
 - **Layout** defines where text and imagery sit on a given slide.
-- The same style pack may support split-panel slides, framework slides, comparison slides, and full-bleed overlay slides inside one deck.
+- The same style pack may support split-panel slides, framework slides, comparison slides, didactic board / teaching-poster slides, and full-bleed overlay slides inside one deck.
 
 ## How to use in practice
 
@@ -70,7 +70,7 @@ Never mix blocks from different style packs in one deck unless explicitly reques
 - IDs: lowercase + hyphen only (e.g., `calm-minimal`, `warm-editorial`).
 - Block files use numeric prefix to enforce stable load order.
 - Keep each block narrowly scoped:
-  - `10`: palette/text-treatment/light/layout-family compatibility
+  - `10`: palette/text-treatment/light/layout-family compatibility, including whether the pack can support didactic board layouts
   - `20`: recurring motif language
   - `30`: deck-level consistency locks
   - `40`: scene selection bias and exclusions

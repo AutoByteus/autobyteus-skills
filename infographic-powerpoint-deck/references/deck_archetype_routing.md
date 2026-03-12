@@ -119,6 +119,24 @@ So the skill should first answer:
 - Default layout bias:
   - `cinematic`
 
+### 7. Didactic infographic
+
+- Best for:
+  - classroom teaching decks
+  - textbook-like explainers
+  - science / chemistry / history / doctrine walkthroughs
+  - self-contained slides that must still teach well when viewed individually
+- Signals:
+  - more visible words than a keynote slide
+  - labeled diagrams, formulas, reaction schemes, or annotated comparisons
+  - wants the slide itself to carry the explanation, not just act as a visual prompt for a speaker
+- Default style direction:
+  - `research-academic`
+  - `editorial-light`
+  - `clean-corporate`
+- Default layout bias:
+  - `didactic`
+
 ## Selection rules
 
 1. Choose the archetype from the article's dominant behavior, not just isolated phrases.
@@ -128,6 +146,7 @@ So the skill should first answer:
    - `editorial teaching` for balanced explainers
    - `narrative cinematic` for scene-led journeys
    - `evidence explainer` for analysis-heavy content
+   - `didactic infographic` for self-contained, label-heavy teaching boards or poster-like explainer slides
 
 ## What the archetype controls
 

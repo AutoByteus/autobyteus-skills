@@ -66,7 +66,7 @@ Use when:
 - the example is specific but not broad enough to justify a new pack
 
 Do:
-- add a short `reference-derived style note` to `slides_plan.md`
+- add a short `reference-derived style note` to `slides_visual_plan.md`
 - use the reference image as an allowed input/edit reference if helpful
 - write prompts using the extracted wording pattern
 
@@ -108,7 +108,7 @@ When learning from a reference slide:
 
 ## Output expectation
 
-If a reference slide is provided, add a short section near the top of `slides_plan.md`:
+If a reference slide is provided, add a short section near the top of `slides_visual_plan.md`:
 
 - `Reference slide signals`
 - `Chosen reusable interpretation`

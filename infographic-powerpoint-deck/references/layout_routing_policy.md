@@ -15,10 +15,11 @@ The skill should normally choose layouts automatically from slide role, text bud
 - Therefore:
   - layout selection is an internal skill decision by default
   - `Layout hint` is an optional override, not a required user input
+  - if a workflow uses structured planning, that hint belongs in `slides_visual_plan.md`, not `slides_content_plan.md`
 
-## Deck-level routing bias (optional)
+## Deck-level layout bias (optional)
 
-If the user gives an overall presentation bias, or if one is implied by the chosen deck archetype, use it to influence the routing mix:
+If the user gives an overall presentation bias, or if one is implied by the chosen deck archetype or recorded in `slides_visual_plan.md`, use it to influence the routing mix:
 
 - `balanced` (default):
   - mix split-panel and full-bleed layouts according to slide role and text budget
@@ -34,7 +35,7 @@ If the user gives an overall presentation bias, or if one is implied by the chos
 
 ## Per-slide auto-routing rules
 
-If `Layout hint` is provided, use it unless readability clearly fails.
+If `Layout hint` is provided in `slides_visual_plan.md` or directly by the user, use it unless readability clearly fails.
 If `Layout hint` is blank or missing, route automatically:
 
 1. By slide role:

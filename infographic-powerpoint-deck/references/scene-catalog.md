@@ -1,6 +1,6 @@
 # Scene catalog (IDs + tags)
 
-Use scene IDs in `slides_plan.md` so scene selection is explicit and reusable.
+Use scene IDs in `slides_visual_plan.md` so scene selection is explicit and reusable.
 
 | Scene ID | Scene summary | Suggested tags |
 |---|---|---|

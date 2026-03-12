@@ -145,7 +145,7 @@ Humans keep track of what changed; do the same to avoid thrash:
 ### Step 5 — Stop at the approved article
 
 The normal end state of this skill is an approved `article.md` plus the supporting research package.
-Do **not** create `slide_extraction.md` as part of the default deep-research workflow.
+Do **not** create a separate slide-extraction handoff artifact as part of the default deep-research workflow.
 If the user wants slides after the article is approved, hand the article directly to `infographic-powerpoint-deck`.
 
 ## Output files (recommended)

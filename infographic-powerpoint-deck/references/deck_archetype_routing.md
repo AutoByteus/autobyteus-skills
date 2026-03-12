@@ -30,7 +30,7 @@ So the skill should first answer:
   - `cinematic-light`
   - `cinematic-dark`
   - `cinematic-editorial`
-- Default routing bias:
+- Default layout bias:
   - `cinematic`
 
 ### 2. Editorial teaching
@@ -47,7 +47,7 @@ So the skill should first answer:
   - `editorial-light`
   - `warm-sermon`
   - `airy-relaxed`
-- Default routing bias:
+- Default layout bias:
   - `balanced`
 
 ### 3. Structured briefing
@@ -65,7 +65,7 @@ So the skill should first answer:
   - `clean-corporate`
   - `editorial-light`
   - `neo-tech` when topic is product/AI
-- Default routing bias:
+- Default layout bias:
   - `structured`
 
 ### 4. Evidence explainer
@@ -83,7 +83,7 @@ So the skill should first answer:
   - `research-academic`
   - `clean-corporate`
   - `editorial-light`
-- Default routing bias:
+- Default layout bias:
   - `dense`
 
 ### 5. Warm devotional
@@ -100,7 +100,7 @@ So the skill should first answer:
   - `warm-sermon`
   - `editorial-light`
   - `airy-relaxed`
-- Default routing bias:
+- Default layout bias:
   - `balanced`
 
 ### 6. Animated story
@@ -116,7 +116,7 @@ So the skill should first answer:
 - Default style direction:
   - `animated-feature-bright`
   - `youth-social`
-- Default routing bias:
+- Default layout bias:
   - `cinematic`
 
 ## Selection rules
@@ -133,7 +133,7 @@ So the skill should first answer:
 
 Once chosen, the archetype should influence:
 - style pack selection
-- deck-level routing bias
+- deck-level layout bias
 - likely slide roles
 - acceptable text density
 - scene emphasis
@@ -141,4 +141,4 @@ Once chosen, the archetype should influence:
 
 ## Recommended planning output
 
-Record the chosen archetype near the top of `slides_plan.md` so later prompt-writing stays consistent.
+Record the chosen archetype near the top of `slides_visual_plan.md` so later prompt-writing stays consistent.

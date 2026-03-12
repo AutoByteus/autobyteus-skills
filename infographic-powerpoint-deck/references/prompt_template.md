@@ -63,7 +63,7 @@ Optional (recommended for routing + wording calibration): `references/prompt_exa
 ### Title
 - Title (exact): `[Slide title, including source range if relevant]`
 - Slide role: `[opening / section opener / context / key-claim / evidence / contrast / objection / framework / application / transition / closing]`
-- Scene ID (from `references/scene-catalog.md`): `[scene-id]`
+- Scene ID (from `references/scene-catalog.md` or `slides_visual_plan.md`): `[scene-id]`
   - Optional: select a ready preset from `references/scene-preset-library.md`.
 
 ### Must-appear text (verbatim)
@@ -76,7 +76,7 @@ Include **everything** that must appear on the slide, verbatim:
 - `[Footer microcopy]`
 
 Rules:
-- If content comes from an upstream `slide_extraction.md` or equivalent slide table, copy from `Must-appear text (verbatim)` first.
+- If content comes from an upstream `slides_content_plan.md` or equivalent content slide table, copy from `Must-appear text (verbatim)` first.
 - If content comes from a raw article intake workflow, derive this block from the inferred slide role and preserve any must-keep lines from the source.
 - Keep quote blocks short; if too long, split into 2 slides.
 - If any character, word, accent, punctuation mark, or spacing is wrong in output, regenerate with stricter instruction: `All must-appear text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`
@@ -89,7 +89,7 @@ Rules:
 - Style pack and layout are separate decisions. The same `pack-id` may use different layouts across slides in one deck.
 - Deck archetype should influence the layout mix, but the final layout is still chosen per slide from role + text budget.
 - Normally, choose layout automatically using `references/layout_routing_policy.md`.
-- If an upstream artifact or user provides `Layout hint`, treat it as an override.
+- If `slides_visual_plan.md` or the user provides `Layout hint`, treat it as an override.
 - State the chosen layout explicitly in the prompt after routing.
 - Never use panel wording unless you actually chose a panel-based layout. The words `text panel`, `left panel`, `card`, `caption box`, `rounded rectangle`, and `frosted panel` are instructions, not harmless descriptions.
 - For cinematic, editorial, warm, airy, animated, and youth packs, try a direct-overlay composition first for slides that only need 1 title plus up to 4 short lines.

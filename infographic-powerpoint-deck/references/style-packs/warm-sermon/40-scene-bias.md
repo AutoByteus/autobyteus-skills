@@ -1,6 +1,6 @@
 ```text
 Scene Bias (warm-sermon):
-- Preferred scene tags: warm, pastoral, heritage, devotional.
-- Recommended scene IDs: chapel-bench-morning, family-table-devotion, sunlit-library-day, prayer-circle-evening.
-- Forbidden: strong neon tech energy or cold industrial backdrops.
+- Favor warm, pastoral, heritage, and devotional scenes.
+- When you need a concrete scene, lean toward chapel benches in the morning, family-table devotion, sunlit libraries, or evening prayer circles.
+- Avoid strong neon tech energy or cold industrial backdrops.
 ```

@@ -1,6 +1,6 @@
 ```text
 Scene Bias (neo-tech):
-- Preferred scene tags: tech, network, dashboard, startup.
-- Recommended scene IDs: innovation-hub-daylight, ai-control-room-clean, data-wall-briefing, startup-war-room.
-- Forbidden: retro religious heavy-texture backgrounds as the primary scene.
+- Favor tech, network, dashboard, and startup scenes.
+- When you need a concrete scene, lean toward clean innovation hubs, calm AI control rooms, data-wall briefings, or startup war-room settings.
+- Avoid retro religious heavy-texture backgrounds as the primary scene.
 ```

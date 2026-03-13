@@ -1,6 +1,6 @@
 ```text
 Scene Bias (editorial-light):
-- Preferred scene tags: daylight, clean, teaching, structured.
-- Recommended scene IDs: sunlit-library-day, atrium-morning, coastal-promenade-clear, workshop-tentmaking.
-- Forbidden: heavy shadow, strong vignette, or night scenes dominating the frame.
+- Favor daylight, clean, teaching-oriented, and structured scenes.
+- When you need a concrete scene, lean toward sunlit libraries, morning atriums, clear coastal promenades, or restrained workshop settings.
+- Avoid heavy shadow, strong vignette, or night-dominant scenes.
 ```

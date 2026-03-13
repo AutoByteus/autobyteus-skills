@@ -64,6 +64,39 @@ def pack_block_files(pack_dir: Path) -> list[Path]:
     )
 
 
+def unfence_markdown_block(text: str) -> list[str]:
+    lines = text.rstrip().splitlines()
+    if lines and lines[0].startswith("```"):
+        lines = lines[1:]
+    if lines and lines[-1].startswith("```"):
+        lines = lines[:-1]
+    return lines
+
+
+def prompt_ready_block(text: str) -> str:
+    lines = unfence_markdown_block(text)
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    while lines and not lines[-1].strip():
+        lines.pop()
+    if not lines:
+        return ""
+
+    first = lines[0].strip()
+    if (
+        first.startswith("Style Pack:")
+        or first.startswith("Motif (")
+        or first.startswith("Consistency Lock (")
+        or first.startswith("Scene Bias (")
+        or first.startswith("Base constraints (")
+    ):
+        lines = lines[1:]
+        while lines and not lines[0].strip():
+            lines.pop(0)
+
+    return "\n".join(lines).strip()
+
+
 def list_packs(packs_root: Path) -> str:
     rows: list[str] = []
     rows.append("Available style packs:")
@@ -82,22 +115,32 @@ def list_packs(packs_root: Path) -> str:
     return "\n".join(rows) + "\n"
 
 
-def compose_blocks(pack_id: str, packs_root: Path) -> str:
+def compose_blocks(pack_id: str, packs_root: Path, *, annotated: bool) -> str:
     order = resolve_pack_order(pack_id, packs_root, visited=set(), stack=set())
     chunks: list[str] = []
-    chunks.append(f"# Style Pack Bundle: {pack_id}")
-    chunks.append("")
-    chunks.append("Use this full bundle under the style section of each slide prompt.")
-    chunks.append("")
 
-    for current_id in order:
-        pack_dir = packs_root / current_id
-        chunks.append(f"## Pack: {current_id}")
-        for block_path in pack_block_files(pack_dir):
-            relative = block_path.relative_to(packs_root.parent)
-            chunks.append(f"### Source: `{relative}`")
-            chunks.append(block_path.read_text(encoding="utf-8").rstrip())
-            chunks.append("")
+    if annotated:
+        chunks.append(f"# Style Pack Bundle: {pack_id}")
+        chunks.append("")
+        chunks.append("Use this full bundle under the style section of each slide prompt.")
+        chunks.append("")
+
+        for current_id in order:
+            pack_dir = packs_root / current_id
+            chunks.append(f"## Pack: {current_id}")
+            for block_path in pack_block_files(pack_dir):
+                relative = block_path.relative_to(packs_root.parent)
+                chunks.append(f"### Source: `{relative}`")
+                chunks.append(block_path.read_text(encoding="utf-8").rstrip())
+                chunks.append("")
+    else:
+        for current_id in order:
+            pack_dir = packs_root / current_id
+            for block_path in pack_block_files(pack_dir):
+                cleaned = prompt_ready_block(block_path.read_text(encoding="utf-8"))
+                if cleaned:
+                    chunks.append(cleaned)
+                    chunks.append("")
 
     return "\n".join(chunks).rstrip() + "\n"
 
@@ -109,6 +152,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Compose inherited style-pack blocks for prompt usage.")
     parser.add_argument("--pack-id", default="", help="Style pack ID, e.g. editorial-light")
     parser.add_argument("--list", action="store_true", help="List available style packs")
+    parser.add_argument("--annotated", action="store_true", help="Include pack/source headers for debugging instead of prompt-ready raw blocks")
     parser.add_argument("--packs-root", default=str(default_root), help="Path to style-packs directory")
     parser.add_argument("--out", default="", help="Write composed output to file (optional)")
     args = parser.parse_args()
@@ -133,7 +177,7 @@ def main() -> int:
         return 1
 
     try:
-        composed = compose_blocks(args.pack_id, packs_root)
+        composed = compose_blocks(args.pack_id, packs_root, annotated=args.annotated)
     except Exception as error:
         print(str(error), file=sys.stderr)
         return 1

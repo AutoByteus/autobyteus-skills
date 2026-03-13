@@ -1,6 +1,6 @@
 ```text
 Scene Bias (research-academic):
-- Preferred scene tags: academic, neutral, diagram, evidence.
-- Recommended scene IDs: university-seminar-room, whiteboard-framework-session, research-lab-clean, library-archive-modern.
-- Forbidden: exaggerated cinematic conflict lighting or overly dramatic storytelling composition.
+- Favor academic, neutral, diagram-friendly, evidence-led scenes.
+- When you need a concrete scene, lean toward university seminar rooms, whiteboard framework sessions, clean research labs, or modern library archives.
+- Avoid exaggerated cinematic conflict lighting or overly dramatic storytelling composition.
 ```

@@ -1,8 +1,8 @@
 ```text
 Style Pack: cinematic-editorial (premium cinematic editorial)
-- Layout: direct-overlay-first for short or medium slides using reserved negative space; if split-panel fallback is necessary, use left text panel 52%-58% and right narrative illustration zone 42%-48%.
-- Palette: ivory, stone, slate, muted navy, restrained metallic accents.
-- Text treatment: if a split-panel fallback is necessary, it may use a refined editorial panel; full-bleed slides should use direct text on the image with premium negative space and no visible caption card.
-- Lighting: soft directional campaign-style lighting with clean separation and no harsh glare.
-- Background bias: architecture, premium interiors, poised figure-led scenes, polished cinematic staging.
+- Prefer direct-overlay slides for short or medium content, using reserved negative space; if a split layout is necessary, keep the left text zone around 52%-58% and the right narrative illustration zone around 42%-48%.
+- Use ivory, stone, slate, muted navy, and restrained metallic accents.
+- If a split layout is necessary, keep the panel refined and editorial; on full-bleed slides, place text directly on the image with premium negative space and no visible caption card.
+- Light the slide with soft directional campaign-style lighting and clean separation, without harsh glare.
+- Favor architecture, premium interiors, poised figure-led scenes, and polished cinematic staging.
 ```

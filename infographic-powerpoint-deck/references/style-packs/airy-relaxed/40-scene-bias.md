@@ -1,6 +1,6 @@
 ```text
 Scene Bias (airy-relaxed):
-- Preferred scene tags: airy, calm, daylight, open-space.
-- Recommended scene IDs: sunlit-library-day, coastal-promenade-clear, desert-road-dawn, atrium-morning.
-- Forbidden: heavy night pressure, strong alarm-style visuals.
+- Favor airy, calm, daylight, and open-space scenes.
+- When you need a concrete scene, lean toward sunlit libraries, clear coastal promenades, desert roads at dawn, or bright atriums.
+- Avoid heavy night pressure or strong alarm-style visuals.
 ```

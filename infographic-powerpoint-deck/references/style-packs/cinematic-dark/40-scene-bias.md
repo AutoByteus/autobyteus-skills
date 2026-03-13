@@ -1,6 +1,6 @@
 ```text
 Scene Bias (cinematic-dark):
-- Preferred scene tags: dramatic, night, warning, climax.
-- Recommended scene IDs: harbor-dusk, city-wall-night, amphitheater-spotlight, storm-sea-silhouette.
-- Forbidden: high-contrast complex texture behind the main text area.
+- Favor dramatic night scenes, warning atmospheres, and climax energy.
+- When you need a concrete scene, lean toward harbor dusk, city walls at night, amphitheater spotlights, or storm-sea silhouettes.
+- Avoid high-contrast complex texture behind the main text area.
 ```

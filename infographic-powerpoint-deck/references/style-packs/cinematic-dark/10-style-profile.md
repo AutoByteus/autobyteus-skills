@@ -1,8 +1,8 @@
 ```text
 Style Pack: cinematic-dark (cinematic dark)
-- Layout: direct-overlay-first for short or medium slides using shadow-shaped negative space; if split-panel fallback is necessary, use left text panel 55%-60% and right narrative illustration zone 40%-45%.
-- Palette: deep navy / indigo base; high-contrast light body text; gold accent #F4C542.
-- Text treatment: if a split-panel fallback is necessary, it may use a dark frosted panel; full-bleed slides should use direct text on the image with controlled glow or tonal falloff and no obvious caption box.
-- Lighting: volumetric light and rim light allowed; vignette only at a very weak level.
-- Background bias: dusk or night scenes are allowed, but the text zone must stay readable.
+- Prefer direct-overlay slides for short or medium content, using shadow-shaped negative space; if a split layout is necessary, keep the left text zone around 55%-60% and the right narrative illustration zone around 40%-45%.
+- Use a deep navy or indigo base, high-contrast light text, and restrained gold accents.
+- If a split layout is necessary, keep the panel dark and restrained; on full-bleed slides, place text directly on the image with controlled glow or tonal falloff and no obvious caption box.
+- Volumetric light and rim light are allowed, but any vignette should stay very weak.
+- Favor dusk or night scenes only when the text zone stays readable.
 ```

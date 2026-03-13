@@ -70,14 +70,16 @@ Use three distinct planning artifacts:
    - Do not force the full speaking content onto the slide.
 6. Create `slides_visual_plan.md` from `slides_display_plan.md`.
    - Add style, layout, scene, and text-budget decisions here, not in the message plan.
-7. Compose the style block bundle:
-   - Run `scripts/compose_style_pack_blocks.py --pack-id <id>` (or manually read the style-pack files).
-   - This yields a consistent block set: profile + motif + consistency + scene bias.
+7. Gather the style-pack material:
+   - You may run `scripts/compose_style_pack_blocks.py --pack-id <id>` as a helper, or manually read the style-pack files.
+   - Treat the script output as helper context only, not as the final prompt body.
+   - The concrete prompt should still be authored by the model in plain instruction prose.
 8. For each slide in `slides_visual_plan.md`, fill `references/prompt_template.md`:
-   - Paste the composed style block bundle.
+   - Use the style-pack material as helper context and rewrite it into plain instruction prose.
    - Write the prompt instructions in English by default.
-   - Paste exact required on-slide text (verbatim) from `slides_display_plan.md` in the user-specified language(s).
+   - Paste exact required on-slide text from `slides_display_plan.md` in the user-specified language(s).
    - Add slide-specific scene layer details and icons using the visual plan.
+   - Keep internal routing IDs such as `L1` or `L10` in planning metadata only. Translate the routed layout into plain composition language inside the concrete image prompt.
 9. Generate each slide as one **16:9 image**.
    - Allowed slide-creation modes in this skill are **image generation** and **image editing/reference** only.
    - In the slide prompt text, explicitly include a ratio lock sentence (e.g., `Hard canvas constraint: 16:9 widescreen. Do not generate a square image.`).
@@ -135,7 +137,7 @@ Use folderized style packs so each style is self-contained:
 - Each style pack lives in `references/style-packs/<pack-id>/`.
 - Each pack has its own `manifest.toml` and block files that define the look.
 - Packs can inherit from `base-core` to reuse shared constraints.
-- Prompts are composed as: **base-core + chosen pack + slide-specific content**.
+- Prompts are authored from: **base-core guidance + chosen pack guidance + slide-specific content**.
 - This avoids cross-file mismatch and makes new style creation deterministic.
 
 Note: despite the Bible-themed examples, this workflow works for any topic. Swap scenes/props in `references/scene_library.md` to match your domain (product, research, training, etc.).
@@ -192,14 +194,18 @@ Use one style pack across the deck by default, and let the skill choose layout *
 
 Read `references/prompt_template.md` and fill it per slide. Keep it extremely explicit:
 - Start from the inferred article structure, message plan, display plan, and deck archetype, not from arbitrary slide decoration.
-- Put **all required on-slide text** from `slides_display_plan.md` under a `Must-appear text (verbatim)` section.
-- If the slide is a dense didactic infographic, include every visible section header, label, callout, formula label, diagram caption, and module heading in `Must-appear text (verbatim)` rather than expecting the model to invent them correctly.
+- Put **all required on-slide text** from `slides_display_plan.md` into one exact-text block in the concrete prompt.
+- If the slide is a dense didactic infographic, include every visible section header, label, callout, formula label, diagram caption, and module heading in that exact-text block rather than expecting the model to invent them correctly.
 - For visuals, describe **scene layers** (far/mid/foreground), plus 3–8 concrete objects.
+- For high-fidelity results, do not stop at naming the style pack or the layout family. Also specify geometry, palette/material treatment, typography attitude, divider/module structure, and lighting behavior in plain prose.
 - Specify what must be **subtle/low-contrast** so text stays readable.
 - Keep prompt instructions in English by default even when the required on-slide text is Chinese, German, or bilingual.
 - Do not clutter concrete prompts with redundant language metadata in the default English case. Only state prompt/output language explicitly when the slide uses non-English or multilingual rendered text, or when the language setup might otherwise be ambiguous.
 - Use both presentation families intentionally: split-panel / board-style infographic layouts for dense teaching content, didactic poster layouts for self-contained educational slides, and full-bleed cinematic overlay layouts for title cards, quote slides, and scene-led emotional beats.
 - Treat split-panel wording as explicit layout instructions, not as generic presentation language. If the user prefers text directly on the image, route away from `L1` before writing the prompt.
+- Treat `L1`-`L11` as internal routing handles, not model-facing prompt text. The image model should receive composition instructions such as `use a mirrored two-zone teaching board with a central divider`, not `use layout L9`.
+- Treat style-pack files the same way: they are internal guidance material, not literal prompt fragments. The final prompt should read like direct art-direction and display instructions, not like serialized metadata.
+- If the final prompt still sounds generic after removing the metadata, enrich it rather than shortening it. High-fidelity prompts normally need explicit visual specificity, not just raw content and one style label.
 - For full-bleed layouts, default to direct text on the image itself with composition-based readability support. Do not ask for visible rounded rectangles, frosted cards, or caption boxes unless the user explicitly wants that treatment.
 - Do not ask the user for per-slide layouts by default. Route layouts internally from slide role, text budget, display density, and overall deck style. Only use explicit `Layout hint` when the user or `slides_visual_plan.md` provides one.
 - Do not ask the user for style-pack IDs by default when the article content already makes the fit obvious. Infer archetype first, then select style.
@@ -229,7 +235,7 @@ For each slide:
 - **No hallucinated text**: forbid extra words/logos/watermarks.
 - **Text fidelity in the requested language/script**: if any character, accent, word, or punctuation is wrong, regenerate that slide with:
   - shorter quote blocks,
-  - `All must-appear text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`,
+  - `All required on-slide text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`,
   - simpler backgrounds.
 - **Engagement**: add background scenes + textures + icon clusters, but keep them low-contrast.
 - **Didactic density is allowed when the content needs it**: a self-contained teaching slide may legitimately carry more visible words than a keynote slide, as long as hierarchy, spacing, and diagram structure stay clear.

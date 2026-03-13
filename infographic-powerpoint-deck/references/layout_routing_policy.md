@@ -72,7 +72,7 @@ If `Layout hint` is blank or missing, route automatically:
 - If you choose `L1`, `L2`, `L3`, `L7`, `L8`, `L9`, `L10`, or `L11`, panel/board wording is expected because those layouts intentionally create structured information zones.
 - If you choose `L4`, `L5`, or `L6`, do **not** write `text panel`, `left panel`, `caption box`, `card`, `rounded rectangle`, `frosted panel`, or similar wording in the prompt.
 - If the user prefers text directly on the image, reroute away from `L1` before writing the prompt unless the slide is genuinely too dense for an overlay-safe composition.
-- If you choose `L9`, `L10`, or `L11`, list every visible heading, label, formula caption, module title, and diagram annotation in `Must-appear text (verbatim)` rather than leaving them implicit.
+- If you choose `L9`, `L10`, or `L11`, list every visible heading, label, formula caption, module title, and diagram annotation in the required on-slide text set rather than leaving them implicit.
 
 ## Override rules
 

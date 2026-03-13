@@ -1,6 +1,6 @@
 ```text
 Scene Bias (animated-feature-bright):
-- Preferred scene tags: animated, bright, character, hopeful, family-friendly.
-- Recommended scene IDs: campus-lawn-dialogue, city-park-walktalk, community-event-daylight, bridge-crossing-sunrise.
-- Forbidden: grim realism, oppressive dark palettes, or overly abstract non-character scenes as the default.
+- Favor animated, bright, character-led, hopeful, family-friendly scenes.
+- When you need a concrete scene, lean toward campus lawns, city-park conversations, community events in daylight, or bridge-crossing sunrise moments.
+- Avoid grim realism, oppressive dark palettes, or overly abstract non-character scenes as the default.
 ```

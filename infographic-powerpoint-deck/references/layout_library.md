@@ -58,7 +58,7 @@ Default heuristic for classroom, didactic, self-contained teaching, or research 
 
 - **Best for:** expectation vs reality, before vs after, old model vs new model, experiment A vs experiment B, or any side-by-side comparison where both halves need labels and small diagrams
 - **Layout:** full-width title row across the top; lower body split into left and right mirrored teaching zones with a central divider; each side may carry a short subhead, diagram, arrow/process cue, and one short conclusion/result line
-- **Notes:** this is a bright didactic board, not a cinematic slide. Every visible label, annotation, and formula must be explicitly listed in `Must-appear text (verbatim)`.
+- **Notes:** this is a bright didactic board, not a cinematic slide. Every visible label, annotation, and formula must be explicitly listed in the required on-slide text set.
 
 ## L10 — Concept explainer board
 

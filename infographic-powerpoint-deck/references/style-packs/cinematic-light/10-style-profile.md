@@ -1,8 +1,8 @@
 ```text
 Style Pack: cinematic-light (bright cinematic)
-- Layout: direct-overlay-first for short or medium slides using reserved negative space; if split-panel fallback is necessary, use left text panel 54%-58% and right narrative illustration zone 42%-46%.
-- Palette: sunlit neutrals, warm ivory, pale blue-gray, restrained gold highlights, deep charcoal text.
-- Text treatment: if a split-panel fallback is necessary, it may use a luminous frosted light panel; full-bleed slides should use direct text on the image with subtle tonal shaping only and no obvious caption box.
-- Lighting: cinematic daylight, gentle volumetric rays allowed, no heavy vignette.
-- Background bias: filmic daylight scenes, bright interiors, open horizons, uplifting atmosphere.
+- Prefer direct-overlay slides for short or medium content, using reserved negative space; if a split layout is necessary, keep the left text zone around 54%-58% and the right narrative illustration zone around 42%-46%.
+- Use sunlit neutrals, warm ivory, pale blue-gray, restrained gold highlights, and deep charcoal text.
+- If a split layout is necessary, keep the panel luminous but restrained; on full-bleed slides, place text directly on the image with subtle tonal shaping only and no obvious caption box.
+- Use cinematic daylight; gentle volumetric rays are allowed, but avoid heavy vignettes.
+- Favor filmic daylight scenes, bright interiors, open horizons, and uplifting atmosphere.
 ```

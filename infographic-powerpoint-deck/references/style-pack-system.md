@@ -42,7 +42,7 @@ Never mix blocks from different style packs in one deck unless explicitly reques
    ```bash
    python3 scripts/compose_style_pack_blocks.py --pack-id <style-pack-id>
    ```
-5. Paste output under the style section of each slide prompt.
+5. Use the output as helper material, then rewrite it into plain model-facing prose for each slide prompt.
 6. Keep the same style pack for all slides in one deck unless the user explicitly requests mixing.
 7. Auto-route the layout per slide from `references/layout_routing_policy.md` unless the user or upstream artifact provides an explicit override; do not assume one style pack implies one fixed layout.
 8. If a reference slide reveals a reusable new look, either refine the nearest pack or scaffold a new one.
@@ -74,3 +74,10 @@ Never mix blocks from different style packs in one deck unless explicitly reques
   - `20`: recurring motif language
   - `30`: deck-level consistency locks
   - `40`: scene selection bias and exclusions
+
+## Prompt-boundary rule
+
+- Style-pack files are internal guidance assets, not literal prompt text.
+- Scripts may help gather pack material, but they should not mechanically author the final concrete prompt.
+- The final prompt should sound like direct instructions to the image model, not worksheet metadata such as `Style Pack`, `Layout`, `Scene Bias`, or internal IDs.
+- The final prompt should also be more specific than the helper files alone. The model should expand style guidance into concrete palette, surface, typography, geometry, divider, and lighting instructions for the actual slide.

@@ -11,7 +11,7 @@ Pick:
 3) **1 Hero symbol set** (what it means)
 4) **3–6 Props/icons** (supporting details)
 
-Rule: in split-panel layouts, keep the scene on the **right side** and **low-contrast** behind the text panel. In full-bleed layouts, shape the scene so one area stays calm enough for direct text-on-image placement.
+Rule: in split-panel layouts, keep the scene on the **right side** and **low-contrast** behind the text panel. In full-bleed layouts, shape the scene so one area stays calm enough for direct text-on-image placement. In didactic board layouts (`L9`, `L10`, `L11`), treat this file as optional and prefer clean board surfaces, explicit module structure, and diagram-friendly whitespace over cinematic location-building.
 If style is light/relaxed, prioritize daylight or bright-interior locations first.
 
 ---

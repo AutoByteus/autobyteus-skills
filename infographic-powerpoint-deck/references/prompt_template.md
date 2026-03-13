@@ -1,4 +1,4 @@
-# Prompt template: 16:9 rich-background infographic slide
+# Prompt template: 16:9 image-based slide
 
 Copy this template and fill in the bracketed parts. Keep it explicit and verbose; the model should not guess.
 
@@ -62,7 +62,7 @@ Optional (recommended for routing + wording calibration): `references/prompt_exa
 
 ### Title
 - Title (exact): `[Slide title, including source range if relevant]`
-- Slide role: `[opening / section opener / context / key-claim / evidence / contrast / objection / framework / application / transition / closing]`
+- Slide role: `[opening / section opener / context / key-claim / evidence / contrast / objection / framework / application / transition / quote / emotional beat / closing / other role if needed]`
 - Scene ID (from `references/scene-catalog.md` or `slides_visual_plan.md`): `[scene-id]`
   - Optional: select a ready preset from `references/scene-preset-library.md`.
 
@@ -76,14 +76,19 @@ Include **everything** that must appear on the slide, verbatim:
 - `[Footer microcopy]`
 
 Rules:
-- If content comes from an upstream `slides_content_plan.md` or equivalent content slide table, copy from `Must-appear text (verbatim)` first.
-- If content comes from a raw article intake workflow, derive this block from the inferred slide role and preserve any must-keep lines from the source.
+- If content comes from an upstream `slides_display_plan.md`, copy from that first.
+- If the workflow still uses the legacy `slides_content_plan.md` name, treat it as a message-plan artifact, not as final slide copy, and derive the display text explicitly before writing the prompt.
+- If content comes from a raw article intake workflow, do not jump directly from the article to final display text. Derive a message plan first, then a display plan, then copy this block from the display plan.
 - Keep quote blocks short; if too long, split into 2 slides.
 - If the slide is a didactic infographic or teaching-poster layout, include every visible section header, label, formula caption, module title, and diagram annotation here. Do not expect the model to invent accurate labels on its own.
 - If any character, word, accent, punctuation mark, or spacing is wrong in output, regenerate with stricter instruction: `All must-appear text must be exact. Do not rewrite. Do not add or remove punctuation or spaces.`
 - For long Chinese passages, follow `references/chinese_quote_compression.md` (split, do not paraphrase).
 - If you are authoring Chinese copy from scratch rather than copying user-provided text, prefer concise fully Chinese phrasing over mixed Chinese + English abbreviations unless the user explicitly wants mixed-script text.
 - Do not translate the required text unless the user explicitly asks for translation.
+
+Important boundary:
+- `Must-appear text (verbatim)` is only the audience-facing visible text.
+- It is not the full speaking content or the full teaching burden for the slide.
 
 ### Layout rules
 
@@ -112,9 +117,11 @@ Rules:
 - Maintain generous whitespace and alignment discipline in every layout.
 - Do not strip necessary labels, formulas, or captions merely to imitate a low-text deck. If the slide is meant to teach as a self-contained infographic, keep the information and route into the correct didactic layout instead.
 
-## 3) Visual scene (be concrete)
+## 3) Visual structure (be concrete)
 
-Describe visuals as a **scene** plus **infographic elements**:
+Choose the structure that matches the routed layout.
+
+### A. Scene-led layouts (`L1`-`L8`)
 
 - Far background (very low contrast): `[location + time: harbor at dawn / city wall in daylight / bright study interior / wilderness at sunrise]`
 - Midground: `[main environment objects: wall, colonnade, waves, damaged boat, route line, scroll, stone path, crowd silhouettes]`
@@ -133,11 +140,27 @@ Depth + storytelling cues (optional but recommended):
 - Atmosphere: `[clean daylight / soft haze / warm interior]` according to selected style pack.
 - Motion hint: `[rope lowering basket / waves breaking / spotlight beam]` (implied, not literal animation).
 
+### B. Board / didactic layouts (`L9`, `L10`, `L11`)
+
+Describe the slide as a **clean teaching surface** plus **explicit diagram modules**, not as a cinematic location:
+
+- Base surface: `[bright neutral board / clean paper-white surface / light academic poster field / muted warm classroom surface]`
+- Structure: `[mirrored halves / top band + lower two analytical blocks / 2x2 grid / 2x3 grid / central divider / thin section rules]`
+- Primary visual module: `[portrait / theory sketch / molecule / reaction scheme / icon set / comparison diagram]`
+- Secondary modules: `[mini diagrams / process arrows / labeled captions / repeated grid cells / evidence callouts]`
+- Divider and spacing behavior: `[thin neutral dividers / generous whitespace / repeated module rhythm / aligned caption baselines]`
+
+Rules for didactic boards:
+- Keep the surface bright, quiet, and diagram-friendly rather than scenic.
+- Use clean module structure and repeated geometry instead of environmental depth.
+- Treat labels, formulas, and annotations as explicit display text, not decorative texture.
+- If a portrait or object appears, it should sit inside the board composition, not as a cinematic hero shot competing with the text.
+
 ## 4) Final checklist (paste)
 
 - All specified `Must-appear text (verbatim)` content appears **exactly** in the requested language(s).
 - No extra words, no watermark, no unspecified text in any language.
 - Text is readable at presentation distance.
-- Background is engaging but not busy.
+- Background or board surface is engaging but not busy.
 - Deck style stays consistent with selected `pack-id` (no cross-style drift).
 - For full-bleed layouts, text sits directly on the image instead of inside an obvious box or card.

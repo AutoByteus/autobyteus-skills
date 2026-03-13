@@ -1,6 +1,6 @@
-# Deck archetype routing (article-first deck selection)
+# Deck archetype routing (article/message-plan guided deck selection)
 
-Use this after reading the raw article content.
+Use this after reading the raw article content and drafting a first-pass `slides_message_plan.md`.
 The goal is to infer one **deck archetype** before choosing style pack, layout mix, and scene bias.
 
 ## Why this exists
@@ -139,10 +139,10 @@ So the skill should first answer:
 
 ## Selection rules
 
-1. Choose the archetype from the article's dominant behavior, not just isolated phrases.
+1. Choose the archetype from the message plan's dominant behavior, not just isolated phrases from the source.
 2. If two archetypes fit, pick the one that best matches the intended audience.
 3. If the user explicitly requests a mood or style, that can override the default style pack, but the archetype should still guide slide breakdown and layout mix.
-4. If the article is mixed, prefer:
+4. If the source is mixed, prefer:
    - `editorial teaching` for balanced explainers
    - `narrative cinematic` for scene-led journeys
    - `evidence explainer` for analysis-heavy content
@@ -153,7 +153,7 @@ So the skill should first answer:
 Once chosen, the archetype should influence:
 - style pack selection
 - deck-level layout bias
-- likely slide roles
+- pacing emphasis and which existing slide roles deserve more space
 - acceptable text density
 - scene emphasis
 - how often full-bleed cinematic slides should appear

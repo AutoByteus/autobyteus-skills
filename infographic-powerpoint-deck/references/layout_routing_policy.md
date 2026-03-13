@@ -15,7 +15,7 @@ The skill should normally choose layouts automatically from slide role, text bud
 - Therefore:
   - layout selection is an internal skill decision by default
   - `Layout hint` is an optional override, not a required user input
-  - if a workflow uses structured planning, that hint belongs in `slides_visual_plan.md`, not `slides_content_plan.md`
+  - if a workflow uses structured planning, that hint belongs in `slides_visual_plan.md`, not `slides_message_plan.md`
 
 ## Deck-level layout bias (optional)
 

@@ -8,7 +8,7 @@ Style pack selects mood and visual language. Layout is a separate per-slide deci
 | `cinematic-dark` | Dramatic, epic, tense | `L4`, `L5`, `L6`, `L8`, sometimes `L1` | cinematic, epic, tension, warning | `dramatic,night,high-contrast-symbol` |
 | `cinematic-light` | Filmic, bright, uplifting | `L4`, `L5`, `L6`, `L1` | bright cinematic, hopeful cinematic, cinematic daylight, not dark | `cinematic,daylight,hopeful,open-space` |
 | `cinematic-editorial` | Premium, polished, magazine-like | `L4`, `L5`, `L6`, `L1`, `L7` | cinematic editorial, premium keynote, campaign film, cover-story | `cinematic,editorial,architectural,refined` |
-| `editorial-light` | Bright, readable, balanced | `L4`, `L5`, `L6`, `L1`, `L2`, `L9`, `L10` | bright, clear, shareable, not too dark | `daylight,clean,teaching` |
+| `editorial-light` | Bright, readable, balanced | `L4`, `L5`, `L6`, `L1`, `L2`, `L9`, `L10`, `L11` | bright, clear, shareable, not too dark | `daylight,clean,teaching` |
 | `airy-relaxed` | Soft, calm, low-pressure | `L4`, `L5`, `L6`, `L1` | relaxed, fresh, gentle, healing | `airy,calm,pastel,open-space` |
 | `clean-corporate` | Professional, report-like | `L1`, `L2`, `L7`, `L9`, `L10`, `L11`, `L6` | corporate, training, briefing, professional | `corporate,minimal,diagram-friendly` |
 | `animated-feature-bright` | Stylized 3D family-animation energy | `L4`, `L5`, `L6`, `L1` | animated feature, family animation, stylized 3D, character-led | `animated,bright,character,optimistic` |

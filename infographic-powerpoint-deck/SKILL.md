@@ -1,6 +1,6 @@
 ---
 name: infographic-powerpoint-deck
-description: Create image-based PowerPoint decks by (1) turning raw article content or notes into a slide content plan when needed, (2) turning that content plan into a visual-production plan, (3) generating one 16:9 infographic slide image per slide with all text baked into the image (English by default; multilingual slide text supported), and (4) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants polished, consistent visuals with extensible style packs (cinematic dark, cinematic light, cinematic editorial, animated feature, editorial, warm pastoral, tech, youth social, academic, corporate), prefers not to hand-layout PPT objects, or wants a repeatable prompt workflow to iterate over time.
+description: Create image-based PowerPoint decks by (1) turning raw article content or notes into a detailed per-slide message plan when needed, (2) turning that message plan into a slide display plan and then a visual-production plan, (3) generating one 16:9 slide image per slide with all displayed text baked into the image (English by default; multilingual slide text supported), and (4) assembling an images-only .pptx that simply concatenates those images full-screen. Use when the user wants polished, consistent visuals with extensible style packs (cinematic dark, cinematic light, cinematic editorial, animated feature, editorial, warm pastoral, tech, youth social, academic, corporate), prefers not to hand-layout PPT objects, or wants a repeatable prompt workflow to iterate over time.
 ---
 
 # Infographic PowerPoint Deck
@@ -11,24 +11,34 @@ This skill should work directly from the user's raw article content by default.
 
 If the user provides a full article, sermon, report, or long notes:
 1. Read the source content and infer the audience, burden, density, and argument/story structure.
-2. Build `slides_content_plan.md` from the article structure.
-3. Turn `slides_content_plan.md` into `slides_visual_plan.md`.
-4. Write one image prompt per slide and generate the deck.
+2. Build `slides_message_plan.md` from the article structure.
+3. Turn `slides_message_plan.md` into `slides_display_plan.md`.
+4. Turn `slides_display_plan.md` into `slides_visual_plan.md`.
+5. Write one image prompt per slide and generate the deck.
 
-If the user already provides `slides_content_plan.md` or an equivalent content-first slide table, you can skip the article-intake step and use that directly.
+If the user already provides `slides_message_plan.md` or an equivalent content-first slide table, you can skip the article-intake step and use that directly.
+
+Legacy compatibility:
+- If an older workflow still hands you `slides_content_plan.md`, treat it as the nearest equivalent to `slides_message_plan.md`, then explicitly derive `slides_display_plan.md` before prompt writing.
 
 If the user provides one or more reference slides/screenshots, use `references/reference_slide_intake.md` to extract the reusable visual grammar before writing prompts.
 
 ## Artifact model
 
-Use two distinct planning artifacts:
+Use three distinct planning artifacts:
 
-- `slides_content_plan.md`
-  - content planning only
-  - what each slide must communicate
-  - what text must appear
-  - what source/article section it comes from
+- `slides_message_plan.md`
+  - content / presenter planning only
+  - what each slide is meant to teach, explain, or say in full
+  - the detailed speaking content or narrative burden behind the slide
+  - source/article anchors, scripture/evidence anchors, and must-preserve claims
   - what beats must stay separate
+
+- `slides_display_plan.md`
+  - what will actually be shown on the slide
+  - title, verse fragment, module headers, bullets, labels, captions, footer references
+  - explicit on-slide text after text-budget and archetype decisions
+  - can be much shorter than the message plan
 
 - `slides_visual_plan.md`
   - downstream visual-production planning
@@ -38,45 +48,50 @@ Use two distinct planning artifacts:
   - scene choice
   - text budget and other production constraints
 
-`slides_content_plan.md` is the source of truth for content.
+`slides_message_plan.md` is the source of truth for what the presenter means to communicate.
+`slides_display_plan.md` is the source of truth for what text the audience actually sees.
 `slides_visual_plan.md` is the source of truth for design and prompt production.
 
 ## Quick start (default: images-only deck, structured planning)
 
 1. Start from either:
    - raw article content / notes and use `references/article_intake_workflow.md`, or
-   - a prebuilt `slides_content_plan.md`, or
+   - a prebuilt `slides_message_plan.md`, or
    - an underspecified content slide table that you will normalize first
    - optional reference slide images / screenshots and use `references/reference_slide_intake.md`
-2. If starting from a raw article, create `slides_content_plan.md` first.
-3. Infer one **deck archetype** from the approved content plan using `references/deck_archetype_routing.md`.
+2. If starting from a raw article, create `slides_message_plan.md` first.
+3. Infer one **deck archetype** from the approved message plan using `references/deck_archetype_routing.md`.
    - If the user explicitly requests a style, use that as an override.
 4. Pick one **style pack folder**.
    - If user does not specify style and archetype does not strongly imply a different choice, default to `editorial-light`.
    - Style pack chooses the deck's visual language (palette, lighting, typography attitude, scene bias). It does **not** force one fixed layout for every slide.
-5. Create `slides_visual_plan.md` from `slides_content_plan.md`.
-   - Add style, layout, scene, and text-budget decisions here, not in the content plan.
-6. Compose the style block bundle:
+5. Create `slides_display_plan.md` from `slides_message_plan.md`.
+   - Decide what the audience should actually see on each slide after considering archetype, density, and likely layout family.
+   - Do not force the full speaking content onto the slide.
+6. Create `slides_visual_plan.md` from `slides_display_plan.md`.
+   - Add style, layout, scene, and text-budget decisions here, not in the message plan.
+7. Compose the style block bundle:
    - Run `scripts/compose_style_pack_blocks.py --pack-id <id>` (or manually read the style-pack files).
    - This yields a consistent block set: profile + motif + consistency + scene bias.
-7. For each slide in `slides_visual_plan.md`, fill `references/prompt_template.md`:
+8. For each slide in `slides_visual_plan.md`, fill `references/prompt_template.md`:
    - Paste the composed style block bundle.
    - Write the prompt instructions in English by default.
-   - Paste exact required on-slide text (verbatim) in the user-specified language(s).
+   - Paste exact required on-slide text (verbatim) from `slides_display_plan.md` in the user-specified language(s).
    - Add slide-specific scene layer details and icons using the visual plan.
-8. Generate each slide as one **16:9 image**.
+9. Generate each slide as one **16:9 image**.
    - Allowed slide-creation modes in this skill are **image generation** and **image editing/reference** only.
    - In the slide prompt text, explicitly include a ratio lock sentence (e.g., `Hard canvas constraint: 16:9 widescreen. Do not generate a square image.`).
    - In the tool call, explicitly set ratio config when supported (e.g., `generation_config` with `aspect_ratio: "16:9"`).
    - If consistency needs reinforcement, you may use an approved prior slide image or background exploration image as an input/edit reference, but the image tool must still render the final full slide image.
-9. QA readability + text accuracy; regenerate only failed slides.
+10. QA readability + text accuracy; regenerate only failed slides.
    - If any slide is not 16:9 or has text defects, regenerate the image directly.
    - Do **not** crop, pad, resize, or post-process generated images unless the user explicitly asks.
    - Do **not** render text afterward with Python/PIL/PPT overlays as part of the normal skill workflow.
-10. Assemble images-only PPTX with `scripts/build_images_only_pptx.py`.
+11. Assemble images-only PPTX with `scripts/build_images_only_pptx.py`.
 
 Outputs to produce in the user’s workspace:
-- `slides_content_plan.md` (content-only slide plan; source of truth for what each slide must communicate)
+- `slides_message_plan.md` (detailed per-slide speaking / teaching plan; source of truth for what each slide is meant to communicate)
+- `slides_display_plan.md` (audience-facing on-slide text plan; source of truth for displayed text and labels)
 - `slides_visual_plan.md` (visual-production plan; source of truth for archetype/style/layout/scene decisions)
 - `prompts.md` (the exact prompts used for each slide)
 - `slides/slide01.png ...` (final 16:9 images)
@@ -84,11 +99,12 @@ Outputs to produce in the user’s workspace:
 
 ## Optional structured slide table input
 
-For higher-quality multi-step workflows, you may start from either a raw article or an already-structured content slide table:
+For higher-quality multi-step workflows, you may start from either a raw article or an already-structured message slide table:
 - Raw article content is a valid first-class input to this skill. Use `references/article_intake_workflow.md`.
-- If the upstream artifact is already `slides_content_plan.md`, preserve it as the content source of truth.
-- If the upstream artifact already decides deck length, section coverage, or which beats must stay on separate slides, treat that as the controlling content plan unless the user explicitly asks for further compression or expansion.
-- If the upstream content table is simple or underspecified, normalize it into `slides_content_plan.md` using `references/slide_table_normalization.md` before visual planning.
+- If the upstream artifact is already `slides_message_plan.md`, preserve it as the message source of truth.
+- If the upstream artifact already decides deck length, section coverage, or which beats must stay on separate slides, treat that as the controlling message plan unless the user explicitly asks for further compression or expansion.
+- If the upstream content table is simple or underspecified, normalize it into `slides_message_plan.md` using `references/slide_table_normalization.md` before display planning.
+- If the upstream workflow still uses the old `slides_content_plan.md` name, interpret it as a legacy message-plan artifact and derive `slides_display_plan.md` before visual planning.
 
 ## Prompt stack (minimal vs full)
 
@@ -126,15 +142,18 @@ Note: despite the Bible-themed examples, this workflow works for any topic. Swap
 
 ## Decision model (keep style, layout, and scene separate)
 
-- **Content plan** = content-level communication model: what the deck needs to say and how many slides are needed to say it well.
-- **Deck archetype** = deck-level viewing model: what kind of visual presentation best fits the approved content plan.
+- **Message plan** = content-level communication model: what the presenter means to say on each slide and how many slides are needed to say it well.
+- **Display plan** = audience-facing text model: what short text, labels, verse fragments, bullets, captions, and module headers should actually appear on the slide.
+- **Deck archetype** = deck-level viewing model: what kind of visual presentation best fits the approved message plan.
 - **Style pack** = deck-level visual language: palette, lighting, texture, typography attitude, scene bias.
 - **Layout** = slide-level composition: split-panel, framework, comparison, warning, didactic teaching board, or full-bleed overlay. It should normally be auto-routed during visual planning.
 - **Scene ID / visual scene** = slide-level depiction choice chosen during visual planning.
 - **Text budget** = production constraint describing how much copy the chosen layout needs to carry.
 
 Use the deck archetype to drive the rest of the decisions:
-- content plan -> slide roles, must-appear text, and coverage depth
+- message plan -> slide roles, source anchors, and coverage depth
+- message plan + archetype + text budget -> display plan
+- display plan -> on-slide text and label density
 - deck archetype -> style pack
 - deck archetype -> visual-plan layout bias
 - slide roles + text budget -> layout routing
@@ -151,7 +170,7 @@ Use this decision rule:
 Upstream slide plans, agent instructions, runtime expectations, or user requests can constrain the deck, but they are not the core planning logic.
 If an explicit brevity request would force harmful compression, preserve the content logic first and either:
 - keep the richer deck, or
-- consciously produce a compressed version while making that tradeoff explicit in `slides_content_plan.md`
+- consciously produce a compressed version while making that tradeoff explicit in `slides_message_plan.md`
 
 Do not collapse a rich article into a short deck merely because the skill can make a shorter deck.
 
@@ -172,8 +191,8 @@ Use one style pack across the deck by default, and let the skill choose layout *
 ## Slide prompt recipe (copy/paste template)
 
 Read `references/prompt_template.md` and fill it per slide. Keep it extremely explicit:
-- Start from the inferred article structure and deck archetype, not from arbitrary slide decoration.
-- Put **all required on-slide text** under a `Must-appear text (verbatim)` section.
+- Start from the inferred article structure, message plan, display plan, and deck archetype, not from arbitrary slide decoration.
+- Put **all required on-slide text** from `slides_display_plan.md` under a `Must-appear text (verbatim)` section.
 - If the slide is a dense didactic infographic, include every visible section header, label, callout, formula label, diagram caption, and module heading in `Must-appear text (verbatim)` rather than expecting the model to invent them correctly.
 - For visuals, describe **scene layers** (far/mid/foreground), plus 3–8 concrete objects.
 - Specify what must be **subtle/low-contrast** so text stays readable.
@@ -182,7 +201,7 @@ Read `references/prompt_template.md` and fill it per slide. Keep it extremely ex
 - Use both presentation families intentionally: split-panel / board-style infographic layouts for dense teaching content, didactic poster layouts for self-contained educational slides, and full-bleed cinematic overlay layouts for title cards, quote slides, and scene-led emotional beats.
 - Treat split-panel wording as explicit layout instructions, not as generic presentation language. If the user prefers text directly on the image, route away from `L1` before writing the prompt.
 - For full-bleed layouts, default to direct text on the image itself with composition-based readability support. Do not ask for visible rounded rectangles, frosted cards, or caption boxes unless the user explicitly wants that treatment.
-- Do not ask the user for per-slide layouts by default. Route layouts internally from slide role, text budget, and overall deck style. Only use explicit `Layout hint` when the user or `slides_visual_plan.md` provides one.
+- Do not ask the user for per-slide layouts by default. Route layouts internally from slide role, text budget, display density, and overall deck style. Only use explicit `Layout hint` when the user or `slides_visual_plan.md` provides one.
 - Do not ask the user for style-pack IDs by default when the article content already makes the fit obvious. Infer archetype first, then select style.
 
 If you need article-first intake guidance, read `references/article_intake_workflow.md`.
@@ -203,7 +222,8 @@ If a slide uses language-specific rendering constraints or long non-Latin quote 
 ## Quality bar (and how to iterate)
 
 For each slide:
-- **Content fit first**: the deck should reflect the structure and intent of the article, not just produce isolated pretty slides.
+- **Message fit first**: the deck should reflect the structure and intent of the article and the richer message plan, not just produce isolated pretty slides.
+- **Display discipline second**: the slide should show only what the audience needs to see, not the entire speaking content.
 - **Readability first**: text never overlaps busy imagery; use either a dedicated text panel or a deliberately clean overlay-safe region, depending on the selected layout.
 - **Auto-layout first**: unless the user explicitly overrides, let the skill choose the layout from slide role, text budget, and style rather than forcing one composition family.
 - **No hallucinated text**: forbid extra words/logos/watermarks.
@@ -215,7 +235,7 @@ For each slide:
 - **Didactic density is allowed when the content needs it**: a self-contained teaching slide may legitimately carry more visible words than a keynote slide, as long as hierarchy, spacing, and diagram structure stay clear.
 
 Common failure fixes:
-- Deck feels visually polished but structurally wrong: revisit `references/article_intake_workflow.md` and `references/deck_archetype_routing.md`; fix the slide roles or archetype before rewriting prompts.
+- Deck feels visually polished but structurally wrong: revisit `references/article_intake_workflow.md` and the message/display boundary; fix the slide roles or display compression before rewriting prompts.
 - Tool call fails/intermittent errors: retry after a short wait; keep prompt stable; reduce scene complexity only if repeats.
 - Text too small: reduce bullet count; split into two slides; demand large type and comfortable line spacing.
 - Slide feels too empty for an infographic teaching use case: reroute to `L9`, `L10`, or `L11` and explicitly include the needed labels, captions, formulas, or comparison headings instead of pretending the content is sparse.
@@ -283,7 +303,7 @@ python3 scripts/build_images_only_pptx.py --images-dir /path/to/slides --out /pa
 - Read `references/style-pack-system.md` for composition rules and how to add new style packs.
 - Read `references/style-pack-catalog.md` for intent-to-style routing and pack selection.
 - Read `references/style-packs/` for self-contained style definitions.
-- Read `references/slide_table_normalization.md` to normalize underspecified upstream content slide tables into `slides_content_plan.md` before visual planning.
+- Read `references/slide_table_normalization.md` to normalize underspecified upstream content slide tables into `slides_message_plan.md` before display and visual planning.
 - Read `references/scene-catalog.md` for reusable scene IDs and tags.
 - Read `references/scene-preset-library.md` for ready-to-paste scene visual blocks.
 - Read `references/scene-entry-template.md` when adding new scene IDs to the catalog.

@@ -35,7 +35,7 @@ Never mix blocks from different style packs in one deck unless explicitly reques
 
 ## How to use in practice
 
-1. If the user provides raw article content, infer deck archetype first using `references/deck_archetype_routing.md`.
+1. If the user provides raw article content, draft `slides_message_plan.md` first, then infer deck archetype using `references/deck_archetype_routing.md`.
 2. If the user also provides reference slides/screenshots, extract reusable visual grammar using `references/reference_slide_intake.md`.
 3. Select style pack ID from `style-pack-catalog.md`.
 4. Compose blocks with:

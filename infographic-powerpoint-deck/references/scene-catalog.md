@@ -34,6 +34,10 @@ Use scene IDs in `slides_visual_plan.md` so scene selection is explicit and reus
 | `library-archive-modern` | Archive shelves and modern research desk blend | `research,knowledge,quiet,analysis` |
 | `boardroom-strategy-day` | Boardroom strategy talk with sunlight | `corporate,executive,structured,daylight` |
 | `minimal-geometry-neutral` | Abstract geometric neutral background scene | `minimal,neutral,diagram,corporate` |
+| `didactic-board-bright` | Bright clean teaching board with quiet white surface and thin divider system | `didactic,diagram,board,academic,clean` |
+| `mirrored-comparison-board` | Bright mirrored comparison board with central divider and twin teaching zones | `didactic,comparison,board,structured` |
+| `concept-board-neutral` | Neutral concept board with top title band, upper hero module, and lower analytical split | `didactic,concept,board,analysis` |
+| `catalog-grid-clean` | Clean 2x2 or 2x3 modular teaching grid with generous whitespace | `didactic,grid,board,taxonomy` |
 | `roadmap-timeline-wall` | Large timeline wall with milestones and markers | `planning,timeline,execution,clarity` |
 | `bridge-crossing-sunrise` | Symbolic bridge crossing at sunrise | `transition,hope,decision,resolve` |
 | `mountain-overlook-morning` | Elevated mountain overlook with horizon light | `vision,calling,big-picture,hopeful` |
@@ -47,6 +51,7 @@ Use scene IDs in `slides_visual_plan.md` so scene selection is explicit and reus
 
 - Pick one primary scene ID per slide.
 - For dense text slides, prefer lower-noise IDs (e.g., `sunlit-library-day`, `atrium-morning`, `scribe-desk-candle`).
+- For `L9`, `L10`, or `L11`, prefer board-oriented IDs such as `didactic-board-bright`, `mirrored-comparison-board`, `concept-board-neutral`, or `catalog-grid-clean` rather than scenic location IDs.
 - For warning/climax slides, use higher-tension IDs sparingly.
 - Use scene tags to match style packs:
   - `editorial-light`/`airy-relaxed`: `daylight`, `clean`, `calm`, `open-space`

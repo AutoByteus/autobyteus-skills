@@ -1,0 +1,4 @@
+interface:
+  display_name: "Emotion Metaphor Images"
+  short_description: "Turn feelings into precise visual-metaphor prompts."
+  default_prompt: "Translate this feeling or idiom into a concrete image prompt, then refine it with preserve-style, single-delta edit prompts until the visual metaphor is exact."

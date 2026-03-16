@@ -23,8 +23,8 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 - Source Design Basis:
   - `Small`: `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch)
   - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
-- Shared Design Principles: `assets/design-principles.md`
-- Common Design Practices: `assets/common-design-practices.md`
+- Shared Design Principles: `shared/design-principles.md`
+- Common Design Practices: `shared/common-design-practices.md`
 - Artifact Versions In This Round:
   - Requirements Status:
   - Design Version:
@@ -38,6 +38,7 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 - Shared-principles rule: review uses the same design principles as Stage 3 (`data-flow spine clarity`, `ownership clarity`, `support structure around the spine`, and ownership-driven dependency validation).
 - Spine inventory rule: review must verify that all relevant spines are explicitly listed in the design basis, including bounded local spines when a loop, worker cycle, state machine, or dispatcher materially affects behavior.
 - Not a required action: adding/removing layers by default; describe layering only if it actually adds clarity for this scope.
+- Example-clarity rule: if the design uses examples because the shape is non-obvious, review whether those examples actually clarify the target shape.
 - Repeated-coordination trigger rule: if coordination policy repeats across callers (provider selection/fallback/retry/aggregation/routing/fan-out), review should require a clearer owner.
 - Empty-indirection rule: fail a new boundary that is only pass-through and owns no policy, translation, or boundary concern.
 - Local-fix-is-not-enough rule: if a fix works functionally but degrades the spine, ownership, or support structure, mark `Fail` and require architectural artifact updates via classified re-entry.
@@ -87,9 +88,9 @@ Rule:
 
 ## Per-Use-Case Review
 
-| Use Case | Spine ID(s) | Architecture Fit (`Pass`/`Fail`) | Data-Flow Spine Clarity (`Pass`/`Fail`) | Spine Inventory Completeness (`Pass`/`Fail`) | Ownership Clarity (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Module/File Placement Alignment (`Pass`/`Fail`) | Interface/API/Method Boundary Clarity (`Pass`/`Fail`) | Existing-Structure Bias Check (`Pass`/`Fail`) | Anti-Hack Check (`Pass`/`Fail`) | Local-Fix Degradation Check (`Pass`/`Fail`) | Terminology & Concept Naturalness (`Pass`/`Fail`) | File/API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Use-Case Source Traceability (`Pass`/`Fail`) | Design-Risk Justification Quality (`Pass`/`Fail`/`N/A`) | Business Flow Completeness (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | Legacy Retention Removed (`Pass`/`Fail`) | No Compatibility Wrappers/Dual Paths (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UC-001 | DS-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| Use Case | Spine ID(s) | Architecture Fit (`Pass`/`Fail`) | Data-Flow Spine Clarity (`Pass`/`Fail`) | Spine Inventory Completeness (`Pass`/`Fail`) | Ownership Clarity (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Module/File Placement Alignment (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Method Boundary Clarity (`Pass`/`Fail`) | Existing-Structure Bias Check (`Pass`/`Fail`) | Anti-Hack Check (`Pass`/`Fail`) | Local-Fix Degradation Check (`Pass`/`Fail`) | Example-Based Clarity (`Pass`/`Fail`/`N/A`) | Terminology & Concept Naturalness (`Pass`/`Fail`) | File/API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Use-Case Source Traceability (`Pass`/`Fail`) | Design-Risk Justification Quality (`Pass`/`Fail`/`N/A`) | Business Flow Completeness (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | Legacy Retention Removed (`Pass`/`Fail`) | No Compatibility Wrappers/Dual Paths (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UC-001 | DS-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 ## Findings
 
@@ -117,10 +118,12 @@ Rule:
   - Support structure clarity is `Pass` for all in-scope use cases:
   - Ownership-driven dependency check is `Pass` for all in-scope use cases:
   - Module/file placement alignment is `Pass` for all in-scope use cases:
+  - Flat-vs-over-split layout judgment is `Pass` for all in-scope use cases:
   - interface/API/method boundary clarity is `Pass` for all in-scope use cases:
   - Existing-structure bias check is `Pass` for all in-scope use cases:
   - Anti-hack check is `Pass` for all in-scope use cases:
   - Local-fix degradation check is `Pass` for all in-scope use cases:
+  - Example-based clarity is `Pass` or `N/A` for all in-scope use cases:
   - Terminology and concept vocabulary is natural/intuitive across in-scope use cases:
   - File/API naming clarity is `Pass` across in-scope use cases:
   - Name-to-responsibility alignment under scope drift is `Pass` across in-scope use cases:

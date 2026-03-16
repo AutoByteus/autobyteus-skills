@@ -20,8 +20,8 @@ This document tracks implementation and testing progress in real time, including
 - Scope classification confirmed (`Small`/`Medium`/`Large`):
 - Investigation notes are current (`tickets/in-progress/<ticket-name>/investigation-notes.md`):
 - Requirements status is `Design-ready` or `Refined`:
-- Runtime review final gate is `Implementation can start: Yes`:
-- Runtime review reached `Go Confirmed` with two consecutive clean deep-review rounds (no blockers, no required persisted artifact updates, no newly discovered use cases):
+- Future-state runtime call stack review final gate is `Implementation can start: Yes`:
+- Future-state runtime call stack review reached `Go Confirmed` with two consecutive clean deep-review rounds (no blockers, no required persisted artifact updates, no newly discovered use cases):
 - No unresolved blocking findings:
 
 ## Legend
@@ -109,9 +109,9 @@ Rules:
 
 ## Code Review Log (Stage 8)
 
-| Date | Review Round | File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Fail | Fail | Pass | Fail | Pass | Pass | Design Impact | Yes | Yes | Fail | Exceeded `>500` hard limit and mixed too much responsibility in one file; returned to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8` before further edits. |
+| Date | Review Round | File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Fail | Fail | Pass | Fail | Pass | Fail | Pass | Pass | Design Impact | Yes | Yes | Fail | Exceeded `>500` hard limit and mixed too much responsibility in one file; returned to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8` before further edits. |
 
 Rules:
 - Include source and test files in review scope.
@@ -128,7 +128,21 @@ Rules:
 - Any scope-appropriate separation-of-concerns failure (mixed unrelated responsibility in one file/module) is blocking and requires classified re-entry before further source edits.
 - Any ownership-dependency/decoupling failure (tight coupling or unjustified cycle) is blocking and requires classified re-entry before further source edits.
 - Any module/file placement failure (wrong concern folder or unjustified shared placement) is blocking and requires classified re-entry before further source edits.
+- Any flat-vs-over-split layout failure (structure became too flat or too artificially fragmented for the approved design) is blocking and requires classified re-entry before further source edits.
+- Any naming-to-responsibility drift is blocking and requires classified re-entry before further source edits.
 - Any backward-compatibility mechanism or legacy-retention finding is blocking and requires classified re-entry before further source edits.
+
+## Code Review Structural Summary (Stage 8)
+
+| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | 1 | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift and dependency shortcuts required re-entry before further source edits. |
+
+Rules:
+- Record one row per Stage 8 review round, even if several files were reviewed in that round.
+- This summary must reflect the same structural checks used in `code-review.md`.
+- If any structural summary check is `Fail`, Stage 8 decision cannot be `Pass`.
+- If the main issue is insufficient Stage 7 evidence rather than structural/code drift, classify as `Validation Gap` and rerun `Stage 7 -> Stage 8`.
 
 ## Blocked Items
 
@@ -173,7 +187,7 @@ Rules:
 - Mark Stage 8 code review complete only when:
   - `code-review.md` exists and gate decision is recorded,
   - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
-  - data-flow spine inventory preservation checks, scope-appropriate separation-of-concerns checks, interface/API/query/command/service-method boundary clarity checks, and validation-evidence sufficiency checks are recorded,
+  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
   - module/file placement checks are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
 - Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).

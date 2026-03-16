@@ -23,11 +23,11 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 1 Investigation + Triage | Not Started | `investigation-notes.md` current + scope triage recorded |  |
 | 2 Requirements | Not Started | `requirements.md` is `Design-ready`/`Refined` |  |
 | 3 Design Basis | Not Started | Design basis updated for scope (`implementation-plan.md` sketch or `proposed-design.md`) |  |
-| 4 Runtime Modeling | Not Started | `future-state-runtime-call-stack.md` current |  |
-| 5 Review Gate | Not Started | Runtime review `Go Confirmed` (two clean rounds, no blockers/persisted updates/new use cases) |  |
+| 4 Future-State Runtime Call Stack | Not Started | `future-state-runtime-call-stack.md` current |  |
+| 5 Future-State Runtime Call Stack Review | Not Started | Future-state runtime call stack review `Go Confirmed` (two clean rounds, no blockers/persisted updates/new use cases) |  |
 | 6 Implementation | Not Started | Plan/progress current + source + unit/integration verification complete + no backward-compat/legacy retention + ownership-driven dependencies preserved + touched-file placement preserved/corrected |  |
 | 7 API/E2E Testing | Not Started | API/E2E test implementation complete + acceptance-criteria and spine scenario gates complete |  |
-| 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + interface/API/query/command/service-method boundary clarity + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
+| 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
 | 9 Docs Sync | Not Started | Docs updated or no-impact rationale recorded |  |
 | 10 Handoff / Ticket State | Not Started | Final handoff ready + explicit user verification received + ticket moved to `done` + git finalization/release complete when git repo + ticket state decision recorded |  |
 
@@ -39,11 +39,11 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 | 1 | `investigation-notes.md` current + scope triage recorded | stay in `1` |
 | 2 | `requirements.md` is `Design-ready`/`Refined` | stay in `2` |
 | 3 | Design basis current for scope | stay in `3` |
-| 4 | Runtime call stack current | stay in `4` |
-| 5 | Runtime review `Go Confirmed` (two clean rounds with no blockers/no required persisted artifact updates/no newly discovered use cases) | classified re-entry then rerun (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) |
+| 4 | Future-state runtime call stack current | stay in `4` |
+| 5 | Future-state runtime call stack review `Go Confirmed` (two clean rounds with no blockers/no required persisted artifact updates/no newly discovered use cases) | classified re-entry then rerun (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) |
 | 6 | Source + required unit/integration verification complete, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files have correct module/file placement | local issues: stay in `6`; otherwise classified re-entry (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) |
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
-| 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + interface/API/query/command/service-method boundary clarity + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
+| 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
 | 9 | Docs updated or no-impact rationale recorded | stay in `9` |
 | 10 | Final handoff is complete, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | stay in `10` |
 

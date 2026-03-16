@@ -11,9 +11,9 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 - Workflow state source: `tickets/in-progress/<ticket-name>/workflow-state.md`
 - Design basis artifact:
 - Runtime call stack artifact:
-- Shared Design Principles: `assets/design-principles.md`
-- Common Design Practices: `assets/common-design-practices.md`
-- Code Review Principles: `assets/code-review-principles.md`
+- Shared Design Principles: `shared/design-principles.md`
+- Common Design Practices: `shared/common-design-practices.md`
+- Code Review Principles: `stages/08-code-review/code-review-principles.md`
 
 ## Scope
 
@@ -52,7 +52,9 @@ Rules:
 | Empty indirection check (no pass-through-only boundary) |  |  |  |
 | Ownership-driven dependency check (no forbidden shortcuts or unjustified cycles) |  |  |  |
 | Module/file placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
+| Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
+| Naming-to-responsibility alignment and drift check |  |  |  |
 | Validation evidence sufficiency for the changed flow |  |  |  |
 | No backward-compatibility mechanisms (no compatibility wrappers/dual-path behavior) |  |  |  |
 | No legacy code retention for old behavior |  |  |  |
@@ -95,7 +97,9 @@ Rules:
   - Empty indirection check = `Pass`
   - Ownership-driven dependency check = `Pass`
   - Module/file placement check = `Pass`
+  - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`
+  - Naming-to-responsibility alignment and drift check = `Pass`
   - Validation evidence sufficiency = `Pass`
   - No backward-compatibility mechanisms = `Pass`
   - No legacy code retention = `Pass`

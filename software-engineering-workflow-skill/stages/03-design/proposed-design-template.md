@@ -15,8 +15,8 @@
 - Investigation Notes: `tickets/in-progress/<ticket-name>/investigation-notes.md`
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
 - Requirements Status: `Design-ready` / `Refined`
-- Shared Design Principles: `assets/design-principles.md`
-- Common Design Practices: `assets/common-design-practices.md`
+- Shared Design Principles: `shared/design-principles.md`
+- Common Design Practices: `shared/common-design-practices.md`
 
 ## Reading Rule
 
@@ -24,6 +24,7 @@
 - Main domain subject nodes and ownership boundaries are the primary design story.
 - Support branches are described in relation to the spine they serve.
 - Modules/files are secondary and should appear as derived implementation mapping, not as the main structure of the document.
+- Folder/module/file mapping should be spine-led and ownership-led, but not mechanical.
 
 ## Summary
 
@@ -173,6 +174,7 @@ For each one, write:
 
 This section exists to map the spine-and-ownership design into concrete implementation locations.
 It must not replace the spine-first explanation above.
+Use judgment: the goal is readable ownership and structural depth, not a rigid one-folder-per-spine-step rule.
 
 | Target File / Module | Change Type | Mapped Spine ID | Owner / Support Branch | Responsibility | Key APIs / Interfaces | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -180,9 +182,22 @@ It must not replace the spine-first explanation above.
 
 ## Module/File Placement And Ownership Check (Mandatory)
 
-| File/Module | Current Path | Target Path | Owning Concern / Platform | Path Matches Concern? (`Yes`/`No`) | Action (`Keep`/`Move`/`Split`/`Promote Shared`) | Rationale |
-| --- | --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |  |
+| File/Module | Current Path | Target Path | Owning Concern / Platform | Path Matches Concern? (`Yes`/`No`) | Flat-Or-Over-Split Risk (`Low`/`Medium`/`High`) | Action (`Keep`/`Move`/`Split`/`Promote Shared`) | Rationale |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |
+
+Rules:
+- Use a flatter layout when it is genuinely clearer for the scope, but justify it.
+- Do not split folders/modules/files so aggressively that the structure becomes artificial and ownerless.
+- Do not keep a flat mixed folder when it hides real ownership or structural depth.
+
+## Concrete Examples / Shape Guidance (Mandatory When Needed)
+
+Use this section when a short example would make the design materially easier to understand.
+
+| Topic | Good Example | Bad / Avoided Shape | Why The Example Matters |
+| --- | --- | --- | --- |
+|  |  |  |  |
 
 ## Backward-Compatibility Rejection Log (Mandatory)
 
@@ -206,6 +221,7 @@ Rule:
 - Integration/infrastructure scope: each adapter/module owns one integration concern with clear contracts.
 - Ownership note: separation of concerns should follow ownership and support structure, not precede them.
 - Module/file placement note: folder/path should make the owning concern obvious; platform-specific files should not live in unrelated or ambiguous locations.
+- Layout note: a compact structure is acceptable when it stays clearer, but over-flat or over-split layouts should be corrected.
 
 ## Interface Boundary Check (Mandatory)
 

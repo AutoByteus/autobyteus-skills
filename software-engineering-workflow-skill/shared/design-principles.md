@@ -41,8 +41,11 @@ They are the shared design language for this workflow.
 - Separation of concerns is still mandatory, and it should get stronger as the spine and ownership model become clearer. It is derived from the spine, main subject nodes, and ownership boundaries rather than treated as the starting point.
 - Dependency direction follows ownership; name allowed directions and forbidden shortcuts explicitly.
 - Module/file placement must follow ownership; move or split files when their paths no longer match their real concern.
+- Folder/module/file mapping should be spine-led and ownership-led, but not mechanical. Use structure that makes boundaries readable for the scope.
+- Distinct structural depths often deserve distinct folders, but do not force artificial over-splitting. If a flatter layout is clearer, justify it explicitly.
 - Interfaces, APIs, queries, commands, and reused service methods must also follow ownership and separation of concerns: one boundary, one subject, one responsibility, explicit identity shape.
 - The design document should read spine-first, not file-first. Files/modules are a derived implementation mapping, not the primary structure of the architecture story.
+- Use concrete examples when they materially improve clarity. Do not leave a non-obvious design entirely abstract when a short example would explain the intended shape faster.
 - Layering is optional explanatory output only. Do not use layering as a first principle.
 
 ## Required Design Questions
@@ -55,7 +58,9 @@ They are the shared design language for this workflow.
 - Which support branches serve which owner on the spine?
 - Which dependencies are allowed, and which shortcuts are forbidden?
 - Which modules/files should own the target structure?
+- Does the folder/module/file layout make ownership and structural depth readable without becoming artificially fragmented?
 - Which interface boundaries exist, what subject does each one own, and what identity shape or selector shape does each one accept?
+- Which parts of the design need a concrete example to make the intended shape obvious?
 - What is the migration path from current state to target state?
 
 ## Design Smells
@@ -68,4 +73,5 @@ They are the shared design language for this workflow.
 - Generic interface boundaries, list/query surfaces, or service methods that accept one ambiguous ID or selector and then guess what subject it belongs to
 - Names that do not describe the actual owner or role
 - Misplaced files whose paths hide the real concern
+- Folder layouts that are so flat they hide boundaries, or so split that they create artificial structure with no real owner
 - Empty indirection layers that only pass through work

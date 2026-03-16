@@ -12,7 +12,9 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 - Is separation of concerns still scope-appropriate, with each file/module owning a coherent responsibility instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
 - Do file/module paths still match ownership?
+- Is the resulting folder/module/file layout still readable for the scope, without becoming too flat or too artificially fragmented?
 - Do interfaces, APIs, queries, commands, and reused service methods still have one clear subject, one responsibility, and explicit identity shape?
+- Do file/module/API names still match their real responsibility after the change?
 - Do changed source files still respect the file-size hard limit and diff-size gate without hiding design drift?
 - Did any manager, registry, adapter, helper, or shared utility absorb business logic it should not own?
 - Is validation evidence sufficient for the changed behavior?
@@ -25,7 +27,9 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 - Support branches now contain sequencing that belongs to a spine owner
 - One file or module now mixes unrelated concerns or responsibilities that should be split
 - A file is in the wrong folder for its real concern
+- The layout is technically valid per-file but now feels too flat or too over-split for the real ownership structure
 - An interface/API/query/command/service method accepts an ambiguous ID or selector and has to guess what subject or owner that input refers to
+- A file/module/API name no longer matches the responsibility it actually owns
 - A changed source file crossed the hard size limit or diff-size gate in a way that signals structural drift
 - A working patch introduces empty indirection or patch-on-patch complexity
 - Validation is too weak to prove the changed flow
@@ -48,6 +52,7 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 ### Design Impact
 
 - The implementation drifted from the approved spine inventory, ownership model, support structure, or file placement.
+- The implementation introduces naming drift or a layout shape that is too flat or too fragmented for the approved design.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.
 

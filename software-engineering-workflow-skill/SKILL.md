@@ -11,6 +11,28 @@ Produce a structured planning workflow for software changes: triage scope, build
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
+## Skill Layout
+
+- `SKILL.md` is the workflow router. It defines the stage rules and points each stage to its owned templates/references.
+- `shared/` stores cross-stage references that multiple stages reuse:
+  - `shared/design-principles.md`
+  - `shared/common-design-practices.md`
+  - `shared/workflow-state-template.md`
+- `stages/` stores stage-owned templates and references:
+  - `stages/00-bootstrap/`
+  - `stages/01-investigation/`
+  - `stages/02-requirements/`
+  - `stages/03-design/`
+  - `stages/04-future-state-runtime-call-stack/`
+  - `stages/05-future-state-runtime-call-stack-review/`
+  - `stages/06-implementation/`
+  - `stages/07-api-e2e/`
+  - `stages/08-code-review/`
+  - `stages/09-docs-sync/`
+  - `stages/10-handoff/`
+- Keep stage-specific material in the matching stage folder. Use `shared/` only for genuinely cross-stage references.
+- When a stage has a local guide or checklist, use that stage-owned file first before falling back to generic workflow prose.
+
 ## Workflow
 
 ### Ticket Folder Convention (Project-Local)
@@ -161,11 +183,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 1 | Investigation + Triage | `investigation-notes.md` current + scope triage complete | Locked |
 | 2 | Requirements Refinement | `requirements.md` reaches `Design-ready`/`Refined` | Locked |
 | 3 | Design Basis | `implementation-plan.md` sketch (`Small`) or `proposed-design.md` (`Medium/Large`) | Locked |
-| 4 | Runtime Modeling | `future-state-runtime-call-stack.md` current | Locked |
-| 5 | Runtime Review Gate | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
+| 4 | Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` current | Locked |
+| 5 | Future-State Runtime Call Stack Review | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + ownership-driven dependency quality preserved + touched files correctly placed | Unlocked |
 | 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
-| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure checks + scope-appropriate separation of concerns + module/file placement + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
+| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure checks + scope-appropriate separation of concerns + module/file placement + flat-vs-over-split layout judgment + naming-to-responsibility alignment + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs/` updates complete or no-impact rationale recorded | Locked |
 | 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> git finalization/release (when git repo) + ticket state decision recorded | Locked |
 
@@ -177,11 +199,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 1 Investigation + Triage | `investigation-notes.md` is current and scope triage (`Small`/`Medium`/`Large`) is recorded | Stay in `1` until investigation evidence is complete | `2` |
 | 2 Requirements | `requirements.md` is `Design-ready` (or `Refined`) with requirement/acceptance-criteria coverage maps | Stay in `2` until requirements are design-ready | `3` |
 | 3 Design Basis | Design basis artifact is current (`implementation-plan.md` sketch for `Small`, `proposed-design.md` for `Medium/Large`) | Stay in `3` and revise design basis | `4` |
-| 4 Runtime Modeling | `future-state-runtime-call-stack.md` is current for in-scope use cases | Stay in `4` and regenerate runtime model | `5` |
-| 5 Review Gate | Runtime review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
+| 4 Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` is current for in-scope use cases | Stay in `4` and regenerate the future-state runtime call stack | `5` |
+| 5 Future-State Runtime Call Stack Review | Future-state runtime call stack review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files have correct module/file placement | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
-| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure checks + scope-appropriate separation of concerns + module/file placement + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
+| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure checks + scope-appropriate separation of concerns + module/file placement + flat-vs-over-split layout judgment + naming-to-responsibility alignment + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | Docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
 | 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization is complete | End |
 
@@ -212,16 +234,18 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 0) Bootstrap Ticket + Capture Draft Requirement
 
+- Use `stages/00-bootstrap/bootstrap-checklist.md`.
 - Run mandatory first-action sequence:
   - create/use `tickets/in-progress/<ticket-name>/`,
   - if git repo, create/switch ticket worktree/branch,
-  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` from `assets/workflow-state-template.md` and set `Current Stage = 0`, `Code Edit Permission = Locked`,
+  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` from `shared/workflow-state-template.md` and set `Current Stage = 0`, `Code Edit Permission = Locked`,
   - capture initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
 - Do not run deep investigation before Stage 0 bootstrap and `requirements.md` `Draft` are physically written.
 - Before transitioning to Stage 1, update `workflow-state.md` snapshot + transition log + stage gate evidence.
 
 ### 1) Investigation + Understanding Pass + Triage
 
+- Use `stages/01-investigation/investigation-guide.md`.
 - Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
@@ -251,6 +275,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 2) Refine Requirements Document To Design-Ready (Mandatory)
 
+- Use `stages/02-requirements/requirements-refinement-guide.md`.
 - Create/update `tickets/in-progress/<ticket-name>/requirements.md` for all sizes (`Small`, `Medium`, `Large`).
 - Requirement writing is mandatory even for small tasks (small can be concise).
 - Use one canonical file path only: update `requirements.md` in place. Do not create versioned duplicates such as `requirements-v2.md`.
@@ -288,9 +313,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### Shared Design Principles (Design + Review, Mandatory)
 
 - Design and review must use the same principles and vocabulary. Review is a check of design quality, not a different rule system.
-- Use `assets/design-principles.md` as the primary shared reference for Stage 3 design work and Stage 5 review.
-- Use `assets/common-design-practices.md` for helper practices and local pattern choices only when they clarify a clearly owned spine node or support branch.
-- Use `assets/code-review-principles.md` as the Stage 8 review reference.
+- Use `shared/design-principles.md` as the primary shared reference for Stage 3 design work and Stage 5 review.
+- Use `shared/common-design-practices.md` for helper practices and local pattern choices only when they clarify a clearly owned spine node or support branch.
+- Use `stages/08-code-review/code-review-principles.md` as the Stage 8 review reference.
 - The core principles are:
   - `data-flow spine clarity`,
   - `ownership clarity`,
@@ -299,7 +324,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Ownership is the concrete form of separation of concerns: if a concern has no clear owner, the structure is wrong.
 - Dependency direction follows ownership. State allowed directions and forbidden shortcuts explicitly when design risk exists.
 - Module/file placement follows ownership. If a file's path no longer matches the real concern, move, split, or rename it instead of rationalizing the mismatch.
+- Folder/module/file mapping should be spine-led and ownership-led, but not mechanical. Prefer layouts that make boundaries readable for the scope.
+- Distinct structural depths often deserve distinct folders, but do not force artificial over-splitting. If a flatter layout is clearer, justify it explicitly.
 - Interface-boundary rule: APIs, queries, commands, and reused service methods must also follow ownership and separation of concerns. Prefer one boundary per subject/responsibility with explicit identity shape; avoid generic boundaries that infer subject type from ambiguous IDs or generic selectors.
+- Use examples when they materially improve clarity. Do not keep a non-obvious design fully abstract when a short example would explain the intended shape faster.
 - `Keep` is valid when the current structure already preserves a readable spine, clear ownership, and support branches that do not compete with the spine.
 
 ### 3) Draft The Proposed Design Document
@@ -319,6 +347,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Separation-of-concerns rule (mandatory): once the spine and owners are clear, split supporting responsibilities so each main node and each support branch remains self-encapsulated. Do not overload one spine node with every concern just because it sits on the main line.
 - Do not anchor design to current file layout when the layout is structurally wrong for the target behavior.
 - Module/file placement rule (mandatory): target file paths must match owning concern/boundary/platform; if a file is codex-specific, cloud-specific, UI-specific, infra-specific, or otherwise scope-bound, place it in that canonical area instead of near whichever caller currently imports it.
+- Folder-layout rule (mandatory): map folders/modules/files from the spine and ownership model, but do it with judgment rather than as a rigid one-folder-per-step projection. If a flatter layout is clearer, justify it. If a split is proposed, it should reflect a real owner or boundary.
 - Interface-boundary rule (mandatory): design APIs, queries, commands, and reused service methods around explicit subject ownership and explicit identity shape. Do not use one generic boundary that accepts an ambiguous ID or generic selector and guesses whether the subject is, for example, an agent run, team run, or team member run.
 - Current-state grounding rule (mandatory): before finalizing the target design, read the current implementation enough to understand the existing main flow, current owners, coupling problems, file placement drift, and real migration constraints.
 - Explicitly evaluate whether new modules, boundary interfaces, or orchestration owners should be introduced.
@@ -346,6 +375,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - include explicit change inventory rows for `Add`, `Modify`, `Rename/Move`, `Remove`.
 - Proposed design document organization rule (mandatory): write the design spine-first, not file-first. The main structure of the document should be the spine inventory, main domain subject nodes, ownership, and support structure.
 - File/module sections are required, but only as derived implementation mapping after the spine-led explanation is clear.
+- Example rule (mandatory when needed): if a short good-shape example or bad-shape anti-example would make a non-obvious design materially clearer, include it in the proposed design doc instead of leaving the point abstract.
 - For each file/module, state mapped spine, target owner/boundary placement, responsibility, key APIs, inputs/outputs, dependencies, and change type.
 - For each file/module, state whether its target path matches the owning concern and record the move/split rationale when placement changes are required.
 - Include a naming decisions section:
@@ -369,7 +399,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - error path covered (`Yes`/`No`/`N/A`),
   - mapped sections in runtime call stack doc.
 - Version the design during review loops (`v1`, `v2`, ...) and record what changed between rounds.
-- Use the template in `assets/proposed-design-template.md` as a starting point.
+- Use the template in `stages/03-design/proposed-design-template.md` as a starting point.
 - No-backward-compat design gate (mandatory): proposed design must not introduce compatibility wrappers, dual-read/dual-write flows, legacy adapters, or fallback branches kept only for old behavior.
 - If backward-compatibility or legacy-retention mechanisms are required to make the design work, classify as `Fail` and redesign the architecture direction before continuing.
 - Do not speak solely because `proposed-design.md` changed; announce only when the related `workflow-state.md` transition/gate update is persisted.
@@ -401,7 +431,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Capture decision gates and conditions that choose one branch over another.
 - Note key data transformations (input schema -> domain model -> output payload).
 - Version call stacks to match design revisions from review loops (`v1`, `v2`, ...).
-- Use the template in `assets/future-state-runtime-call-stack-template.md`.
+- Use the template in `stages/04-future-state-runtime-call-stack/future-state-runtime-call-stack-template.md`.
 - Do not speak solely because `future-state-runtime-call-stack.md` changed; announce only when the related `workflow-state.md` transition/gate update is persisted.
 
 ### 5) Review Future-State Runtime Call Stacks (Future-State + Architecture + Naming + Cleanliness Gate)
@@ -411,6 +441,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Review must challenge architecture choice itself (spine/ownership/support structure/allocation), not only file-level separation of concerns.
 - Review must reuse the same shared design principles from Stage 3; do not apply a different principle set in review.
 - Review must explicitly verify module/file placement against the Stage 3 design basis; wrong folder placement is a structural defect, not a cosmetic nit.
+- Review must explicitly judge whether the proposed layout is readable for the scope or whether it is either too flat or too artificially fragmented.
+- Review must explicitly check example-based clarity when the design uses examples or when the design would otherwise stay too abstract.
 - Run review in explicit rounds and record each round in the same review artifact.
 - In every round, run a dedicated missing-use-case discovery sweep before verdicting the round.
 - Review each use case against these criteria:
@@ -422,10 +454,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - boundary placement check (`Pass`/`Fail`): responsibilities are assigned to the right owner/module boundary,
   - ownership-driven dependency check (`Pass`/`Fail`): dependencies follow ownership, avoid tight cross-module coupling, and avoid unjustified cyclic cross-references,
   - module/file placement alignment check (`Pass`/`Fail`): file/module path matches owning concern/boundary/platform, and any shared placement is explicitly justified,
+  - flat-vs-over-split layout judgment (`Pass`/`Fail`): layout is neither too flat nor artificially fragmented for the scope,
   - interface/API/service-method boundary clarity (`Pass`/`Fail`): APIs, queries, commands, and reused service methods expose one clear subject/responsibility with explicit identity shape instead of generic ambiguous IDs or mixed-subject selectors,
   - existing-structure bias check (`Pass`/`Fail`): design is not forced to mirror current files when that harms target architecture,
   - anti-hack check (`Pass`/`Fail`): no patch-on-patch tricks that hide architecture issues behind local fixes,
   - local-fix degradation check (`Pass`/`Fail`): a functionally working fix does not degrade the data-flow spine, ownership boundaries, or support structure,
+  - example-based clarity (`Pass`/`Fail`/`N/A`): non-obvious areas use examples when needed, and the examples actually clarify the target shape,
   - terminology and concept vocabulary is natural and intuitive (`Pass`/`Fail`),
   - file/API naming is clear and unsurprising for implementation mapping (`Pass`/`Fail`),
   - name-to-responsibility alignment under scope drift (`Pass`/`Fail`),
@@ -496,7 +530,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
 - Even when a round reports no findings, still complete the round record in-file and run another deep-review round until the two-consecutive-clean stability rule is satisfied.
 - Repeat until all gate `Go Confirmed` criteria are satisfied.
-- Use the template in `assets/future-state-runtime-call-stack-review-template.md`.
+- Use the template in `stages/05-future-state-runtime-call-stack-review/future-state-runtime-call-stack-review-template.md`.
 
 ### 6) Implement Source + Unit/Integration And Track Progress
 
@@ -553,7 +587,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
   - ownership-driven dependencies remain valid (no newly introduced unjustified tight coupling/cyclic dependencies),
   - touched files either already have correct placement or are moved/split so their paths match owning concerns.
-- Use `assets/implementation-plan-template.md` and `assets/implementation-progress-template.md`.
+- Use `stages/06-implementation/implementation-plan-template.md` and `stages/06-implementation/implementation-progress-template.md`.
 - Do not speak for routine `implementation-plan.md`/`implementation-progress.md` edits. Announce only for persisted `workflow-state.md` events (Stage 6 entry, lock/unlock change, gate/transition outcomes).
 
 ### 7) Implement API/E2E Tests And Run API/E2E Test Gate (Mandatory)
@@ -615,7 +649,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - all executable mapped API/E2E scenarios are resolved (`Passed`), with no unresolved failures/blockers,
   - if any acceptance criterion is infeasible due to environment constraints, Stage 7 remains `Blocked` until explicit user waiver is recorded with constraints + compensating evidence + residual risk.
 - Before transitioning to Stage 8, update `workflow-state.md` with Stage 7 gate result and transition evidence.
-- Use `assets/api-e2e-testing-template.md`.
+- Use `stages/07-api-e2e/api-e2e-testing-template.md`.
 - Do not speak for `api-e2e-testing.md` edits alone. Announce when `workflow-state.md` records Stage 7 entry, gate result, and any re-entry declaration/lock-state change.
 
 ### 8) Run Code Review Gate (Mandatory, Post-Testing)
@@ -634,6 +668,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - ownership-driven dependency quality (low coupling, no unjustified cycles, no forbidden shortcuts),
   - architecture/boundary consistency with design basis,
   - module/file placement and folder ownership consistency with design basis,
+  - flat-vs-over-split layout judgment,
   - interface/API/query/command/service-method boundary clarity with explicit identity shapes,
   - naming-to-responsibility alignment and drift,
   - duplication, empty-indirection, and patch-on-patch complexity smells,
@@ -650,7 +685,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no soft middle band (`501-700`) and no default exception path in this workflow.
   - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-  - `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + interface/API/query/command/service-method boundary clarity + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
+  - `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + scope-appropriate separation of concerns + module/file placement + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
   - `Local Fix`: the issue requires source changes but remains inside the approved design; rerun `Stage 6 -> Stage 7 -> Stage 8`.
@@ -661,11 +696,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Treat wrong-location files as review failures when the path obscures ownership (for example, platform-specific code outside its platform folder without explicit shared-boundary rationale).
 - If code review requires source changes, rerun `Stage 6 -> Stage 7 -> Stage 8`.
 - If code review only requires stronger validation evidence, rerun `Stage 7 -> Stage 8`.
-- Use `assets/code-review-template.md`.
+- Use `stages/08-code-review/code-review-template.md`.
 - Do not speak for `code-review.md` edits alone. Announce when `workflow-state.md` records Stage 8 entry, gate result, and any re-entry declaration.
 
 ### 9) Synchronize Project Documentation (Mandatory Post-Testing + Review)
 
+- Use `stages/09-docs-sync/docs-sync-guide.md`.
 - After Stage 7 API/E2E testing and Stage 8 code review are complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
 - Treat `docs/` as the long-lived canonical source of truth for the current codebase.
 - Treat ticket artifacts under `tickets/` as task-local, time-bound records; they are not the long-term source of truth.
@@ -693,7 +729,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - use short user-facing functional notes only,
   - do not include internal refactors, dependency bumps, tests, docs-only changes, or low-level implementation detail,
   - target `3` to `7` bullets total across all sections,
-  - use the template in `assets/release-notes-template.md`,
+  - use the template in `stages/10-handoff/release-notes-template.md`,
   - default sections are `## What's New`, `## Improvements`, and `## Fixes`,
   - omit empty sections instead of writing filler content,
   - do not include upgrade steps unless the user explicitly asks for them.
@@ -734,10 +770,10 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`2 -> 3`)
   - `Small`: start/refine `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
   - `Medium/Large`: create/refine `tickets/in-progress/<ticket-name>/proposed-design.md`.
-- Stage 4 (runtime modeling):
+- Stage 4 (future-state runtime call stack):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`3 -> 4`)
   - `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
-- Stage 5 (review gate, iterative):
+- Stage 5 (future-state runtime call stack review, iterative):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`4 -> 5`)
   - `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Stage 6 (only after gate `Go Confirmed`):
@@ -764,7 +800,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
   - persist the handoff summary and wait for explicit user completion/verification instruction
-  - when the release is user-facing or publishes a GitHub Release body, create/update `tickets/in-progress/<ticket-name>/release-notes.md` using `assets/release-notes-template.md`; otherwise record explicit no-note rationale in the handoff summary
+  - when the release is user-facing or publishes a GitHub Release body, create/update `tickets/in-progress/<ticket-name>/release-notes.md` using `stages/10-handoff/release-notes-template.md`; otherwise record explicit no-note rationale in the handoff summary
   - on explicit user completion/verification instruction, first move the ticket folder to `tickets/done/<ticket-name>/`
   - if git repo and the user explicitly confirms completion/verification, commit all in-scope changes on the ticket branch/worktree, including the moved ticket files
   - if git repo and the user explicitly confirms completion/verification, push the ticket branch to remote
@@ -773,17 +809,33 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
   - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
 
-## Templates
+## Templates And References
 
-- `assets/proposed-design-template.md`
-- `assets/design-principles.md`
-- `assets/common-design-practices.md`
-- `assets/future-state-runtime-call-stack-template.md`
-- `assets/future-state-runtime-call-stack-review-template.md`
-- `assets/implementation-plan-template.md`
-- `assets/implementation-progress-template.md`
-- `assets/code-review-principles.md`
-- `assets/code-review-template.md`
-- `assets/api-e2e-testing-template.md`
-- `assets/workflow-state-template.md`
-- `assets/release-notes-template.md`
+- Shared:
+  - `shared/design-principles.md`
+  - `shared/common-design-practices.md`
+  - `shared/workflow-state-template.md`
+- Stage 0 bootstrap:
+  - `stages/00-bootstrap/bootstrap-checklist.md`
+- Stage 1 investigation:
+  - `stages/01-investigation/investigation-guide.md`
+- Stage 2 requirements:
+  - `stages/02-requirements/requirements-refinement-guide.md`
+- Stage 3 design:
+  - `stages/03-design/proposed-design-template.md`
+- Stage 4 future-state runtime call stack:
+  - `stages/04-future-state-runtime-call-stack/future-state-runtime-call-stack-template.md`
+- Stage 5 future-state runtime call stack review:
+  - `stages/05-future-state-runtime-call-stack-review/future-state-runtime-call-stack-review-template.md`
+- Stage 6 implementation:
+  - `stages/06-implementation/implementation-plan-template.md`
+  - `stages/06-implementation/implementation-progress-template.md`
+- Stage 7 API/E2E:
+  - `stages/07-api-e2e/api-e2e-testing-template.md`
+- Stage 8 code review:
+  - `stages/08-code-review/code-review-principles.md`
+  - `stages/08-code-review/code-review-template.md`
+- Stage 9 docs sync:
+  - `stages/09-docs-sync/docs-sync-guide.md`
+- Stage 10 handoff:
+  - `stages/10-handoff/release-notes-template.md`

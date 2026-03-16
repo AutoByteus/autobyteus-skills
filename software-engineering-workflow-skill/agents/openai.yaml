@@ -13,8 +13,10 @@ interface:
     Stage 5 runs iterative deep review until `Go Confirmed` (two clean rounds with
     no blockers, no required persisted artifact updates, and no newly discovered
     use cases);
-    Stage 6 implements source + unit/integration (bottom-up per file); Stage 7
-    implements API/E2E tests and executes the acceptance-criteria closure gate;
+    Stage 6 implements source + unit/integration against the approved
+    spine/ownership design and keeps file/module placement aligned with that
+    design; Stage 7 implements API/E2E tests and executes the
+    acceptance-criteria plus relevant-spine closure gate;
     Stage 8 runs code review only after Stage 7 passes and enforces hard file-size
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
     effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
@@ -26,17 +28,22 @@ interface:
     ticket branch, updates the latest personal branch from remote, merges the
     ticket branch into that personal branch, pushes the updated personal
     branch, and uses the release script to release a new version. Across
-    design/review/implementation, enforce shared architecture principles (`SoC`
-    as cause, layering as emergent result, decoupling as one-way replaceable
-    boundaries, and module/file placement as folder ownership matching concern), and
-    enforce modernization explicitly (no backward compatibility mechanisms, no
-    legacy old-behavior retention). Stage movement is
+    design/review/implementation, enforce shared architecture principles
+    (`data-flow spine clarity`, `ownership clarity`, `support structure around
+    the spine`; scope-appropriate separation of concerns derived from spine and
+    ownership; dependency direction following ownership; module/file placement
+    following ownership; interface boundaries with one subject, one
+    responsibility, and explicit identity shape), and enforce modernization
+    explicitly (no backward compatibility mechanisms, no legacy old-behavior
+    retention). Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
     immediately to the mapped path. No source-code edits are allowed unless
     `workflow-state.md` shows `Current Stage=6`, `Code Edit Permission=Unlocked`,
     and Stage 5 `Go Confirmed` evidence. Stage 7 stays open until all executable
-    mapped criteria pass or are explicitly waived for infeasible cases. For Stage
+    mapped acceptance criteria pass or are explicitly waived for infeasible
+    cases, and all relevant executable spines have passing evidence or explicit
+    `N/A` rationale. For Stage
     5 blockers, apply classified re-entry before re-review: `Design Impact` ->
     `3 -> 4 -> 5`; `Requirement Gap` -> `2 -> 3 -> 4 -> 5`; `Unclear` ->
     `1 -> 2 -> 3 -> 4 -> 5`. For Stage 6 non-local failures, apply classified
@@ -45,12 +52,14 @@ interface:
     3 -> 4 -> 5 -> 6`. For any
     Stage 7/8 failure, require re-entry declaration in `workflow-state.md` before
     edits and follow classification paths: `Local Fix` -> `6 -> 7` (and include
-    `-> 8` when failure trigger is Stage 8); `Design Impact` -> `1 -> 3 -> 4 -> 5
-    -> 6 -> 7` (and include `-> 8` when failure trigger is Stage 8); `Requirement Gap`
-    -> `2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure trigger is
-    Stage 8); `Unclear`/cross-cutting root cause -> `0 -> 1 -> 2 -> 3 -> 4 -> 5
-    -> 6 -> 7` (and include `-> 8` when failure trigger is Stage 8; Stage 0
-    re-entry means same ticket context, not a new ticket). Audible
+    `-> 8` when failure trigger is Stage 8); `Validation Gap` -> `7 -> 8`
+    when Stage 8 only lacks sufficient validation evidence; `Design Impact` ->
+    `1 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure trigger is
+    Stage 8); `Requirement Gap` -> `2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include
+    `-> 8` when failure trigger is Stage 8); `Unclear`/cross-cutting root cause
+    -> `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure
+    trigger is Stage 8; Stage 0 re-entry means same ticket context, not a new
+    ticket). Audible
     notifications are transition-driven: call `Speak` with `play=true` only after
     `workflow-state.md` updates for stage transitions, gate decisions, re-entry
     declarations, or lock/unlock changes, and include current stage + next action.

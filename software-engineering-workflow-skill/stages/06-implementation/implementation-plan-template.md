@@ -16,7 +16,7 @@
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
   - Current Status: `Design-ready` / `Refined`
 - Runtime call stacks: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
-- Runtime review: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
+- Future-state runtime call stack review: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Proposed design (required for `Medium/Large`): `tickets/in-progress/<ticket-name>/proposed-design.md`
 
 ## Plan Maturity
@@ -32,7 +32,7 @@
 - Runtime call stack review artifact exists and is current:
 - All in-scope use cases reviewed:
 - No unresolved blocking findings:
-- Runtime review has `Go Confirmed` with two consecutive clean deep-review rounds (no blockers, no required persisted artifact updates, no newly discovered use cases):
+- Future-state runtime call stack review has `Go Confirmed` with two consecutive clean deep-review rounds (no blockers, no required persisted artifact updates, no newly discovered use cases):
 - Missing-use-case discovery sweeps completed for the final two clean rounds:
 - No newly discovered use cases in the final two clean rounds:
 

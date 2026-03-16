@@ -22,9 +22,12 @@ Always start with the shared design principles first.
 - If one owned node contains an event loop, worker loop, state machine, or dispatch cycle that materially shapes the behavior, describe that bounded local spine separately and connect it back to the parent owner.
 - Split APIs/queries/commands/service methods by subject when identity meaning differs; prefer explicit `getAgent...` / `getTeam...` style boundaries over one generic method that guesses what an ID or selector means.
 - Specify target modules/files explicitly; do not leave file placement to chance.
+- Map folders/modules/files from the spine and ownership model, but do it with judgment rather than as a rigid one-folder-per-step rule.
+- If the layout stays flatter, record why that is clearer for this scope. If the layout splits more, make sure each split reflects a real owner or boundary.
 - Record change inventory explicitly: `Add`, `Modify`, `Rename/Move`, `Remove`.
 - Define migration/refactor sequence when the change is not greenfield.
 - Remove obsolete code and compatibility shims in the same design when they are in scope.
+- Add short concrete examples when they clarify a non-obvious spine, interface split, folder choice, or bounded local flow.
 
 ## Common Spine Shapes
 
@@ -49,6 +52,8 @@ Always start with the shared design principles first.
   - If a proposed layer/module only forwards calls and owns no policy, translation, or boundary concern, remove it.
 - Shared-folder trigger:
   - Put code in a shared/common folder only when it is truly cross-cutting and concern-agnostic.
+- Example-clarity trigger:
+  - If a design point would otherwise remain abstract or easy to misread, add a short good-shape example and, when useful, a bad-shape anti-example.
 
 ## Common Local Patterns
 

@@ -35,10 +35,12 @@ They are the shared design language for this workflow.
 - Supporting branches should serve a clear owner on the spine.
 - Keep support branches off the main line unless they truly own core sequencing.
 - Support branches may resolve, persist, adapt, map, publish, observe, or translate, but they should not compete with the spine.
+- Before creating a new support branch, check whether an existing capability area, subsystem, or owning module already fits that responsibility and should be reused or extended.
 
 ## Derived Checks
 
 - Separation of concerns is still mandatory, and it should get stronger as the spine and ownership model become clearer. It is derived from the spine, main subject nodes, and ownership boundaries rather than treated as the starting point.
+- No backward compatibility or legacy retention is a hard modernization rule for in-scope behavior. Design the clean-cut target directly and make removal of obsolete paths explicit.
 - Dependency direction follows ownership; name allowed directions and forbidden shortcuts explicitly.
 - Module/file placement must follow ownership; move or split files when their paths no longer match their real concern.
 - Folder/module/file mapping should be spine-led and ownership-led, but not mechanical. Use structure that makes boundaries readable for the scope.
@@ -56,6 +58,8 @@ They are the shared design language for this workflow.
 - What does each node own?
 - What are the return/event spines, if the change is async or event-driven?
 - Which support branches serve which owner on the spine?
+- Which support needs should reuse or extend an existing capability area or subsystem instead of creating a new helper?
+- Which legacy paths, compatibility wrappers, dual-path branches, obsolete files, or deprecated boundaries are removed in this change?
 - Which dependencies are allowed, and which shortcuts are forbidden?
 - Which modules/files should own the target structure?
 - Does the folder/module/file layout make ownership and structural depth readable without becoming artificially fragmented?
@@ -70,6 +74,8 @@ They are the shared design language for this workflow.
 - Event loops or state machines materially affect the behavior, but no bounded local spine is described
 - Shared helpers that quietly own business behavior
 - Support services sitting on the main line without owning sequencing
+- New helper or service pieces created ad hoc even though an existing subsystem already owns that kind of work
+- Compatibility wrappers, dual-path behavior, or legacy fallback branches kept only to preserve old flows
 - Generic interface boundaries, list/query surfaces, or service methods that accept one ambiguous ID or selector and then guess what subject it belongs to
 - Names that do not describe the actual owner or role
 - Misplaced files whose paths hide the real concern

@@ -19,6 +19,7 @@ Always start with the shared design principles first.
 - Define what each node owns before splitting supporting concerns.
 - If one spine node starts collecting too many unrelated duties, split supporting concerns around that owner rather than turning the node into a god-object.
 - Keep support branches attached to a clear owner on the spine.
+- Before creating a new support helper, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
 - If one owned node contains an event loop, worker loop, state machine, or dispatch cycle that materially shapes the behavior, describe that bounded local spine separately and connect it back to the parent owner.
 - Split APIs/queries/commands/service methods by subject when identity meaning differs; prefer explicit `getAgent...` / `getTeam...` style boundaries over one generic method that guesses what an ID or selector means.
 - Specify target modules/files explicitly; do not leave file placement to chance.
@@ -27,6 +28,7 @@ Always start with the shared design principles first.
 - Record change inventory explicitly: `Add`, `Modify`, `Rename/Move`, `Remove`.
 - Define migration/refactor sequence when the change is not greenfield.
 - Remove obsolete code and compatibility shims in the same design when they are in scope.
+- Prefer clean-cut replacement over compatibility wrappers or dual-path behavior. If old behavior is being replaced, design and record its removal explicitly.
 - Add short concrete examples when they clarify a non-obvious spine, interface split, folder choice, or bounded local flow.
 
 ## Common Spine Shapes
@@ -52,6 +54,10 @@ Always start with the shared design principles first.
   - If a proposed layer/module only forwards calls and owns no policy, translation, or boundary concern, remove it.
 - Shared-folder trigger:
   - Put code in a shared/common folder only when it is truly cross-cutting and concern-agnostic.
+- Capability-area reuse trigger:
+  - If the spine needs status, events, handlers, persistence, streaming, bootstrap, shutdown, or similar support behavior, first check whether an existing subsystem already owns that work before creating a new local helper.
+- Legacy-cleanup trigger:
+  - If a proposed solution keeps compatibility wrappers, dual-path reads/writes, or fallback branches only to preserve old behavior, redesign it toward a clean-cut replacement and explicit removal plan.
 - Example-clarity trigger:
   - If a design point would otherwise remain abstract or easy to misread, add a short good-shape example and, when useful, a bad-shape anti-example.
 

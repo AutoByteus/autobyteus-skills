@@ -134,9 +134,9 @@ Rules:
 
 ## Code Review Structural Summary (Stage 8)
 
-| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift and dependency shortcuts required re-entry before further source edits. |
+| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`) | Repeated Coordination Ownership (`Pass`/`Fail`) | Empty Indirection Check (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Duplication/Patch-Layering Control (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | 1 | Pass | Fail | Pass | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift, repeated coordination, and dependency shortcuts required re-entry before further source edits. |
 
 Rules:
 - Record one row per Stage 8 review round, even if several files were reviewed in that round.
@@ -187,7 +187,7 @@ Rules:
 - Mark Stage 8 code review complete only when:
   - `code-review.md` exists and gate decision is recorded,
   - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
-  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
+  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
   - module/file placement checks are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
 - Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).

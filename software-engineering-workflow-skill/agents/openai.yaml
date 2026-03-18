@@ -30,12 +30,17 @@ interface:
     branch, and uses the release script to release a new version. Across
     design/review/implementation, enforce shared architecture principles
     (`data-flow spine clarity`, `ownership clarity`, `support structure around
-    the spine`; scope-appropriate separation of concerns derived from spine and
+    the spine`; reuse or extension of existing capability areas before new ad hoc
+    helpers; scope-appropriate separation of concerns derived from spine and
     ownership; dependency direction following ownership; module/file placement
     following ownership; interface boundaries with one subject, one
-    responsibility, and explicit identity shape), and enforce modernization
-    explicitly (no backward compatibility mechanisms, no legacy old-behavior
-    retention). Stage movement is
+    responsibility, and explicit identity shape; examples when needed to clarify
+    non-obvious shapes), and enforce modernization explicitly as a hard rule (no
+    backward compatibility mechanisms, no dual-path behavior, no legacy
+    old-behavior retention). Stage 3 design is invalid if it depends on
+    compatibility wrappers or legacy fallback branches, Stage 6 must remove
+    in-scope legacy/compatibility paths instead of keeping rollout crutches, and
+    Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass. Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
     immediately to the mapped path. No source-code edits are allowed unless

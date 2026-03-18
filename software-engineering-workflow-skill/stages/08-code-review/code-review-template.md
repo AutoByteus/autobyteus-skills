@@ -47,14 +47,16 @@ Rules:
 | Data-flow spine inventory preservation against design basis |  |  |  |
 | Ownership boundary preservation and clarity |  |  |  |
 | Support structure clarity (support branches serve clear owners and stay off the main line) |  |  |  |
-| Scope-appropriate separation of concerns and file responsibility clarity |  |  |  |
-| Repeated coordination ownership check (policy has a clear owner where needed) |  |  |  |
+| Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
+| Repeated coordination ownership check (shared policy has a clear owner instead of being repeated across callers) |  |  |  |
 | Empty indirection check (no pass-through-only boundary) |  |  |  |
+| Scope-appropriate separation of concerns and file responsibility clarity |  |  |  |
 | Ownership-driven dependency check (no forbidden shortcuts or unjustified cycles) |  |  |  |
 | Module/file placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
 | Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
 | Naming-to-responsibility alignment and drift check |  |  |  |
+| Duplication / patch-on-patch complexity control |  |  |  |
 | Validation evidence sufficiency for the changed flow |  |  |  |
 | No backward-compatibility mechanisms (no compatibility wrappers/dual-path behavior) |  |  |  |
 | No legacy code retention for old behavior |  |  |  |
@@ -63,7 +65,7 @@ Rules:
 
 - If none, write `None`.
 - Otherwise:
-  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
+  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
 
 ## Re-Entry Declaration (Mandatory On `Fail`)
 
@@ -92,14 +94,16 @@ Rules:
   - Data-flow spine inventory preservation = `Pass`
   - Ownership boundary preservation = `Pass`
   - Support structure clarity = `Pass`
-  - Scope-appropriate separation of concerns and file responsibility clarity = `Pass`
+  - Existing capability/subsystem reuse check = `Pass`
   - Repeated coordination ownership check = `Pass`
   - Empty indirection check = `Pass`
+  - Scope-appropriate separation of concerns and file responsibility clarity = `Pass`
   - Ownership-driven dependency check = `Pass`
   - Module/file placement check = `Pass`
   - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`
   - Naming-to-responsibility alignment and drift check = `Pass`
+  - Duplication / patch-on-patch complexity control = `Pass`
   - Validation evidence sufficiency = `Pass`
   - No backward-compatibility mechanisms = `Pass`
   - No legacy code retention = `Pass`

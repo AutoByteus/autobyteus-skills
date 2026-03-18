@@ -23,6 +23,7 @@
 - This document must be organized around the data-flow spine inventory first.
 - Main domain subject nodes and ownership boundaries are the primary design story.
 - Support branches are described in relation to the spine they serve.
+- Existing capability areas/subsystems should be reused or extended when they naturally fit a support need.
 - Modules/files are secondary and should appear as derived implementation mapping, not as the main structure of the document.
 - Folder/module/file mapping should be spine-led and ownership-led, but not mechanical.
 
@@ -117,9 +118,9 @@ For each one, write:
 | --- | --- | --- | --- |
 |  |  |  |  |
 
-## Spine-To-Support Mapping
+## Existing Capability / Subsystem Reuse Check
 
-| Spine ID | Support Branch / Service | Why It Exists | Contribution To Spine | Risk If Misplaced On Main Line |
+| Need / Concern | Existing Capability Area / Subsystem | Decision (`Reuse`/`Extend`/`Create New`) | Why | If New, Why Existing Areas Are Not Right |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
@@ -155,6 +156,7 @@ For each one, write:
 | Responsibility overload exists in one file/module |  |  | Split / Keep |
 | Proposed indirection owns real policy, translation, or boundary concern |  |  | Keep / Remove |
 | Every support branch has a clear owner on the spine |  |  | Fix / Keep |
+| Existing capability area/subsystem was reused or extended where it naturally fits |  |  | Reuse/Extend / Create New |
 | Current structure can remain unchanged without spine/ownership degradation |  |  | Keep / Change |
 
 ### Optional Alternatives (Use For Non-Trivial Or Uncertain Changes)

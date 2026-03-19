@@ -9,7 +9,7 @@ Use this guide after Stage 7 and Stage 8 are complete.
 
 ## Update When Changed
 
-- modules, files, or public interfaces
+- subsystems, files, optional module groupings when relevant, or public interfaces
 - runtime flows or operational behavior
 - renamed, moved, or removed components
 - testing or operating procedures that changed with the feature

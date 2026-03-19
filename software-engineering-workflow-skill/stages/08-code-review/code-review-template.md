@@ -22,7 +22,10 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 
 ## Source File Size And Structure Audit (Mandatory)
 
-| File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Preliminary Classification (`N/A`/`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
+This audit applies to changed source implementation files only.
+Test files remain in review scope, but they are not subject to the `>500` hard limit or the `>220` changed-line delta gate.
+
+| Source File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Preliminary Classification (`N/A`/`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  | Pass/Fail/N/A | Pass/Fail/N/A | Pass/Fail | Pass/Fail |  |  |
 
@@ -30,6 +33,7 @@ Rules:
 - Use explicit measurement commands per changed source file:
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
   - changed-line delta: `git diff --numstat <base-ref>...HEAD -- <file-path>`
+- Do not place test files in this table; review them for clarity, maintainability, and evidence quality elsewhere in the code review.
 - Enforcement baseline uses effective non-empty line count.
 - For effective non-empty line count `<=500`, normal review applies.
 - Hard limit rule: if any changed source file has effective non-empty line count `>500`, default classification is `Design Impact` and Stage 8 decision is `Fail`.
@@ -37,7 +41,7 @@ Rules:
 - No soft middle band (`501-700`) and no default exception path in this workflow.
 - Delta gate: if a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even if file size is `<=500`.
 - SoC rule: if a changed file mixes unrelated responsibilities or hides multiple owners in one boundary, mark `Scope-Appropriate SoC Check = Fail` and require `Split`/`Refactor`.
-- Module/file placement rule: if a file path/folder obscures the owning concern or puts platform-specific code in an unrelated location, mark `Module/File Placement Check = Fail` and record the required `Move`/`Split` action.
+- File-placement rule: if a file path/folder obscures the owning concern or puts platform-specific code in an unrelated location, mark `File Placement Check = Fail` and record the required `Move`/`Split` action.
 - During Stage 8, `workflow-state.md` should show `Current Stage = 8` and `Code Edit Permission = Locked`.
 
 ## Structural Integrity Checks (Mandatory)
@@ -48,15 +52,18 @@ Rules:
 | Ownership boundary preservation and clarity |  |  |  |
 | Support structure clarity (support branches serve clear owners and stay off the main line) |  |  |  |
 | Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
+| Reusable owned structures check (repeated structures extracted into the right owned file instead of copied across files) |  |  |  |
 | Repeated coordination ownership check (shared policy has a clear owner instead of being repeated across callers) |  |  |  |
 | Empty indirection check (no pass-through-only boundary) |  |  |  |
 | Scope-appropriate separation of concerns and file responsibility clarity |  |  |  |
 | Ownership-driven dependency check (no forbidden shortcuts or unjustified cycles) |  |  |  |
-| Module/file placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
+| File placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
 | Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
 | Naming-to-responsibility alignment and drift check |  |  |  |
 | Duplication / patch-on-patch complexity control |  |  |  |
+| Test quality is acceptable for the changed behavior |  |  |  |
+| Test maintainability is acceptable for the changed behavior |  |  |  |
 | Validation evidence sufficiency for the changed flow |  |  |  |
 | No backward-compatibility mechanisms (no compatibility wrappers/dual-path behavior) |  |  |  |
 | No legacy code retention for old behavior |  |  |  |
@@ -65,7 +72,7 @@ Rules:
 
 - If none, write `None`.
 - Otherwise:
-  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
+  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/ReusableOwnedStructures/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
 
 ## Re-Entry Declaration (Mandatory On `Fail`)
 
@@ -95,15 +102,18 @@ Rules:
   - Ownership boundary preservation = `Pass`
   - Support structure clarity = `Pass`
   - Existing capability/subsystem reuse check = `Pass`
+  - Reusable owned structures check = `Pass`
   - Repeated coordination ownership check = `Pass`
   - Empty indirection check = `Pass`
   - Scope-appropriate separation of concerns and file responsibility clarity = `Pass`
   - Ownership-driven dependency check = `Pass`
-  - Module/file placement check = `Pass`
+  - File placement check = `Pass`
   - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`
   - Naming-to-responsibility alignment and drift check = `Pass`
   - Duplication / patch-on-patch complexity control = `Pass`
+  - Test quality is acceptable for the changed behavior = `Pass`
+  - Test maintainability is acceptable for the changed behavior = `Pass`
   - Validation evidence sufficiency = `Pass`
   - No backward-compatibility mechanisms = `Pass`
   - No legacy code retention = `Pass`

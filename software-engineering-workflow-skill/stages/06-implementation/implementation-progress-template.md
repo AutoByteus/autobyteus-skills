@@ -72,7 +72,7 @@ Rules:
 - `Design Impact` requires full-chain re-entry: `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
 - `Requirement Gap` requires full-chain re-entry: `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
 - `Unclear`/cross-cutting root cause requires full-chain re-entry from understanding: `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
-- If a would-be fix depends on wrong module/file placement, reclassify it as `Design Impact` before further source edits.
+- If a would-be fix depends on wrong file placement, reclassify it as `Design Impact` before further source edits.
 - Stage 0 in a re-entry path means re-open bootstrap controls in the same ticket/worktree (`workflow-state.md`, lock state, artifact baselines); do not create a new ticket folder.
 - No source code edits before required upstream artifacts are updated and logged.
 
@@ -109,7 +109,7 @@ Rules:
 
 ## Code Review Log (Stage 8)
 
-| Date | Review Round | File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
+| Date | Review Round | Source File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Fail | Fail | Pass | Fail | Pass | Fail | Pass | Pass | Design Impact | Yes | Yes | Fail | Exceeded `>500` hard limit and mixed too much responsibility in one file; returned to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8` before further edits. |
 
@@ -118,6 +118,7 @@ Rules:
 - Measure each changed source file with:
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
   - changed-line delta: `git diff --numstat <base-ref>...HEAD -- <file-path>`
+- Apply the `>500` hard limit and `>220` delta gate to changed source implementation files only. Test files stay in review scope for qualitative review but are not blocked by those source-file size thresholds.
 - Enforcement baseline uses effective non-empty line count.
 - If any changed source file has effective non-empty line count `>500`, default classification is `Design Impact` and `Decision = Fail`.
 - For `>500` hard-limit cases, do not proceed to Stage 9; apply re-entry mapping first and then rerun `Stage 6 -> Stage 7 -> Stage 8`.
@@ -125,18 +126,18 @@ Rules:
 - If a single changed source file has `>220` changed lines in current diff, record a design-impact assessment even when effective file size is `<=500`.
 - For `Fail`, do not proceed to `Stage 9`; apply re-entry mapping first and rerun `Stage 6 -> Stage 7 -> Stage 8`.
 - If the main issue is insufficient Stage 7 coverage/evidence rather than code/design drift, classify as `Validation Gap` and rerun `Stage 7 -> Stage 8`.
-- Any scope-appropriate separation-of-concerns failure (mixed unrelated responsibility in one file/module) is blocking and requires classified re-entry before further source edits.
+- Any scope-appropriate separation-of-concerns failure (mixed unrelated responsibility in one file or one optional module grouping) is blocking and requires classified re-entry before further source edits.
 - Any ownership-dependency/decoupling failure (tight coupling or unjustified cycle) is blocking and requires classified re-entry before further source edits.
-- Any module/file placement failure (wrong concern folder or unjustified shared placement) is blocking and requires classified re-entry before further source edits.
+- Any file-placement failure (wrong concern folder or unjustified shared placement) is blocking and requires classified re-entry before further source edits.
 - Any flat-vs-over-split layout failure (structure became too flat or too artificially fragmented for the approved design) is blocking and requires classified re-entry before further source edits.
 - Any naming-to-responsibility drift is blocking and requires classified re-entry before further source edits.
 - Any backward-compatibility mechanism or legacy-retention finding is blocking and requires classified re-entry before further source edits.
 
 ## Code Review Structural Summary (Stage 8)
 
-| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`) | Repeated Coordination Ownership (`Pass`/`Fail`) | Empty Indirection Check (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Module/File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Duplication/Patch-Layering Control (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | Pass | Fail | Pass | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift, repeated coordination, and dependency shortcuts required re-entry before further source edits. |
+| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`) | Reusable Owned Structures Check (`Pass`/`Fail`) | Repeated Coordination Ownership (`Pass`/`Fail`) | Empty Indirection Check (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Duplication/Patch-Layering Control (`Pass`/`Fail`) | Test Quality (`Pass`/`Fail`) | Test Maintainability (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| YYYY-MM-DD | 1 | Pass | Fail | Pass | Pass | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift, repeated coordination, and dependency shortcuts required re-entry before further source edits. |
 
 Rules:
 - Record one row per Stage 8 review round, even if several files were reviewed in that round.
@@ -166,7 +167,7 @@ Rules:
 
 | Date | Docs Impact (`Updated`/`No impact`) | Files Updated | Rationale | Status |
 | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | Updated | `docs/example-feature.md` | Runtime flow changed and new module added | Completed |
+| YYYY-MM-DD | Updated | `docs/example-feature.md` | Runtime flow changed and a new owned structure was added | Completed |
 
 ## Completion Gate
 
@@ -177,7 +178,7 @@ Rules:
   - required unit/integration tests pass,
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
   - ownership-dependency/decoupling checks show no new unjustified tight coupling/cycles,
-  - touched files have correct module/file placement or an explicit move/split has been completed.
+  - touched files have correct placement inside the owning subsystem and folder, or an explicit move/split has been completed.
 - Mark Stage 7 API/E2E testing complete only when:
   - every executable in-scope acceptance criterion in the closure matrix is `Passed`,
   - every executable relevant spine in the spine coverage matrix is `Passed`,
@@ -187,7 +188,7 @@ Rules:
 - Mark Stage 8 code review complete only when:
   - `code-review.md` exists and gate decision is recorded,
   - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
-  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
-  - module/file placement checks are recorded for all changed source files,
+  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, reusable-owned-structure checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, test-quality checks, test-maintainability checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
+  - file-placement checks are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
 - Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).

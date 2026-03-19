@@ -14,8 +14,9 @@ interface:
     no blockers, no required persisted artifact updates, and no newly discovered
     use cases);
     Stage 6 implements source + unit/integration against the approved
-    spine/ownership design and keeps file/module placement aligned with that
-    design; Stage 7 implements API/E2E tests and executes the
+    spine/ownership design and keeps file placement aligned with the owning
+    subsystem and folder structure, using optional module groupings only when they
+    materially help readability; Stage 7 implements API/E2E tests and executes the
     acceptance-criteria plus relevant-spine closure gate;
     Stage 8 runs code review only after Stage 7 passes and enforces hard file-size
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
@@ -31,9 +32,12 @@ interface:
     design/review/implementation, enforce shared architecture principles
     (`data-flow spine clarity`, `ownership clarity`, `support structure around
     the spine`; reuse or extension of existing capability areas before new ad hoc
-    helpers; scope-appropriate separation of concerns derived from spine and
-    ownership; dependency direction following ownership; module/file placement
-    following ownership; interface boundaries with one subject, one
+    helpers; draft file responsibilities first, then extract reusable owned structures,
+    then finalize file responsibilities and folder/path mapping; scope-appropriate
+    separation of concerns derived from spine and ownership; dependency direction
+    following ownership; file placement following ownership inside the correct
+    subsystem and folder, with optional module groupings only when they help readability;
+    interface boundaries with one subject, one
     responsibility, and explicit identity shape; examples when needed to clarify
     non-obvious shapes), and enforce modernization explicitly as a hard rule (no
     backward compatibility mechanisms, no dual-path behavior, no legacy

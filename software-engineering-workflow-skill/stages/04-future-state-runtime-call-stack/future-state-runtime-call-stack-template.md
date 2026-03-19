@@ -16,7 +16,7 @@ Do not treat this document as an as-is trace of current code behavior.
   - `[ERROR]` error path
 - Comments: use brief inline comments with `# ...`.
 - Do not include legacy/backward-compatibility branches.
-- Keep decoupling visible in call paths: avoid bidirectional cross-module loops and unclear dependency direction.
+- Keep decoupling visible in call paths: avoid bidirectional cross-subsystem loops and unclear dependency direction.
 
 ## Design Basis
 
@@ -74,11 +74,11 @@ Rules:
 
 ```text
 [ENTRY] app/entrypoint.ts:handleRequest(...)
-├── module/a.ts:validateInput(...)
-├── module/b.ts:orchestrate(...)
-│   ├── module/c.ts:loadState(...) [IO]
-│   ├── module/d.ts:transform(...) [STATE]
-│   └── module/e.ts:persist(...) [IO]
+├── orders/validate-order-input.ts:validateInput(...)
+├── orders/order-orchestrator.ts:orchestrate(...)
+│   ├── persistence/load-order-state.ts:loadState(...) [IO]
+│   ├── orders/transform-order.ts:transform(...) [STATE]
+│   └── persistence/persist-order.ts:persist(...) [IO]
 └── app/entrypoint.ts:returnResponse(...)
 ```
 
@@ -86,14 +86,14 @@ Rules:
 
 ```text
 [FALLBACK] if cache missing or invalid
-module/b.ts:orchestrate(...)
-├── module/f.ts:rebuildFromSource(...)
-└── module/e.ts:persist(...) [IO]
+orders/order-orchestrator.ts:orchestrate(...)
+├── orders/rebuild-order-from-source.ts:rebuildFromSource(...)
+└── persistence/persist-order.ts:persist(...) [IO]
 ```
 
 ```text
 [ERROR] if downstream dependency fails
-module/e.ts:persist(...)
+persistence/persist-order.ts:persist(...)
 └── app/error-handler.ts:mapErrorToResponse(...)
 ```
 
@@ -112,7 +112,7 @@ module/e.ts:persist(...)
 ### Design Smells / Gaps
 
 - Any legacy/backward-compatibility branch present? (`Yes/No`)
-- Any tight coupling or cyclic cross-module dependency introduced? (`Yes/No`)
+- Any tight coupling or cyclic cross-subsystem dependency introduced? (`Yes/No`)
 - Any naming-to-responsibility drift detected? (`Yes/No`)
 
 ### Open Questions
@@ -144,20 +144,20 @@ module/e.ts:persist(...)
 
 ```text
 [ENTRY] app/entrypoint.ts:handleRequest(...)
-├── module/a.ts:...
-└── module/b.ts:...
+├── feature/validate-input.ts:...
+└── feature/orchestrate-request.ts:...
 ```
 
 ### Branching / Fallback Paths
 
 ```text
 [FALLBACK] condition:
-module/x.ts:...
+feature/fallback-path.ts:...
 ```
 
 ```text
 [ERROR] condition:
-module/y.ts:...
+feature/map-error.ts:...
 ```
 
 ### State And Data Transformations

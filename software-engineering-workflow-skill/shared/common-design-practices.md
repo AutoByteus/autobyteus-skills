@@ -20,10 +20,12 @@ Always start with the shared design principles first.
 - If one spine node starts collecting too many unrelated duties, split supporting concerns around that owner rather than turning the node into a god-object.
 - Keep support branches attached to a clear owner on the spine.
 - Before creating a new support helper, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
+- When repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
+- Draft file responsibilities first. Then extract reusable owned structures where repetition appears, re-tighten the file responsibilities, and only after that finalize folder/path mapping.
 - If one owned node contains an event loop, worker loop, state machine, or dispatch cycle that materially shapes the behavior, describe that bounded local spine separately and connect it back to the parent owner.
 - Split APIs/queries/commands/service methods by subject when identity meaning differs; prefer explicit `getAgent...` / `getTeam...` style boundaries over one generic method that guesses what an ID or selector means.
-- Specify target modules/files explicitly; do not leave file placement to chance.
-- Map folders/modules/files from the spine and ownership model, but do it with judgment rather than as a rigid one-folder-per-step rule.
+- Specify target subsystems and files explicitly; mention module groupings only when they materially help readability or reflect an established codebase pattern.
+- Map subsystems, folders, and files from the spine and ownership model, and add module groupings only when they help readability rather than as a rigid one-folder-per-step rule.
 - If the layout stays flatter, record why that is clearer for this scope. If the layout splits more, make sure each split reflects a real owner or boundary.
 - Record change inventory explicitly: `Add`, `Modify`, `Rename/Move`, `Remove`.
 - Define migration/refactor sequence when the change is not greenfield.
@@ -47,7 +49,7 @@ Always start with the shared design principles first.
 - Repeated coordination trigger:
   - If provider selection, fallback, retry, aggregation, routing, or fan-out logic repeats across callers, give that policy a clear owner.
 - Responsibility overload trigger:
-  - If one file/module owns multiple unrelated concerns, split it and lift coordination into a clearer boundary.
+- If one file owns multiple unrelated concerns, split it. If a subsystem or optional module grouping becomes a mixed catch-all, reorganize it into clearer owned files and boundaries.
 - Ambiguous-boundary trigger:
   - If one API/query/command/service method accepts a generic ID or selector that may refer to different subjects, or returns a generic mixed-subject list, split it into explicit subject-owned boundaries or require an explicit compound identity shape.
 - Empty indirection trigger:

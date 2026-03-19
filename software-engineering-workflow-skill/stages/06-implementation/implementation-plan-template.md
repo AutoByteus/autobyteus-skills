@@ -74,23 +74,23 @@
 
 - Bottom-up: implement dependencies before dependents.
 - Test-driven: write unit tests and integration tests alongside implementation.
-- Spine-led implementation rule: sequence work by spine and owner first; file/module order is derived from that structure.
+- Spine-led implementation rule: sequence work by spine and owner first; file order is derived from that structure, and any optional module grouping follows the ownership model rather than leading it.
 - Mandatory modernization rule: no backward-compatibility shims or legacy branches.
-- Mandatory ownership/decoupling/SoC rule: preserve clear module boundaries, one-way dependency direction, and scope-appropriate file responsibilities; avoid adding tight coupling/cycles or mixed-concern files.
-- Mandatory module/file placement rule: keep each touched file in the folder/boundary that owns its concern; plan explicit moves when current placement is misleading.
+- Mandatory ownership/decoupling/SoC rule: preserve clear subsystem boundaries, one-way dependency direction, and scope-appropriate file responsibilities; avoid adding tight coupling/cycles or mixed-concern files.
+- Mandatory file-placement rule: keep each touched file in the folder/boundary that owns its concern; plan explicit moves when current placement is misleading.
 - Choose the proper structural change for architecture integrity; do not prefer local hacks just because they are smaller.
 - One file at a time is the default; use limited parallel work only when dependency edges require it.
 - Update progress after each meaningful status change (file state, test state, blocker state, or design follow-up state).
 
 ## Spine-Led Dependency And Sequencing Map
 
-| Order | Spine ID | Owner | Task / File / Module | Depends On | Why This Order |
+| Order | Spine ID | Owner | Task / File | Depends On | Why This Order |
 | --- | --- | --- | --- | --- | --- |
 | 1 |  |  |  |  |  |
 | 2 |  |  |  |  |  |
 | 3 |  |  |  |  |  |
 
-## Module/File Placement Plan (Mandatory)
+## File Placement Plan (Mandatory)
 
 | Item | Current Path | Target Path | Owning Concern / Platform | Action (`Keep`/`Move`/`Split`/`Promote Shared`) | Verification |
 | --- | --- | --- | --- | --- | --- |
@@ -122,9 +122,9 @@
 
 ## Step-By-Step Plan
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Backward-Compat And Decoupling Guardrails (Mandatory)
 
@@ -149,7 +149,7 @@
 - `>500` effective-line source file hard-limit policy and expected design-impact action:
 - per-file diff delta gate (`>220` changed lines) assessment approach:
 - Hard-limit handling details in `code-review.md` (required re-entry path and split/refactor plan):
-- module/file placement review approach (how wrong-folder placements will be detected and corrected):
+- file-placement review approach (how wrong-folder placements will be detected and corrected):
 
 | File | Current Line Count | Adds/Expands Functionality (`Yes`/`No`) | Ownership/SoC Risk (`Low`/`Medium`/`High`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) | Expected Review Classification if not addressed |
 | --- | --- | --- | --- | --- | --- |
@@ -159,7 +159,7 @@
 
 - Unit tests:
 - Integration tests:
-- Stage 6 boundary: file/module/service-level verification only (unit + integration).
+- Stage 6 boundary: file and service-level verification, while preserving readable subsystem grouping, only (unit + integration).
 - Stage 7 handoff notes for API/E2E testing:
   - expected acceptance criteria count:
   - critical flows to validate (API/E2E):
@@ -167,7 +167,7 @@
   - known environment constraints:
 - Stage 8 handoff notes for code review:
   - predicted design-impact hotspots:
-  - predicted module/file placement hotspots:
+  - predicted file-placement hotspots:
   - predicted interface/API/query/command/service-method boundary hotspots:
   - files likely to exceed size/ownership/SoC thresholds:
 

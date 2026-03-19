@@ -60,10 +60,16 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Before investigation, bootstrap work context in this order:
   - create/use `tickets/in-progress/<ticket-name>/`,
-  - if the project is a git repository, create/switch to a dedicated worktree/branch for the ticket before writing artifacts (`codex/<ticket-name>` branch naming),
+  - if the project is a git repository:
+    - resolve the bootstrap base branch from explicit user instruction when provided; otherwise infer the tracked remote default/integration branch with highest confidence,
+    - when creating a new ticket worktree/branch, refresh tracked remote refs first so bootstrap starts from the latest remote state instead of a stale local head,
+    - create/reuse a dedicated ticket worktree for the ticket branch before writing artifacts,
+    - when creating a new ticket branch, create `codex/<ticket-name>` from the latest tracked remote base branch,
   - create/update `requirements.md` with status `Draft` from user-provided requirement intent.
 - Investigation must not start before the ticket bootstrap and `requirements.md` `Draft` are physically written.
 - If a dedicated worktree already exists for the ticket, reuse it instead of creating a new one.
+- If the user specifies a base branch, always use the latest tracked remote state of that branch rather than guessing from a local copy.
+- If remote refresh or base-branch resolution fails, keep Stage 0 `Blocked` and record the blocker before investigation.
 - If the environment is not a git repository, continue without worktree setup and still enforce ticket-folder + `Draft` requirement capture.
 
 ### Workflow State File (Mandatory Enforcement Artifact)
@@ -72,6 +78,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Initialize it during Stage 0 immediately after ticket bootstrap with:
   - `Current Stage = 0`,
   - `Code Edit Permission = Locked`,
+  - `Stage 0 Bootstrap Record` filled with bootstrap mode plus, when git repo, requested base branch if any, resolved base remote/base branch, remote-refresh result when performed, worktree path, and ticket branch,
   - stage gate rows in `Not Started`/`In Progress` state.
 - Update model (mandatory):
   - rewrite `Current Snapshot` in place on every stage transition,
@@ -186,7 +193,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 | Stage | Name | Core Deliverable/Gate | Code Edit Permission |
 | --- | --- | --- | --- |
-| 0 | Bootstrap + Draft Requirement | Ticket/worktree bootstrap complete + `requirements.md` = `Draft` | Locked |
+| 0 | Bootstrap + Draft Requirement | Ticket/worktree bootstrap complete (ticket path + if git repo: base branch resolved from tracked remote, remote freshness handled for new bootstrap, dedicated ticket worktree/branch created or reused) + `requirements.md` = `Draft` | Locked |
 | 1 | Investigation + Triage | `investigation-notes.md` current + scope triage complete | Locked |
 | 2 | Requirements Refinement | `requirements.md` reaches `Design-ready`/`Refined` | Locked |
 | 3 | Design Basis | `implementation-plan.md` sketch (`Small`) or `proposed-design.md` (`Medium/Large`) | Locked |
@@ -202,7 +209,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 | Stage | Exit Condition (Must Be True To Transition) | On Fail/Blocked | Next Stage On Pass |
 | --- | --- | --- | --- |
-| 0 Bootstrap + Draft Requirement | Ticket/worktree bootstrap complete and `requirements.md` status is `Draft` | Stay in `0` until bootstrap is complete | `1` |
+| 0 Bootstrap + Draft Requirement | Ticket/worktree bootstrap is complete, the base branch/worktree decision is recorded, and `requirements.md` status is `Draft` | Stay in `0` until bootstrap is complete | `1` |
 | 1 Investigation + Triage | `investigation-notes.md` is current and scope triage (`Small`/`Medium`/`Large`) is recorded | Stay in `1` until investigation evidence is complete | `2` |
 | 2 Requirements | `requirements.md` is `Design-ready` (or `Refined`) with requirement/acceptance-criteria coverage maps | Stay in `2` until requirements are design-ready | `3` |
 | 3 Design Basis | Design basis artifact is current (`implementation-plan.md` sketch for `Small`, `proposed-design.md` for `Medium/Large`) | Stay in `3` and revise design basis | `4` |
@@ -244,10 +251,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Use `stages/00-bootstrap/bootstrap-checklist.md`.
 - Run mandatory first-action sequence:
   - create/use `tickets/in-progress/<ticket-name>/`,
-  - if git repo, create/switch ticket worktree/branch,
-  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` from `shared/workflow-state-template.md` and set `Current Stage = 0`, `Code Edit Permission = Locked`,
+  - if git repo, resolve bootstrap base branch from explicit user instruction when provided; otherwise infer the tracked remote default/integration branch with highest confidence,
+  - if git repo and a new ticket worktree/branch is needed, refresh tracked remote refs first,
+  - if git repo, create/reuse dedicated ticket worktree for `codex/<ticket-name>`; when creating a new ticket branch, branch it from the latest tracked remote base,
+  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` from `shared/workflow-state-template.md`, set `Current Stage = 0`, `Code Edit Permission = Locked`, and fill `Stage 0 Bootstrap Record`,
   - capture initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
 - Do not run deep investigation before Stage 0 bootstrap and `requirements.md` `Draft` are physically written.
+- If remote refresh, base-branch resolution, or ticket-worktree creation fails, keep Stage 0 blocked and record the failure in `workflow-state.md` instead of falling back to a stale local branch.
 - Before transitioning to Stage 1, update `workflow-state.md` snapshot + transition log + stage gate evidence.
 
 ### 1) Investigation + Understanding Pass + Triage
@@ -776,8 +786,10 @@ These defaults list file-producing stages; gating and handoff rules still follow
 
 - Stage 0 (bootstrap + draft requirement):
   - create/use `tickets/in-progress/<ticket-name>/`
-  - if git repo, create/switch ticket worktree/branch
-  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 0`, `Code Edit Permission = Locked`)
+  - if git repo, resolve bootstrap base branch from explicit user instruction when provided; otherwise infer the tracked remote default/integration branch with highest confidence
+  - if git repo and a new ticket worktree/branch is needed, refresh tracked remote refs first
+  - if git repo, create/reuse dedicated ticket worktree for `codex/<ticket-name>`; when creating a new ticket branch, branch it from the latest tracked remote base
+  - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 0`, `Code Edit Permission = Locked`, `Stage 0 Bootstrap Record` filled)
   - `tickets/in-progress/<ticket-name>/requirements.md` (`Draft`)
 - Stage 1 (investigation + understanding + triage):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`0 -> 1`)

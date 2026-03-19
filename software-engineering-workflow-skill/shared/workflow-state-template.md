@@ -15,11 +15,26 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 - Last Transition ID:
 - Last Updated:
 
+## Stage 0 Bootstrap Record
+
+- Bootstrap Mode (`Git`/`Non-Git`):
+- User-Specified Base Branch:
+- Resolved Base Remote:
+- Resolved Base Branch:
+- Remote Refresh Performed (`Yes`/`No`/`N/A`):
+- Remote Refresh Result:
+- Ticket Worktree Path:
+- Ticket Branch:
+
+Note:
+- Fill this record during Stage 0 and keep it current if Stage 0 is reopened.
+- For non-git projects, mark git-only fields as `N/A`.
+
 ## Stage Gates
 
 | Stage | Gate Status (`Not Started`/`In Progress`/`Pass`/`Fail`/`Blocked`) | Gate Rule Summary | Evidence |
 | --- | --- | --- | --- |
-| 0 Bootstrap + Draft Requirement | Not Started | Ticket bootstrap complete + `requirements.md` Draft captured |  |
+| 0 Bootstrap + Draft Requirement | Not Started | Ticket bootstrap complete + if git repo: base branch resolved, remote freshness handled for new bootstrap, dedicated ticket worktree/branch created or reused + `requirements.md` Draft captured |  |
 | 1 Investigation + Triage | Not Started | `investigation-notes.md` current + scope triage recorded |  |
 | 2 Requirements | Not Started | `requirements.md` is `Design-ready`/`Refined` |  |
 | 3 Design Basis | Not Started | Design basis updated for scope (`implementation-plan.md` sketch or `proposed-design.md`) |  |
@@ -35,7 +50,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 
 | Stage | Exit Condition | On Fail/Blocked |
 | --- | --- | --- |
-| 0 | Bootstrap complete + `requirements.md` is `Draft` | stay in `0` |
+| 0 | Bootstrap complete, base-branch/worktree decision recorded, and `requirements.md` is `Draft` | stay in `0` |
 | 1 | `investigation-notes.md` current + scope triage recorded | stay in `1` |
 | 2 | `requirements.md` is `Design-ready`/`Refined` | stay in `2` |
 | 3 | Design basis current for scope | stay in `3` |

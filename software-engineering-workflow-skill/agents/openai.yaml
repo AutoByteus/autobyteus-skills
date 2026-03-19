@@ -5,8 +5,12 @@ interface:
     Use $software-engineering-workflow-skill with strict stage gates and ticket
     lifecycle discipline. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
     7 -> 8 -> 9 -> 10`: Stage 0 bootstraps ticket context in order
-    (`tickets/in-progress/<ticket-name>/` -> git worktree/branch when available ->
-    `requirements.md` status `Draft`) and initializes `workflow-state.md` with
+    (`tickets/in-progress/<ticket-name>/` -> if git repo: resolve explicit
+    user-specified base branch first, otherwise infer the tracked remote
+    default/integration branch -> refresh tracked remote refs before new
+    bootstrap -> create/reuse dedicated ticket worktree + `codex/<ticket-name>`
+    branch from the latest tracked remote base -> `requirements.md` status
+    `Draft`) and initializes `workflow-state.md` with
     `Current Stage=0` and `Code Edit Permission=Locked`; Stage 1 is investigation
     (deep understanding + triage); Stage 2 refines requirements to `Design-ready`;
     Stage 3 sets design basis; Stage 4 builds future-state runtime call stacks;

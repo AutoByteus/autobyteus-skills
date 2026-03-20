@@ -64,6 +64,7 @@ Rules:
 | Naming-to-responsibility alignment and drift check |  |  |  |
 | No unjustified duplication of code / repeated structures in changed scope |  |  |  |
 | Patch-on-patch complexity control |  |  |  |
+| Dead/obsolete code cleanup completeness in changed scope |  |  |  |
 | Test quality is acceptable for the changed behavior |  |  |  |
 | Test maintainability is acceptable for the changed behavior |  |  |  |
 | Validation evidence sufficiency for the changed flow |  |  |  |
@@ -115,6 +116,7 @@ Rules:
   - Naming-to-responsibility alignment and drift check = `Pass`
   - No unjustified duplication of code / repeated structures in changed scope = `Pass`
   - Patch-on-patch complexity control = `Pass`
+  - Dead/obsolete code cleanup completeness in changed scope = `Pass`
   - Test quality is acceptable for the changed behavior = `Pass`
   - Test maintainability is acceptable for the changed behavior = `Pass`
   - Validation evidence sufficiency = `Pass`

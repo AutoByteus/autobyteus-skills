@@ -89,6 +89,7 @@ Document discipline:
 - Test-driven: write unit tests and integration tests alongside implementation.
 - Spine-led implementation rule: sequence work by spine and owner first; file order is derived from that structure, and any optional module grouping follows the ownership model rather than leading it.
 - Mandatory modernization rule: no backward-compatibility shims or legacy branches.
+- Mandatory cleanup rule: remove dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope before Stage 6 can close.
 - Mandatory ownership/decoupling/SoC rule: preserve clear subsystem boundaries, one-way dependency direction, and scope-appropriate file responsibilities; avoid adding tight coupling/cycles or mixed-concern files.
 - Mandatory file-placement rule: keep each touched file in the folder/boundary that owns its concern; plan explicit moves when current placement is misleading.
 - Choose the proper structural change for architecture integrity; do not prefer local hacks just because they are smaller.
@@ -151,6 +152,7 @@ Avoid creating separate repeated file lists elsewhere unless the section is spec
 
 - Backward-compatibility mechanisms introduced: `None` / `List + redesign required`
 - Legacy code retained for old behavior: `No` / `Yes (blocked)`
+- Dead/obsolete code or unused helpers/tests/flags/adapters left in scope: `No` / `Yes (blocked)`
 - Decoupling impact assessment completed: `Yes` / `No`
 - New tight coupling or cyclic dependency introduced: `No` / `Yes (blocked)`
 
@@ -313,11 +315,12 @@ Use this section only for execution-only details that do not belong in the main 
 ### Completion Gate
 
 - Mark `Implementation Status = Completed` only when implementation is done and required tests are passing or explicitly `N/A`.
-- For `Rename/Move`/`Remove` tasks, verify obsolete references and dead branches are removed.
+- For `Rename/Move`/`Remove` tasks, verify obsolete references, dead branches, unused helpers/tests/flags/adapters, and dormant replaced paths are removed.
 - Mark Stage 6 implementation execution complete only when:
   - implementation baseline scope is delivered (or deviations are documented),
   - required unit/integration tests pass,
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
+  - dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope are removed,
   - ownership-dependency/decoupling checks show no new unjustified tight coupling/cycles,
   - touched files have correct placement inside the owning subsystem and folder, or an explicit move/split has been completed.
 - Mark Stage 7 API/E2E testing complete only when:
@@ -329,7 +332,7 @@ Use this section only for execution-only details that do not belong in the main 
 - Mark Stage 8 code review complete only when:
   - `code-review.md` exists and gate decision is recorded,
   - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
-  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, reusable-owned-structure checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, test-quality checks, test-maintainability checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
+  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, reusable-owned-structure checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, dead/obsolete-code cleanup checks, test-quality checks, test-maintainability checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
   - file-placement checks are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
 - Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).

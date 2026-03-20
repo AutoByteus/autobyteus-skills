@@ -582,11 +582,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - set `Code Edit Permission = Unlocked`,
   - record transition evidence that Stage 5 gate is `Go Confirmed` and pre-edit checklist is satisfied.
 - Ensure traceability when a proposed design doc exists: every design change-inventory row (especially `Rename/Move` and `Remove`) maps to implementation tasks and verification steps.
-- Enforce clean-cut implementation: do not keep legacy compatibility paths.
+- Enforce clean-cut implementation: do not keep legacy compatibility paths, dead code, or dormant replaced paths in scope.
 - No-backward-compat implementation rule (mandatory): reject compatibility wrappers, dual-path reads/writes, and old-behavior fallback branches even if they make rollout easier.
 - Ownership-dependency preservation rule (mandatory): implementation must not introduce new tight coupling, forbidden shortcuts, or cyclic dependencies across owners or subsystem boundaries.
 - File-placement preservation rule (mandatory): do not leave touched files in the wrong concern folder just to minimize edits; move/split them when the current path no longer matches ownership.
-- Implementation completeness rule (mandatory): implementation is not complete until obsolete code paths and compatibility shims in scope are removed.
+- Implementation completeness rule (mandatory): implementation is not complete until obsolete code paths, dead code, unused helpers/tests/flags/adapters, dormant replaced paths, and compatibility shims in scope are removed.
 - Stage 6 failure classification rule (mandatory):
   - `Local Fix`: issue is bounded and does not require requirement/design/call-stack updates; remain in Stage 6.
   - `Design Impact`: issue indicates architecture/ownership-dependency or compatibility-policy breach requiring upstream design/runtime updates; re-enter `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6`.
@@ -609,6 +609,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - implementation plan scope is delivered (or deviations are explicitly documented),
   - required unit/integration tests pass,
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
+  - dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope are removed,
   - ownership-driven dependencies remain valid (no newly introduced unjustified tight coupling/cyclic dependencies),
   - touched files either already have correct placement or are moved/split so their paths match owning concerns.
 - Use `stages/06-implementation/implementation-template.md`.
@@ -702,6 +703,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - naming-to-responsibility alignment and drift,
   - no unjustified duplication of code or repeated structures in changed scope,
   - patch-on-patch complexity smells,
+  - dead/obsolete code cleanup completeness in changed scope,
   - no backward-compatibility mechanisms and no legacy code retention,
   - test quality, test maintainability, and validation-evidence sufficiency.
 - Earlier design artifacts are Stage 8 context only, not the authority. If independent review shows the earlier design basis was weak, incomplete, or wrong, classify `Design Impact`.
@@ -716,7 +718,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no soft middle band (`501-700`) and no default exception path in this workflow.
   - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
+- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
   - `Local Fix`: the issue requires source changes but remains inside the shared design principles and intended behavior without requiring design or requirement artifact updates; rerun `Stage 6 -> Stage 7 -> Stage 8`.

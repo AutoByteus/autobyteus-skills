@@ -26,6 +26,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Did any manager, registry, adapter, helper, or shared utility absorb business logic it should not own?
 - Is validation evidence sufficient for the changed behavior?
 - Were obsolete or compatibility-only paths removed when they were in scope?
+- Were dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths removed when they were in scope?
 - Does the implementation avoid compatibility wrappers, dual-path behavior, and legacy old-behavior retention as a hard rule rather than a tradeoff?
 
 ## Review Smells
@@ -44,6 +45,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - A changed source file crossed the hard size limit or diff-size gate in a way that signals structural drift
 - A working patch introduces empty indirection or patch-on-patch complexity
 - Duplicated code remains in changed scope even though one reusable owned file or one clear owner would remove it cleanly
+- Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in changed scope after the change
 - Compatibility wrappers, dual-path behavior, or preserved legacy fallback branches remain in place for replaced behavior
 - Validation is too weak to prove the changed flow
 - Legacy fallback or compatibility logic remains without strong reason
@@ -70,6 +72,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
 - The implementation introduces naming drift or a layout shape that is too flat or too fragmented for a healthy design.
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
+- Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in scope after the change.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.
 - Compatibility wrappers, dual-path behavior, or legacy old-behavior retention remain in scope after the change.

@@ -339,9 +339,9 @@ Rule:
 
 ## Migration / Rollout (If Needed)
 
-## Change Traceability To Implementation Plan
+## Change Traceability To Implementation
 
-| Change ID | Implementation Plan Task(s) | Verification (Unit/Integration/API/E2E) | Status |
+| Change ID | Implementation Task(s) | Verification (Unit/Integration/API/E2E) | Status |
 | --- | --- | --- | --- |
 | C-001 |  |  | Planned |
 

@@ -24,7 +24,7 @@ Do not treat this document as an as-is trace of current code behavior.
 - Call Stack Version: `v1` / `v2` / ...
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
 - Source Artifact:
-  - `Small`: `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch as lightweight design basis)
+  - `Small`: `tickets/in-progress/<ticket-name>/implementation.md` (solution sketch as lightweight design basis)
   - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Source Design Version: `v1` / `v2` / ...
 - Referenced Sections:

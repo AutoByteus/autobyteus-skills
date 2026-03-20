@@ -131,9 +131,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
 - Do not start investigation until ticket/worktree bootstrap is complete and `requirements.md` status `Draft` is physically written.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
-- Do not draft design artifacts (`proposed-design.md` or small-scope design basis in `implementation-plan.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
-- Do not finalize `implementation-plan.md` or generate `implementation-progress.md` until the future-state runtime call stack review gate is fully satisfied for the current scope.
-- Do not start implementation execution until `implementation-plan.md` is finalized and `implementation-progress.md` is initialized.
+- Do not draft design artifacts (`proposed-design.md` or small-scope solution sketch in `implementation.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
+- Do not finalize `implementation.md` baseline sections or start execution tracking sections until the future-state runtime call stack review gate is fully satisfied for the current scope.
+- Do not start implementation execution until `implementation.md` baseline is finalized and its execution-tracking sections are initialized.
 - Do not start source-code edits until all of the following are true in `workflow-state.md`:
   - `Current Stage = 6`,
   - `Code Edit Permission = Unlocked`,
@@ -151,7 +151,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, personal-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
 - Treat engineering completion, user verification, and ticket archival as separate gates: engineering completion ends at implementation + API/E2E test gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/` and run required Stage 10 git finalization/release work when the project is a git repository.
-- `Small` scope exception: drafting `implementation-plan.md` (solution sketch only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
+- `Small` scope exception: drafting `implementation.md` (solution sketch section only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after required upstream artifact updates from a blocking round.
 - Stability rule (mandatory): unlock `Go Confirmed` only after two consecutive deep-review rounds report no blockers, no required persisted artifact updates, and no newly discovered use cases.
@@ -173,7 +173,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Re-entry declaration must be recorded in `workflow-state.md` before any artifact/code update work begins.
 - No-direct-patch rule (mandatory): for post-implementation gate findings, do not edit source code first. Update required upstream artifacts first based on classification path.
 - Re-entry mapping (mandatory):
-  - `Local Fix`: update implementation artifacts (`implementation-plan.md` / `implementation-progress.md` / `api-e2e-testing.md` / `code-review.md` as applicable), then implement fix, then rerun `Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
+  - `Local Fix`: update implementation artifacts (`implementation.md` / `api-e2e-testing.md` / `code-review.md` as applicable), then implement fix, then rerun `Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
   - `Design Impact`: return to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
   - `Requirement Gap`: return to `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
   - `Unclear` (or cross-cutting root cause): return to `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
@@ -196,7 +196,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 0 | Bootstrap + Draft Requirement | Ticket/worktree bootstrap complete (ticket path + if git repo: base branch resolved from tracked remote, remote freshness handled for new bootstrap, dedicated ticket worktree/branch created or reused) + `requirements.md` = `Draft` | Locked |
 | 1 | Investigation + Triage | `investigation-notes.md` current + scope triage complete | Locked |
 | 2 | Requirements Refinement | `requirements.md` reaches `Design-ready`/`Refined` | Locked |
-| 3 | Design Basis | `implementation-plan.md` sketch (`Small`) or `proposed-design.md` (`Medium/Large`) | Locked |
+| 3 | Design Basis | `implementation.md` solution sketch (`Small`) or `proposed-design.md` (`Medium/Large`) | Locked |
 | 4 | Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` current | Locked |
 | 5 | Future-State Runtime Call Stack Review | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + ownership-driven dependency quality preserved + touched files correctly placed | Unlocked |
@@ -212,7 +212,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 0 Bootstrap + Draft Requirement | Ticket/worktree bootstrap is complete, the base branch/worktree decision is recorded, and `requirements.md` status is `Draft` | Stay in `0` until bootstrap is complete | `1` |
 | 1 Investigation + Triage | `investigation-notes.md` is current and scope triage (`Small`/`Medium`/`Large`) is recorded | Stay in `1` until investigation evidence is complete | `2` |
 | 2 Requirements | `requirements.md` is `Design-ready` (or `Refined`) with requirement/acceptance-criteria coverage maps | Stay in `2` until requirements are design-ready | `3` |
-| 3 Design Basis | Design basis artifact is current (`implementation-plan.md` sketch for `Small`, `proposed-design.md` for `Medium/Large`) | Stay in `3` and revise design basis | `4` |
+| 3 Design Basis | Design basis artifact is current (`implementation.md` solution sketch for `Small`, `proposed-design.md` for `Medium/Large`) | Stay in `3` and revise design basis | `4` |
 | 4 Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` is current for in-scope use cases | Stay in `4` and regenerate the future-state runtime call stack | `5` |
 | 5 Future-State Runtime Call Stack Review | Future-state runtime call stack review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
@@ -386,7 +386,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Ownership-driven dependency rule (mandatory): define and preserve clear subsystem, service, and component boundaries so allowed dependencies follow ownership and forbidden shortcuts are explicit.
 - Existing-capability reuse rule (mandatory): do not create a new helper/support branch by default. Reuse or extend an existing well-owned subsystem when the fit is natural, and justify `Create New` when no current area is appropriate.
 - Reusable-owned-structure rule (mandatory): when repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
-- For `Small`, the solution sketch in `implementation-plan.md` must still include a concise architecture sketch (target ownership boundaries and any new files, plus optional module groupings only when they help readability).
+- For `Small`, the solution sketch in `implementation.md` must still include a concise architecture sketch (target ownership boundaries and any new files, plus optional module groupings only when they help readability).
 - Apply separation-of-concerns at the correct technical boundary for the stack:
   - frontend/UI scope: evaluate responsibility at view/component level (each component should own a clear concern),
   - non-UI scope (backend/service/worker/domain): evaluate responsibility at file and service level, while keeping subsystem grouping readable,
@@ -461,7 +461,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### 5) Review Future-State Runtime Call Stacks (Future-State + Architecture + Naming + Cleanliness Gate)
 
 - Create `future-state-runtime-call-stack-review.md` as a mandatory review artifact.
-- Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation-plan.md` for `Small`), not parity with current code structure.
+- Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation.md` for `Small`), not parity with current code structure.
 - Review must challenge architecture choice itself (spine/ownership/support structure/allocation), not only file-level separation of concerns.
 - Review must reuse the same shared design principles from Stage 3; do not apply a different principle set in review.
 - Review must explicitly verify file placement against the Stage 3 design basis; wrong folder placement is a structural defect, not a cosmetic nit.
@@ -548,7 +548,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - two consecutive deep-review rounds have no blockers, no required persisted artifact updates, and no newly discovered use cases.
 - If issues are found:
   - classify each blocking round as exactly one of `Design Impact`/`Requirement Gap`/`Unclear` and record it in `future-state-runtime-call-stack-review.md` and `workflow-state.md`.
-  - `Design Impact` (clear and high-confidence design issue): update design basis in Stage 3 (`Medium/Large`: `proposed-design.md`; `Small`: design section in `implementation-plan.md`), regenerate call stacks in Stage 4, then return to Stage 5.
+  - `Design Impact` (clear and high-confidence design issue): update design basis in Stage 3 (`Medium/Large`: `proposed-design.md`; `Small`: design section in `implementation.md`), regenerate call stacks in Stage 4, then return to Stage 5.
   - `Requirement Gap`: update `requirements.md` first in Stage 2 (status `Refined`), then update design basis in Stage 3, regenerate call stacks in Stage 4, then return to Stage 5.
   - `Unclear` (cross-cutting/low-confidence): update `investigation-notes.md` in Stage 1 first, then proceed through `2 -> 3 -> 4 -> 5`.
 - If naming drift is found, prefer explicit rename/split/move updates in the same review loop instead of carrying stale names forward.
@@ -560,8 +560,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Use a bottom-up, test-driven approach: implement foundational dependencies first.
 - Sequence is mandatory:
-  - first ensure `implementation-plan.md` is finalized,
-  - then initialize/update `implementation-progress.md`,
+  - first ensure `implementation.md` baseline is finalized,
+  - then initialize/update the execution-tracking sections in `implementation.md`,
   - then execute source implementation with required unit/integration verification.
 - Stage separation rule (mandatory):
   - Stage 6 implements source code and verifies file and service boundaries, while preserving readable subsystem grouping, with unit/integration tests.
@@ -571,10 +571,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Include spine traceability in plan/progress (`spine -> owner -> use case -> implementation tasks -> validation scenarios`).
 - Integration test coverage is required for behavior that crosses module boundaries, process boundaries, storage boundaries, or external API boundaries. If any such behavior is not covered, record a concrete rationale.
 - Finalize planning artifacts before kickoff:
-  - `Small`: refine the draft implementation plan until future-state runtime call stack review passes final stability gate (`Go Confirmed`).
-  - `Medium/Large`: create implementation plan only after future-state runtime call stack review passes final stability gate (`Go Confirmed`).
-- Create the implementation progress document at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
-- Implementation plan + real-time progress tracking are required for all sizes (`Small`, `Medium`, `Large`).
+  - `Small`: refine the draft `implementation.md` solution sketch until future-state runtime call stack review passes final stability gate (`Go Confirmed`).
+  - `Medium/Large`: create `implementation.md` only after future-state runtime call stack review passes final stability gate (`Go Confirmed`).
+- Initialize the execution-tracking sections in `implementation.md` at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
+- One merged implementation artifact with both baseline planning and live tracking is required for all sizes (`Small`, `Medium`, `Large`).
 - Treat future-state runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.
 - Start implementation only after the review gate says implementation can start and all in-scope use cases are `Pass`.
 - Before first source-code edit in Stage 6, update `workflow-state.md`:
@@ -611,8 +611,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
   - ownership-driven dependencies remain valid (no newly introduced unjustified tight coupling/cyclic dependencies),
   - touched files either already have correct placement or are moved/split so their paths match owning concerns.
-- Use `stages/06-implementation/implementation-plan-template.md` and `stages/06-implementation/implementation-progress-template.md`.
-- Do not speak for routine `implementation-plan.md`/`implementation-progress.md` edits. Announce only for persisted `workflow-state.md` events (Stage 6 entry, lock/unlock change, gate/transition outcomes).
+- Use `stages/06-implementation/implementation-template.md`.
+- Do not speak for routine `implementation.md` edits. Announce only for persisted `workflow-state.md` events (Stage 6 entry, lock/unlock change, gate/transition outcomes).
 
 ### 7) Implement API/E2E Tests And Run API/E2E Test Gate (Mandatory)
 
@@ -648,7 +648,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Cross-boundary test rule (mandatory): for client/server or multi-service scope, include API/E2E scenarios that validate cross-boundary interaction behavior (request -> boundary handoff -> downstream effect -> returned state).
 - Manual testing policy: do not include manual testing in the default workflow. If the user performs manual verification outside the workflow, treat the user's explicit completion/verification message as the Stage 10 trigger to move the ticket to `done` and start repository finalization.
 - Feasibility policy:
-  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md` and `implementation-progress.md`,
+  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md` and `implementation.md`,
   - record compensating automated evidence and residual risk notes for each infeasible critical scenario,
   - mark Stage 7 as `Blocked` unless the user explicitly accepts a waiver for the infeasible acceptance criteria.
 - Test feedback escalation policy (mandatory):
@@ -695,14 +695,15 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - empty-indirection control,
   - scope-appropriate separation of concerns and file responsibility clarity,
   - ownership-driven dependency quality (low coupling, no unjustified cycles, no forbidden shortcuts),
-  - architecture/boundary consistency with design basis,
-  - file placement and folder ownership consistency with design basis,
+  - architecture/boundary quality under the shared design principles and common design practices,
+  - file placement and folder ownership quality under the shared design principles and common design practices,
   - flat-vs-over-split layout judgment,
   - interface/API/query/command/service-method boundary clarity with explicit identity shapes,
   - naming-to-responsibility alignment and drift,
   - duplication and patch-on-patch complexity smells,
   - no backward-compatibility mechanisms and no legacy code retention,
   - test quality, test maintainability, and validation-evidence sufficiency.
+- Earlier design artifacts are Stage 8 context only, not the authority. If independent review shows the earlier design basis was weak, incomplete, or wrong, classify `Design Impact`.
 - Source file size policy (mandatory):
   - measure line counts explicitly per changed source file:
     - effective non-empty line count command: `rg -n "\\S" <file-path> | wc -l`
@@ -717,9 +718,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + duplication/patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
-  - `Local Fix`: the issue requires source changes but remains inside the approved design; rerun `Stage 6 -> Stage 7 -> Stage 8`.
+  - `Local Fix`: the issue requires source changes but remains inside the shared design principles and intended behavior without requiring design or requirement artifact updates; rerun `Stage 6 -> Stage 7 -> Stage 8`.
   - `Validation Gap`: the main issue is insufficient Stage 7 coverage or evidence; rerun `Stage 7 -> Stage 8` without forcing design or source changes by default.
-  - `Design Impact`: the implementation drifted from the approved data-flow spine inventory, ownership model, support structure, or file placement; rerun `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`.
+  - `Design Impact`: independent review found an architectural or structural problem in the code, or revealed that the earlier design basis was weak/wrong/incomplete; rerun `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`.
   - `Requirement Gap`: review exposed missing or ambiguous intended behavior; rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`.
   - `Unclear`: root cause is cross-cutting or confidence is too low; rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8`.
 - Treat wrong-location files as review failures when the path obscures ownership (for example, platform-specific code outside its platform folder without explicit shared-boundary rationale).
@@ -741,7 +742,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - changed runtime flows,
   - renamed/moved/removed components,
   - updated operational or testing procedures when behavior changed.
-- If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation-progress.md`.
+- If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation.md`.
 - Docs synchronization is complete only when docs content aligns with the final implemented behavior.
 - After docs synchronization result is recorded (`Updated`/`No impact`), announce only with the persisted `workflow-state.md` transition/gate update.
 
@@ -799,7 +800,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - update `tickets/in-progress/<ticket-name>/requirements.md` in place
 - Stage 3 (design basis):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`2 -> 3`)
-  - `Small`: start/refine `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch section only for design basis).
+  - `Small`: start/refine `tickets/in-progress/<ticket-name>/implementation.md` (solution sketch section only for design basis).
   - `Medium/Large`: create/refine `tickets/in-progress/<ticket-name>/proposed-design.md`.
 - Stage 4 (future-state runtime call stack):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`3 -> 4`)
@@ -809,8 +810,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack-review.md`
 - Stage 6 (only after gate `Go Confirmed`):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 6`, `Code Edit Permission = Unlocked` only when pre-edit checklist is `Pass`)
-  - finalize/update `tickets/in-progress/<ticket-name>/implementation-plan.md`
-  - `tickets/in-progress/<ticket-name>/implementation-progress.md`
+  - finalize/update `tickets/in-progress/<ticket-name>/implementation.md`
   - execute source implementation plus required unit/integration verification and log progress in real time
   - close Stage 6 only when no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid, and touched files sit in the correct folder under the correct owning subsystem
 - Stage 7 (API/E2E test implementation + API/E2E test gate):
@@ -818,7 +818,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - create/update `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
   - maintain acceptance-criteria matrix (`acceptance_criteria_id` -> scenario coverage -> pass status)
   - maintain spine coverage matrix (`spine_id` -> scenario coverage -> pass status)
-  - record scenario execution results and any escalation decisions in `tickets/in-progress/<ticket-name>/implementation-progress.md`
+  - record scenario execution results and any escalation decisions in `tickets/in-progress/<ticket-name>/implementation.md`
 - Stage 8 (code review gate, only after `Stage 7 = Pass`):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 8`, `Code Edit Permission = Locked`)
   - create/update `tickets/in-progress/<ticket-name>/code-review.md`
@@ -827,7 +827,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`8 -> 9`)
   - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
   - create missing relevant docs in `docs/` when no existing doc covers the implemented functionality
-  - record docs sync result in `tickets/in-progress/<ticket-name>/implementation-progress.md` (`Updated`/`No impact` + rationale)
+  - record docs sync result in `tickets/in-progress/<ticket-name>/implementation.md` (`Updated`/`No impact` + rationale)
 - Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
   - persist the handoff summary and wait for explicit user completion/verification instruction
@@ -859,8 +859,8 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 5 future-state runtime call stack review:
   - `stages/05-future-state-runtime-call-stack-review/future-state-runtime-call-stack-review-template.md`
 - Stage 6 implementation:
-  - `stages/06-implementation/implementation-plan-template.md`
-  - `stages/06-implementation/implementation-progress-template.md`
+  - `stages/06-implementation/implementation-template.md`
+  - `stages/06-implementation/implementation-example.md`
 - Stage 7 API/E2E:
   - `stages/07-api-e2e/api-e2e-testing-template.md`
 - Stage 8 code review:

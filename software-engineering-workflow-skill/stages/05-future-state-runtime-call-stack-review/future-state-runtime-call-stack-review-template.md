@@ -21,7 +21,7 @@ This review validates alignment with target (`to-be`) design behavior, not parit
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md` (status `Design-ready`/`Refined`)
 - Runtime Call Stack Document: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
 - Source Design Basis:
-  - `Small`: `tickets/in-progress/<ticket-name>/implementation-plan.md` (solution sketch)
+  - `Small`: `tickets/in-progress/<ticket-name>/implementation.md` (solution sketch)
   - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Shared Design Principles: `shared/design-principles.md`
 - Common Design Practices: `shared/common-design-practices.md`

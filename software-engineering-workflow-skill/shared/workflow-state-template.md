@@ -37,7 +37,7 @@ Note:
 | 0 Bootstrap + Draft Requirement | Not Started | Ticket bootstrap complete + if git repo: base branch resolved, remote freshness handled for new bootstrap, dedicated ticket worktree/branch created or reused + `requirements.md` Draft captured |  |
 | 1 Investigation + Triage | Not Started | `investigation-notes.md` current + scope triage recorded |  |
 | 2 Requirements | Not Started | `requirements.md` is `Design-ready`/`Refined` |  |
-| 3 Design Basis | Not Started | Design basis updated for scope (`implementation-plan.md` sketch or `proposed-design.md`) |  |
+| 3 Design Basis | Not Started | Design basis updated for scope (`implementation.md` solution sketch or `proposed-design.md`) |  |
 | 4 Future-State Runtime Call Stack | Not Started | `future-state-runtime-call-stack.md` current |  |
 | 5 Future-State Runtime Call Stack Review | Not Started | Future-state runtime call stack review `Go Confirmed` (two clean rounds, no blockers/persisted updates/new use cases) |  |
 | 6 Implementation | Not Started | Plan/progress current + source + unit/integration verification complete + no backward-compat/legacy retention + ownership-driven dependencies preserved + touched-file placement preserved/corrected |  |

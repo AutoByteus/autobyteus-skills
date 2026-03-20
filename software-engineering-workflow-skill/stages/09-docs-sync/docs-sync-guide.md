@@ -18,7 +18,7 @@ Use this guide after Stage 7 and Stage 8 are complete.
 
 - update existing docs in place when they already cover the feature
 - create missing docs only when no current doc covers the functionality
-- record `Updated` or `No impact` with rationale in `implementation-progress.md`
+- record `Updated` or `No impact` with rationale in `implementation.md`
 
 ## Stage 9 Rules
 

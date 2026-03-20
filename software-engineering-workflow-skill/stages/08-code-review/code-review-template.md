@@ -9,7 +9,7 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 - Review Round:
 - Trigger Stage: `7` / `Re-entry`
 - Workflow state source: `tickets/in-progress/<ticket-name>/workflow-state.md`
-- Design basis artifact:
+- Earlier design artifact(s) reviewed as context:
 - Runtime call stack artifact:
 - Shared Design Principles: `shared/design-principles.md`
 - Common Design Practices: `shared/common-design-practices.md`
@@ -24,6 +24,7 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 
 This audit applies to changed source implementation files only.
 Test files remain in review scope, but they are not subject to the `>500` hard limit or the `>220` changed-line delta gate.
+Use earlier design artifacts as context only. If they conflict with shared principles or clear review findings, classify `Design Impact`.
 
 | Source File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Preliminary Classification (`N/A`/`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -48,7 +49,7 @@ Rules:
 
 | Check | Result (`Pass`/`Fail`) | Evidence | Required Action |
 | --- | --- | --- | --- |
-| Data-flow spine inventory preservation against design basis |  |  |  |
+| Data-flow spine inventory clarity and preservation under shared principles |  |  |  |
 | Ownership boundary preservation and clarity |  |  |  |
 | Support structure clarity (support branches serve clear owners and stay off the main line) |  |  |  |
 | Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
@@ -88,7 +89,7 @@ Rules:
 - Upstream artifacts required before code edits:
   - `investigation-notes.md` updated (if required):
   - `requirements.md` updated (if required):
-  - design basis updated (if required):
+  - earlier design artifacts updated (if required):
   - runtime call stacks + review updated (if required):
 
 ## Gate Decision
@@ -98,7 +99,7 @@ Rules:
 - Mandatory pass checks:
   - All changed source files have effective non-empty line count `<=500`
   - Required `>220` changed-line delta-gate assessments are recorded for all applicable changed source files
-  - Data-flow spine inventory preservation = `Pass`
+  - Data-flow spine inventory clarity and preservation under shared principles = `Pass`
   - Ownership boundary preservation = `Pass`
   - Support structure clarity = `Pass`
   - Existing capability/subsystem reuse check = `Pass`
@@ -117,6 +118,6 @@ Rules:
   - Validation evidence sufficiency = `Pass`
   - No backward-compatibility mechanisms = `Pass`
   - No legacy code retention = `Pass`
-- Classification rule: if the main issue is insufficient validation evidence, classify as `Validation Gap` and return to `Stage 7`; otherwise, if any mandatory structural pass check fails, do not classify as `Local Fix` by default and classify as `Design Impact` unless clear requirement ambiguity is the primary cause.
+- Classification rule: if the main issue is insufficient validation evidence, classify as `Validation Gap` and return to `Stage 7`; otherwise, if any mandatory structural pass check fails, do not classify as `Local Fix` by default and classify as `Design Impact` unless clear requirement ambiguity is the primary cause. Independent review may conclude that earlier design artifacts were weak or wrong.
 - Wrong-location files are structural failures when the path makes ownership unclear; require explicit `Move`/`Split` or a justified shared-boundary decision.
 - Notes:

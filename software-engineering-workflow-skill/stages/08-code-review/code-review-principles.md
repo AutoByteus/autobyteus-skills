@@ -1,12 +1,15 @@
 # Code Review Principles
 
 Use these principles for Stage 8 code review.
-Code review should verify that the implementation still reflects the approved design basis and the shared design principles.
-This is a stricter review, not a weaker one: it must preserve scope-appropriate separation of concerns and file-size discipline while also enforcing spine and ownership clarity.
+Code review is an independent engineering gate.
+Its primary authority is the shared design principles, common design practices, and the Stage 8 code-review rules themselves.
+Earlier design artifacts are context and evidence, not truth sources.
+If the review shows that the earlier design basis was weak, incomplete, or wrong, classify that as `Design Impact` instead of lowering the Stage 8 bar.
+This is a stricter review, not a weaker one: it must enforce scope-appropriate separation of concerns and file-size discipline while also enforcing spine and ownership clarity.
 
 ## Primary Review Questions
 
-- Does the implementation preserve the approved data-flow spine inventory, including bounded local spines that were part of the design basis?
+- Does the implementation produce a clear, traceable data-flow spine inventory, including any bounded local spines that materially affect behavior?
 - Are ownership boundaries still clear in the code?
 - Do support branches still serve clear owners instead of becoming orchestration blobs?
 - Did the implementation reuse or extend existing capability areas where appropriate, instead of introducing fresh ad hoc helpers beside the flow?
@@ -14,7 +17,7 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 - Is separation of concerns still scope-appropriate, with each file owning a coherent responsibility and each optional module grouping, if used, grouping a coherent set of files instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
-- Is the resulting subsystem, folder, and file layout still readable for the scope, without becoming too flat or too artificially fragmented?
+- Is the resulting subsystem, folder, and file layout readable for the scope, without becoming too flat or too artificially fragmented?
 - Do interfaces, APIs, queries, commands, and reused service methods still have one clear subject, one responsibility, and explicit identity shape?
 - Do file names, optional module names, and API names still match their real responsibility after the change?
 - Do changed source files still respect the file-size hard limit and diff-size gate without hiding design drift?
@@ -26,7 +29,7 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 
 ## Review Smells
 
-- Main flow is harder to trace than in the approved design
+- Main flow is hard to trace or only seems acceptable if you rely on stale design assumptions
 - Ownership moved into helpers, utils, mappers, or registries
 - Support branches now contain sequencing that belongs to a spine owner
 - A new helper/service was added even though an existing subsystem already owned that category of responsibility
@@ -46,7 +49,7 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 
 ### Local Fix
 
-- The issue is bounded inside the approved design.
+- The issue is bounded and can be fixed without changing shared design reasoning, intended behavior, or workflow artifacts.
 - Ownership boundaries remain intact.
 - No design or requirement artifact updates are needed.
 
@@ -58,8 +61,10 @@ This is a stricter review, not a weaker one: it must preserve scope-appropriate 
 
 ### Design Impact
 
-- The implementation drifted from the approved spine inventory, ownership model, support structure, or file placement.
-- The implementation introduces naming drift or a layout shape that is too flat or too fragmented for the approved design.
+- Independent review shows an architectural or structural problem in the current code, even if earlier design artifacts missed it.
+- The implementation drifted from a healthy spine inventory, ownership model, support structure, or readable placement shape under the shared principles.
+- The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
+- The implementation introduces naming drift or a layout shape that is too flat or too fragmented for a healthy design.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.
 - Compatibility wrappers, dual-path behavior, or legacy old-behavior retention remain in scope after the change.

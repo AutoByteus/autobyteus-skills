@@ -1,7 +1,7 @@
 # API/E2E Testing
 
 Use this document for Stage 7 API/E2E test implementation and execution.
-Do not use this file for unit/integration tracking; that belongs in `implementation-progress.md`.
+Do not use this file for unit/integration tracking; that belongs in `implementation.md`.
 Stage 7 starts after Stage 6 implementation (source + unit/integration) is complete.
 
 ## Testing Scope

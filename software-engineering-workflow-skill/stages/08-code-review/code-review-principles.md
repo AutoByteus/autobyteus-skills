@@ -14,6 +14,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Do support branches still serve clear owners instead of becoming orchestration blobs?
 - Did the implementation reuse or extend existing capability areas where appropriate, instead of introducing fresh ad hoc helpers beside the flow?
 - Were repeated data structures, types, normalizers, converters, mappers, or schemas extracted into reusable owned files under the correct subsystem instead of being copied across several files?
+- Does the changed scope avoid unjustified duplicated code, repeated structures, or repeated policy logic that should now live in one reusable owned file or one clear owner?
 - Is separation of concerns still scope-appropriate, with each file owning a coherent responsibility and each optional module grouping, if used, grouping a coherent set of files instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
@@ -34,6 +35,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Support branches now contain sequencing that belongs to a spine owner
 - A new helper/service was added even though an existing subsystem already owned that category of responsibility
 - Repeated structures were copied across several files instead of being extracted into a reusable owned file
+- The same logic or policy was copied into multiple changed files instead of being owned once in the right place
 - One file or optional module grouping now mixes unrelated concerns or responsibilities that should be split
 - A file is in the wrong folder for its real concern
 - The layout is technically valid per-file but now feels too flat or too over-split for the real ownership structure
@@ -41,6 +43,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - A file, optional module grouping, or API name no longer matches the responsibility it actually owns
 - A changed source file crossed the hard size limit or diff-size gate in a way that signals structural drift
 - A working patch introduces empty indirection or patch-on-patch complexity
+- Duplicated code remains in changed scope even though one reusable owned file or one clear owner would remove it cleanly
 - Compatibility wrappers, dual-path behavior, or preserved legacy fallback branches remain in place for replaced behavior
 - Validation is too weak to prove the changed flow
 - Legacy fallback or compatibility logic remains without strong reason
@@ -52,6 +55,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The issue is bounded and can be fixed without changing shared design reasoning, intended behavior, or workflow artifacts.
 - Ownership boundaries remain intact.
 - No design or requirement artifact updates are needed.
+- Any duplication problem is small, local, and removable without upstream redesign.
 
 ### Validation Gap
 
@@ -65,6 +69,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The implementation drifted from a healthy spine inventory, ownership model, support structure, or readable placement shape under the shared principles.
 - The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
 - The implementation introduces naming drift or a layout shape that is too flat or too fragmented for a healthy design.
+- Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.
 - Compatibility wrappers, dual-path behavior, or legacy old-behavior retention remain in scope after the change.

@@ -62,7 +62,8 @@ Rules:
 | Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
 | Naming-to-responsibility alignment and drift check |  |  |  |
-| Duplication / patch-on-patch complexity control |  |  |  |
+| No unjustified duplication of code / repeated structures in changed scope |  |  |  |
+| Patch-on-patch complexity control |  |  |  |
 | Test quality is acceptable for the changed behavior |  |  |  |
 | Test maintainability is acceptable for the changed behavior |  |  |  |
 | Validation evidence sufficiency for the changed flow |  |  |  |
@@ -112,7 +113,8 @@ Rules:
   - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`
   - Naming-to-responsibility alignment and drift check = `Pass`
-  - Duplication / patch-on-patch complexity control = `Pass`
+  - No unjustified duplication of code / repeated structures in changed scope = `Pass`
+  - Patch-on-patch complexity control = `Pass`
   - Test quality is acceptable for the changed behavior = `Pass`
   - Test maintainability is acceptable for the changed behavior = `Pass`
   - Validation evidence sufficiency = `Pass`

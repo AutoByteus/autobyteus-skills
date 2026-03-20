@@ -31,6 +31,7 @@ Always start with the shared design principles first.
 - Define migration/refactor sequence when the change is not greenfield.
 - Remove obsolete code and compatibility shims in the same design when they are in scope.
 - Prefer clean-cut replacement over compatibility wrappers or dual-path behavior. If old behavior is being replaced, design and record its removal explicitly.
+- Treat addition and removal symmetrically: when a clearer subsystem owner, reusable owned structure, or file responsibility replaces fragmented/duplicated pieces, record what becomes unnecessary and remove/decommission it in scope.
 - Add short concrete examples when they clarify a non-obvious spine, interface split, folder choice, or bounded local flow.
 
 ## Common Spine Shapes

@@ -378,6 +378,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - For straightforward local changes, one concise decision is enough; alternatives are optional.
 - For non-trivial or uncertain architecture changes, include a small alternatives comparison before deciding.
 - Choose the proper structural change for the problem (`Keep`, `Add`, `Split`, `Merge`, `Move`, `Remove`) without bias toward minimal edits.
+- Removal-first tightening rule (mandatory): when the target design introduces a clearer owner, reusable structure, or better file boundary, explicitly identify what redundant/fragmented pieces become unnecessary and remove/decommission them in scope when possible.
 - `Keep` is a valid outcome when the current data-flow spine, ownership boundaries, and support structure are already coherent.
 - If a file's concern and folder disagree, `Keep` is usually invalid; prefer explicit `Move`, `Split`, or justified `Promote Shared`.
 - Functional/local correctness is not sufficient: if a bug fix "works" but degrades the data-flow spine, ownership boundaries, or support structure, redesign the structure instead of accepting the patch.
@@ -415,6 +416,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Document dependency flow and cross-reference risk explicitly (including how cycles are avoided or temporarily tolerated).
 - Document allowed dependency directions between ownership boundaries and note any temporary violations with removal plan.
 - For `Rename/Move` and `Remove`, include decommission/cleanup intent (import cleanup and dead-code removal).
+- Do not produce an addition-only design when the real improvement comes from both adding a clearer owner and removing redundant fragments that the new owner makes unnecessary.
 - Capture data models and error-handling expectations if relevant.
 - Add a use-case coverage matrix in the design doc with at least:
   - `use_case_id`,

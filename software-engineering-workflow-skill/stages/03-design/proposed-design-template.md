@@ -51,6 +51,7 @@ Read and write this design from abstract to concrete:
 
 - Policy: `No backward compatibility; remove legacy code paths.`
 - Required action: identify and remove obsolete legacy paths/files included in this scope.
+- Treat removal as first-class design work: when clearer subsystem ownership, reusable owned structures, or tighter file responsibilities make fragmented or duplicated pieces unnecessary, name and remove/decommission them in scope.
 - Gate rule: design is invalid if it depends on compatibility wrappers, dual-path behavior, or legacy fallback branches.
 
 ## Requirements And Use Cases
@@ -196,6 +197,14 @@ Use this section to show which broader functional areas own which parts of the t
 | Change ID | Change Type (`Add`/`Modify`/`Rename/Move`/`Remove`) | Current Path | Target Path | Rationale | Impacted Areas | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | C-001 |  |  |  |  |  |  |
+
+## Removal / Decommission Plan (Mandatory)
+
+Use this section to make removal first-class instead of leaving the design as addition-only.
+
+| Item To Remove / Decommission | Why It Becomes Unnecessary | Replaced By Which Owner / File / Structure | Scope (`In This Change`/`Follow-up`) | Notes |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
 
 ## Draft File Responsibility Mapping
 

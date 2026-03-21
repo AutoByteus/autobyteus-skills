@@ -225,9 +225,9 @@ Treat this as the first concrete pass, not the final answer.
 
 Use this section to verify that extracted shared structures are not only reusable, but also semantically tight.
 
-| Shared Structure / Type / Schema | One Clear Meaning Per Field? (`Yes`/`No`) | Redundant Attributes Removed? (`Yes`/`No`) | Parallel / Overlapping Representation Risk (`Low`/`Medium`/`High`) | Corrective Action |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
+| Shared Structure / Type / Schema | One Clear Meaning Per Field? (`Yes`/`No`) | Redundant Attributes Removed? (`Yes`/`No`) | Parallel / Overlapping Representation Risk (`Low`/`Medium`/`High`) | Shared Core Vs Specialized Variant Decision Is Sound? (`Yes`/`No`/`N/A`) | Corrective Action |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
 
 ## Final File Responsibility Mapping
 

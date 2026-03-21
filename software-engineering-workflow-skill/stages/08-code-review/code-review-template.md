@@ -54,6 +54,7 @@ Rules:
 | Support structure clarity (support branches serve clear owners and stay off the main line) |  |  |  |
 | Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
 | Reusable owned structures check (repeated structures extracted into the right owned file instead of copied across files) |  |  |  |
+| Shared-structure/data-model tightness check (no kitchen-sink base, no overlapping parallel shapes, specialization/composition used meaningfully) |  |  |  |
 | Repeated coordination ownership check (shared policy has a clear owner instead of being repeated across callers) |  |  |  |
 | Empty indirection check (no pass-through-only boundary) |  |  |  |
 | Scope-appropriate separation of concerns and file responsibility clarity |  |  |  |
@@ -106,6 +107,7 @@ Rules:
   - Support structure clarity = `Pass`
   - Existing capability/subsystem reuse check = `Pass`
   - Reusable owned structures check = `Pass`
+  - Shared-structure/data-model tightness check = `Pass`
   - Repeated coordination ownership check = `Pass`
   - Empty indirection check = `Pass`
   - Scope-appropriate separation of concerns and file responsibility clarity = `Pass`

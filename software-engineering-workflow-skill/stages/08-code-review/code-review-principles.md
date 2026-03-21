@@ -15,6 +15,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Did the implementation reuse or extend existing capability areas where appropriate, instead of introducing fresh ad hoc helpers beside the flow?
 - Were repeated data structures, types, normalizers, converters, mappers, or schemas extracted into reusable owned files under the correct subsystem instead of being copied across several files?
 - Does the changed scope avoid unjustified duplicated code, repeated structures, or repeated policy logic that should now live in one reusable owned file or one clear owner?
+- Are shared data structures still tight after the change, with no kitchen-sink base type, no mostly-optional one-for-all model, and meaningful specialization/composition where cases genuinely diverge?
 - Is separation of concerns still scope-appropriate, with each file owning a coherent responsibility and each optional module grouping, if used, grouping a coherent set of files instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
@@ -36,6 +37,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Support branches now contain sequencing that belongs to a spine owner
 - A new helper/service was added even though an existing subsystem already owned that category of responsibility
 - Repeated structures were copied across several files instead of being extracted into a reusable owned file
+- A shared/base type was widened into a one-for-all structure with mostly-optional fields instead of using a tighter shared core plus meaningful specialization
 - The same logic or policy was copied into multiple changed files instead of being owned once in the right place
 - One file or optional module grouping now mixes unrelated concerns or responsibilities that should be split
 - A file is in the wrong folder for its real concern
@@ -72,6 +74,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
 - The implementation introduces naming drift or a layout shape that is too flat or too fragmented for a healthy design.
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
+- A shared/base structure became a kitchen-sink model, which shows the decomposition or ownership model is still wrong.
 - Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in scope after the change.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.

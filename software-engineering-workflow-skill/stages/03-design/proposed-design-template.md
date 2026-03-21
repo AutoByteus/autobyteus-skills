@@ -217,7 +217,15 @@ Treat this as the first concrete pass, not the final answer.
 
 ## Reusable Owned Structures Check (If Needed)
 
-| Repeated Structure / Logic | Candidate Shared File | Owning Subsystem | Why Shared | Must Not Become |
+| Repeated Structure / Logic | Candidate Shared File | Owning Subsystem | Why Shared | Redundant Attributes Removed? (`Yes`/`No`) | Overlapping Representations Removed? (`Yes`/`No`) | Must Not Become |
+| --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |
+
+## Shared Structure / Data Model Tightness Check
+
+Use this section to verify that extracted shared structures are not only reusable, but also semantically tight.
+
+| Shared Structure / Type / Schema | One Clear Meaning Per Field? (`Yes`/`No`) | Redundant Attributes Removed? (`Yes`/`No`) | Parallel / Overlapping Representation Risk (`Low`/`Medium`/`High`) | Corrective Action |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 

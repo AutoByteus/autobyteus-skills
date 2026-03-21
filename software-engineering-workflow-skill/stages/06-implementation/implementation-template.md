@@ -306,11 +306,14 @@ Use this section only for execution-only details that do not belong in the main 
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | C-003 | `src/example-util.ts` | import/reference scan + targeted tests | Passed | No remaining references. |
 
-### Docs Sync Log (Mandatory Post-Testing + Review)
+### Docs Sync Summary (Mandatory Post-Testing + Review)
 
-| Date | Docs Impact (`Updated`/`No impact`) | Files Updated | Rationale | Status |
+Stage 9 should use `tickets/in-progress/<ticket-name>/docs-sync.md` as the canonical artifact.
+Use this section only as a brief pointer from the merged implementation artifact.
+
+| Date | Docs Sync Artifact | Result (`Updated`/`No impact`) | Key Docs Updated | Status |
 | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | Updated | `docs/example-feature.md` | Runtime flow changed and a new owned structure was added | Completed |
+| YYYY-MM-DD | `tickets/in-progress/<ticket-name>/docs-sync.md` | Updated | `docs/example-feature.md` | Completed |
 
 ### Completion Gate
 
@@ -335,4 +338,4 @@ Use this section only for execution-only details that do not belong in the main 
   - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, reusable-owned-structure checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, dead/obsolete-code cleanup checks, test-quality checks, test-maintainability checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
   - file-placement checks are recorded for all changed source files,
   - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
-- Mark Stage 9 docs sync complete only when docs synchronization result is recorded (`Updated` or `No impact` with rationale).
+- Mark Stage 9 docs sync complete only when `docs-sync.md` exists and the docs synchronization result is recorded (`Updated` or `No impact` with rationale).

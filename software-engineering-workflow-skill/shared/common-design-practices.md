@@ -21,6 +21,7 @@ Always start with the shared design principles first.
 - Keep support branches attached to a clear owner on the spine.
 - Before creating a new support helper, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
 - When repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
+- When extracting a reusable owned structure, tighten it before standardizing it: remove redundant attributes, collapse overlapping parallel shapes, and keep each field semantically singular.
 - Draft file responsibilities first. Then extract reusable owned structures where repetition appears, re-tighten the file responsibilities, and only after that finalize folder/path mapping.
 - If one owned node contains an event loop, worker loop, state machine, or dispatch cycle that materially shapes the behavior, describe that bounded local spine separately and connect it back to the parent owner.
 - Split APIs/queries/commands/service methods by subject when identity meaning differs; prefer explicit `getAgent...` / `getTeam...` style boundaries over one generic method that guesses what an ID or selector means.
@@ -57,6 +58,8 @@ Always start with the shared design principles first.
   - If a proposed layer/module only forwards calls and owns no policy, translation, or boundary concern, remove it.
 - Shared-folder trigger:
   - Put code in a shared/common folder only when it is truly cross-cutting and concern-agnostic.
+- Shared-structure tightness trigger:
+  - If a proposed shared type/schema/model still contains redundant fields, overlapping representations, or mixed-purpose attributes, tighten the shape before promoting it into a reusable owned file.
 - Capability-area reuse trigger:
   - If the spine needs status, events, handlers, persistence, streaming, bootstrap, shutdown, or similar support behavior, first check whether an existing subsystem already owns that work before creating a new local helper.
 - Legacy-cleanup trigger:

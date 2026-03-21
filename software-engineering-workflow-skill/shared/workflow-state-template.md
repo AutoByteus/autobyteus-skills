@@ -21,6 +21,8 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 - User-Specified Base Branch:
 - Resolved Base Remote:
 - Resolved Base Branch:
+- Default Finalization Target Remote:
+- Default Finalization Target Branch:
 - Remote Refresh Performed (`Yes`/`No`/`N/A`):
 - Remote Refresh Result:
 - Ticket Worktree Path:
@@ -28,6 +30,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 
 Note:
 - Fill this record during Stage 0 and keep it current if Stage 0 is reopened.
+- Unless the user explicitly overrides Stage 10 later, the default finalization target should match the resolved base remote/branch recorded here.
 - For non-git projects, mark git-only fields as `N/A`.
 
 ## Stage Gates
@@ -43,8 +46,8 @@ Note:
 | 6 Implementation | Not Started | Plan/progress current + source + unit/integration verification complete + no backward-compat/legacy retention + dead/obsolete code cleanup complete in scope + ownership-driven dependencies preserved + touched-file placement preserved/corrected |  |
 | 7 API/E2E Testing | Not Started | API/E2E test implementation complete + acceptance-criteria and spine scenario gates complete |  |
 | 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
-| 9 Docs Sync | Not Started | Docs updated or no-impact rationale recorded |  |
-| 10 Handoff / Ticket State | Not Started | Final handoff ready + explicit user verification received + ticket moved to `done` + git finalization/release complete when git repo + ticket state decision recorded |  |
+| 9 Docs Sync | Not Started | `docs-sync.md` current + docs updated or no-impact rationale recorded |  |
+| 10 Handoff / Ticket State | Not Started | Final handoff ready + explicit user verification received + ticket moved to `done` + git finalization/release into resolved target branch complete when git repo + ticket state decision recorded |  |
 
 ## Stage Transition Contract (Quick Reference)
 
@@ -59,8 +62,8 @@ Note:
 | 6 | Source + required unit/integration verification complete, no backward-compatibility/legacy-retention paths remain in scope, dead/obsolete code cleanup in scope is complete, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | local issues: stay in `6`; otherwise classified re-entry (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) |
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
 | 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
-| 9 | Docs updated or no-impact rationale recorded | stay in `9` |
-| 10 | Final handoff is complete, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | stay in `10` |
+| 9 | `docs-sync.md` is current and docs are updated or no-impact rationale is recorded | stay in `9` |
+| 10 | Final handoff is complete, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + resolved target-branch update + merge + push + release are complete | stay in `10` |
 
 ## Transition Matrix (Reference)
 

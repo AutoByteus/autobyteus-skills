@@ -145,10 +145,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
 - User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, release, or move the ticket to `done` before that user signal.
 - Release-notes artifact rule (mandatory when applicable): if the ticket leads to a user-facing app release or any GitHub Release body, Stage 10 must also persist `release-notes.md` with short functional user-facing notes before final release. If not applicable, record an explicit `release-notes not required` rationale in the handoff summary.
-- Git finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the latest personal branch from remote, merge the ticket branch into that personal branch, push the updated personal branch, and use the release script to release a new version.
+- Git finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the resolved finalization target branch from remote, merge the ticket branch into that updated target branch, push the updated target branch, and use the release script to release a new version.
 - Release publication handoff rule (mandatory when release notes are required): during repository finalization, pass the ticket `release-notes.md` artifact into the project release path (for example via the release script or the repo's release-body source file) before the release tag is created so the tagged revision contains the curated notes.
-- Personal-branch resolution rule (mandatory): determine the latest personal branch from repository context or explicit user instruction; if it cannot be derived with high confidence, pause Stage 10 and ask once before merge/release instead of guessing.
-- Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, personal-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
+- Finalization-target rule (mandatory): use the Stage 0 `Resolved Base Remote` and `Resolved Base Branch` as the default Stage 10 merge target unless the user explicitly overrides that target later. If the target cannot be derived with high confidence, pause Stage 10 and ask once before merge/release instead of guessing.
+- Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, target-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
 - Treat engineering completion, user verification, and ticket archival as separate gates: engineering completion ends at implementation + API/E2E test gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/` and run required Stage 10 git finalization/release work when the project is a git repository.
 - `Small` scope exception: drafting `implementation.md` (solution sketch section only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
@@ -202,8 +202,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + ownership-driven dependency quality preserved + touched files correctly placed | Unlocked |
 | 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
 | 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/support-structure checks + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface-boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
-| 9 | Docs Sync | `docs/` updates complete or no-impact rationale recorded | Locked |
-| 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> git finalization/release (when git repo) + ticket state decision recorded | Locked |
+| 9 | Docs Sync | `docs-sync.md` current + `docs/` updates complete or no-impact rationale recorded | Locked |
+| 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> git finalization/release into resolved target branch (when git repo) + ticket state decision recorded | Locked |
 
 ### Stage Transition Contract (Enforcement)
 
@@ -218,8 +218,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
 | 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/support-structure checks + existing-capability reuse + reusable-owned-structure extraction + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
-| 9 Docs Sync | Docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
-| 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, ticket-branch commit/push + latest-personal-branch update + merge + push + release are complete | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization is complete | End |
+| 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
+| 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, ticket-branch commit/push + resolved target-branch update + merge + push + release are complete | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization is complete | End |
 
 ### Transition Matrix (Pass/Fail/Blocked)
 
@@ -387,6 +387,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Ownership-driven dependency rule (mandatory): define and preserve clear subsystem, service, and component boundaries so allowed dependencies follow ownership and forbidden shortcuts are explicit.
 - Existing-capability reuse rule (mandatory): do not create a new helper/support branch by default. Reuse or extend an existing well-owned subsystem when the fit is natural, and justify `Create New` when no current area is appropriate.
 - Reusable-owned-structure rule (mandatory): when repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
+- Data-model-tightness rule (mandatory): when a shared structure is extracted or revised, tighten it. Remove redundant attributes, avoid overlapping parallel representations for the same subject, and keep each field's meaning singular and explicit.
 - For `Small`, the solution sketch in `implementation.md` must still include a concise architecture sketch (target ownership boundaries and any new files, plus optional module groupings only when they help readability).
 - Apply separation-of-concerns at the correct technical boundary for the stack:
   - frontend/UI scope: evaluate responsibility at view/component level (each component should own a clear concern),
@@ -737,17 +738,27 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### 9) Synchronize Project Documentation (Mandatory Post-Testing + Review)
 
 - Use `stages/09-docs-sync/docs-sync-guide.md`.
+- Create/update `tickets/in-progress/<ticket-name>/docs-sync.md` as the canonical Stage 9 artifact.
+- Use `stages/09-docs-sync/docs-sync-template.md`.
 - After Stage 7 API/E2E testing and Stage 8 code review are complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
 - Treat `docs/` as the long-lived canonical source of truth for the current codebase.
 - Treat ticket artifacts under `tickets/` as task-local, time-bound records; they are not the long-term source of truth.
+- Stage 9 exists to promote durable design and runtime knowledge out of time-bound ticket artifacts and into long-lived project documentation.
+- The purpose is not only to say what changed, but to leave the codebase easier to understand after the ticket is archived.
 - If relevant docs do not exist yet, create new docs in `docs/` with clear natural names that match current functionality.
 - If relevant docs already exist, update them in place instead of creating duplicate overlapping docs.
+- Use Stage 9 to explain:
+  - what changed,
+  - why it changed,
+  - what the current subsystem, boundary, or runtime shape is now,
+  - what was removed or replaced,
+  - what operational or validation expectations changed.
 - Update docs for:
   - new files, modules, or APIs,
   - changed runtime flows,
   - renamed/moved/removed components,
   - updated operational or testing procedures when behavior changed.
-- If there is no docs impact, record an explicit "No docs impact" decision with rationale in `implementation.md`.
+- If there is no docs impact, record an explicit "No docs impact" decision with rationale in `docs-sync.md`.
 - Docs synchronization is complete only when docs content aligns with the final implemented behavior.
 - After docs synchronization result is recorded (`Updated`/`No impact`), announce only with the persisted `workflow-state.md` transition/gate update.
 
@@ -757,7 +768,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Handoff summary must include:
   - delivered scope vs planned scope,
   - verification summary (unit/integration plus API/E2E testing, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
-  - docs files updated (or explicit no-impact rationale),
+  - docs files updated (or explicit no-impact rationale) plus the `docs-sync.md` artifact path,
   - release-note status (`created` with artifact path, or explicit `not required` rationale).
 - When release notes are required, create/update `release-notes.md` in the ticket folder before waiting for user verification.
 - Release-note content rules (mandatory when release notes are required):
@@ -773,11 +784,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - If the project is a git repository, repository finalization is mandatory after that move and must run in this order before Stage 10 is marked complete:
   - commit all in-scope changes on the ticket branch/worktree, including the moved ticket files,
   - push the ticket branch to remote,
-  - update the latest personal branch from remote before merging,
-  - merge the ticket branch into the updated personal branch,
-  - push the updated personal branch to remote,
+  - update the resolved finalization target branch from remote before merging,
+  - merge the ticket branch into the updated target branch,
+  - push the updated target branch to remote,
   - use the release script to release a new version.
-- Resolve the latest personal branch from repo context or explicit user instruction. If the branch cannot be identified confidently, stop and ask once before merge/release instead of guessing.
+- Resolve the finalization target branch from the Stage 0 bootstrap record by default, or from explicit later user instruction when the user overrides it. If the branch cannot be identified confidently, stop and ask once before merge/release instead of guessing.
 - If moving the ticket to `done` or any repository-finalization step fails (commit/push/merge conflict/remote rejection/release-script failure), record the blocker in `workflow-state.md`, keep Stage 10 open, and resume only after the blocker is resolved.
 - Ticket state transition:
   - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff and while waiting for explicit user completion/verification,
@@ -830,9 +841,10 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - record gate result (`Pass`/`Fail`) and any re-entry declaration before `Stage 9`
 - Stage 9 (post-testing documentation sync):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`8 -> 9`)
+  - create/update `tickets/in-progress/<ticket-name>/docs-sync.md`
   - update existing impacted docs in place (for example `docs/**/*.md`, `ARCHITECTURE.md`)
   - create missing relevant docs in `docs/` when no existing doc covers the implemented functionality
-  - record docs sync result in `tickets/in-progress/<ticket-name>/implementation.md` (`Updated`/`No impact` + rationale)
+  - record docs sync result in `tickets/in-progress/<ticket-name>/docs-sync.md` (`Updated`/`No impact` + rationale)
 - Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
   - persist the handoff summary and wait for explicit user completion/verification instruction
@@ -840,7 +852,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - on explicit user completion/verification instruction, first move the ticket folder to `tickets/done/<ticket-name>/`
   - if git repo and the user explicitly confirms completion/verification, commit all in-scope changes on the ticket branch/worktree, including the moved ticket files
   - if git repo and the user explicitly confirms completion/verification, push the ticket branch to remote
-  - if git repo and the user explicitly confirms completion/verification, update the latest personal branch from remote, merge the ticket branch into it, and push the updated personal branch
+  - if git repo and the user explicitly confirms completion/verification, update the resolved finalization target branch from remote, merge the ticket branch into it, and push the updated target branch
   - if git repo and the user explicitly confirms completion/verification, use the release script to release a new version and feed it the archived ticket release-notes artifact (typically `tickets/done/<ticket-name>/release-notes.md`) when release notes are required
   - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
   - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
@@ -873,5 +885,6 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - `stages/08-code-review/code-review-template.md`
 - Stage 9 docs sync:
   - `stages/09-docs-sync/docs-sync-guide.md`
+  - `stages/09-docs-sync/docs-sync-template.md`
 - Stage 10 handoff:
   - `stages/10-handoff/release-notes-template.md`

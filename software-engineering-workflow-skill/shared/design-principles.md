@@ -51,6 +51,7 @@ They are the shared design language for this workflow.
 - Removal is first-class architecture work, not optional cleanup. When clearer ownership, reusable owned structures, or better file responsibilities make redundant pieces unnecessary, name and remove/decommission those pieces explicitly in scope.
 - Dependency direction follows ownership; name allowed directions and forbidden shortcuts explicitly.
 - Draft file responsibilities first. Then extract reusable owned structures where repetition appears, re-tighten the file responsibilities, and only after that finalize folder/path mapping.
+- Reusable owned structures must also be semantically tight: remove redundant attributes, avoid overlapping parallel representations for the same domain subject, and keep each field's meaning singular and explicit.
 - File placement must follow ownership; move or split files when their paths no longer match their real concern. Optional module groupings may be used inside a subsystem only when they improve readability.
 - Subsystem, folder, and file mapping should be spine-led and ownership-led, but not mechanical. Optional module groupings are secondary structure only when they help the reader.
 - Distinct structural depths often deserve distinct folders, but do not force artificial over-splitting. If a flatter layout is clearer, justify it explicitly.
@@ -70,6 +71,7 @@ They are the shared design language for this workflow.
 - Which support needs should reuse or extend an existing capability area or subsystem instead of creating a new helper?
 - Which legacy paths, compatibility wrappers, dual-path branches, obsolete files, or deprecated boundaries are removed in this change?
 - Which duplicated, fragmented, or now-unnecessary helpers/files/structures become removable because the new design gives them a clearer owner or replacement?
+- Which shared data structures, schemas, DTOs, mappers, or types need tightening so redundant attributes or overlapping representations are removed instead of standardized?
 - Which dependencies are allowed, and which shortcuts are forbidden?
 - Which subsystems and files should own the target structure, and are any optional module groupings actually needed?
 - Does the subsystem, folder, and file layout make ownership and structural depth readable without becoming artificially fragmented?
@@ -83,6 +85,7 @@ They are the shared design language for this workflow.
 - Important spines are left implicit instead of being named
 - Event loops or state machines materially affect the behavior, but no bounded local spine is described
 - Shared helpers that quietly own business behavior
+- Shared structures that still carry redundant fields, overlapping representations, or mixed meanings after extraction
 - Support services sitting on the main line without owning sequencing
 - New helper or service pieces created ad hoc even though an existing subsystem already owns that kind of work
 - Compatibility wrappers, dual-path behavior, or legacy fallback branches kept only to preserve old flows

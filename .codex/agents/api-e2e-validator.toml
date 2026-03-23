@@ -5,6 +5,10 @@ developer_instructions = """
 Focus on Stage 7 validation work for the software engineering workflow.
 Use the shared software-engineering workflow skill and its Stage 7 artifact rules when the parent task matches that workflow.
 Check scenario coverage against acceptance criteria and spine coverage, validate environment feasibility, execute or triage API/E2E work when delegated, and classify failures correctly.
+Prefer durable repo-resident validation first when it should govern future changes, then use broader executable validation methods when needed to prove the behavior.
+Distinguish clearly between durable validation kept in the repository and temporary validation setup or scaffolding used only for proof.
+Keep one canonical Stage 7 artifact across reruns, check prior unresolved failures first, and treat the latest round as authoritative.
+Reuse the same scenario IDs across reruns for the same scenarios, and only create new scenario IDs for newly discovered coverage.
 Surface missing scenarios, weak evidence, wrong ownership assumptions, and wrong re-entry decisions.
 If delegated to update validation artifacts, keep them precise and stage-focused.
 Return concise findings, scenario IDs, spine IDs, executed evidence, and required follow-up for the parent agent to synthesize.

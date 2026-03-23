@@ -1,13 +1,13 @@
 ---
 name: software-engineering-workflow-skill
-description: "Create software-engineering planning artifacts with triaged depth: future-state runtime call stacks, future-state runtime call stack review, and implementation planning/progress for all sizes, plus proposed design docs for medium/large scope. Includes requirement clarification, call-stack review, and iterative refinement."
+description: "Run a staged software-engineering delivery feedback loop from bootstrap through investigation, requirements, design, runtime review, implementation, API/E2E validation, code review, docs sync, and final handoff with durable artifacts and explicit re-entry."
 ---
 
 # Software Engineering Workflow Skill
 
 ## Overview
 
-Produce a structured planning workflow for software changes: triage scope, build future-state runtime call stacks per use case, verify those call stacks with a dedicated review artifact, and drive implementation with plan + real-time progress tracking. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, support structure, and derived separation of concerns.
+Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with plan + real-time progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, support structure, and derived separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
@@ -144,9 +144,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not start post-testing `docs/` synchronization until code review is complete (for infeasible acceptance criteria in Stage 7, explicit user waiver + constraints + compensating evidence + residual risk must be recorded).
 - Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
 - User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, release, or move the ticket to `done` before that user signal.
-- Release-notes artifact rule (mandatory when applicable): if the ticket leads to a user-facing app release or any GitHub Release body, Stage 10 must also persist `release-notes.md` with short functional user-facing notes before final release. If not applicable, record an explicit `release-notes not required` rationale in the handoff summary.
+- Release-notes artifact rule (mandatory when applicable): if the ticket leads to a user-facing app release or any GitHub Release body, Stage 10 must also persist `tickets/in-progress/<ticket-name>/release-notes.md` with short functional user-facing notes before final release. If not applicable, record an explicit `release-notes not required` rationale in the handoff summary.
 - Git finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the resolved finalization target branch from remote, merge the ticket branch into that updated target branch, push the updated target branch, and use the release script to release a new version.
-- Release publication handoff rule (mandatory when release notes are required): during repository finalization, pass the ticket `release-notes.md` artifact into the project release path (for example via the release script or the repo's release-body source file) before the release tag is created so the tagged revision contains the curated notes.
+- Release publication handoff rule (mandatory when release notes are required): during repository finalization, after the ticket is moved to `tickets/done/<ticket-name>/`, pass the archived ticket-local `tickets/done/<ticket-name>/release-notes.md` artifact into the project release path (for example via the release script or the repo's release-body source file) before the release tag is created so the tagged revision contains the curated notes.
 - Finalization-target rule (mandatory): use the Stage 0 `Resolved Base Remote` and `Resolved Base Branch` as the default Stage 10 merge target unless the user explicitly overrides that target later. If the target cannot be derived with high confidence, pause Stage 10 and ask once before merge/release instead of guessing.
 - Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, target-branch update, merge, or release fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
@@ -579,6 +579,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Medium/Large`: create `implementation.md` only after future-state runtime call stack review passes final stability gate (`Go Confirmed`).
 - Initialize the execution-tracking sections in `implementation.md` at implementation kickoff, after required pre-implementation artifacts are ready (including the proposed design document for Medium/Large).
 - One merged implementation artifact with both baseline planning and live tracking is required for all sizes (`Small`, `Medium`, `Large`).
+- Keep detailed Stage 7, Stage 8, and Stage 9 records in their own canonical artifacts. `implementation.md` should carry only implementation-owned planning/tracking plus downstream handoff inputs and short status pointers.
 - Treat future-state runtime call stack + review as a pre-implementation verification gate: ensure each use case is represented and reviewed before coding starts.
 - Start implementation only after the review gate says implementation can start and all in-scope use cases are `Pass`.
 - Before first source-code edit in Stage 6, update `workflow-state.md`:
@@ -588,14 +589,17 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Ensure traceability when a proposed design doc exists: every design change-inventory row (especially `Rename/Move` and `Remove`) maps to implementation tasks and verification steps.
 - Enforce clean-cut implementation: do not keep legacy compatibility paths, dead code, or dormant replaced paths in scope.
 - No-backward-compat implementation rule (mandatory): reject compatibility wrappers, dual-path reads/writes, and old-behavior fallback branches even if they make rollout easier.
+- Shared-principles implementation rule (mandatory): implementation must continue applying the shared design principles and common design practices independently at file-level detail. The reviewed design artifact is the current target, not permission to ignore tighter realities discovered during coding.
 - Ownership-dependency preservation rule (mandatory): implementation must not introduce new tight coupling, forbidden shortcuts, or cyclic dependencies across owners or subsystem boundaries.
 - File-placement preservation rule (mandatory): do not leave touched files in the wrong concern folder just to minimize edits; move/split them when the current path no longer matches ownership.
 - Implementation completeness rule (mandatory): implementation is not complete until obsolete code paths, dead code, unused helpers/tests/flags/adapters, dormant replaced paths, and compatibility shims in scope are removed.
+- Proactive source-file size rule (mandatory): treat the Stage 8 source-file size gates as active Stage 6 guardrails for changed source implementation files. Do not knowingly grow or leave a changed source implementation file above `500` effective non-empty lines. If a changed source implementation file trends toward that limit, or if one file's current diff exceeds `220` changed lines, split/refactor/escalate during implementation instead of waiting for Stage 8 to reject it. Test files stay outside that hard source-file limit.
 - Stage 6 failure classification rule (mandatory):
   - `Local Fix`: issue is bounded and does not require requirement/design/call-stack updates; remain in Stage 6.
   - `Design Impact`: issue indicates architecture/ownership-dependency or compatibility-policy breach requiring upstream design/runtime updates; re-enter `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6`.
   - `Requirement Gap`: missing/ambiguous requirement or acceptance criteria discovered during implementation; re-enter `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6`.
   - `Unclear`: cross-cutting/low-confidence root cause; re-enter `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6`.
+- If detailed implementation work reveals that the reviewed design is incomplete, weak, or wrong, do not patch around it locally. Record the issue and classify `Design Impact` so upstream design/runtime artifacts are corrected before further source edits.
 - If a change only "works" by leaving a file in the wrong folder or adding new misplaced files, do not classify it as `Local Fix`; treat it as `Design Impact` unless the real issue is missing requirements.
 - Use "one file at a time" as the default execution strategy, not an absolute rule.
 - When rare cross-referencing is unavoidable, allow limited parallel/incomplete implementation, but explicitly record:
@@ -615,7 +619,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
   - dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope are removed,
   - ownership-driven dependencies remain valid (no newly introduced unjustified tight coupling/cyclic dependencies),
-  - touched files either already have correct placement or are moved/split so their paths match owning concerns.
+  - touched files either already have correct placement or are moved/split so their paths match owning concerns,
+  - changed source implementation files have proactive size-pressure handling recorded (`>500` avoided and `>220` changed-line pressure assessed/acted on where needed).
 - Use `stages/06-implementation/implementation-template.md`.
 - Do not speak for routine `implementation.md` edits. Announce only for persisted `workflow-state.md` events (Stage 6 entry, lock/unlock change, gate/transition outcomes).
 
@@ -624,10 +629,16 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Run this stage immediately after `Stage 6` completes.
 - At Stage 7 entry, update `workflow-state.md` and keep `Code Edit Permission = Unlocked` while API/E2E test artifacts are being implemented/executed.
 - Create/update `tickets/in-progress/<ticket-name>/api-e2e-testing.md` as the canonical scenario + result artifact.
+- Multi-round artifact rule (mandatory): keep one canonical `api-e2e-testing.md` path for the ticket. Do not create versioned copies by default. On every rerun, check prior unresolved failures first, then continue validation. The latest round result is authoritative; earlier rounds remain history.
+- Round-resolution rule (mandatory): on Stage 7 round `>1`, update the prior-failure resolution check before declaring the new gate result.
 - Stage 7 scope includes:
   - implementing API test files/harness as needed,
   - implementing E2E test files/harness as needed,
   - executing API/E2E scenarios mapped from acceptance criteria.
+- Durable validation-first rule (mandatory): first implement or update the API/E2E tests, harnesses, and validation code that should live in the repository and govern future changes.
+- Broader executable-validation rule (mandatory): if durable repo-resident validation is not enough to prove the behavior, continue with broader executable validation work as needed, including temporary scripts, probes, environment setup, containerized setup, mocked or emulated dependencies, or computer/browser automation when that is the reasonable way to verify the flow.
+- Persistence rule (mandatory): validation that should remain useful for future changes should stay in the codebase; one-off proof scaffolding may be temporary.
+- Cleanup rule (mandatory): remove temporary validation-only scaffolding after the result is recorded unless keeping it as durable coverage is clearly useful.
 - If Stage 7 failures require source-code changes, declare re-entry and return to Stage 6 first.
 - Scenario sources (mandatory):
   - requirement-driven scenarios (must cover all critical requirements and flows),
@@ -647,15 +658,21 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - source type (`Requirement`/`Design-Risk`),
   - test level (`API`/`E2E`),
   - expected outcome,
+  - durable validation asset(s) added/updated when applicable,
+  - temporary validation method/setup used when applicable,
   - execution command/harness,
   - result (`Passed`/`Failed`/`Blocked`/`N/A`).
+- Stable scenario-ID rule (mandatory): reuse the same `scenario_id` for the same scenario across reruns. Add a new `scenario_id` only for newly discovered coverage.
 - API test depth rule (mandatory): when scenario level is `API`, validate contract-level behavior including required fields/schema shape, status codes, and error payload behavior for mapped acceptance criteria.
 - Cross-boundary test rule (mandatory): for client/server or multi-service scope, include API/E2E scenarios that validate cross-boundary interaction behavior (request -> boundary handoff -> downstream effect -> returned state).
 - Manual testing policy: do not include manual testing in the default workflow. If the user performs manual verification outside the workflow, treat the user's explicit completion/verification message as the Stage 10 trigger to move the ticket to `done` and start repository finalization.
 - Feasibility policy:
-  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md` and `implementation.md`,
+  - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md`; reflect only a short downstream status pointer in `implementation.md` when needed,
   - record compensating automated evidence and residual risk notes for each infeasible critical scenario,
   - mark Stage 7 as `Blocked` unless the user explicitly accepts a waiver for the infeasible acceptance criteria.
+- Validation retention policy:
+  - if a validation asset should govern future behavior in the repository, keep it and record its path,
+  - if a validation asset exists only to prove the current ticket in a non-durable way, record it as temporary and clean it up after use unless there is clear value in keeping it.
 - Test feedback escalation policy (mandatory):
   - classify each failing Stage 7 scenario as exactly one of `Local Fix`, `Design Impact`, `Requirement Gap`, or `Unclear`,
   - before final classification, run an investigation screen:
@@ -671,11 +688,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Requirement Gap` path: `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
   - `Unclear`/cross-cutting root cause path: `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
 - Stage completion gate:
+  - durable API/E2E validation that should live in the repository has been implemented or updated,
   - all in-scope acceptance criteria from `requirements.md` are mapped to Stage 7 scenarios,
   - all relevant spines from the design basis are mapped to Stage 7 scenarios or explicitly `N/A`,
   - all executable in-scope acceptance criteria have execution status `Passed`,
   - all executable relevant spines have scenario evidence that passed,
   - all executable mapped API/E2E scenarios are resolved (`Passed`), with no unresolved failures/blockers,
+  - temporary validation-only scaffolding is either cleaned up or explicitly retained with rationale,
   - if any acceptance criterion is infeasible due to environment constraints, Stage 7 remains `Blocked` until explicit user waiver is recorded with constraints + compensating evidence + residual risk.
 - Before transitioning to Stage 8, update `workflow-state.md` with Stage 7 gate result and transition evidence.
 - Use `stages/07-api-e2e/api-e2e-testing-template.md`.
@@ -686,6 +705,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Run this stage only after `Stage 7` API/E2E test gate is `Pass`.
 - At Stage 8 entry, update `workflow-state.md` and set `Code Edit Permission = Locked`.
 - Create/update `tickets/in-progress/<ticket-name>/code-review.md` as the canonical code review artifact.
+- Multi-round artifact rule (mandatory): keep one canonical `code-review.md` path for the ticket. Do not create versioned copies by default. On every rerun, recheck prior unresolved findings first, then run a fresh review pass. The latest review round is authoritative; earlier rounds remain history.
+- Round-resolution rule (mandatory): on Stage 8 round `>1`, update the prior-findings resolution check before declaring the new gate result.
 - Scope:
   - source files and test files,
   - include changed files and directly impacted related files when structural risk exists.
@@ -712,6 +733,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - dead/obsolete code cleanup completeness in changed scope,
   - no backward-compatibility mechanisms and no legacy code retention,
   - test quality, test maintainability, and validation-evidence sufficiency.
+- Stable finding-ID rule (mandatory): reuse the same finding ID for the same unresolved issue across review rounds. Create a new finding ID only for newly discovered issues.
 - Earlier design artifacts are Stage 8 context only, not the authority. If independent review shows the earlier design basis was weak, incomplete, or wrong, classify `Design Impact`.
 - Source file size policy (mandatory):
   - measure line counts explicitly per changed source file:
@@ -768,12 +790,14 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### 10) Final Handoff
 
 - Complete handoff only after implementation execution, Stage 7 API/E2E testing, Stage 8 code review, and docs synchronization are complete.
+- Create/update `tickets/in-progress/<ticket-name>/handoff-summary.md` as the canonical Stage 10 artifact.
+- Use `stages/10-handoff/handoff-guide.md` and `stages/10-handoff/handoff-summary-template.md`.
 - Handoff summary must include:
   - delivered scope vs planned scope,
   - verification summary (unit/integration plus API/E2E testing, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
   - docs files updated (or explicit no-impact rationale) plus the `docs-sync.md` artifact path,
   - release-note status (`created` with artifact path, or explicit `not required` rationale).
-- When release notes are required, create/update `release-notes.md` in the ticket folder before waiting for user verification.
+- When release notes are required, create/update `tickets/in-progress/<ticket-name>/release-notes.md` before waiting for user verification.
 - Release-note content rules (mandatory when release notes are required):
   - use short user-facing functional notes only,
   - do not include internal refactors, dependency bumps, tests, docs-only changes, or low-level implementation detail,
@@ -837,7 +861,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - create/update `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
   - maintain acceptance-criteria matrix (`acceptance_criteria_id` -> scenario coverage -> pass status)
   - maintain spine coverage matrix (`spine_id` -> scenario coverage -> pass status)
-  - record scenario execution results and any escalation decisions in `tickets/in-progress/<ticket-name>/implementation.md`
+  - record scenario execution results and any escalation decisions in `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
 - Stage 8 (code review gate, only after `Stage 7 = Pass`):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 8`, `Code Edit Permission = Locked`)
   - create/update `tickets/in-progress/<ticket-name>/code-review.md`
@@ -850,6 +874,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - record docs sync result in `tickets/in-progress/<ticket-name>/docs-sync.md` (`Updated`/`No impact` + rationale)
 - Stage 10 (final handoff + wait for user verification + move ticket to done + repository finalization):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`9 -> 10`) and final state record
+  - create/update `tickets/in-progress/<ticket-name>/handoff-summary.md` using `stages/10-handoff/handoff-summary-template.md`
   - persist the handoff summary and wait for explicit user completion/verification instruction
   - when the release is user-facing or publishes a GitHub Release body, create/update `tickets/in-progress/<ticket-name>/release-notes.md` using `stages/10-handoff/release-notes-template.md`; otherwise record explicit no-note rationale in the handoff summary
   - on explicit user completion/verification instruction, first move the ticket folder to `tickets/done/<ticket-name>/`
@@ -882,12 +907,19 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - `stages/06-implementation/implementation-template.md`
   - `stages/06-implementation/implementation-example.md`
 - Stage 7 API/E2E:
+  - `stages/07-api-e2e/README.md`
+  - `stages/07-api-e2e/api-e2e-guide.md`
   - `stages/07-api-e2e/api-e2e-testing-template.md`
 - Stage 8 code review:
+  - `stages/08-code-review/README.md`
+  - `stages/08-code-review/code-review-guide.md`
   - `stages/08-code-review/code-review-principles.md`
   - `stages/08-code-review/code-review-template.md`
 - Stage 9 docs sync:
   - `stages/09-docs-sync/docs-sync-guide.md`
   - `stages/09-docs-sync/docs-sync-template.md`
 - Stage 10 handoff:
+  - `stages/10-handoff/README.md`
+  - `stages/10-handoff/handoff-guide.md`
+  - `stages/10-handoff/handoff-summary-template.md`
   - `stages/10-handoff/release-notes-template.md`

@@ -2,6 +2,7 @@
 
 Use this document as the pre-implementation gate for future-state runtime-call-stack quality and use-case completeness.
 This review validates alignment with target (`to-be`) design behavior, not parity with current (`as-is`) code.
+Keep one canonical `future-state-runtime-call-stack-review.md` path for the ticket. Record later rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
 
 ## Review Meta
 

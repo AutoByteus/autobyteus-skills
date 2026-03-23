@@ -2,12 +2,15 @@
 
 Use this document for `Stage 8` code review after Stage 7 API/E2E testing passes.
 This gate enforces structure quality, source-file maintainability, and mandatory re-entry rules.
+Keep one canonical `code-review.md` file for the ticket. Record later review rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
 
 ## Review Meta
 
 - Ticket:
 - Review Round:
 - Trigger Stage: `7` / `Re-entry`
+- Prior Review Round Reviewed: `None` / `1` / `2` / ...
+- Latest Authoritative Round: `1` / `2` / `3` / ...
 - Workflow state source: `tickets/in-progress/<ticket-name>/workflow-state.md`
 - Earlier design artifact(s) reviewed as context:
 - Runtime call stack artifact:
@@ -15,10 +18,22 @@ This gate enforces structure quality, source-file maintainability, and mandatory
 - Common Design Practices: `shared/common-design-practices.md`
 - Code Review Principles: `stages/08-code-review/code-review-principles.md`
 
+Round rules:
+- Do not create versioned Stage 8 files by default.
+- On round `>1`, recheck prior unresolved findings first before declaring the new gate result.
+- Keep prior rounds as history; the latest round decision is authoritative.
+- Reuse the same finding ID for the same unresolved issue across review rounds. Create a new finding ID only for newly discovered issues.
+
 ## Scope
 
 - Files reviewed (source + tests):
 - Why these files:
+
+## Prior Findings Resolution Check (Mandatory On Round >1)
+
+| Prior Round | Finding ID | Previous Severity | Current Resolution (`Resolved`/`Partially Resolved`/`Still Failing`/`Not Applicable After Rework`) | Evidence | Notes |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
 
 ## Source File Size And Structure Audit (Mandatory)
 
@@ -78,6 +93,19 @@ Rules:
 - Otherwise:
   - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/ReusableOwnedStructures/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
 
+Rules:
+- Reuse the same finding ID when the same issue persists across review rounds.
+- Create a new finding ID only for newly discovered issues.
+- If an earlier finding became irrelevant due to redesign/re-entry, mark it in the prior-findings resolution table instead of silently dropping it.
+
+## Round History
+
+| Round | Trigger | Prior Unresolved Findings Rechecked (`Yes`/`No`/`N/A`) | New Findings Found (`Yes`/`No`) | Gate Decision (`Pass`/`Fail`) | Latest Authoritative (`Yes`/`No`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Stage 7 pass | N/A | Yes/No |  | Yes/No |  |
+| 2 | Re-entry | Yes/No | Yes/No |  | Yes/No |  |
+| N |  |  |  |  |  |  |
+
 ## Re-Entry Declaration (Mandatory On `Fail`)
 
 - Trigger Stage:
@@ -97,6 +125,7 @@ Rules:
 
 ## Gate Decision
 
+- Latest authoritative review round:
 - Decision: `Pass` / `Fail`
 - Implementation can proceed to `Stage 9`: `Yes` / `No`
 - Mandatory pass checks:
@@ -127,3 +156,7 @@ Rules:
 - Classification rule: if the main issue is insufficient validation evidence, classify as `Validation Gap` and return to `Stage 7`; otherwise, if any mandatory structural pass check fails, do not classify as `Local Fix` by default and classify as `Design Impact` unless clear requirement ambiguity is the primary cause. Independent review may conclude that earlier design artifacts were weak or wrong.
 - Wrong-location files are structural failures when the path makes ownership unclear; require explicit `Move`/`Split` or a justified shared-boundary decision.
 - Notes:
+
+Authority rule:
+- The latest review round recorded above is the active Stage 8 truth for transition and re-entry decisions.
+- Earlier rounds remain in the file as history and audit trail.

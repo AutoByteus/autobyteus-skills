@@ -19,6 +19,7 @@ Preferred delegation shape for workflow-skill work:
 - `documentation_engineer`: Stage 9 docs synchronization and durable-doc promotion
 - `api_e2e_validator`: Stage 7 scenario/feasibility/execution/failure validation
 - `code_reviewer`: Stage 8 review findings and gate checks
+- `deployment_engineer`: Stage 10 handoff summary, verification hold, and finalization work
 - `implementation_worker`: bounded implementation work only when ownership is disjoint
 
 Parallel-write caution:

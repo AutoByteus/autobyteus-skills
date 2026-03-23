@@ -2,24 +2,26 @@
 
 Use this single artifact for both:
 - the stable Stage 6 implementation baseline
-- the live execution/progress record through Stages 6, 7, 8, and 9
+- the live Stage 6 execution/progress record
+- brief downstream handoff/status pointers for Stages 7, 8, and 9
 
 Write to:
 - `tickets/in-progress/<ticket-name>/implementation.md`
 
 Document discipline:
 - `Plan Baseline` sections are the intended implementation shape and should change only when replanning or classified re-entry requires it.
-- `Execution Tracking` sections are live logs and should be updated continuously during implementation, validation, review, and docs sync.
+- `Execution Tracking` sections are live logs and should be updated continuously during implementation and when downstream stage status changes materially.
 - `Implementation Work Table` is the primary file/task tracker. Prefer change IDs elsewhere instead of repeating the same file list unless exact paths are the point of that section.
+- Detailed Stage 7, Stage 8, and Stage 9 records belong in their own canonical artifacts. Keep only handoff inputs and short status pointers here.
 
 ## Scope Classification
 
 - Classification: `Small` / `Medium` / `Large`
 - Reasoning:
 - Workflow Depth:
-  - `Small` -> draft `implementation.md` solution sketch -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize `implementation.md` baseline -> implementation execution -> API/E2E testing (implement + execute) -> code review gate -> docs sync -> final handoff -> wait for explicit user verification -> move ticket to `done` -> git finalization/release when git repo
-  - `Medium` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> `implementation.md` baseline -> implementation execution -> API/E2E testing (implement + execute) -> code review gate -> docs sync -> final handoff -> wait for explicit user verification -> move ticket to `done` -> git finalization/release when git repo
-  - `Large` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> `implementation.md` baseline -> implementation execution -> API/E2E testing (implement + execute) -> code review gate -> docs sync -> final handoff -> wait for explicit user verification -> move ticket to `done` -> git finalization/release when git repo
+  - `Small` -> draft `implementation.md` solution sketch -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> finalize `implementation.md` baseline -> implementation execution
+  - `Medium` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> `implementation.md` baseline -> implementation execution
+  - `Large` -> proposed design doc -> future-state runtime call stack -> future-state runtime call stack review (iterative deep rounds until `Go Confirmed`) -> `implementation.md` baseline -> implementation execution
 
 ## Upstream Artifacts (Required)
 
@@ -125,7 +127,10 @@ Avoid creating separate repeated file lists elsewhere unless the section is spec
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | R-001 | AC-001 | DS-001 |  | UC-001 |  | Unit/Integration | AV-001 |
 
-### Acceptance Criteria To Stage 7 Mapping (Mandatory)
+### Stage 7 Planned Coverage Mapping (Input Only)
+
+Use this as Stage 6 planning input for Stage 7.
+The canonical Stage 7 execution record, closure matrices, feasibility record, and scenario results belong in `tickets/in-progress/<ticket-name>/api-e2e-testing.md`.
 
 | Acceptance Criteria ID | Requirement ID | Spine ID(s) | Expected Outcome | Stage 7 Scenario ID(s) | Test Level (`API`/`E2E`) | Initial Status (`Planned`/`Blocked`) |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -180,31 +185,17 @@ Avoid creating separate repeated file lists elsewhere unless the section is spec
 - Integration tests:
 - Stage 6 boundary: file and service-level verification, while preserving readable subsystem grouping, only (unit + integration).
 - Stage 7 handoff notes for API/E2E testing:
+  - canonical artifact path: `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
   - expected acceptance criteria count:
   - critical flows to validate (API/E2E):
   - expected scenario count:
   - known environment constraints:
 - Stage 8 handoff notes for code review:
+  - canonical artifact path: `tickets/in-progress/<ticket-name>/code-review.md`
   - predicted design-impact hotspots:
   - predicted file-placement hotspots:
   - predicted interface/API/query/command/service-method boundary hotspots:
   - files likely to exceed size/ownership/SoC thresholds:
-
-### API/E2E Testing Scenario Catalog (Stage 7 Input)
-
-| Scenario ID | Spine ID(s) | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Test Level (`API`/`E2E`) | Expected Outcome |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| AV-001 | DS-001 | Requirement | AC-001 | R-001 | UC-001 | API |  |
-
-### API/E2E Testing Escalation Policy (Stage 7 Guardrail)
-
-- Classification rules for failing API/E2E scenarios:
-  - choose exactly one classification for the current failure event: `Local Fix`, `Design Impact`, `Requirement Gap`, or `Unclear`.
-  - do not allow any in-scope acceptance criterion to remain `Unmapped`, `Not Run`, `Failed`, or `Blocked` at Stage 7 close unless explicitly marked `Waived` by user decision for infeasible cases.
-  - if issue is cross-cutting, root cause is unclear, or confidence is low, set `Investigation Required = Yes`, pause implementation, and update `investigation-notes.md` before persisting classification/re-entry records.
-  - `Local Fix`: no requirement/design change needed; responsibility boundaries remain intact.
-  - `Design Impact`: responsibility boundaries drift, architecture change needed, or patch-on-patch complexity appears.
-  - `Requirement Gap`: missing/ambiguous requirement or newly discovered requirement-level constraint.
 
 ### Cross-Reference Exception Protocol
 
@@ -250,45 +241,16 @@ Use this section only for execution-only details that do not belong in the main 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C-001 | Design Impact | Yes | `src/example-a.ts <-> src/example-core.ts` | Needed | Not Needed | YYYY-MM-DD | `pnpm exec vitest --run tests/unit/example-a.test.ts` | Waiting for boundary refactor. |
 
-### API/E2E Testing Scenario Log (Stage 7)
+### Downstream Stage Status Pointers
 
-| Date | Scenario ID | Spine ID(s) | Governing Owner | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`) | Status | Failure Summary | Investigation Required (`Yes`/`No`) | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Action Path Taken | `investigation-notes.md` Updated | Requirements Updated | Design Updated | Call Stack Regenerated | Resume Condition Met |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | AV-001 | DS-001 | ExampleOwner | Requirement | AC-001 | R-001 | UC-001 | API | Failed | Missing flow branch for fallback path | Yes | Design Impact | Re-entered `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7` before retry | Yes | No | Yes | Yes | Yes |
+Use this section only for short cross-stage pointers.
+The detailed Stage 7, Stage 8, and Stage 9 records belong in their own canonical artifacts.
 
-### Acceptance Criteria Closure Matrix (Stage 7 Gate)
-
-| Date | Acceptance Criteria ID | Requirement ID | Scenario ID(s) | Coverage Status (`Unmapped`/`Not Run`/`Passed`/`Failed`/`Blocked`/`Waived`) | Notes |
-| --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | AC-001 | R-001 | AV-001 | Failed | API response contract missing required field. |
-
-### Spine Coverage Matrix (Stage 7 Gate)
-
-| Date | Spine ID | Spine Scope (`Primary End-to-End`/`Return-Event`/`Bounded Local`) | Governing Owner | Scenario ID(s) | Coverage Status (`Unmapped`/`Planned`/`Passed`/`Failed`/`Blocked`/`N/A`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | DS-001 | Primary End-to-End | ExampleOwner | AV-001 | Failed | Fallback branch on this spine is still missing. |
-
-### API/E2E Feasibility Record
-
-- API/E2E scenarios feasible in current environment: `Yes` / `No`
-- If `No`, concrete infeasibility reason:
-- Current environment constraints (tokens/secrets/third-party dependency/access limits):
-- Best-available compensating automated evidence:
-- Residual risk accepted:
-- Explicit user waiver for infeasible acceptance criteria: `Yes` / `No`
-- Waiver reference (if `Yes`):
-
-### Code Review Log (Stage 8)
-
-| Date | Review Round | Source File | Effective Non-Empty Lines | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Re-Entry Declaration Recorded | Upstream Artifacts Updated Before Code Edit | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | `src/example-a.ts` | 615 | Yes | Fail | Fail | Pass | Fail | Pass | Fail | Pass | Pass | Design Impact | Yes | Yes | Fail | Exceeded `>500` hard limit and mixed too much responsibility in one file; returned to `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8` before further edits. |
-
-### Code Review Structural Summary (Stage 8)
-
-| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`) | Reusable Owned Structures Check (`Pass`/`Fail`) | Repeated Coordination Ownership (`Pass`/`Fail`) | Empty Indirection Check (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Duplication/Patch-Layering Control (`Pass`/`Fail`) | Test Quality (`Pass`/`Fail`) | Test Maintainability (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YYYY-MM-DD | 1 | Pass | Fail | Pass | Pass | Pass | Fail | Pass | Fail | Fail | Pass | Fail | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Design Impact | Fail | Ownership drift, repeated coordination, and dependency shortcuts required re-entry before further source edits. |
+| Stage | Canonical Artifact | Current Status | Last Updated | Notes |
+| --- | --- | --- | --- | --- |
+| 7 API/E2E | `tickets/in-progress/<ticket-name>/api-e2e-testing.md` | `Not Started` / `In Progress` / `Passed` / `Failed` / `Blocked` / `Waived In Part` | YYYY-MM-DD |  |
+| 8 Code Review | `tickets/in-progress/<ticket-name>/code-review.md` | `Not Started` / `In Progress` / `Pass` / `Fail` | YYYY-MM-DD |  |
+| 9 Docs Sync | `tickets/in-progress/<ticket-name>/docs-sync.md` | `Not Started` / `In Progress` / `Updated` / `No impact` | YYYY-MM-DD |  |
 
 ### Blocked Items
 
@@ -308,15 +270,6 @@ Use this section only for execution-only details that do not belong in the main 
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | C-003 | `src/example-util.ts` | import/reference scan + targeted tests | Passed | No remaining references. |
 
-### Docs Sync Summary (Mandatory Post-Testing + Review)
-
-Stage 9 should use `tickets/in-progress/<ticket-name>/docs-sync.md` as the canonical artifact.
-Use this section only as a brief pointer from the merged implementation artifact.
-
-| Date | Docs Sync Artifact | Result (`Updated`/`No impact`) | Key Docs Updated | Status |
-| --- | --- | --- | --- | --- |
-| YYYY-MM-DD | `tickets/in-progress/<ticket-name>/docs-sync.md` | Updated | `docs/example-feature.md` | Completed |
-
 ### Completion Gate
 
 - Mark `Implementation Status = Completed` only when implementation is done and required tests are passing or explicitly `N/A`.
@@ -328,16 +281,7 @@ Use this section only as a brief pointer from the merged implementation artifact
   - dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope are removed,
   - ownership-dependency/decoupling checks show no new unjustified tight coupling/cycles,
   - touched files have correct placement inside the owning subsystem and folder, or an explicit move/split has been completed.
-- Mark Stage 7 API/E2E testing complete only when:
-  - every executable in-scope acceptance criterion in the closure matrix is `Passed`,
-  - every executable relevant spine in the spine coverage matrix is `Passed`,
-  - critical executable API/E2E scenarios pass,
-  - any infeasible acceptance criterion has explicit user waiver + documented constraints + compensating evidence + residual risk,
-  - required escalation actions (`Local Fix`/`Design Impact`/`Requirement Gap`) are resolved and logged.
-- Mark Stage 8 code review complete only when:
-  - `code-review.md` exists and gate decision is recorded,
-  - `<=500` hard-limit checks and required `>220` delta-gate assessments are recorded for all changed source files,
-  - data-flow spine inventory preservation checks, ownership-boundary checks, support-structure checks, existing-capability reuse checks, reusable-owned-structure checks, repeated-coordination ownership checks, empty-indirection checks, ownership-driven dependency checks, scope-appropriate separation-of-concerns checks, flat-vs-over-split layout checks, interface/API/query/command/service-method boundary clarity checks, naming-to-responsibility checks, duplication/patch-on-patch complexity checks, dead/obsolete-code cleanup checks, test-quality checks, test-maintainability checks, validation-evidence sufficiency checks, backward-compatibility checks, and legacy-retention checks are recorded,
-  - file-placement checks are recorded for all changed source files,
-  - if gate decision is `Fail`, re-entry declaration and target stage path are recorded.
-- Mark Stage 9 docs sync complete only when `docs-sync.md` exists and the docs synchronization result is recorded (`Updated` or `No impact` with rationale).
+- For downstream stages, use the canonical artifacts as the authority:
+  - Stage 7: `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
+  - Stage 8: `tickets/in-progress/<ticket-name>/code-review.md`
+  - Stage 9: `tickets/in-progress/<ticket-name>/docs-sync.md`

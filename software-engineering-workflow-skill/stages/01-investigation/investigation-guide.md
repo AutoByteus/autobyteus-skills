@@ -13,7 +13,7 @@ Investigation is any activity needed to build accurate understanding and verify 
 
 - `tickets/in-progress/<ticket-name>/investigation-notes.md` updated in place
 - current entrypoints and boundaries identified
-- touched owners, modules, and likely file-placement concerns identified
+- touched owners, subsystems/capability areas, and likely file-placement concerns identified
 - constraints, unknowns, and design implications recorded
 - scope triage (`Small` / `Medium` / `Large`) recorded with rationale
 

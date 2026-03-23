@@ -6,7 +6,8 @@ Use this as a shape example for:
 This is not a universal format to copy mechanically.
 It demonstrates how one merged file can hold:
 - a stable implementation baseline
-- live execution tracking through Stages 6, 7, 8, and 9
+- live Stage 6 execution tracking
+- brief downstream stage pointers without duplicating the canonical Stage 7, Stage 8, and Stage 9 records
 
 ---
 
@@ -119,31 +120,21 @@ Use this section only for execution-only details that do not belong in the main 
 | T-001 | N/A | No | None | Not Needed | Not Needed | 2026-03-19 | `pnpm vitest --run tests/unit/payment/timeout-error-mapper.test.ts` | timeout mapping removed from orders subsystem |
 | T-003 | N/A | No | None | Not Needed | Not Needed | 2026-03-19 | `pnpm vitest --run tests/integration/orders/order-submit.integration.test.ts` | sequencing now isolated in service |
 
-### API/E2E Testing Scenario Log (Stage 7)
+### Downstream Stage Status Pointers
 
-| Date | Scenario ID | Spine ID(s) | Governing Owner | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`) | Status | Failure Summary | Investigation Required (`Yes`/`No`) | Classification (`Local Fix`/`Design Impact`/`Requirement Gap`/`Unclear`) | Action Path Taken | `investigation-notes.md` Updated | Requirements Updated | Design Updated | Call Stack Regenerated | Resume Condition Met |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-03-19 | AV-001 | DS-001 | OrderSubmissionService | Requirement | AC-001 | R-001 | UC-001 | API | Passed | N/A | No | N/A | N/A | No | No | No | No | Yes |
-| 2026-03-19 | AV-002 | DS-002 | PaymentGatewayClient | Design-Risk | AC-002 | R-002 | UC-002 | API | Passed | N/A | No | N/A | N/A | No | No | No | No | Yes |
-
-### Code Review Structural Summary (Stage 8)
-
-| Date | Review Round | Data-Flow Spine Inventory Preservation (`Pass`/`Fail`) | Ownership Boundary Preservation (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`) | Reusable Owned Structures Check (`Pass`/`Fail`) | Repeated Coordination Ownership (`Pass`/`Fail`) | Empty Indirection Check (`Pass`/`Fail`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Query/Command/Service Boundary Clarity (`Pass`/`Fail`) | Naming-To-Responsibility Check (`Pass`/`Fail`) | Duplication/Patch-Layering Control (`Pass`/`Fail`) | Test Quality (`Pass`/`Fail`) | Test Maintainability (`Pass`/`Fail`) | Validation Evidence Sufficiency (`Pass`/`Fail`) | No Backward-Compatibility Mechanisms (`Pass`/`Fail`) | No Legacy Retention (`Pass`/`Fail`) | Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Decision (`Pass`/`Fail`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-03-19 | 1 | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | N/A | Pass | clean Stage 8 review |
-
-### Docs Sync Log (Mandatory Post-Testing + Review)
-
-| Date | Docs Impact (`Updated`/`No impact`) | Files Updated | Rationale | Status |
+| Stage | Canonical Artifact | Current Status | Last Updated | Notes |
 | --- | --- | --- | --- | --- |
-| 2026-03-19 | Updated | `docs/order-submission.md` | timeout behavior and service ownership changed | Completed |
+| 7 API/E2E | `tickets/in-progress/order-submit-timeout/api-e2e-testing.md` | Passed | 2026-03-19 | all executable in-scope scenarios passed |
+| 8 Code Review | `tickets/in-progress/order-submit-timeout/code-review.md` | Pass | 2026-03-19 | clean Stage 8 review |
+| 9 Docs Sync | `tickets/in-progress/order-submit-timeout/docs-sync.md` | Updated | 2026-03-19 | `docs/order-submission.md` updated |
 
 ### Completion Gate
 
 - Stage 6 implementation execution complete: `Yes`
-- Stage 7 API/E2E testing complete: `Yes`
-- Stage 8 code review complete: `Yes`
-- Stage 9 docs sync complete: `Yes`
+- Downstream stage authority stays in:
+  - `tickets/in-progress/order-submit-timeout/api-e2e-testing.md`
+  - `tickets/in-progress/order-submit-timeout/code-review.md`
+  - `tickets/in-progress/order-submit-timeout/docs-sync.md`
 
 ---
 

@@ -1,6 +1,6 @@
 # Stage 9 Docs Sync Guide
 
-Use this guide after Stage 7 and Stage 8 are complete.
+Use this guide after Stage 8 is complete.
 
 ## Why This Stage Exists
 

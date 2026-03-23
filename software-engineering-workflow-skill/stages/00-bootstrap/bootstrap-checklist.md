@@ -18,6 +18,7 @@ Use this checklist at the start of every ticket before investigation begins.
 
 - Do not start deep investigation before the bootstrap sequence is physically written.
 - Reuse the existing ticket folder and branch/worktree when they already match the ticket.
+- If the ticket is being reopened from `tickets/done/<ticket-name>/`, move it back to `tickets/in-progress/<ticket-name>/` before any new artifact updates.
 - If the user specifies a base branch, always use the latest tracked remote state of that branch instead of a stale local branch.
 - Do not create a new ticket branch/worktree from a stale local base; refresh tracked remote refs first.
 - Capture the draft requirement from user input or bug evidence first; do not wait for perfect understanding.

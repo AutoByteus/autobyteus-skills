@@ -21,7 +21,8 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
 - Is the resulting subsystem, folder, and file layout readable for the scope, without becoming too flat or too artificially fragmented?
 - Do interfaces, APIs, queries, commands, and reused service methods still have one clear subject, one responsibility, and explicit identity shape?
-- Do file names, optional module names, and API names still match their real responsibility after the change?
+- Do file names, folder names, optional module names, API names, type/schema names, function/method names, parameter names, and local variable names still match their real responsibility and behavior after the change?
+- Do names stay concrete and unsurprising, without misleading abbreviations, vague placeholders, or names that hide side effects or ownership?
 - Do changed source files still respect the file-size hard limit and diff-size gate without hiding design drift?
 - Are the file-size hard limit and diff-size gate being applied only to changed source implementation files, while test files remain under qualitative review instead of the source-file hard limit?
 - Did any manager, registry, adapter, helper, or shared utility absorb business logic it should not own?
@@ -44,6 +45,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The layout is technically valid per-file but now feels too flat or too over-split for the real ownership structure
 - An interface/API/query/command/service method accepts an ambiguous ID or selector and has to guess what subject or owner that input refers to
 - A file, optional module grouping, or API name no longer matches the responsibility it actually owns
+- Function, type, parameter, or local variable names are vague, misleading, over-abbreviated, or hide important side effects or ownership
 - A changed source file crossed the hard size limit or diff-size gate in a way that signals structural drift
 - A working patch introduces empty indirection or patch-on-patch complexity
 - Duplicated code remains in changed scope even though one reusable owned file or one clear owner would remove it cleanly
@@ -72,7 +74,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Independent review shows an architectural or structural problem in the current code, even if earlier design artifacts missed it.
 - The implementation drifted from a healthy spine inventory, ownership model, support structure, or readable placement shape under the shared principles.
 - The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
-- The implementation introduces naming drift or a layout shape that is too flat or too fragmented for a healthy design.
+- The implementation introduces naming drift, misleading local identifiers, or a layout shape that is too flat or too fragmented for a healthy design.
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
 - A shared/base structure became a kitchen-sink model, which shows the decomposition or ownership model is still wrong.
 - Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in scope after the change.

@@ -62,7 +62,7 @@ Rules:
 | File placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
 | Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
-| Naming-to-responsibility alignment and drift check |  |  |  |
+| Naming quality and naming-to-responsibility alignment check (files, folders, APIs, types, functions, parameters, variables) |  |  |  |
 | No unjustified duplication of code / repeated structures in changed scope |  |  |  |
 | Patch-on-patch complexity control |  |  |  |
 | Dead/obsolete code cleanup completeness in changed scope |  |  |  |
@@ -115,7 +115,7 @@ Rules:
   - File placement check = `Pass`
   - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`
-  - Naming-to-responsibility alignment and drift check = `Pass`
+  - Naming quality and naming-to-responsibility alignment check = `Pass`
   - No unjustified duplication of code / repeated structures in changed scope = `Pass`
   - Patch-on-patch complexity control = `Pass`
   - Dead/obsolete code cleanup completeness in changed scope = `Pass`

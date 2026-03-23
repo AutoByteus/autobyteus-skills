@@ -31,10 +31,16 @@ Typography and spacing hard constraints (required):
 - Alignment discipline:
   - Titles, subheads, bullets, labels, and footers should align to a clear shared grid or module rhythm.
   - Dense didactic boards should align caption baselines and divider spacing consistently.
+ - Cleanliness rule:
+   - Decorative linework must stay subordinate to the text hierarchy.
+   - Do not underline headings by default.
+   - Do not stack multiple rule systems around the same text block unless the slide truly needs one structural divider and one separate semantic emphasis mark.
+   - If the text is already clear, remove extra lines instead of adding ornament.
 - Forbidden:
   - No tiny text.
   - No decorative novelty fonts.
   - No decorative or calligraphic Chinese fonts unless the user explicitly asks for that treatment.
   - No background texture or contrast crossing through the text area in a way that hurts readability.
   - No obvious pasted-on white box, frosted caption card, or rounded rectangle for full-bleed cinematic layouts unless the user explicitly asks for that style.
+  - No redundant underlines, repeated module top-rules, or decorative separators that compete with the text.
 ```

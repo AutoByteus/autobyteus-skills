@@ -22,6 +22,7 @@ Include these on every slide (subtle, consistent):
 
 Do:
 - Keep the ring + divider line in consistent positions (within a narrow range).
+- Use at most one restrained rule in the title area; do not repeat decorative underlines under every heading.
 - Keep motif contrast low; motifs should be felt, not noticed.
 
 Avoid:
@@ -61,6 +62,7 @@ Do:
 Avoid:
 - Any vignette or heavy shadow treatment.
 - Overdecorating with too many pattern elements.
+- Repeating divider lines under every heading just because the accent system exists.
 
 ## Motif Pack D (Illustrative Cinematic) — immersive + polished teaching
 
@@ -74,6 +76,7 @@ Include these on every slide (controlled, elegant):
 Do:
 - Keep the motifs polished and low-noise.
 - Let the atmospheric layer support the teaching structure rather than dominate it.
+- Use one quiet line language, not multiple competing rule systems.
 
 Avoid:
 - Scratchy strokes, notebook doodles, or marker textures.

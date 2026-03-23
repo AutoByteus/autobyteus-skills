@@ -40,6 +40,7 @@ Why this is weak:
 - it names style and layout, but does not tell the model what geometry to build
 - it gives no palette, material, divider, typography, or module instructions
 - it leaves too much room for generic output
+- it can also cause the model to invent decorative divider lines everywhere because the hierarchy is underspecified
 
 ## Anti-example: this wording leaks tool mechanics into the prompt
 

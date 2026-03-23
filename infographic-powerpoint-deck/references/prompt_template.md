@@ -237,6 +237,7 @@ Rules for didactic boards:
 - Treat labels, formulas, and annotations as explicit display text, not decorative texture.
 - If a portrait or object appears, it should sit inside the board composition, not as a cinematic hero shot competing with the text.
 - Make module geometry explicit in the concrete prompt: top band height, number of lower modules, where dividers sit, and which module holds the hero diagram.
+- Do not accidentally create a double-rule decoration system. If a module already has a top divider or grid rule, avoid also adding a decorative underline directly beneath every heading unless the design truly needs it.
 - If the slide depends on disciplined academic or editorial tone, specify the typography attitude and divider/accent behavior directly instead of assuming the style pack will imply it strongly enough.
 - If the reference or chosen pack suggests a whiteboard or sketch-note feel, say so directly and describe the freeform grouping system: floating modules, curved connectors, implied lanes, soft paper surface, and hand-drawn separators.
 

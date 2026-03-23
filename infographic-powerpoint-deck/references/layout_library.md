@@ -6,6 +6,7 @@ These layout IDs are internal composition grammars, not literal template names t
 The best slide may not look like it is using a rigid layout at all.
 For strong decks, the audience should mainly feel clear reading order, grouping, contrast, and visual rhythm.
 That structure may come from spacing, dividers, arrows, alignment, and quiet zones rather than obvious boxes.
+When divider lines are used, they should be sparse and functional. Clean slides should not accumulate decorative rules around already-readable text.
 The split-panel layouts are only one family. This skill also supports full-bleed cinematic layouts where the image fills the slide and the text sits directly on the image using negative space, subtle tonal shaping, or lower-third positioning. Do not default to visible caption cards or frosted boxes for full-bleed layouts unless the user explicitly asks for them.
 Default heuristic for cinematic/editorial/warm/story decks: if the slide can fit 1 title plus up to 4 short lines and the scene can provide a calm text-safe zone, prefer `L4`, `L5`, or `L6` before `L1`.
 Default heuristic for classroom, didactic, self-contained teaching, or research poster decks: if the slide needs multiple labeled sections, diagram captions, or visible explanatory text, prefer `L9`, `L10`, or `L11` before trying to compress it into a sparse keynote layout.

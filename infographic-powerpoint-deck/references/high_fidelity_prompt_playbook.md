@@ -17,6 +17,9 @@ High-fidelity prompt writing means the concrete prompt names the main design sys
 - lighting and contrast behavior
 - restraint rules and forbidden treatments
 
+High fidelity does not mean decorative density.
+Clean slides are usually higher fidelity than noisy slides because every visual decision is serving hierarchy rather than ornament.
+
 If the prompt could describe many unrelated slides after changing only the title text, it is still too vague.
 
 ## Minimum design dimensions
@@ -51,6 +54,7 @@ The final concrete prompt should usually answer these questions in plain prose:
 - divider placement
 - module rhythm
 - repeated geometry or not
+- whether rules belong at the section boundary, under the heading, or not at all. Avoid redundant line systems that make the board feel busy.
 
 7. What visual language renders the non-text content?
 - thin-line diagrams
@@ -146,6 +150,7 @@ Good:
 - exact module structure
 - exact contrast behavior
 - explicit forbidden treatments
+- one disciplined divider system, or none at all, instead of decorative extra lines
 
 Weak:
 - `modern`

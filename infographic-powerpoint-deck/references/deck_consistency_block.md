@@ -21,6 +21,7 @@ This deck is one cohesive series (consistency rules are mandatory):
 - Horizon / silhouette lock: keep the far-background silhouette band (city / harbor / wall / colonnade) at a consistent height in the lower 35%-45% of the frame, always low-contrast and softly blurred.
 - Texture lock: apply the same ultra-low-contrast parchment-grain texture across the full deck at roughly 5%-10% strength.
 - Icon lock: use a consistent thin-line icon style and consistent glow strength for checkmarks and dividers.
+- Cleanliness lock: use decorative rules sparingly. Do not place extra underlines or repeated separators around already-readable headings.
 - Forbidden: no extra text, logos, watermarks, or random characters.
 - Readability hard constraint: all text must stay sharp and high-contrast; the background must not interfere with the main text area.
 ```
@@ -54,6 +55,7 @@ This deck is a bright editorial series (consistency rules are mandatory):
 - Type attitude lock: keep one calm editorial/corporate typography system across title, subhead, labels, bullets, and footer.
 - Texture lock: only very weak paper or fabric texture with low noise. No dirty grain or grunge.
 - Icon lock: use consistent thin-line icons with matched geometry and accent color treatment.
+- Cleanliness lock: keep the deck visually quiet. If a title or section is already clear, do not add extra underlines or decorative rules.
 - Text hard constraint: readability is non-negotiable. All required text must appear exactly.
 - Forbidden: no extra text, logos, watermarks, or random characters.
 ```
@@ -65,6 +67,7 @@ Paste this verbatim:
 ```text
 This deck is an illustrative-cinematic teaching series (consistency rules are mandatory):
 - Layout lock: keep the deck scene-rich but clearly didactic. Use calm illustrated reading zones, elegant dividers, and soft module structure instead of heavy visible cards.
+- Cleanliness lock: keep divider language restrained and functional. Do not underline every heading or stack multiple rule treatments around the same module.
 - Brightness lock: keep the base bright and readable. Use warm ivory or pale-stone fields with soft atmospheric depth, not dark theatrical contrast.
 - Color lock: keep dark slate text, muted deep-blue structure lines, and restrained soft-gold emphasis stable across the deck.
 - Type attitude lock: preserve one premium editorial or luminous humanist title style, one crisp body style, and one refined label style across the full series.

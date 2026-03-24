@@ -54,3 +54,11 @@ Use this guide after Stage 8 is complete.
 - do not treat this as cosmetic cleanup; docs must explain the codebase as it now exists
 - when ticket-local design knowledge should become durable project knowledge, promote it into `docs/` or other canonical docs instead of leaving it only under `tickets/`
 - docs sync is complete only when the documentation matches the final implemented behavior
+
+## Blocked / Re-Entry Rules
+
+- If docs cannot yet be made truthful because the final implementation state or ticket artifacts still need a small concrete correction, classify `Local Fix` and rerun `Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`.
+- If docs expose missing or ambiguous intended behavior, classify `Requirement Gap` and rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`.
+- If the final implementation state or intended behavior is too unclear or cross-cutting to document truthfully, classify `Unclear` and rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`.
+- If docs cannot complete only because of an external docs-system or docs-access blocker, keep Stage 9 `Blocked` and stay in Stage 9 until the blocker is resolved.
+- After recording the re-entry path in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message.

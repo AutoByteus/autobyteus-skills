@@ -14,6 +14,7 @@ Document discipline:
 - `Implementation Work Table` is the primary file/task tracker. Prefer change IDs elsewhere instead of repeating the same file list unless exact paths are the point of that section.
 - Keep applying the shared design principles and common design practices during implementation. Do not treat the reviewed design artifact as mechanically complete if file-level reality reveals a tighter or safer shape.
 - Detailed Stage 7, Stage 8, and Stage 9 records belong in their own canonical artifacts. Keep only handoff inputs and short status pointers here.
+- If Stage 6 records classified re-entry in `workflow-state.md`, immediately execute the first returned stage in the current response cycle by default, without waiting for another user message. Do not stop after only logging the path and describing what should happen next.
 
 ## Scope Classification
 

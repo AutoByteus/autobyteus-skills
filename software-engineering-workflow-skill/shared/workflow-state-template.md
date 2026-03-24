@@ -62,7 +62,7 @@ Note:
 | 6 | Source + required unit/integration verification complete, shared design/common-practice rules are reapplied during implementation, no backward-compatibility/legacy-retention paths remain in scope, dead/obsolete code cleanup in scope is complete, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), touched files sit in the correct folder under the correct owning subsystem, and changed source implementation files have proactive Stage 8 size/delta-pressure handling recorded (`>500` avoided, `>220` assessed/acted on) | local issues: stay in `6`; otherwise classified re-entry (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) |
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
 | 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
-| 9 | `docs-sync.md` is current and docs are updated or no-impact rationale is recorded | stay in `9` |
+| 9 | `docs-sync.md` is current and docs are updated or no-impact rationale is recorded | classify and re-enter when docs cannot yet be made truthful (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); otherwise stay in `9` only for external docs blockers |
 | 10 | `handoff-summary.md` is current, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + resolved target-branch update + merge + push + release are complete | stay in `10` |
 
 ## Transition Matrix (Reference)
@@ -87,6 +87,10 @@ Note:
 | Stage 8 failure (`Design Impact`) | `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
 | Stage 8 failure (`Requirement Gap`) | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
 | Stage 8 failure (`Unclear`/cross-cutting root cause) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Fail |
+| Stage 9 blocked docs-sync result (`Local Fix`) | `6 -> 7 -> 8 -> 9` | Fail |
+| Stage 9 blocked docs-sync result (`Requirement Gap`) | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Fail |
+| Stage 9 blocked docs-sync result (`Unclear`) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Fail |
+| Stage 9 blocked by external docs/access issue only | stay in `9` | Blocked |
 | Stage 10 awaiting explicit user verification | stay in `10` | In Progress |
 | Stage 10 archival/repository finalization blocked | stay in `10` | Blocked |
 
@@ -113,8 +117,10 @@ Note:
 - Resume Condition:
 
 Note:
+- Default resume condition: `Resume immediately into the first returned stage in the current response cycle, without waiting for another user message, unless blocked or waiting on an explicit user-only gate.`
 - Stage 5 re-entry normally uses `Design Impact` / `Requirement Gap` / `Unclear` only (not `Local Fix`).
 - Stage 6 re-entry uses `Local Fix` (stay in `6`) or non-local classified return path (`Design Impact`/`Requirement Gap`/`Unclear`) before further source edits.
+- Stage 9 blocked docs sync uses `Local Fix` / `Requirement Gap` / `Unclear` when docs cannot yet be made truthful; stay in `9` only for external docs blockers that do not require upstream artifact changes.
 - Stage 8 may use `Validation Gap` when the main issue is insufficient Stage 7 coverage/evidence rather than code or design drift.
 
 ## Transition Log (Append-Only)

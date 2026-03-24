@@ -46,4 +46,6 @@ Use this as the canonical Stage 9 artifact.
 ## Final Result
 
 - Result: `Updated` / `No impact` / `Blocked`
+- If `Blocked` because earlier-stage work is required, classification: `Local Fix` / `Requirement Gap` / `Unclear`
+- Required return path or unblock condition:
 - Follow-up needed:

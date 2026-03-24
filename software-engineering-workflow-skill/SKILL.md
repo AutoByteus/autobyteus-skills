@@ -128,6 +128,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Before every stage transition, update `workflow-state.md` first (snapshot + transition log + gate statuses), then proceed.
 - Treat `workflow-state.md` as an execution lock controller, not optional documentation.
 - Transition authority rule (mandatory): stage movement is controlled by the Stage Transition Contract + Transition Matrix. When a trigger condition is met, transition immediately to the mapped path; do not continue in the current stage by preference.
+- Continuation-after-transition rule (mandatory): whenever `workflow-state.md` is updated to declare a stage transition or classified re-entry, immediately enter and execute the target stage in the current response cycle by default, without waiting for another user message. Recording the transition and describing the next step is not sufficient. Stop only for a real blocker or an explicit user-only gate.
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
 - Do not start investigation until ticket/worktree bootstrap is complete and `requirements.md` status `Draft` is physically written.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
@@ -171,6 +172,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`),
   - required return stage path before any code edit.
 - Re-entry declaration must be recorded in `workflow-state.md` before any artifact/code update work begins.
+- Re-entry execution rule (mandatory): after a classified re-entry is recorded and the target return path is persisted in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message. Do not stop after only updating state and describing what should happen next.
 - No-direct-patch rule (mandatory): for post-implementation gate findings, do not edit source code first. Update required upstream artifacts first based on classification path.
 - Re-entry mapping (mandatory):
   - `Local Fix`: update implementation artifacts (`implementation.md` / `api-e2e-testing.md` / `code-review.md` as applicable), then implement fix, then rerun `Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
@@ -218,7 +220,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
 | 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/support-structure checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
-| 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | Stay in `9` until docs gate is satisfied | `10` |
+| 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | If docs cannot yet be made truthful, classify and re-enter (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); stay in `9 (Blocked)` only for external docs blockers that do not require upstream artifact changes | `10` |
 | 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, ticket-branch commit/push + resolved target-branch update + merge + push + release are complete | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization is complete | End |
 
 ### Transition Matrix (Pass/Fail/Blocked)
@@ -243,6 +245,10 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | Stage 8 fail classified `Design Impact` | `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Re-open investigation, then return to design chain before re-review. |
 | Stage 8 fail classified `Requirement Gap` | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Return to requirements then rerun full downstream chain. |
 | Stage 8 failure (`Unclear`/cross-cutting root cause) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8` | Re-open Stage 0 controls in the same ticket context, then rerun full chain before re-review. |
+| Stage 9 blocked docs-sync result classified `Local Fix` | `6 -> 7 -> 8 -> 9` | Use when docs cannot yet be made truthful until a small concrete implementation or ticket-artifact correction is completed. |
+| Stage 9 blocked docs-sync result classified `Requirement Gap` | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Use when missing or ambiguous intended behavior prevents truthful docs. |
+| Stage 9 blocked docs-sync result classified `Unclear` | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Use when final behavior is too unclear or cross-cutting to document truthfully. |
+| Stage 9 blocked by external docs/access issue only | stay in `Stage 9 (Blocked)` | Use when no upstream artifact changes are needed and the blocker is purely docs-environment or docs-access related. |
 | Stage 10 awaiting explicit user verification | stay in `Stage 10 (In Progress)` | Wait for explicit user completion/verification before moving the ticket to `done` and starting repository finalization. |
 | Stage 10 archival/repository finalization blocked | stay in `Stage 10 (Blocked)` | Record the move/commit/git/release blocker, resolve it, then finish handoff. |
 
@@ -784,6 +790,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - renamed/moved/removed components,
   - updated operational or testing procedures when behavior changed.
 - If there is no docs impact, record an explicit "No docs impact" decision with rationale in `docs-sync.md`.
+- Stage 9 blocked/reroute policy (mandatory):
+  - if docs cannot yet be made truthful because the final implementation state or ticket artifacts still need a small concrete correction, classify `Local Fix` and rerun `Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`,
+  - if docs reveal missing or ambiguous intended behavior, classify `Requirement Gap` and rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`,
+  - if the final implementation state or intended behavior is too unclear or cross-cutting to document truthfully, classify `Unclear` and rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`,
+  - if docs cannot complete only because of an external docs-system or docs-access blocker, keep Stage 9 `Blocked` and stay in Stage 9 until the blocker is resolved,
+  - after recording any Stage 9 re-entry path in `workflow-state.md`, immediately resume the first returned stage in the current response cycle instead of stopping after only describing it.
 - Docs synchronization is complete only when docs content aligns with the final implemented behavior.
 - After docs synchronization result is recorded (`Updated`/`No impact`), announce only with the persisted `workflow-state.md` transition/gate update.
 

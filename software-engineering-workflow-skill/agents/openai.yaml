@@ -56,7 +56,9 @@ interface:
     Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass. Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
-    immediately to the mapped path. No source-code edits are allowed unless
+    immediately to the mapped path and execute the target stage in the current
+    response cycle without waiting for another user message. Do not stop after
+    only recording the transition and describing the next step. No source-code edits are allowed unless
     `workflow-state.md` shows `Current Stage=6`, `Code Edit Permission=Unlocked`,
     and Stage 5 `Go Confirmed` evidence. Stage 7 stays open until all executable
     mapped acceptance criteria pass or are explicitly waived for infeasible
@@ -77,7 +79,11 @@ interface:
     `-> 8` when failure trigger is Stage 8); `Unclear`/cross-cutting root cause
     -> `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure
     trigger is Stage 8; Stage 0 re-entry means same ticket context, not a new
-    ticket). Audible
+    ticket). For blocked Stage 9 docs-sync results, classify and rerun:
+    `Local Fix` -> `6 -> 7 -> 8 -> 9`; `Requirement Gap` -> `2 -> 3 -> 4 ->
+    5 -> 6 -> 7 -> 8 -> 9`; `Unclear` -> `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
+    7 -> 8 -> 9`; stay in `Stage 9 (Blocked)` only for external docs-access
+    blockers that do not require upstream artifact changes. Audible
     notifications are transition-driven: call `Speak` with `play=true` only after
     `workflow-state.md` updates for stage transitions, gate decisions, re-entry
     declarations, or lock/unlock changes, and include current stage + next action.

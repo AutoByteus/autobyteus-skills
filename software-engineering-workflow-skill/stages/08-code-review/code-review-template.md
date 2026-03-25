@@ -12,6 +12,7 @@ Keep one canonical `code-review.md` file for the ticket. Record later review rou
 - Prior Review Round Reviewed: `None` / `1` / `2` / ...
 - Latest Authoritative Round: `1` / `2` / `3` / ...
 - Workflow state source: `tickets/in-progress/<ticket-name>/workflow-state.md`
+- Investigation notes reviewed as context:
 - Earlier design artifact(s) reviewed as context:
 - Runtime call stack artifact:
 - Shared Design Principles: `shared/design-principles.md`
@@ -39,7 +40,7 @@ Round rules:
 
 This audit applies to changed source implementation files only.
 Test files remain in review scope, but they are not subject to the `>500` hard limit or the `>220` changed-line delta gate.
-Use earlier design artifacts as context only. If they conflict with shared principles or clear review findings, classify `Design Impact`.
+Use investigation notes and earlier design artifacts as context only. If they conflict with shared principles, the actual code, or clear review findings, classify the issue appropriately instead of deferring to the earlier artifact.
 
 | Source File | Effective Non-Empty Line Count | Adds/Expands Functionality (`Yes`/`No`) | `>500` Hard-Limit Check | `>220` Changed-Line Delta Gate | Scope-Appropriate SoC Check (`Pass`/`Fail`) | File Placement Check (`Pass`/`Fail`) | Preliminary Classification (`N/A`/`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

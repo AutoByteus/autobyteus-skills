@@ -9,12 +9,14 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 
 - current code and changed scope
 - Stage 7 validation evidence
+- latest `investigation-notes.md` when it materially explains the changed scope, current behavior, external constraints, or a review finding
 - earlier design artifacts as context only
 - `code-review-principles.md`
 
 ## Review Authority
 
 - Earlier design artifacts are context, not authority.
+- Investigation notes are context, not authority.
 - If review shows the earlier design basis was weak, wrong, or incomplete, classify `Design Impact`.
 - Do not pass code merely because it matches an earlier approved design.
 

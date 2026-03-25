@@ -269,19 +269,23 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### 1) Investigation + Understanding Pass + Triage
 
 - Use `stages/01-investigation/investigation-guide.md`.
-- Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Do not keep investigation results only in memory.
+- Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Treat it as a durable evidence log, not a brief summary. Do not keep investigation results only in memory.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched files, affected modules/subsystems, and owning concerns,
   - identify expected canonical file locations/folder owners for touched concerns (for example: platform-specific vs shared),
   - identify current naming conventions (subsystem names, file names, optional module names when relevant, API style),
   - identify unknowns that could invalidate design assumptions.
-- In `investigation-notes.md`, record at minimum:
-  - sources consulted (`local file paths`, `web links`, `open-source references`, `papers` when used),
-  - key findings and constraints,
+- In `investigation-notes.md`, record in enough detail that later stages can reuse the investigation without repeating the same major search/research work unless the facts have changed:
+  - investigation goals/questions,
+  - detailed source log (`local file paths`, `web links`, `open-source references`, `papers`, exact commands run, and search queries when those materially shaped the result),
+  - key findings, constraints, and observed behavior tied back to the exact source used,
+  - codebase findings with exact files/symbols/entrypoints/owners where relevant,
   - file-placement observations (which files are already under the right owning folder, which are misplaced, and what the canonical location should be),
+  - runtime/probe findings when reproductions, traces, or scripts were used,
   - open unknowns/questions,
   - implications for requirements/design.
+- Prefer structured, detailed notes over compressed summaries. Use short synthesis sections for readability, but keep enough concrete evidence in the artifact that later stages do not need to rediscover the same facts from scratch.
 - Re-entry rule: when later implementation/testing uncovers large or unclear issues, reopen this understanding stage and append new evidence, unknowns, and implications before changing requirements/design artifacts.
 - Do not draft design artifacts or runtime call stacks until this understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Classify as `Small`, `Medium`, or `Large` using practical signals:
@@ -711,6 +715,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Run this stage only after `Stage 7` API/E2E test gate is `Pass`.
 - At Stage 8 entry, update `workflow-state.md` and set `Code Edit Permission = Locked`.
 - Create/update `tickets/in-progress/<ticket-name>/code-review.md` as the canonical code review artifact.
+- Investigation-context rule (mandatory): Stage 8 may read the latest `investigation-notes.md` as upstream context when it materially explains the changed scope, current-behavior findings, external constraints, or a review finding. Investigation notes are context, not review authority.
 - Multi-round artifact rule (mandatory): keep one canonical `code-review.md` path for the ticket. Do not create versioned copies by default. On every rerun, recheck prior unresolved findings first, then run a fresh review pass. The latest review round is authoritative; earlier rounds remain history.
 - Round-resolution rule (mandatory): on Stage 8 round `>1`, update the prior-findings resolution check before declaring the new gate result.
 - Scope:

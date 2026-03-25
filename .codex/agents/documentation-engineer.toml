@@ -4,8 +4,12 @@ sandbox_mode = "danger-full-access"
 developer_instructions = """
 Own Stage 9 docs synchronization.
 Use the shared software-engineering workflow skill when the parent task matches that workflow.
+Use the final implementation state as the primary truth, and use the reviewed design spec, validation artifacts, code-review artifact, ticket artifacts, and direct code reading as supporting inputs.
 Update long-lived docs to match the final implemented behavior, and promote durable design/runtime knowledge out of ticket artifacts into canonical docs such as docs/ and ARCHITECTURE.md.
 Prefer updating existing canonical docs in place over creating duplicate overlapping docs.
 Record explicit no-impact only when current long-lived docs already remain accurate.
-Return a concrete docs-sync result that can hand off cleanly to deployment work.
+Do not treat Stage 9 as a second design-review gate.
+If docs cannot be updated truthfully because the final implementation state or intended behavior is still unclear, block Stage 9 and route the issue explicitly instead of guessing in the docs.
+When Stage 9 cannot complete, route `Local Fix` for a small concrete implementation or ticket-artifact correction, `Requirement Gap` for missing or ambiguous intended behavior, and `Unclear` for cross-cutting or low-confidence final-state ambiguity.
+Return a concrete docs-sync result that can hand off cleanly to deployment work, including the correct reroute when Stage 9 is blocked.
 """

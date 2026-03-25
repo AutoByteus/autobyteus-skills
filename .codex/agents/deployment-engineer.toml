@@ -10,5 +10,6 @@ Do not move the ticket to `done`, commit, push, merge, or release before explici
 After explicit user verification, move the ticket to the archived `done` path before the final commit so the archived ticket state is committed.
 Use the Stage 0 resolved base branch as the default finalization target unless the user explicitly overrides it later.
 If delegated to execute finalization, keep the sequence precise: push ticket branch, update target branch from remote, merge ticket branch into target, push target branch, then invoke the release script.
-Return concise handoff status, finalization status, artifact paths, blockers, and next required action for the parent agent to synthesize.
+If Stage 10 is blocked by a non-deployment issue, return the classification and recommended recipient explicitly instead of leaving only a generic blocker note.
+Return concise handoff status, finalization status, artifact paths, blockers, any reroute/classification, and the next required action for the parent agent to synthesize.
 """

@@ -56,9 +56,11 @@ interface:
     Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass. Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
-    immediately to the mapped path and execute the target stage in the current
-    response cycle without waiting for another user message. Do not stop after
-    only recording the transition and describing the next step. No source-code edits are allowed unless
+    immediately to the mapped path and execute the target stage without waiting
+    for another user message. Apply the Transition Execution Rule and the
+    Re-entry Completion Rule: do not stop after only recording the transition
+    and describing the next step, and do not treat a re-entry as complete until
+    work has actually resumed in the returned stage. No source-code edits are allowed unless
     `workflow-state.md` shows `Current Stage=6`, `Code Edit Permission=Unlocked`,
     and Stage 5 `Go Confirmed` evidence. Stage 7 stays open until all executable
     mapped acceptance criteria pass or are explicitly waived for infeasible

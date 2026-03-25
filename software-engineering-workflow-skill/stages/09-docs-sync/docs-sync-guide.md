@@ -61,4 +61,4 @@ Use this guide after Stage 8 is complete.
 - If docs expose missing or ambiguous intended behavior, classify `Requirement Gap` and rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`.
 - If the final implementation state or intended behavior is too unclear or cross-cutting to document truthfully, classify `Unclear` and rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`.
 - If docs cannot complete only because of an external docs-system or docs-access blocker, keep Stage 9 `Blocked` and stay in Stage 9 until the blocker is resolved.
-- After recording the re-entry path in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message.
+- After recording the re-entry path in `workflow-state.md`, immediately resume the first returned stage by default, without waiting for another user message.

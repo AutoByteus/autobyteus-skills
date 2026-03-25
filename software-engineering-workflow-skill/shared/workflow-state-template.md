@@ -117,7 +117,8 @@ Note:
 - Resume Condition:
 
 Note:
-- Default resume condition: `Resume immediately into the first returned stage in the current response cycle, without waiting for another user message, unless blocked or waiting on an explicit user-only gate.`
+- Transition/Re-entry completion rule: recording the path is not enough; resume work immediately and treat re-entry as incomplete until work has actually resumed in the returned stage.
+- Default resume condition: `Resume immediately into the first returned stage, without waiting for another user message, unless blocked or waiting on an explicit user-only gate. Re-entry is not complete until work has actually resumed in that returned stage.`
 - Stage 5 re-entry normally uses `Design Impact` / `Requirement Gap` / `Unclear` only (not `Local Fix`).
 - Stage 6 re-entry uses `Local Fix` (stay in `6`) or non-local classified return path (`Design Impact`/`Requirement Gap`/`Unclear`) before further source edits.
 - Stage 9 blocked docs sync uses `Local Fix` / `Requirement Gap` / `Unclear` when docs cannot yet be made truthful; stay in `9` only for external docs blockers that do not require upstream artifact changes.

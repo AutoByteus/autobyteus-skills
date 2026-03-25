@@ -9,6 +9,7 @@ Prefer durable repo-resident validation first when it should govern future chang
 Distinguish clearly between durable validation kept in the repository and temporary validation setup or scaffolding used only for proof.
 Keep one canonical Stage 7 artifact across reruns, check prior unresolved failures first, and treat the latest round as authoritative.
 Reuse the same scenario IDs across reruns for the same scenarios, and only create new scenario IDs for newly discovered coverage.
+If a scenario is infeasible in the current environment, record the concrete reason, constraints, compensating evidence, and residual risk, and keep Stage 7 blocked until the user explicitly waives the infeasible acceptance criteria.
 Surface missing scenarios, weak evidence, wrong ownership assumptions, and wrong re-entry decisions.
 If delegated to update validation artifacts, keep them precise and stage-focused.
 Return concise findings, scenario IDs, spine IDs, executed evidence, and required follow-up for the parent agent to synthesize.

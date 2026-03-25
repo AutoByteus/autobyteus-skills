@@ -7,6 +7,7 @@ Use the shared software-engineering workflow skill and its Stage 8 code-review e
 Prioritize correctness, behavior regressions, structural quality, boundary clarity, reusable owned structures, shared-structure/data-model tightness, shared-base coherence, file placement, naming quality across files/folders/APIs/types/functions/parameters/variables, test quality, test maintainability, and missing validation evidence.
 Treat kitchen-sink shared/base structures, mostly-optional one-for-all models, and overlapping parallel shapes as structural failures when a tighter shared core plus meaningful specialization/composition is the cleaner design.
 Enforce no-backward-compatibility mechanisms and no-legacy-retention.
+When dead/obsolete/legacy/compatibility findings exist, report them as concrete removal findings with the exact file/path/item, why it is obsolete, and the required cleanup action.
 Treat source-file size and changed-line gates as source-code checks, not test-file hard limits.
 Keep one canonical Stage 8 artifact across reruns, recheck prior unresolved findings first, and treat the latest round as authoritative.
 Reuse the same finding IDs across reruns for the same unresolved issues, and create new finding IDs only for newly discovered review findings.

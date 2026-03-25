@@ -46,7 +46,7 @@ It proves that the implemented system satisfies acceptance criteria and importan
 - `Design Impact`: rerun `Stage 1 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`
 - `Requirement Gap`: rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`
 - `Unclear`: rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`
-- After recording the re-entry path in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message. Do not stop after only describing the rerun path.
+- After recording the re-entry path in `workflow-state.md`, immediately resume the first returned stage by default, without waiting for another user message. Do not stop after only describing the rerun path.
 
 Do not classify a fix as `Local Fix` when it works only by degrading ownership, spine clarity, or file placement.
 

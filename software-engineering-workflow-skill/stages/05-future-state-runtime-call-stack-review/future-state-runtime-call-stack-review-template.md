@@ -152,7 +152,7 @@ Rule:
   - If classification is `Design Impact` (clear/high-confidence design issue): `Stage 3 -> Stage 4 -> Stage 5`:
   - If classification is `Requirement Gap`: update `requirements.md` first in `Stage 2` (status `Refined`), then `Stage 3 -> Stage 4 -> Stage 5`:
   - If classification is `Unclear` (cross-cutting or low confidence): update `investigation-notes.md` in `Stage 1`, then `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5`:
-  - After the re-entry path is recorded in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message. Do not stop after only declaring the path.
+  - After the re-entry path is recorded in `workflow-state.md`, immediately resume the first returned stage by default, without waiting for another user message. Do not stop after only declaring the path.
   - Regenerate `future-state-runtime-call-stack.md`:
   - Re-run this review from updated files:
 

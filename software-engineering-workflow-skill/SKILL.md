@@ -7,7 +7,7 @@ description: "Run a staged software-engineering delivery feedback loop from boot
 
 ## Overview
 
-Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with plan + real-time progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, support structure, and derived separation of concerns.
+Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, support structure, and derived separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
@@ -37,8 +37,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - `Subsystem` / `capability area`: a larger functional area that owns a broader category of work and may contain multiple files plus optional module groupings.
 - `Module`: an optional intermediate grouping inside a subsystem when the codebase benefits from it. In this skill, `module` is not a synonym for one file or the default ownership term.
-- `File`: one concrete source file and the primary unit where one concrete concern should land.
 - `Folder` / `directory`: a physical grouping used to organize files and any optional module groupings.
+- `File`: one concrete source file and the primary unit where one concrete concern should land.
 
 ## Workflow
 
@@ -128,7 +128,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Before every stage transition, update `workflow-state.md` first (snapshot + transition log + gate statuses), then proceed.
 - Treat `workflow-state.md` as an execution lock controller, not optional documentation.
 - Transition authority rule (mandatory): stage movement is controlled by the Stage Transition Contract + Transition Matrix. When a trigger condition is met, transition immediately to the mapped path; do not continue in the current stage by preference.
-- Continuation-after-transition rule (mandatory): whenever `workflow-state.md` is updated to declare a stage transition or classified re-entry, immediately enter and execute the target stage in the current response cycle by default, without waiting for another user message. Recording the transition and describing the next step is not sufficient. Stop only for a real blocker or an explicit user-only gate.
+- Transition Execution Rule (mandatory): whenever `workflow-state.md` is updated to declare a stage transition or classified re-entry, immediately enter and execute the target stage by default, without waiting for another user message. Recording the transition and describing the next step is not sufficient. The transition is not complete until work has actually resumed in the target stage. Stop only for a real blocker or an explicit user-only gate.
 - Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
 - Do not start investigation until ticket/worktree bootstrap is complete and `requirements.md` status `Draft` is physically written.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
@@ -172,7 +172,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`),
   - required return stage path before any code edit.
 - Re-entry declaration must be recorded in `workflow-state.md` before any artifact/code update work begins.
-- Re-entry execution rule (mandatory): after a classified re-entry is recorded and the target return path is persisted in `workflow-state.md`, immediately resume the first returned stage in the current response cycle by default, without waiting for another user message. Do not stop after only updating state and describing what should happen next.
+- Re-entry Completion Rule (mandatory): after a classified re-entry is recorded and the target return path is persisted in `workflow-state.md`, immediately resume the first returned stage by default, without waiting for another user message. Do not stop after only updating state and describing what should happen next. Re-entry is not complete until work has actually resumed in that returned stage.
 - No-direct-patch rule (mandatory): for post-implementation gate findings, do not edit source code first. Update required upstream artifacts first based on classification path.
 - Re-entry mapping (mandatory):
   - `Local Fix`: update implementation artifacts (`implementation.md` / `api-e2e-testing.md` / `code-review.md` as applicable), then implement fix, then rerun `Stage 6 -> Stage 7`; once Stage 7 passes, continue to `Stage 8`.
@@ -289,9 +289,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - New/changed interface boundaries, schema/storage changes, or cross-cutting behavior.
   - Multi-boundary impact (API + service + persistence + runtime flow) or architectural impact.
 - Choose workflow depth:
-  - `Small`: create a draft implementation plan (with a short solution sketch), build per-use-case future-state runtime call stacks from that plan, review them, then refine until stability gate `Go Confirmed` and track progress in real time.
-  - `Medium`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
-  - `Large`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create implementation plan and track progress in real time.
+  - `Small`: create a draft `implementation.md` solution sketch, build per-use-case future-state runtime call stacks from that basis, review them, then refine until stability gate `Go Confirmed` and continue in the same `implementation.md` artifact with live execution tracking.
+  - `Medium`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create `implementation.md` as the combined implementation baseline + live execution tracker.
+  - `Large`: create proposed design doc first, build future-state runtime call stacks from the proposed design doc, run iterative deep-review rounds until stability gate `Go Confirmed`, and only then create `implementation.md` as the combined implementation baseline + live execution tracker.
 - Re-evaluate during implementation; if scope expands or smells appear, escalate from `Small` to full workflow.
 - Before transitioning to Stage 2, update `workflow-state.md` snapshot + transition log + stage gate evidence.
 - After triage depth is finalized (`Small`/`Medium`/`Large`) and `investigation-notes.md` is current, announce only with the persisted `workflow-state.md` transition/gate update.
@@ -358,7 +358,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Required for `Medium/Large`. Optional for `Small`.
 - Prerequisite: `requirements.md` is `Design-ready` (or `Refined`) and current for this ticket.
-- For `Small`, do not require a full proposed design doc; use the draft implementation plan solution sketch as the lightweight design basis for runtime call stacks.
+- For `Small`, do not require a full proposed design doc; use the draft `implementation.md` solution sketch as the lightweight design basis for runtime call stacks.
 - Architecture-first rule: define the target architecture shape before mapping work onto existing files.
 - Design from the data-flow spine first:
   - identify the primary execution/data-flow spine(s),
@@ -443,7 +443,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Required for all sizes (`Small`, `Medium`, `Large`).
 - For `Small`, keep it concise but still cover each in-scope use case with primary path plus key fallback/error branch when relevant.
 - Basis by scope:
-  - `Small`: use the draft implementation plan solution sketch as the design basis.
+  - `Small`: use the draft `implementation.md` solution sketch as the design basis.
   - `Medium/Large`: use the proposed design document as the design basis.
 - For each use case, write a future-state runtime call stack from entry point to completion in a debug-trace format.
 - Use stable `use_case_id` values and ensure IDs match the design coverage matrix and review artifact.
@@ -620,7 +620,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - If a file is blocked by unfinished dependencies, mark it `Blocked` and record the dependency and unblock condition.
 - Mark a file `Completed` only when implementation is done and required tests are passing.
 - Mark Stage 6 complete only when:
-  - implementation plan scope is delivered (or deviations are explicitly documented),
+  - implementation baseline scope is delivered (or deviations are explicitly documented),
   - required unit/integration tests pass,
   - no backward-compatibility shims or legacy old-behavior branches remain in scope,
   - dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope are removed,
@@ -795,7 +795,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - if docs reveal missing or ambiguous intended behavior, classify `Requirement Gap` and rerun `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`,
   - if the final implementation state or intended behavior is too unclear or cross-cutting to document truthfully, classify `Unclear` and rerun `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7 -> Stage 8 -> Stage 9`,
   - if docs cannot complete only because of an external docs-system or docs-access blocker, keep Stage 9 `Blocked` and stay in Stage 9 until the blocker is resolved,
-  - after recording any Stage 9 re-entry path in `workflow-state.md`, immediately resume the first returned stage in the current response cycle instead of stopping after only describing it.
+  - after recording any Stage 9 re-entry path in `workflow-state.md`, immediately resume the first returned stage instead of stopping after only describing it.
 - Docs synchronization is complete only when docs content aligns with the final implemented behavior.
 - After docs synchronization result is recorded (`Updated`/`No impact`), announce only with the persisted `workflow-state.md` transition/gate update.
 

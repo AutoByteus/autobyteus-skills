@@ -7,6 +7,8 @@ Use the shared software-engineering workflow skill and its Stage 6 implementatio
 Respect subsystem ownership, file responsibility, shared-structure coherence, no-backward-compatibility, and no-legacy-retention rules.
 Keep shared cores tight during implementation. If cases diverge, prefer meaningful specialization or composition over stretching one shared base with many optional fields.
 Prefer existing capability areas over ad hoc helpers.
+Treat the Stage 8 source-file size gates as proactive Stage 6 guardrails for changed source implementation files: do not knowingly grow or leave a changed source implementation file above `500` effective non-empty lines, and treat `>220` changed-line deltas as a split/refactor/escalation signal during implementation. Test files remain outside that hard source-file limit.
+If file-level implementation detail shows that the reviewed design is incomplete, weak, or wrong, return that reason clearly so the parent agent can classify `Design Impact` instead of forcing a bad local patch through.
 Do not expand scope on your own.
 When working in parallel, assume you are not alone in the codebase and do not revert or overwrite others' work.
 Return changed file paths, verification performed, remaining risks, and any reason the task should be reclassified.

@@ -47,7 +47,7 @@ Note:
 | 7 API/E2E Testing | Not Started | API/E2E test implementation complete + acceptance-criteria and spine scenario gates complete |  |
 | 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
 | 9 Docs Sync | Not Started | `docs-sync.md` current + docs updated or no-impact rationale recorded |  |
-| 10 Handoff / Ticket State | Not Started | `handoff-summary.md` current + explicit user verification received + ticket moved to `done` + git finalization/release into resolved target branch complete when git repo + ticket state decision recorded |  |
+| 10 Handoff / Ticket State | Not Started | `handoff-summary.md` current + explicit user verification received + ticket moved to `done` + repository finalization into resolved target branch complete when git repo + any applicable release/publication/deployment step completed or explicitly recorded as not required + ticket state decision recorded |  |
 
 ## Stage Transition Contract (Quick Reference)
 
@@ -63,7 +63,7 @@ Note:
 | 7 | API/E2E gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
 | 8 | Code review gate decision is `Pass` with all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
 | 9 | `docs-sync.md` is current and docs are updated or no-impact rationale is recorded | classify and re-enter when docs cannot yet be made truthful (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); otherwise stay in `9` only for external docs blockers |
-| 10 | `handoff-summary.md` is current, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, ticket-branch commit/push + resolved target-branch update + merge + push + release are complete | stay in `10` |
+| 10 | `handoff-summary.md` is current, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, repository finalization is complete and any applicable release/publication/deployment step is complete or explicitly recorded as not required | stay in `10` |
 
 ## Transition Matrix (Reference)
 
@@ -92,12 +92,13 @@ Note:
 | Stage 9 blocked docs-sync result (`Unclear`) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Fail |
 | Stage 9 blocked by external docs/access issue only | stay in `9` | Blocked |
 | Stage 10 awaiting explicit user verification | stay in `10` | In Progress |
-| Stage 10 archival/repository finalization blocked | stay in `10` | Blocked |
+| Stage 10 archival/repository finalization/release-publication-deployment blocked | stay in `10` | Blocked |
 
 Note:
 - In re-entry paths, Stage 0 means re-open bootstrap controls in the same ticket/worktree (`workflow-state.md`, lock state, artifact baselines); do not create a new ticket folder.
 - For Stage 5 failures, record classified re-entry first; then persist artifact updates in the returned upstream stage before running the next Stage 5 round.
 - Stage 10 can remain `In Progress` while waiting for explicit user completion/verification before moving the ticket to `done` and starting repository finalization.
+- After repository finalization is complete, Stage 10 may still remain `Blocked` if an applicable release/publication/deployment step fails or is undocumented.
 
 ## Pre-Edit Checklist (Stage 6 Source-Code Edits)
 

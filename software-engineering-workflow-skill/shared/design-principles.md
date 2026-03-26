@@ -7,8 +7,8 @@ They are the shared design language for this workflow.
 
 - `Subsystem` / `capability area`: a larger functional area that owns a broader category of work and may contain multiple files plus optional module groupings.
 - `Module`: an optional intermediate grouping inside a subsystem when the codebase benefits from it. Do not use `module` as a synonym for one file or as the default ownership term.
-- `File`: one concrete source file and the primary unit where one concrete concern should land.
 - `Folder` / `directory`: a physical grouping used to organize files and any optional module groupings.
+- `File`: one concrete source file and the primary unit where one concrete concern should land.
 
 ## Core Principles
 

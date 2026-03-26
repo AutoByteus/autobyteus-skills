@@ -22,8 +22,8 @@
 
 - `Subsystem` / `capability area`: a larger functional area that owns a broader category of work and may contain multiple files plus optional module groupings.
 - `Module`: an optional intermediate grouping inside a subsystem when the codebase benefits from it. In this template, `module` is not a synonym for one file and not the default ownership term.
-- `File`: one concrete source file and the primary unit where one concrete concern should land.
 - `Folder` / `directory`: a physical grouping used to organize files and any optional module groupings.
+- `File`: one concrete source file and the primary unit where one concrete concern should land.
 
 ## Design Reading Order
 

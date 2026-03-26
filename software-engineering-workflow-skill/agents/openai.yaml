@@ -34,10 +34,12 @@ interface:
     ticket folder to `tickets/done/<ticket-name>/`, and only after that, when
     the project is a git repository, commits and pushes the ticket branch,
     updates the resolved bootstrap base branch (unless explicitly overridden by
-    the user) from remote, merges the ticket branch into that target branch,
-    pushes the updated target branch, and uses the release script to release a
-    new version with the archived `tickets/done/<ticket-name>/release-notes.md`
-    artifact when release notes are required. Across
+    the user) from remote, merges the ticket branch into that target branch, and
+    pushes the updated target branch. After repository finalization, if the
+    project has an applicable documented release/publication/deployment step,
+    run that method and feed it the archived
+    `tickets/done/<ticket-name>/release-notes.md` artifact when release notes
+    are required. Across
     design/review/implementation, enforce shared architecture principles
     (`data-flow spine clarity`, `ownership clarity`, `support structure around
     the spine`; reuse or extension of existing capability areas before new ad hoc

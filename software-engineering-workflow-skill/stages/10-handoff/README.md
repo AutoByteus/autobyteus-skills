@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Persist the final delivery summary, wait for explicit user verification, archive the ticket, and perform repository finalization when applicable.
+Persist the final delivery summary, wait for explicit user verification, archive the ticket, perform repository finalization when applicable, and run any applicable release/publication/deployment step.
 
 ## Enter This Stage When
 
@@ -14,10 +14,11 @@ Persist the final delivery summary, wait for explicit user verification, archive
 - `tickets/in-progress/<ticket-name>/handoff-summary.md`
 - `tickets/in-progress/<ticket-name>/release-notes.md` when required
 - archived ticket state and repository finalization record when applicable
+- release/publication/deployment record when applicable
 
 ## Exit Gate
 
-Leave Stage 10 only when the user explicitly confirms completion or verification and any required move-to-done, git finalization, and release work are complete.
+Leave Stage 10 only when the user explicitly confirms completion or verification and any required move-to-done, repository finalization, and applicable release/publication/deployment work are complete or explicitly recorded as not required.
 
 ## Local Files
 

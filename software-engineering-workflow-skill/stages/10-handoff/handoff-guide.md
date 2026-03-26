@@ -8,7 +8,8 @@ It separates:
 - engineering completion
 - user verification
 - ticket archival
-- repository finalization and release
+- repository finalization
+- release / publication / deployment when applicable
 
 ## Inputs
 
@@ -33,7 +34,7 @@ Record at least:
 ## User-Verification Hold
 
 - After the handoff summary is written, keep Stage 10 open.
-- Do not move the ticket to `done`, commit, push, merge, or release before the user explicitly confirms completion or verification.
+- Do not move the ticket to `done`, commit, push, merge, or run release/publication/deployment work before the user explicitly confirms completion or verification.
 
 ## Ticket Archival
 
@@ -49,7 +50,7 @@ When the ticket produces a user-facing release or GitHub Release body:
 - create `tickets/in-progress/<ticket-name>/release-notes.md`
 - keep notes short and user-facing
 - omit internal refactors, tests, docs-only changes, and low-level implementation detail
-- after the ticket is archived, hand the archived `tickets/done/<ticket-name>/release-notes.md` artifact into the release path
+- after the ticket is archived, hand the archived `tickets/done/<ticket-name>/release-notes.md` artifact into the release/publication path when such a path is applicable
 
 ## Finalization Order For Git Repositories
 
@@ -61,18 +62,35 @@ After explicit user confirmation:
 4. Update the resolved Stage 0 target branch from remote.
 5. Merge the ticket branch into that updated target branch.
 6. Push the updated target branch.
-7. Run the release script.
 
 Use the Stage 0 resolved base remote and base branch as the default finalization target unless the user explicitly overrides it later.
 
+## Release / Publication / Deployment (When Applicable)
+
+- After repository finalization, run the project's documented release/publication/deployment method only when such a step is actually applicable.
+- This may be:
+  - a release script
+  - a documented command
+  - a git tag workflow
+  - GitHub Release creation
+  - another deployment or publication path
+- If no such step is applicable, record `release/publication/deployment not required` in the handoff summary and do not block merge/finalization.
+- If release notes are required, pass the archived `tickets/done/<ticket-name>/release-notes.md` artifact into that release/publication path when it runs.
+
 ## Blockers
 
-If any move, commit, push, merge, or release step fails:
+If any move, commit, push, or merge step fails:
 
 - record the blocker in `workflow-state.md`
 - keep Stage 10 open
 - do not mark the workflow complete until the blocker is resolved
 
+If an applicable release/publication/deployment step fails or is undocumented:
+
+- record that blocker in `workflow-state.md`
+- keep Stage 10 open
+- do not undo completed repository finalization
+
 ## Exit Gate
 
-This stage is complete only when explicit user verification is received and all required archival/finalization work is complete.
+This stage is complete only when explicit user verification is received, all required archival/repository-finalization work is complete, and any applicable release/publication/deployment work is complete or explicitly recorded as not required.

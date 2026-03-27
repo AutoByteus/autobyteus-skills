@@ -10,6 +10,10 @@ This repository contains reusable Codex skills used across AutoByteus projects.
 
 Stage-gated engineering workflow from investigation and requirements to implementation and docs sync.
 
+### Deep Learning Experiment Workflow Skill
+
+Stage-gated deep-learning workflow centered on durable investigation, explicit success criteria, experiment planning, and empirical training/validation evidence.
+
 ### Product UI Prototyping
 
 ![Product UI Prototyping](infographics/product-ui-prototyping.png)

@@ -5,7 +5,7 @@ developer_instructions = """
 Focus on future-state design, not implementation edits.
 Use the shared software-engineering workflow skill and its Stage 3 design expectations when the parent task matches that workflow.
 Identify data-flow spines, governing owners, subsystem ownership, reusable owned structures, and draft file responsibilities.
-Check for existing capability-area reuse before recommending new support branches.
+Check for existing capability-area reuse before recommending new off-spine concerns. Treat `off-spine concern` as an architecture term, not a file/service naming template.
 Treat no backward compatibility and no legacy old-behavior retention as hard design rules for in-scope behavior; do not use compatibility wrappers, dual-path behavior, or legacy fallback branches as the design answer.
 When a reusable owned structure is extracted or revised, tighten it before standardizing it: remove redundant attributes, collapse overlapping parallel representations, and keep the shared core semantically singular.
 Name which obsolete paths, legacy files, compatibility shims, or old-behavior branches are removed in scope instead of leaving cleanup implicit.

@@ -16,10 +16,10 @@ Always start with the shared design principles first.
   - owner,
   - why this spine matters.
 - Name the main-line nodes with natural domain language.
-- Define what each node owns before splitting supporting concerns.
-- If one spine node starts collecting too many unrelated duties, split supporting concerns around that owner rather than turning the node into a god-object.
-- Keep support branches attached to a clear owner on the spine.
-- Before creating a new support helper, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
+- Define what each node owns before splitting off-spine concerns.
+- If one spine node starts collecting too many unrelated duties, split off-spine concerns around that owner rather than turning the node into a god-object.
+- Keep off-spine concerns attached to a clear owner on the spine.
+- Before creating a new local helper for an off-spine concern, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
 - When repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
 - When extracting a reusable owned structure, tighten it before standardizing it: remove redundant attributes, collapse overlapping parallel shapes, and keep each field semantically singular.
 - When two cases share a real common core but one case needs extra fields or behavior, prefer a meaningful specialized variant on top of a tight shared base. Do not turn the base into a kitchen-sink structure with mostly-optional fields just to force reuse.
@@ -64,7 +64,7 @@ Always start with the shared design principles first.
 - Shared-base overreach trigger:
   - If a proposed base/shared type is accumulating optional fields mainly to serve divergent cases, split it into a tighter shared core plus meaningful specialized variants, or use composition instead.
 - Capability-area reuse trigger:
-  - If the spine needs status, events, handlers, persistence, streaming, bootstrap, shutdown, or similar support behavior, first check whether an existing subsystem already owns that work before creating a new local helper.
+  - If the spine needs status, events, handlers, persistence, streaming, bootstrap, shutdown, or similar off-spine behavior, first check whether an existing subsystem already owns that work before creating a new local helper.
 - Legacy-cleanup trigger:
   - If a proposed solution keeps compatibility wrappers, dual-path reads/writes, or fallback branches only to preserve old behavior, redesign it toward a clean-cut replacement and explicit removal plan.
 - Example-clarity trigger:
@@ -72,7 +72,7 @@ Always start with the shared design principles first.
 
 ## Common Local Patterns
 
-Use these only when they solve a local problem inside a clear owner or support branch.
+Use these only when they solve a local problem inside a clear owner or off-spine concern.
 
 ### State Machine
 

@@ -38,8 +38,8 @@ Read and write this design from abstract to concrete:
 
 - This document must be organized around the data-flow spine inventory first.
 - Main domain subject nodes and ownership boundaries are the primary design story.
-- Support branches are described in relation to the spine they serve.
-- Existing capability areas/subsystems should be reused or extended when they naturally fit a support need.
+- Off-spine concerns are described in relation to the spine they serve.
+- Existing capability areas/subsystems should be reused or extended when they naturally fit an off-spine need.
 - Files are the main concrete mapping target for concerns, and subsystems are the broader ownership context. Optional module groupings may appear only as derived implementation mapping when they help readability.
 - Subsystem, folder, and file mapping should be spine-led and ownership-led, but not mechanical. Optional module groupings are secondary structure only when they help the reader.
 
@@ -101,7 +101,7 @@ Examples:
 
 For each important spine, describe the end-to-end motion in prose so a reader can understand the design by following the flow instead of reconstructing it from file names.
 
-| Spine ID | Short Narrative | Main Domain Subject Nodes | Governing Owner | Key Support Branches |
+| Spine ID | Short Narrative | Main Domain Subject Nodes | Governing Owner | Key Off-Spine Concerns |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
@@ -129,9 +129,9 @@ For each one, write:
 - short arrow chain,
 - why it must be explicit in the design.
 
-## Support Structure Around The Spine
+## Off-Spine Concerns Around The Spine
 
-| Support Branch / Service | Serves Which Owner | Responsibility | Must Stay Off Main Line? (`Yes`/`No`) |
+| Off-Spine Concern | Serves Which Owner | Responsibility | Must Stay Off Main Line? (`Yes`/`No`) |
 | --- | --- | --- | --- |
 |  |  |  |  |
 
@@ -162,14 +162,14 @@ Use this section to show which broader functional areas own which parts of the t
 - Data-flow spine clarity assessment: `Yes` / `No`
 - Spine inventory completeness assessment: `Yes` / `No`
 - Ownership clarity assessment: `Yes` / `No`
-- Support structure clarity assessment: `Yes` / `No`
+- Off-spine concern clarity assessment: `Yes` / `No`
 - File placement within the owning subsystem assessment: `Yes` / `No`
 - Outcome (`Keep`/`Add`/`Split`/`Merge`/`Move`/`Remove`):
-- Note: `Keep` is valid only when the current spine, ownership boundaries, support structure, and file placement are already coherent for the in-scope behavior.
+- Note: `Keep` is valid only when the current spine, ownership boundaries, off-spine concerns, and file placement are already coherent for the in-scope behavior.
 
 ## Common Design Practices Applied (If Any)
 
-| Practice / Pattern | Where Used | Why It Helps Here | Owner / Support Branch | Notes |
+| Practice / Pattern | Where Used | Why It Helps Here | Owner / Off-Spine Concern | Notes |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
@@ -180,7 +180,7 @@ Use this section to show which broader functional areas own which parts of the t
 | Repeated coordination policy across callers exists and needs a clearer owner |  |  | Extract clear owner / Keep |
 | Responsibility overload exists in one file or one optional module grouping |  |  | Split / Keep |
 | Proposed indirection owns real policy, translation, or boundary concern |  |  | Keep / Remove |
-| Every support branch has a clear owner on the spine |  |  | Fix / Keep |
+| Every off-spine concern has a clear owner on the spine |  |  | Fix / Keep |
 | Existing capability area/subsystem was reused or extended where it naturally fits |  |  | Reuse/Extend / Create New |
 | Repeated structures were extracted into reusable owned files where needed |  |  | Extract / Keep Local |
 | Current structure can remain unchanged without spine/ownership degradation |  |  | Keep / Change |
@@ -243,7 +243,7 @@ This section exists to map the spine-and-ownership design into concrete implemen
 It must not replace the spine-first explanation above.
 Use judgment: the goal is readable ownership and structural depth, not a rigid one-folder-per-spine-step rule.
 
-| Target File | Change Type | Mapped Spine ID | Owner / Support Branch | Responsibility | Key APIs / Interfaces | Notes |
+| Target File | Change Type | Mapped Spine ID | Owner / Off-Spine Concern | Responsibility | Key APIs / Interfaces | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |  |
 
@@ -277,7 +277,7 @@ Hard block:
 
 ## Derived Interface Boundary Mapping
 
-| Owning File | Mapped Spine ID | Owner / Support Branch | Subject Owned | Concern / Responsibility | Interfaces / APIs / Methods | Accepted Identity Shape(s) | Inputs/Outputs | Dependencies |
+| Owning File | Mapped Spine ID | Owner / Off-Spine Concern | Subject Owned | Concern / Responsibility | Interfaces / APIs / Methods | Accepted Identity Shape(s) | Inputs/Outputs | Dependencies |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |  |  |  |
 
@@ -289,7 +289,7 @@ Rule:
 - UI/frontend scope: responsibility is clear at view/component/store boundaries.
 - Non-UI scope: responsibility is clear at file and service boundaries, with subsystem grouping still readable.
 - Integration/infrastructure scope: each adapter or integration-focused file/group owns one integration concern with clear contracts.
-- Ownership note: separation of concerns should follow ownership and support structure, not precede them.
+- Ownership note: separation of concerns should follow ownership and off-spine concerns, not precede them.
 - File-placement note: folder/path should make the owning concern obvious; platform-specific files should not live in unrelated or ambiguous locations.
 - Layout note: a compact structure is acceptable when it stays clearer, but over-flat or over-split layouts should be corrected.
 
@@ -330,7 +330,7 @@ Rule:
 |  | Low/Medium/High |  |  |  |
 
 Rule:
-- A functionally working local fix is still invalid here if it degrades the data-flow spine, ownership boundaries, or support structure.
+- A functionally working local fix is still invalid here if it degrades the data-flow spine, ownership boundaries, or off-spine concerns.
 
 ## Dependency Flow And Cross-Reference Risk
 

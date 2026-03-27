@@ -34,15 +34,17 @@ They are the shared design language for this workflow.
   - transformations
 - Ownership is the concrete form of separation of concerns.
 - Main domain subject nodes on the spine should stay coherent; do not force one node to absorb every nearby responsibility just because it is on the main line.
-- When additional responsibilities are needed to make one node work, split them into clear supporting concerns around that owner instead of creating hidden mixed-concern blobs.
+- When additional responsibilities are needed to make one node work, split them into clear off-spine concerns around that owner instead of creating hidden mixed-concern blobs.
 - If a concern has no clear owner, the boundary is wrong.
 
-### 3. Support Structure Around The Spine
+### 3. Off-Spine Concerns Around The Spine
 
-- Supporting branches should serve a clear owner on the spine.
-- Keep support branches off the main line unless they truly own core sequencing.
-- Support branches may resolve, persist, adapt, map, publish, observe, or translate, but they should not compete with the spine.
-- Before creating a new support branch, check whether an existing capability area or subsystem already fits that responsibility and should be reused or extended.
+- Off-spine concerns should serve a clear owner on the spine.
+- Keep off-spine concerns off the main line unless they truly own core sequencing.
+- Off-spine concerns may resolve, persist, adapt, map, publish, observe, or translate, but they should not compete with the spine.
+- Before creating a new off-spine concern, check whether an existing capability area or subsystem already fits that responsibility and should be reused or extended.
+- `Spine`, `owner`, and `off-spine concern` are architecture relationship terms, not naming templates.
+- Do not name files, folders, services, classes, or types with vague labels like `Support`, `Supporting`, `OffSpine`, `SideConcern`, or `Helper` just because they sit off the main line. Name them by the concrete concern they own.
 
 ## Derived Checks
 
@@ -68,8 +70,8 @@ They are the shared design language for this workflow.
 - What are the main domain subject nodes on each spine?
 - What does each node own?
 - What are the return/event spines, if the change is async or event-driven?
-- Which support branches serve which owner on the spine?
-- Which support needs should reuse or extend an existing capability area or subsystem instead of creating a new helper?
+- Which off-spine concerns serve which owner on the spine?
+- Which off-spine needs should reuse or extend an existing capability area or subsystem instead of creating a new helper?
 - Which legacy paths, compatibility wrappers, dual-path branches, obsolete files, or deprecated boundaries are removed in this change?
 - Which duplicated, fragmented, or now-unnecessary helpers/files/structures become removable because the new design gives them a clearer owner or replacement?
 - Which shared data structures, schemas, DTOs, mappers, or types need tightening so redundant attributes or overlapping representations are removed instead of standardized?
@@ -87,7 +89,7 @@ They are the shared design language for this workflow.
 - Event loops or state machines materially affect the behavior, but no bounded local spine is described
 - Shared helpers that quietly own business behavior
 - Shared structures that still carry redundant fields, overlapping representations, or mixed meanings after extraction
-- Support services sitting on the main line without owning sequencing
+- Off-spine concerns sitting on the main line without owning sequencing
 - New helper or service pieces created ad hoc even though an existing subsystem already owns that kind of work
 - Compatibility wrappers, dual-path behavior, or legacy fallback branches kept only to preserve old flows
 - Generic interface boundaries, list/query surfaces, or service methods that accept one ambiguous ID or selector and then guess what subject it belongs to

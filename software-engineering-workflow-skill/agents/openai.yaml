@@ -46,7 +46,7 @@ interface:
     finalization target and no longer needed, delete that local ticket branch.
     Across
     design/review/implementation, enforce shared architecture principles
-    (`data-flow spine clarity`, `ownership clarity`, `support structure around
+    (`data-flow spine clarity`, `ownership clarity`, `off-spine concerns around
     the spine`; reuse or extension of existing capability areas before new ad hoc
     helpers; draft file responsibilities first, then extract reusable owned structures,
     then finalize file responsibilities and folder/path mapping; scope-appropriate

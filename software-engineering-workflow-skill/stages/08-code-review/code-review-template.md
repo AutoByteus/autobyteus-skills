@@ -67,7 +67,7 @@ Rules:
 | --- | --- | --- | --- |
 | Data-flow spine inventory clarity and preservation under shared principles |  |  |  |
 | Ownership boundary preservation and clarity |  |  |  |
-| Support structure clarity (support branches serve clear owners and stay off the main line) |  |  |  |
+| Off-spine concern clarity (off-spine concerns serve clear owners and stay off the main line) |  |  |  |
 | Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
 | Reusable owned structures check (repeated structures extracted into the right owned file instead of copied across files) |  |  |  |
 | Shared-structure/data-model tightness check (no kitchen-sink base, no overlapping parallel shapes, specialization/composition used meaningfully) |  |  |  |

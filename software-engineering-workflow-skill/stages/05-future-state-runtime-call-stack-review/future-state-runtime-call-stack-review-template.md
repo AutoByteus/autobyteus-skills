@@ -36,14 +36,14 @@ Keep one canonical `future-state-runtime-call-stack-review.md` path for the tick
 
 - Primary check: Is the future-state runtime call stack a coherent and implementable future-state model?
 - Not a pass criterion: matching current-code call paths exactly.
-- Shared-principles rule: review uses the same design principles as Stage 3 (`data-flow spine clarity`, `ownership clarity`, `support structure around the spine`, and ownership-driven dependency validation).
-- Existing-capability rule: review must fail ad hoc support growth when an existing subsystem or capability area should have been reused or extended.
+- Shared-principles rule: review uses the same design principles as Stage 3 (`data-flow spine clarity`, `ownership clarity`, `off-spine concerns around the spine`, and ownership-driven dependency validation).
+- Existing-capability rule: review must fail ad hoc off-spine concern growth when an existing subsystem or capability area should have been reused or extended.
 - Spine inventory rule: review must verify that all relevant spines are explicitly listed in the design basis, including bounded local spines when a loop, worker cycle, state machine, or dispatcher materially affects behavior.
 - Not a required action: adding/removing layers by default; describe layering only if it actually adds clarity for this scope.
 - Example-clarity rule: if the design uses examples because the shape is non-obvious, review whether those examples actually clarify the target shape.
 - Repeated-coordination trigger rule: if coordination policy repeats across callers (provider selection/fallback/retry/aggregation/routing/fan-out), review should require a clearer owner.
 - Empty-indirection rule: fail a new boundary that is only pass-through and owns no policy, translation, or boundary concern.
-- Local-fix-is-not-enough rule: if a fix works functionally but degrades the spine, ownership, or support structure, mark `Fail` and require architectural artifact updates via classified re-entry.
+- Local-fix-is-not-enough rule: if a fix works functionally but degrades the spine, ownership, or off-spine concerns, mark `Fail` and require architectural artifact updates via classified re-entry.
 - Any finding with a required design/call-stack update is blocking.
 - No-backward-compat review rule: if future-state behavior keeps compatibility wrappers, dual-path logic, or legacy fallback branches for old flows, mark `Fail`.
 - Ownership-dependency review rule: if future-state behavior introduces tight coupling, bidirectional dependency tangles, or unjustified cycles, mark `Fail`.

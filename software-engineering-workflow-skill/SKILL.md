@@ -7,7 +7,7 @@ description: "Run a staged software-engineering delivery feedback loop from boot
 
 ## Overview
 
-Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, support structure, and derived separation of concerns.
+Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, off-spine concerns, and derived separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
@@ -205,7 +205,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 5 | Future-State Runtime Call Stack Review | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + ownership-driven dependency quality preserved + touched files correctly placed | Unlocked |
 | 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
-| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/support-structure checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface-boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
+| 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface-boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs-sync.md` current + `docs/` updates complete or no-impact rationale recorded | Locked |
 | 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> repository finalization into resolved target branch (when git repo) + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded | Locked |
 
@@ -221,7 +221,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 5 Future-State Runtime Call Stack Review | Future-state runtime call stack review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
 | 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
-| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/support-structure checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
+| 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | If docs cannot yet be made truthful, classify and re-enter (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); stay in `9 (Blocked)` only for external docs blockers that do not require upstream artifact changes | `10` |
 | 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, and required post-finalization worktree/branch cleanup is complete when applicable | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization/cleanup is complete | End |
 
@@ -230,7 +230,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | Trigger | Required Transition Path | Notes |
 | --- | --- | --- |
 | Normal forward pass | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10` | Use only when each stage gate is `Pass`. |
-| Stage 5 blocker classified `Design Impact` | `3 -> 4 -> 5` | Use when issue is clearly in spine/ownership/support-structure/boundary/naming decisions. |
+| Stage 5 blocker classified `Design Impact` | `3 -> 4 -> 5` | Use when issue is clearly in spine/ownership/off-spine concern/boundary/naming decisions. |
 | Stage 5 blocker classified `Requirement Gap` | `2 -> 3 -> 4 -> 5` | Use when missing/ambiguous requirement or acceptance criteria is discovered. |
 | Stage 5 blocker classified `Unclear` | `1 -> 2 -> 3 -> 4 -> 5` | Use when root cause is uncertain or cross-cutting and investigation must be refreshed first. |
 | Stage 6 failure classified `Local Fix` | stay in `Stage 6` | Fix implementation/tests within Stage 6; do not advance to Stage 7. |
@@ -343,22 +343,23 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Design and review must use the same principles and vocabulary. Review is a check of design quality, not a different rule system.
 - Use `shared/design-principles.md` as the primary shared reference for Stage 3 design work and Stage 5 review.
-- Use `shared/common-design-practices.md` for helper practices and local pattern choices only when they clarify a clearly owned spine node or support branch.
+- Use `shared/common-design-practices.md` for helper practices and local pattern choices only when they clarify a clearly owned spine node or off-spine concern.
 - Use `stages/08-code-review/code-review-principles.md` as the Stage 8 review reference.
 - The core principles are:
   - `data-flow spine clarity`,
   - `ownership clarity`,
-  - `support structure around the spine`.
+  - `off-spine concerns around the spine`.
 - Separation of concerns is still mandatory, and in this workflow it should become stronger, not weaker. The difference is ordering: start with spine and ownership, then decompose concerns around that structure so each boundary stays coherent.
 - Ownership is the concrete form of separation of concerns: if a concern has no clear owner, the structure is wrong.
 - Dependency direction follows ownership. State allowed directions and forbidden shortcuts explicitly when design risk exists.
-- Support-structure reuse follows ownership too. Before adding a new helper or support branch, check whether an existing capability area or subsystem already owns that responsibility.
+- Off-spine concern reuse follows ownership too. Before adding a new helper or off-spine concern, check whether an existing capability area or subsystem already owns that responsibility.
+- `Spine`, `owner`, and `off-spine concern` are architecture relationship terms, not naming templates. Do not literalize them into file, folder, class, service, or type names.
 - Module placement and file placement follow ownership. If a file's path no longer matches the real concern, move, split, or rename it instead of rationalizing the mismatch.
 - Subsystem, folder, and file mapping should be spine-led and ownership-led, but not mechanical. Optional module groupings are secondary structure only when they make boundaries easier to read.
 - Distinct structural depths often deserve distinct folders, but do not force artificial over-splitting. If a flatter layout is clearer, justify it explicitly.
 - Interface-boundary rule: APIs, queries, commands, and reused service methods must also follow ownership and separation of concerns. Prefer one boundary per subject/responsibility with explicit identity shape; avoid generic boundaries that infer subject type from ambiguous IDs or generic selectors.
 - Use examples when they materially improve clarity. Do not keep a non-obvious design fully abstract when a short example would explain the intended shape faster.
-- `Keep` is valid when the current structure already preserves a readable spine, clear ownership, and support branches that do not compete with the spine.
+- `Keep` is valid when the current structure already preserves a readable spine, clear ownership, and off-spine concerns that do not compete with the spine.
 
 ### 3) Draft The Proposed Design Document
 
@@ -371,11 +372,11 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - enumerate all relevant spines that matter to understanding the design,
   - name the main domain subject nodes on each spine,
   - define what each main-line node owns,
-  - identify support branches that serve those owners,
-  - check whether those support needs should reuse or extend existing capability areas/subsystems before creating anything new,
+  - identify off-spine concerns that serve those owners,
+  - check whether those off-spine needs should reuse or extend existing capability areas/subsystems before creating anything new,
   - record the return/event spine(s) when the change is async or event-driven,
   - record bounded local/internal spines when a loop, worker cycle, state machine, or dispatcher materially shapes one owner's behavior.
-- Separation-of-concerns rule (mandatory): once the spine and owners are clear, split supporting responsibilities so each main node and each support branch remains self-encapsulated. Do not overload one spine node with every concern just because it sits on the main line.
+- Separation-of-concerns rule (mandatory): once the spine and owners are clear, split off-spine responsibilities so each main node and each off-spine concern remains self-encapsulated. Do not overload one spine node with every concern just because it sits on the main line.
 - Do not anchor design to current file layout when the layout is structurally wrong for the target behavior.
 - File-placement rule (mandatory): target file paths must match owning concern/boundary/platform; if a file is codex-specific, cloud-specific, UI-specific, infra-specific, or otherwise scope-bound, place it in that canonical area instead of near whichever caller currently imports it.
 - Folder-layout rule (mandatory): map subsystems/folders/files from the spine and ownership model, and add optional module groupings only when they materially help readability rather than by default. Do it with judgment rather than as a rigid one-folder-per-step projection. If a flatter layout is clearer, justify it. If a split is proposed, it should reflect a real owner or boundary.
@@ -383,7 +384,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Current-state grounding rule (mandatory): before finalizing the target design, read the current implementation enough to understand the existing main flow, current owners, coupling problems, file placement drift, and real migration constraints.
 - Explicitly evaluate whether new subsystem-internal module groupings, boundary interfaces, or orchestration owners should be introduced.
 - Explicitly evaluate whether existing subsystems/owners should be split, merged, moved, or removed.
-- Explicitly evaluate whether an existing capability area or subsystem should absorb the new support responsibility instead of introducing a fresh helper beside the spine.
+- Explicitly evaluate whether an existing capability area or subsystem should absorb the new off-spine responsibility instead of introducing a fresh helper beside the spine.
 - When coordination policy is repeated across callers (provider selection, fallback, retry, aggregation, routing, fan-out), extract that policy into a clear owner instead of leaving it fragmented.
 - Reject empty indirection: if a proposed layer or optional module grouping only passes work through and owns no real policy, boundary, or sequencing, keep the structure flatter.
 - Record the architecture direction decision and rationale (`complexity`, `testability`, `operability`, `evolution cost`).
@@ -391,13 +392,13 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - For non-trivial or uncertain architecture changes, include a small alternatives comparison before deciding.
 - Choose the proper structural change for the problem (`Keep`, `Add`, `Split`, `Merge`, `Move`, `Remove`) without bias toward minimal edits.
 - Removal-first tightening rule (mandatory): when the target design introduces a clearer owner, reusable structure, or better file boundary, explicitly identify what redundant/fragmented pieces become unnecessary and remove/decommission them in scope when possible.
-- `Keep` is a valid outcome when the current data-flow spine, ownership boundaries, and support structure are already coherent.
+- `Keep` is a valid outcome when the current data-flow spine, ownership boundaries, and off-spine concerns are already coherent.
 - If a file's concern and folder disagree, `Keep` is usually invalid; prefer explicit `Move`, `Split`, or justified `Promote Shared`.
-- Functional/local correctness is not sufficient: if a bug fix "works" but degrades the data-flow spine, ownership boundaries, or support structure, redesign the structure instead of accepting the patch.
+- Functional/local correctness is not sufficient: if a bug fix "works" but degrades the data-flow spine, ownership boundaries, or off-spine concerns, redesign the structure instead of accepting the patch.
 - Reject patch-on-patch hacks that bypass clear boundaries just to make a local change compile.
-- Follow separation of concerns after the target architecture direction is chosen: each file should own a clear responsibility, and each subsystem should own a coherent category of work. Optional module groupings may exist inside a subsystem when they make the structure easier to read. This is a stronger SoC check, not a weaker one, because helper/support concerns must also land in explicit owners instead of drifting into generic blobs.
+- Follow separation of concerns after the target architecture direction is chosen: each file should own a clear responsibility, and each subsystem should own a coherent category of work. Optional module groupings may exist inside a subsystem when they make the structure easier to read. This is a stronger SoC check, not a weaker one, because off-spine concerns must also land in explicit owners instead of drifting into generic blobs.
 - Ownership-driven dependency rule (mandatory): define and preserve clear subsystem, service, and component boundaries so allowed dependencies follow ownership and forbidden shortcuts are explicit.
-- Existing-capability reuse rule (mandatory): do not create a new helper/support branch by default. Reuse or extend an existing well-owned subsystem when the fit is natural, and justify `Create New` when no current area is appropriate.
+- Existing-capability reuse rule (mandatory): do not create a new helper/off-spine concern by default. Reuse or extend an existing well-owned subsystem when the fit is natural, and justify `Create New` when no current area is appropriate.
 - Reusable-owned-structure rule (mandatory): when repeated data structures, types, normalizers, converters, mappers, or schemas appear across several files, extract them into reusable owned files under the correct subsystem instead of duplicating them.
 - Data-model-tightness rule (mandatory): when a shared structure is extracted or revised, tighten it. Remove redundant attributes, avoid overlapping parallel representations for the same subject, and keep each field's meaning singular and explicit.
 - Shared-base coherence rule (mandatory): use a shared base/core only when it represents a real common shape. If one case needs extra fields or behavior, prefer meaningful specialized variants or composition instead of growing a one-for-all structure full of optional attributes.
@@ -410,12 +411,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - include current-state summary (as-is),
   - include target-state summary (to-be),
   - include explicit change inventory rows for `Add`, `Modify`, `Rename/Move`, `Remove`.
-- Proposed design document organization rule (mandatory): write the design spine-first, not file-first. The main structure of the document should be the spine inventory, main domain subject nodes, ownership, and support structure.
+- Proposed design document organization rule (mandatory): write the design spine-first, not file-first. The main structure of the document should be the spine inventory, main domain subject nodes, ownership, and off-spine concerns.
 - Design concretion order (mandatory): after the spine and ownership model are clear, move through subsystem/capability-area allocation, then draft file responsibilities, then extract reusable owned structures where repetition appears, then finalize file responsibilities, then folder/path mapping.
 - File sections are required, and subsystem shape plus optional module groupings may be included where they add clarity, but only as derived implementation mapping after the spine-led explanation is clear.
 - Example rule (mandatory when needed): if a short good-shape example or bad-shape anti-example would make a non-obvious design materially clearer, include it in the proposed design doc instead of leaving the point abstract.
 - For each file, state mapped spine, target owner/boundary placement, responsibility, key APIs, inputs/outputs, dependencies, and change type. Mention subsystem placement and optional module grouping where relevant.
-- For each new support piece, state whether it reuses/extends an existing capability area or why a new area is required.
+- For each new off-spine concern, state whether it reuses/extends an existing capability area or why a new area is required.
 - For each file, state whether its target path matches the owning concern and record the move/split rationale when placement changes are required.
 - Include a naming decisions section:
   - proposed file names, subsystem names, optional module names when relevant, and API names,
@@ -478,7 +479,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Create `future-state-runtime-call-stack-review.md` as a mandatory review artifact.
 - Review focus is future-state correctness and implementability against the target design basis (`proposed-design.md` for `Medium/Large`, small-scope solution sketch in `implementation.md` for `Small`), not parity with current code structure.
-- Review must challenge architecture choice itself (spine/ownership/support structure/allocation), not only file-level separation of concerns.
+- Review must challenge architecture choice itself (spine/ownership/off-spine concerns/allocation), not only file-level separation of concerns.
 - Review must reuse the same shared design principles from Stage 3; do not apply a different principle set in review.
 - Review must explicitly verify file placement against the Stage 3 design basis; wrong folder placement is a structural defect, not a cosmetic nit.
 - Review must explicitly judge whether the proposed layout is readable for the scope or whether it is either too flat or too artificially fragmented.
@@ -489,8 +490,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - architecture fit check (`Pass`/`Fail`): chosen architecture shape is appropriate for this use case and expected growth,
   - data-flow spine clarity check (`Pass`/`Fail`): the main end-to-end motion and any bounded local spines are readable and not fragmented across peer coordinators,
   - spine inventory completeness check (`Pass`/`Fail`): all relevant spines are explicitly named with clear start/end boundaries and owner relationships,
-  - ownership clarity check (`Pass`/`Fail`): main-line nodes and support branches have clear owners with concrete authority,
-  - support-structure clarity check (`Pass`/`Fail`): side branches serve the spine without competing with it or owning hidden sequencing,
+  - ownership clarity check (`Pass`/`Fail`): main-line nodes and off-spine concerns have clear owners with concrete authority,
+  - off-spine concern clarity check (`Pass`/`Fail`): off-spine concerns serve the spine without competing with it or owning hidden sequencing,
   - boundary placement check (`Pass`/`Fail`): responsibilities are assigned to the right owner or subsystem boundary,
   - ownership-driven dependency check (`Pass`/`Fail`): dependencies follow ownership, avoid tight cross-subsystem coupling, and avoid unjustified cyclic cross-references,
   - file-placement alignment check (`Pass`/`Fail`): each file path matches the owning concern/boundary/platform, and any shared placement is explicitly justified,
@@ -498,7 +499,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - interface/API/service-method boundary clarity (`Pass`/`Fail`): APIs, queries, commands, and reused service methods expose one clear subject/responsibility with explicit identity shape instead of generic ambiguous IDs or mixed-subject selectors,
   - existing-structure bias check (`Pass`/`Fail`): design is not forced to mirror current files when that harms target architecture,
   - anti-hack check (`Pass`/`Fail`): no patch-on-patch tricks that hide architecture issues behind local fixes,
-  - local-fix degradation check (`Pass`/`Fail`): a functionally working fix does not degrade the data-flow spine, ownership boundaries, or support structure,
+  - local-fix degradation check (`Pass`/`Fail`): a functionally working fix does not degrade the data-flow spine, ownership boundaries, or off-spine concerns,
   - example-based clarity (`Pass`/`Fail`/`N/A`): non-obvious areas use examples when needed, and the examples actually clarify the target shape,
   - terminology and concept vocabulary is natural and intuitive (`Pass`/`Fail`),
   - file and API naming is clear and unsurprising for implementation mapping (`Pass`/`Fail`),
@@ -536,7 +537,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - data-flow spine clarity check is `Pass` for all in-scope use cases,
   - spine inventory completeness check is `Pass` for the design basis,
   - ownership clarity check is `Pass` for all in-scope use cases,
-  - support-structure clarity check is `Pass` for all in-scope use cases,
+  - off-spine concern clarity check is `Pass` for all in-scope use cases,
   - boundary placement check is `Pass` for all in-scope use cases,
   - ownership-driven dependency check is `Pass` for all in-scope use cases,
   - file-placement alignment check is `Pass` for all in-scope use cases,
@@ -691,7 +692,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - if issue scope is cross-cutting, touches unknown runtime paths, or root-cause confidence is low, mark `Investigation Required` and reopen understanding stage first (`investigation-notes.md` must be updated before design/requirements artifact updates),
     - if issue is clearly bounded with high root-cause confidence, continue classification directly.
   - `Local Fix` is allowed only when responsibility boundaries stay intact, no new use case/acceptance criterion is needed, and no requirement/design changes are needed.
-  - if a fix works functionally but degrades the data-flow spine, ownership boundaries, or support structure, it is **not** `Local Fix`; classify as `Design Impact`.
+  - if a fix works functionally but degrades the data-flow spine, ownership boundaries, or off-spine concerns, it is **not** `Local Fix`; classify as `Design Impact`.
   - if a fix only works by leaving a file in the wrong folder or adding a new misplaced file, it is **not** `Local Fix`; classify as `Design Impact`.
   - classify as `Requirement Gap` when failing behavior reveals missing functionality/use case or missing/ambiguous acceptance criteria.
   - apply re-entry declaration before source code edits when source/design/requirement updates are needed.
@@ -727,7 +728,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Mandatory review checks:
   - data-flow spine inventory preservation,
   - ownership boundary preservation,
-  - support-structure clarity,
+  - off-spine concern clarity,
   - existing capability/subsystem reuse,
   - reusable-owned-structure extraction where repeated structures should not stay duplicated,
   - shared-structure/data-model tightness and shared-base coherence,
@@ -759,7 +760,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no soft middle band (`501-700`) and no default exception path in this workflow.
   - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/support-structure + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
+- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
   - `Local Fix`: the issue requires source changes but remains inside the shared design principles and intended behavior without requiring design or requirement artifact updates; rerun `Stage 6 -> Stage 7 -> Stage 8`.

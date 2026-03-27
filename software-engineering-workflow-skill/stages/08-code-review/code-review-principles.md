@@ -11,7 +11,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 
 - Does the implementation produce a clear, traceable data-flow spine inventory, including any bounded local spines that materially affect behavior?
 - Are ownership boundaries still clear in the code?
-- Do support branches still serve clear owners instead of becoming orchestration blobs?
+- Do off-spine concerns still serve clear owners instead of becoming orchestration blobs?
 - Did the implementation reuse or extend existing capability areas where appropriate, instead of introducing fresh ad hoc helpers beside the flow?
 - Were repeated data structures, types, normalizers, converters, mappers, or schemas extracted into reusable owned files under the correct subsystem instead of being copied across several files?
 - Does the changed scope avoid unjustified duplicated code, repeated structures, or repeated policy logic that should now live in one reusable owned file or one clear owner?
@@ -72,7 +72,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 ### Design Impact
 
 - Independent review shows an architectural or structural problem in the current code, even if earlier design artifacts missed it.
-- The implementation drifted from a healthy spine inventory, ownership model, support structure, or readable placement shape under the shared principles.
+- The implementation drifted from a healthy spine inventory, ownership model, off-spine concern structure, or readable placement shape under the shared principles.
 - The earlier design basis itself may be weak, incomplete, or wrong and must be corrected before implementation can be accepted.
 - The implementation introduces naming drift, misleading local identifiers, or a layout shape that is too flat or too fragmented for a healthy design.
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.

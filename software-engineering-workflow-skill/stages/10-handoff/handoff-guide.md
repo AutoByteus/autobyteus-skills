@@ -10,6 +10,7 @@ It separates:
 - ticket archival
 - repository finalization
 - release / publication / deployment when applicable
+- post-finalization cleanup when applicable
 
 ## Inputs
 
@@ -30,6 +31,7 @@ Record at least:
 - verification summary
 - docs updated or no-impact rationale
 - release-note status
+- cleanup status
 
 ## User-Verification Hold
 
@@ -77,6 +79,16 @@ Use the Stage 0 resolved base remote and base branch as the default finalization
 - If no such step is applicable, record `release/publication/deployment not required` in the handoff summary and do not block merge/finalization.
 - If release notes are required, pass the archived `tickets/done/<ticket-name>/release-notes.md` artifact into that release/publication path when it runs.
 
+## Post-Finalization Cleanup (When Applicable)
+
+- If Stage 0 created or reused a dedicated ticket worktree/branch for this ticket, cleanup is part of Stage 10 completion rather than optional housekeeping.
+- After repository finalization and any applicable release/publication/deployment work are complete:
+  - if needed, step out to a safe parent repo checkout before removing the ticket worktree,
+  - remove the dedicated ticket worktree recorded in Stage 0,
+  - run worktree-prune cleanup,
+  - when the local ticket branch is fully merged into the resolved finalization target and no longer needed, delete the local ticket branch.
+- Do not delete remote branches unless explicit user instruction or documented project policy requires it.
+
 ## Blockers
 
 If any move, commit, push, or merge step fails:
@@ -91,6 +103,12 @@ If an applicable release/publication/deployment step fails or is undocumented:
 - keep Stage 10 open
 - do not undo completed repository finalization
 
+If required worktree/branch cleanup fails:
+
+- record that blocker in `workflow-state.md`
+- keep Stage 10 open
+- do not treat the ticket as fully done until cleanup is complete
+
 ## Exit Gate
 
-This stage is complete only when explicit user verification is received, all required archival/repository-finalization work is complete, and any applicable release/publication/deployment work is complete or explicitly recorded as not required.
+This stage is complete only when explicit user verification is received, all required archival/repository-finalization work is complete, any applicable release/publication/deployment work is complete or explicitly recorded as not required, and required post-finalization cleanup is complete when applicable.

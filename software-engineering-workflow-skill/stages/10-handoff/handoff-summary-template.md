@@ -51,11 +51,14 @@ After explicit user verification and ticket archival, this file normally moves w
 ## Finalization Record
 
 - Ticket archived to:
+- Ticket worktree path:
 - Ticket branch:
 - Finalization target remote:
 - Finalization target branch:
 - Commit status:
 - Push status:
 - Merge status:
-- Release status:
+- Release/publication/deployment status:
+- Worktree cleanup status:
+- Local branch cleanup status:
 - Blockers / notes:

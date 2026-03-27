@@ -39,7 +39,12 @@ interface:
     project has an applicable documented release/publication/deployment step,
     run that method and feed it the archived
     `tickets/done/<ticket-name>/release-notes.md` artifact when release notes
-    are required. Across
+    are required. When Stage 0 recorded a dedicated ticket worktree or local
+    ticket branch for the task, Stage 10 is not complete until post-finalization
+    cleanup is done too: remove the dedicated ticket worktree, run worktree
+    prune, and when the local ticket branch is fully merged into the resolved
+    finalization target and no longer needed, delete that local ticket branch.
+    Across
     design/review/implementation, enforce shared architecture principles
     (`data-flow spine clarity`, `ownership clarity`, `support structure around
     the spine`; reuse or extension of existing capability areas before new ad hoc

@@ -13,13 +13,14 @@
 
 ## Source Log
 
-| Date | Source Type (`Code`/`Doc`/`Web`/`Command`/`Trace`/`Log`/`Data`/`Other`) | Exact Source / Query / Command | Why Consulted | Relevant Findings | Follow-Up Needed |
+| Date | Source Type (`Code`/`Doc`/`Spec`/`Web`/`Repo`/`Issue`/`Command`/`Trace`/`Log`/`Data`/`Setup`/`Other`) | Exact Source / Query / Command | Why Consulted | Relevant Findings | Follow-Up Needed |
 | --- | --- | --- | --- | --- | --- |
 | 2026-03-25 | Command | `rg -n "Start Recording All Occupied Rooms|worker allocation" src` | find entrypoints and ownership | found UI entrypoint, service path, and one stale fallback helper | No |
 | 2026-03-25 | Code | `src/zoom/recording/start-recording-all-occupied-rooms.ts` | inspect request entrypoint | entrypoint delegates to `RoomRecordingCoordinator` | No |
 | 2026-03-25 | Code | `src/zoom/recording/room-recording-coordinator.ts` | inspect owner for room allocation | coordinator still consults legacy `allocateWorkerLegacy` branch | Yes |
 | 2026-03-25 | Code | `src/zoom/workers/allocate-worker-legacy.ts` | verify whether fallback is still used | legacy branch duplicates 80 percent of the new allocator logic | Yes |
 | 2026-03-25 | Web | `https://developers.zoom.example/recording-api` | confirm partner-system room recording limits | host can only schedule one recording worker per occupied room set | No |
+| 2026-03-25 | Repo | `https://github.com/zoom-example/recording-sdk-sample` @ `9b17c4d` | verify how upstream sample handles multi-room worker assignment | sample app routes multi-room recording through one canonical allocator callback | No |
 | 2026-03-25 | Trace | local repro with occupied multi-room session | verify actual failure path | wrong worker selection occurs only when two rooms are occupied at once | No |
 
 ## Current Behavior / Codebase Findings
@@ -49,10 +50,38 @@
 
 ### Runtime / Probe Findings
 
-| Date | Method (`Repro`/`Trace`/`Probe`/`Script`/`Test`) | Exact Command / Method | Observation | Implication |
+| Date | Method (`Repro`/`Trace`/`Probe`/`Script`/`Test`/`Setup`) | Exact Command / Method | Observation | Implication |
 | --- | --- | --- | --- | --- |
 | 2026-03-25 | Trace | local occupied-room repro | failure appears when the second room enters allocation path | worker allocation decision is the likely defect center |
 | 2026-03-25 | Probe | ad hoc logging around coordinator allocator call | legacy path still selected for multi-room case | design and implementation should remove dual-path behavior |
+
+### External Code / Dependency Findings
+
+- Upstream repo / package / sample examined:
+  - `https://github.com/zoom-example/recording-sdk-sample`
+- Version / tag / commit / release:
+  - commit `9b17c4d`
+- Files, endpoints, or examples examined:
+  - sample recording coordinator and multi-room callback wiring
+- Relevant behavior, contract, or constraint learned:
+  - upstream sample never routes this flow through a second fallback allocator
+- Confidence and freshness:
+  - Medium-High / 2026-03-25
+
+### Reproduction / Environment Setup
+
+- Required services, mocks, or emulators:
+  - local Zoom adapter stub with occupied-room fixture
+- Required config, feature flags, or env vars:
+  - recording feature flag enabled
+- Required fixtures, seed data, or accounts:
+  - two occupied rooms in one host session fixture
+- External repos, samples, or artifacts cloned/downloaded for investigation:
+  - recording SDK sample repo cloned locally for behavior comparison
+- Setup commands that materially affected the investigation:
+  - local fixture bootstrap for dual-room occupied state
+- Cleanup notes for temporary investigation-only setup:
+  - remove ad hoc logging after root-cause confidence is established
 
 ## External / Internet Findings
 
@@ -64,6 +93,7 @@
 
 - partner API constrains worker assignment shape
 - current code still carries a dual-path allocator split
+- upstream sample confirms the dual-path split is local legacy behavior rather than required partner behavior
 
 ## Unknowns / Open Questions
 

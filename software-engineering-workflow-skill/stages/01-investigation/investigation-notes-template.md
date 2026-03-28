@@ -17,10 +17,11 @@ Purpose:
 
 ## Source Log
 
-| Date | Source Type (`Code`/`Doc`/`Web`/`Command`/`Trace`/`Log`/`Data`/`Other`) | Exact Source / Query / Command | Why Consulted | Relevant Findings | Follow-Up Needed |
+| Date | Source Type (`Code`/`Doc`/`Spec`/`Web`/`Repo`/`Issue`/`Command`/`Trace`/`Log`/`Data`/`Setup`/`Other`) | Exact Source / Query / Command | Why Consulted | Relevant Findings | Follow-Up Needed |
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | Code | `src/example/file.ts` | Verify current owner and entrypoint | `ExampleController` still owns the request entrypoint | No |
 | YYYY-MM-DD | Web | `https://docs.example.com/...` | Confirm API constraint | API requires room IDs to be unique per host | Yes |
+| YYYY-MM-DD | Repo | `https://github.com/example-org/example-sdk` @ `v1.4.2` | Check upstream integration behavior | Sample app shows the callback fires only after explicit session join | Yes |
 | YYYY-MM-DD | Command | `rg -n "Start Recording All Occupied Rooms" src` | Find all affected call sites | Found two handlers and one stale helper | No |
 
 ## Current Behavior / Codebase Findings
@@ -41,9 +42,26 @@ Purpose:
 
 ### Runtime / Probe Findings
 
-| Date | Method (`Repro`/`Trace`/`Probe`/`Script`/`Test`) | Exact Command / Method | Observation | Implication |
+| Date | Method (`Repro`/`Trace`/`Probe`/`Script`/`Test`/`Setup`) | Exact Command / Method | Observation | Implication |
 | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | Trace | `npm test -- example.spec.ts` | Failure only on occupied-room path | Focus on worker-allocation branch |
+
+### External Code / Dependency Findings
+
+- Upstream repo / package / sample examined:
+- Version / tag / commit / release:
+- Files, endpoints, or examples examined:
+- Relevant behavior, contract, or constraint learned:
+- Confidence and freshness:
+
+### Reproduction / Environment Setup
+
+- Required services, mocks, or emulators:
+- Required config, feature flags, or env vars:
+- Required fixtures, seed data, or accounts:
+- External repos, samples, or artifacts cloned/downloaded for investigation:
+- Setup commands that materially affected the investigation:
+- Cleanup notes for temporary investigation-only setup:
 
 ## External / Internet Findings
 

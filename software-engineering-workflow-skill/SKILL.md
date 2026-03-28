@@ -272,6 +272,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 - Use `stages/01-investigation/investigation-guide.md`.
 - Create/update `tickets/in-progress/<ticket-name>/investigation-notes.md` continuously during investigation. Treat it as a durable evidence log, not a brief summary. Do not keep investigation results only in memory.
+- Investigation is not read-only: when needed to establish current behavior or isolate root cause, actively reproduce the issue, run focused commands/tests, write small diagnostic scripts, add temporary probes/instrumentation, perform the minimal environment setup or mocks needed to observe the problem, read public APIs/specs/issues, and inspect or clone upstream/vendor/sample repositories when that is the practical way to gather evidence.
+- Treat Stage 1 methods as problem-dependent and non-exhaustive: use whatever bounded evidence-gathering work is needed to reduce uncertainty and verify assumptions before design.
 - Minimum codebase understanding pass before design:
   - identify entrypoints and execution boundaries for in-scope flows,
   - identify touched files, affected modules/subsystems, and owning concerns,
@@ -285,9 +287,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - codebase findings with exact files/symbols/entrypoints/owners where relevant,
   - file-placement observations (which files are already under the right owning folder, which are misplaced, and what the canonical location should be),
   - runtime/probe findings when reproductions, traces, or scripts were used,
+  - reproduction prerequisites and environment/setup details when those materially affected the investigation outcome,
+  - external dependency, public API, upstream-source, issue-tracker, or sample-app findings when those materially shaped the understanding,
   - open unknowns/questions,
   - implications for requirements/design.
 - Prefer structured, detailed notes over compressed summaries. Use short synthesis sections for readability, but keep enough concrete evidence in the artifact that later stages do not need to rediscover the same facts from scratch.
+- Boundary rule: narrowly scoped repro scripts/tests, temporary logs, investigation-only setup, disposable cloned repos, and throwaway harnesses remain Stage 1 work when they exist to gather evidence; durable production fixes and durable validation assets still belong to later stages.
 - Re-entry rule: when later implementation/testing uncovers large or unclear issues, reopen this understanding stage and append new evidence, unknowns, and implications before changing requirements/design artifacts.
 - Do not draft design artifacts or runtime call stacks until this understanding pass is complete and `requirements.md` reaches `Design-ready`.
 - Classify as `Small`, `Medium`, or `Large` using practical signals:

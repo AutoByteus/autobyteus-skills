@@ -12,7 +12,11 @@ interface:
     branch from the latest tracked remote base -> `requirements.md` status
     `Draft`) and initializes `workflow-state.md` with
     `Current Stage=0` and `Code Edit Permission=Locked`; Stage 1 is investigation
-    (deep understanding + triage); Stage 2 refines requirements to `Design-ready`;
+    (deep understanding + triage) and is not read-only: use whatever bounded
+    evidence-gathering work the problem requires, including repros, focused
+    tests/scripts, temporary probes, minimal setup/mocks, public API/spec/issue
+    research, and upstream or sample-repo inspection when needed; Stage 2
+    refines requirements to `Design-ready`;
     Stage 3 sets design basis; Stage 4 builds future-state runtime call stacks;
     Stage 5 runs iterative deep review until `Go Confirmed` (two clean rounds with
     no blockers, no required persisted artifact updates, and no newly discovered

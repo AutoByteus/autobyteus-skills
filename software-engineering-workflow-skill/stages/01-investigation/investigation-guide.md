@@ -4,9 +4,15 @@ Investigation is any activity needed to build accurate understanding and verify 
 
 ## Investigation Can Include
 
+Treat the following as examples, not a closed list. Choose whatever evidence-gathering work is necessary for the problem at hand.
+
 - reading code, docs, configs, schemas, logs, and data
+- reading public API docs, SDK docs, specs, RFCs, release notes, issue trackers, and migration guides
 - running commands, reproductions, probes, or traces
-- writing small scripts or focused tests
+- writing small scripts, focused tests, or temporary instrumentation to expose current behavior
+- setting up minimal local, containerized, emulated, mocked, or fixture-backed environments needed to reproduce or narrow the issue
+- inspecting upstream, vendor, open-source, or partner source code when local code alone is not enough to explain the behavior
+- downloading or cloning external repositories, examples, or sample apps when that is the practical way to verify an integration or reproduce a failure
 - checking APIs, external references, or internet sources when needed
 
 ## Artifact Standard
@@ -22,10 +28,14 @@ Investigation is any activity needed to build accurate understanding and verify 
 - scope triage (`Small` / `Medium` / `Large`) with rationale
 - exact sources consulted:
   - local file paths
-  - URLs / external docs
+  - URLs / external docs / public APIs / specs / issue trackers
+  - upstream, vendor, or sample repositories when used
   - commands run
+  - setup steps that materially affected reproduction or isolation
   - search queries used when material
 - current entrypoints, execution boundaries, owners, modules, folders, and likely file-placement concerns
+- runtime/probe findings when reproductions, traces, scripts, focused tests, or setup work were used
+- external dependency, upstream-source, or sample-app findings when they materially shaped the understanding
 - constraints, unknowns, and design implications
 - enough codebase/runtime/API detail that later stages do not need to rediscover the same facts from scratch
 
@@ -34,7 +44,12 @@ Investigation is any activity needed to build accurate understanding and verify 
 - Do not keep results only in memory.
 - Do not collapse detailed evidence into a thin summary if later stages would need that detail again.
 - When internet or external documentation research is used, record the exact source and the specific fact or constraint taken from it.
+- When public APIs, upstream code, issue trackers, release notes, or cloned/downloaded example repositories are used, record the exact source, version/tag/commit when available, and the specific fact or behavior learned from them.
 - When codebase search is used, record the exact files, symbols, or paths that matter, not only the conclusion.
 - When commands, probes, traces, or reproductions are used, record what was run and the result that mattered.
+- When minimal environment setup, fixtures, mocks, feature flags, or temporary instrumentation are required to reproduce or isolate the issue, treat that as valid Stage 1 investigation work and record the setup steps that materially affected the result.
+- Small diagnostic scripts, focused repro tests, temporary logs, and narrow probes remain Stage 1 investigation work when their purpose is evidence gathering rather than shipping the fix.
+- Disposable investigation-only sandboxes, cloned repos, sample apps, throwaway harnesses, and local mirrors are valid Stage 1 tools when they are used to gather evidence rather than to introduce a permanent dependency or ship a fix.
+- If a test, harness, or code change is intended to remain as part of the product behavior or durable validation suite, treat that follow-on work in later stages instead of keeping it inside Stage 1.
 - If later stages expose unclear or cross-cutting issues, reopen Stage 1 and append new evidence instead of replacing earlier findings silently.
 - Investigation should reduce uncertainty enough for `requirements.md` to become `Design-ready`.

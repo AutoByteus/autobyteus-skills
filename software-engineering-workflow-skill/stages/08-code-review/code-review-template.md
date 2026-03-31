@@ -75,6 +75,7 @@ Rules:
 | Empty indirection check (no pass-through-only boundary) |  |  |  |
 | Scope-appropriate separation of concerns and file responsibility clarity |  |  |  |
 | Ownership-driven dependency check (no forbidden shortcuts or unjustified cycles) |  |  |  |
+| Boundary encapsulation check (callers do not depend on both an outer owner and that owner's internal manager/repository/helper/lower-level concern) |  |  |  |
 | File placement check (file/folder path matches owning concern or explicitly justified shared boundary) |  |  |  |
 | Flat-vs-over-split layout judgment (layout is readable for the scope and not artificially fragmented) |  |  |  |
 | Interface/API/query/command/service-method boundary clarity (one subject, one responsibility, explicit identity shape) |  |  |  |
@@ -92,7 +93,7 @@ Rules:
 
 - If none, write `None`.
 - Otherwise:
-  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/ReusableOwnedStructures/SoC/Dependency/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
+  - `[CR-001] File: ... | Type: Spine/Ownership/SupportStructure/CapabilityReuse/ReusableOwnedStructures/SoC/Dependency/Encapsulation/Placement/InterfaceBoundary/Naming/Duplication/Legacy/BackwardCompat/FileSize/Complexity/ValidationGap | Severity: Blocker/Major/Minor | Evidence: ... | Required update: ...`
 
 Rules:
 - Reuse the same finding ID when the same issue persists across review rounds.
@@ -142,6 +143,7 @@ Rules:
   - Empty indirection check = `Pass`
   - Scope-appropriate separation of concerns and file responsibility clarity = `Pass`
   - Ownership-driven dependency check = `Pass`
+  - Boundary encapsulation check = `Pass`
   - File placement check = `Pass`
   - Flat-vs-over-split layout judgment = `Pass`
   - Interface/API/query/command/service-method boundary clarity = `Pass`

@@ -18,6 +18,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - Are shared data structures still tight after the change, with no kitchen-sink base type, no mostly-optional one-for-all model, and meaningful specialization/composition where cases genuinely diverge?
 - Is separation of concerns still scope-appropriate, with each file owning a coherent responsibility and each optional module grouping, if used, grouping a coherent set of files instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
+- Do callers avoid bypassing an owning boundary by depending on both the outer owner and one of its internal managers, repositories, helpers, or lower-level concerns at the same time?
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
 - Is the resulting subsystem, folder, and file layout readable for the scope, without becoming too flat or too artificially fragmented?
 - Do interfaces, APIs, queries, commands, and reused service methods still have one clear subject, one responsibility, and explicit identity shape?
@@ -41,6 +42,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - A shared/base type was widened into a one-for-all structure with mostly-optional fields instead of using a tighter shared core plus meaningful specialization
 - The same logic or policy was copied into multiple changed files instead of being owned once in the right place
 - One file or optional module grouping now mixes unrelated concerns or responsibilities that should be split
+- A caller depends on both an outer service/boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns
 - A file is in the wrong folder for its real concern
 - The layout is technically valid per-file but now feels too flat or too over-split for the real ownership structure
 - An interface/API/query/command/service method accepts an ambiguous ID or selector and has to guess what subject or owner that input refers to
@@ -77,6 +79,7 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 - The implementation introduces naming drift, misleading local identifiers, or a layout shape that is too flat or too fragmented for a healthy design.
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
 - A shared/base structure became a kitchen-sink model, which shows the decomposition or ownership model is still wrong.
+- A boundary is bypassed so callers depend on both the outer boundary and one of its internal lower-level concerns.
 - Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in scope after the change.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.

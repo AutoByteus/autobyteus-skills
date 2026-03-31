@@ -152,7 +152,9 @@ Use this section to show which broader functional areas own which parts of the t
 ## Ownership-Driven Dependency Rules
 
 - Allowed dependency directions:
+- Authoritative public entrypoints versus internal owned sub-layers:
 - Forbidden shortcuts:
+- Boundary bypasses that are not allowed:
 - Temporary exceptions and removal plan:
 
 ## Architecture Direction Decision (Mandatory)
@@ -163,6 +165,7 @@ Use this section to show which broader functional areas own which parts of the t
 - Spine inventory completeness assessment: `Yes` / `No`
 - Ownership clarity assessment: `Yes` / `No`
 - Off-spine concern clarity assessment: `Yes` / `No`
+- Boundary encapsulation assessment: `Yes` / `No`
 - File placement within the owning subsystem assessment: `Yes` / `No`
 - Outcome (`Keep`/`Add`/`Split`/`Merge`/`Move`/`Remove`):
 - Note: `Keep` is valid only when the current spine, ownership boundaries, off-spine concerns, and file placement are already coherent for the in-scope behavior.
@@ -181,6 +184,7 @@ Use this section to show which broader functional areas own which parts of the t
 | Responsibility overload exists in one file or one optional module grouping |  |  | Split / Keep |
 | Proposed indirection owns real policy, translation, or boundary concern |  |  | Keep / Remove |
 | Every off-spine concern has a clear owner on the spine |  |  | Fix / Keep |
+| Authoritative public boundaries stay authoritative; callers do not depend on both an outer owner and one of its internal owned mechanisms |  |  | Fix / Keep |
 | Existing capability area/subsystem was reused or extended where it naturally fits |  |  | Reuse/Extend / Create New |
 | Repeated structures were extracted into reusable owned files where needed |  |  | Extract / Keep Local |
 | Current structure can remain unchanged without spine/ownership degradation |  |  | Keep / Change |

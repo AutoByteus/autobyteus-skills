@@ -52,6 +52,10 @@ They are the shared design language for this workflow.
 - No backward compatibility or legacy retention is a hard modernization rule for in-scope behavior. Design the clean-cut target directly and make removal of obsolete paths explicit.
 - Removal is first-class architecture work, not optional cleanup. When clearer ownership, reusable owned structures, or better file responsibilities make redundant pieces unnecessary, name and remove/decommission those pieces explicitly in scope.
 - Dependency direction follows ownership; name allowed directions and forbidden shortcuts explicitly.
+- Boundary encapsulation follows ownership too: when one boundary or owner intentionally encapsulates another concern, callers above it should depend on the outer owner, not on both the outer owner and its internals at the same time.
+- This rule is about authority and encapsulation, not about specific labels like `service`, `manager`, `repository`, `controller`, or `facade`.
+- If a caller needs both an outer boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns, either the boundary is wrong or the caller is bypassing ownership. Resolve that by choosing one authoritative entrypoint, or by redesigning the boundary and responsibilities explicitly.
+- If callers only bypass an internal concern because the outer boundary does not expose enough usable API, fix that by strengthening the authoritative boundary or by reshaping ownership explicitly. Do not normalize the bypass as the steady-state design.
 - Draft file responsibilities first. Then extract reusable owned structures where repetition appears, re-tighten the file responsibilities, and only after that finalize folder/path mapping.
 - Reusable owned structures must also be semantically tight: remove redundant attributes, avoid overlapping parallel representations for the same domain subject, and keep each field's meaning singular and explicit.
 - Shared cores and specialized variants are valid only when the shared base is truly coherent. Do not create one-for-all base structures that collect mostly-optional fields for unrelated cases; prefer meaningful specialization or composition under a clear subsystem owner.
@@ -62,6 +66,7 @@ They are the shared design language for this workflow.
 - The design document should read spine-first, not file-first. Files, folders, and any optional module groupings are a derived implementation mapping, not the primary structure of the architecture story.
 - Use concrete examples when they materially improve clarity. Do not leave a non-obvious design entirely abstract when a short example would explain the intended shape faster.
 - Layering is optional explanatory output only. Do not use layering as a first principle.
+- If layering is used as explanation, it must still follow ownership and encapsulation: a higher layer should not skip an owning boundary and directly reach into a deeper layer that the intermediate boundary already owns.
 
 ## Required Design Questions
 
@@ -76,6 +81,8 @@ They are the shared design language for this workflow.
 - Which duplicated, fragmented, or now-unnecessary helpers/files/structures become removable because the new design gives them a clearer owner or replacement?
 - Which shared data structures, schemas, DTOs, mappers, or types need tightening so redundant attributes or overlapping representations are removed instead of standardized?
 - Which dependencies are allowed, and which shortcuts are forbidden?
+- Which boundaries are public entrypoints versus internal owned sub-layers, and which callers are allowed to depend on each?
+- Is any caller currently depending on both an outer owner and one of that owner's internals? If so, which boundary should remain authoritative?
 - Which subsystems and files should own the target structure, and are any optional module groupings actually needed?
 - Does the subsystem, folder, and file layout make ownership and structural depth readable without becoming artificially fragmented?
 - Which interface boundaries exist, what subject does each one own, and what identity shape or selector shape does each one accept?
@@ -91,8 +98,10 @@ They are the shared design language for this workflow.
 - Shared structures that still carry redundant fields, overlapping representations, or mixed meanings after extraction
 - Off-spine concerns sitting on the main line without owning sequencing
 - New helper or service pieces created ad hoc even though an existing subsystem already owns that kind of work
+- A caller depends on both a public boundary and one of its internal managers, repositories, helpers, or lower-level concerns at the same time
 - Compatibility wrappers, dual-path behavior, or legacy fallback branches kept only to preserve old flows
 - Generic interface boundaries, list/query surfaces, or service methods that accept one ambiguous ID or selector and then guess what subject it belongs to
+- A higher boundary bypasses the intended owner and reaches directly into a deeper layer that should stay encapsulated
 - Names that do not describe the actual owner or role
 - Misplaced files whose paths hide the real concern
 - Folder layouts that are so flat they hide boundaries, or so split that they create artificial structure with no real owner

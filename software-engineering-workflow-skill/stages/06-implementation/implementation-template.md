@@ -95,6 +95,7 @@ Document discipline:
 - Mandatory modernization rule: no backward-compatibility shims or legacy branches.
 - Mandatory cleanup rule: remove dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope before Stage 6 can close.
 - Mandatory ownership/decoupling/SoC rule: preserve clear subsystem boundaries, one-way dependency direction, and scope-appropriate file responsibilities; avoid adding tight coupling/cycles or mixed-concern files.
+- Mandatory boundary-encapsulation rule: when one boundary is the intended public authority for a domain subject, do not let callers above it depend on both that boundary and one of its internal managers, repositories, helpers, or lower-level concerns. If the boundary lacks needed API, expand or redesign it instead of normalizing the bypass.
 - Mandatory shared-structure coherence rule: when implementing shared data structures, keep the shared core tight. If one case needs extra fields, use a meaningful specialized variant or composition instead of expanding the shared base into a kitchen-sink shape.
 - Mandatory file-placement rule: keep each touched file in the folder/boundary that owns its concern; plan explicit moves when current placement is misleading.
 - Mandatory shared-principles implementation rule: apply the shared design principles and common design practices independently during coding. If file-level implementation detail reveals that the reviewed design is incomplete, weak, or wrong, record the issue and classify `Design Impact` instead of patching around it locally.

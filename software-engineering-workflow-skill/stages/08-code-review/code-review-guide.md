@@ -32,7 +32,7 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - existing-capability reuse and reusable-owned-structure extraction
 - shared-structure/data-model tightness and shared-base coherence
 - separation of concerns, file responsibility, and file placement
-- dependency quality, boundary quality, and naming quality across files, folders, APIs, types, functions, parameters, and variables
+- dependency quality, boundary quality, boundary encapsulation quality, and naming quality across files, folders, APIs, types, functions, parameters, and variables
 - names must stay concrete and unsurprising; reject misleading abbreviations, vague placeholders, or names that hide side effects or ownership
 - `spine`, `owner`, and `off-spine concern` are relationship terms, not naming templates; reject generic names like `Support`, `Supporting`, `OffSpine`, `SideConcern`, or `Helper` when they hide the concrete concern actually handled
 - no unjustified duplication or repeated structures in changed scope

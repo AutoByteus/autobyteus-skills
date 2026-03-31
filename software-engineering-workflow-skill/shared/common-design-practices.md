@@ -17,6 +17,7 @@ Always start with the shared design principles first.
   - why this spine matters.
 - Name the main-line nodes with natural domain language.
 - Define what each node owns before splitting off-spine concerns.
+- If one boundary is the intended entrypoint for a domain subject, callers above it should use that boundary rather than also reaching into its internal manager, repository, helper, or lower-level concern dependencies.
 - If one spine node starts collecting too many unrelated duties, split off-spine concerns around that owner rather than turning the node into a god-object.
 - Keep off-spine concerns attached to a clear owner on the spine.
 - Before creating a new local helper for an off-spine concern, check whether an existing capability area or subsystem already owns that category of work and should be reused or extended.
@@ -35,6 +36,20 @@ Always start with the shared design principles first.
 - Prefer clean-cut replacement over compatibility wrappers or dual-path behavior. If old behavior is being replaced, design and record its removal explicitly.
 - Treat addition and removal symmetrically: when a clearer subsystem owner, reusable owned structure, or file responsibility replaces fragmented/duplicated pieces, record what becomes unnecessary and remove/decommission it in scope.
 - Add short concrete examples when they clarify a non-obvious spine, interface split, folder choice, or bounded local flow.
+
+## Encapsulation Pattern
+
+- Good shape:
+  - `Caller -> Outer Boundary`
+  - `Outer Boundary -> Internal Owned Mechanism`
+- Bad shape:
+  - `Caller -> Outer Boundary`
+  - `Caller -> Internal Owned Mechanism`
+  - `Outer Boundary -> Internal Owned Mechanism`
+- Rule:
+  - When an outer boundary is the intended authority for a domain subject, callers above it should use that boundary rather than depend on both it and one of its internal owned mechanisms at the same time.
+- If the outer boundary does not expose enough API for the real use case, expand that boundary or redesign the ownership split. Do not keep the caller on both sides of the boundary as the default shape.
+- This is a general rule, not a naming rule. The same problem can appear as `service -> manager`, `facade -> runtime`, `controller -> orchestrator`, `use-case -> repository`, or many other label combinations.
 
 ## Common Spine Shapes
 
@@ -57,6 +72,8 @@ Always start with the shared design principles first.
   - If one API/query/command/service method accepts a generic ID or selector that may refer to different subjects, or returns a generic mixed-subject list, split it into explicit subject-owned boundaries or require an explicit compound identity shape.
 - Empty indirection trigger:
   - If a proposed layer/module only forwards calls and owns no policy, translation, or boundary concern, remove it.
+- Encapsulation-bypass trigger:
+  - If a caller depends on both an outer boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns, keep one authoritative entrypoint and remove the bypass.
 - Shared-folder trigger:
   - Put code in a shared/common folder only when it is truly cross-cutting and concern-agnostic.
 - Shared-structure tightness trigger:
@@ -108,8 +125,10 @@ Use these only when they solve a local problem inside a clear owner or off-spine
 
 - Best fit: persistence boundary serving a clear owner
 - Avoid: putting orchestration or validation rules inside it
+- Avoid: callers above the owning service or boundary depending on both that boundary and the repository directly
 
 ### Manager
 
 - Best fit: top-level coordination only when authority and lifecycle ownership are explicit
 - Avoid: vague coordination blobs with mixed responsibilities
+- Avoid: callers above the owning service or boundary depending on both that boundary and the manager directly

@@ -121,6 +121,6 @@
 
 ### 2026-03-26 Re-Entry Update
 
-- Trigger: Stage 7 API/E2E validation found the allocator still diverges under retry conditions
+- Trigger: Stage 7 executable validation found the allocator still diverges under retry conditions
 - New evidence: retry path enters `allocateWorkerLegacy` through one stale adapter wrapper
 - Updated implications: design and implementation must remove that wrapper and keep one canonical allocator path

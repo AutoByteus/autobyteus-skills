@@ -1,6 +1,6 @@
 # Code Review
 
-Use this document for `Stage 8` code review after Stage 7 API/E2E testing passes.
+Use this document for `Stage 8` code review after Stage 7 executable validation passes.
 This gate enforces structure quality, source-file maintainability, and mandatory re-entry rules.
 Keep one canonical `code-review.md` file for the ticket. Record later review rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
 

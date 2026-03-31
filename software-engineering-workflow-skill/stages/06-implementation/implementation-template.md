@@ -190,10 +190,10 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 - Unit tests:
 - Integration tests:
 - Stage 6 boundary: file and service-level verification, while preserving readable subsystem grouping, only (unit + integration).
-- Stage 7 handoff notes for API/E2E testing:
+- Stage 7 handoff notes for API/E2E and executable validation:
   - canonical artifact path: `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
   - expected acceptance criteria count:
-  - critical flows to validate (API/E2E):
+  - critical flows to validate (API/E2E/executable validation):
   - expected scenario count:
   - known environment constraints:
   - detailed scenario execution results, failure history, and escalation records belong in the Stage 7 artifact, not here
@@ -255,7 +255,7 @@ The detailed Stage 7, Stage 8, and Stage 9 records belong in their own canonical
 
 | Stage | Canonical Artifact | Current Status | Last Updated | Notes |
 | --- | --- | --- | --- | --- |
-| 7 API/E2E | `tickets/in-progress/<ticket-name>/api-e2e-testing.md` | `Not Started` / `In Progress` / `Passed` / `Failed` / `Blocked` / `Waived In Part` | YYYY-MM-DD |  |
+| 7 API/E2E + Executable Validation | `tickets/in-progress/<ticket-name>/api-e2e-testing.md` | `Not Started` / `In Progress` / `Passed` / `Failed` / `Blocked` / `Waived In Part` | YYYY-MM-DD |  |
 | 8 Code Review | `tickets/in-progress/<ticket-name>/code-review.md` | `Not Started` / `In Progress` / `Pass` / `Fail` | YYYY-MM-DD |  |
 | 9 Docs Sync | `tickets/in-progress/<ticket-name>/docs-sync.md` | `Not Started` / `In Progress` / `Updated` / `No impact` | YYYY-MM-DD |  |
 

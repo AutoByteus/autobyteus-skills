@@ -358,7 +358,7 @@ Rule:
 
 ## Change Traceability To Implementation
 
-| Change ID | Implementation Task(s) | Verification (Unit/Integration/API/E2E) | Status |
+| Change ID | Implementation Task(s) | Verification (Unit/Integration/Stage 7 Executable Validation) | Status |
 | --- | --- | --- | --- |
 | C-001 |  |  | Planned |
 

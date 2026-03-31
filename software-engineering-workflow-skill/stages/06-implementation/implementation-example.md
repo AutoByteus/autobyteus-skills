@@ -124,7 +124,7 @@ Use this section only for execution-only details that do not belong in the main 
 
 | Stage | Canonical Artifact | Current Status | Last Updated | Notes |
 | --- | --- | --- | --- | --- |
-| 7 API/E2E | `tickets/in-progress/order-submit-timeout/api-e2e-testing.md` | Passed | 2026-03-19 | all executable in-scope scenarios passed |
+| 7 API/E2E + Executable Validation | `tickets/in-progress/order-submit-timeout/api-e2e-testing.md` | Passed | 2026-03-19 | all executable in-scope scenarios passed |
 | 8 Code Review | `tickets/in-progress/order-submit-timeout/code-review.md` | Pass | 2026-03-19 | clean Stage 8 review |
 | 9 Docs Sync | `tickets/in-progress/order-submit-timeout/docs-sync.md` | Updated | 2026-03-19 | `docs/order-submission.md` updated |
 

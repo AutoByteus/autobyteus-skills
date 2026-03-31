@@ -1,13 +1,13 @@
-# Stage 7 API/E2E
+# Stage 7 API/E2E And Executable Validation
 
 ## Purpose
 
-Validate the implemented behavior against acceptance criteria and relevant runtime spines using API and end-to-end scenarios.
+Validate the implemented behavior against acceptance criteria and relevant runtime spines using executable validation scenarios appropriate to the system, including API, UI, native desktop, CLI, process/lifecycle, integration, or distributed flows when relevant.
 
 ## Enter This Stage When
 
 - Stage 6 is complete
-- source edits, unit tests, and integration tests are in a stable enough state to validate end-to-end behavior
+- source edits, unit tests, and integration tests are in a stable enough state to validate executable behavior across the in-scope interfaces and runtime boundaries
 
 ## Stage-Owned Outputs
 
@@ -21,4 +21,4 @@ Leave Stage 7 only when all executable in-scope acceptance criteria are `Passed`
 ## Local Files
 
 - `api-e2e-guide.md`: scenario, feasibility, and re-entry rules
-- `api-e2e-testing-template.md`: canonical API/E2E artifact
+- `api-e2e-testing-template.md`: canonical Stage 7 executable-validation artifact

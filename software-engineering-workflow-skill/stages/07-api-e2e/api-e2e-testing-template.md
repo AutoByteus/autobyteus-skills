@@ -1,11 +1,12 @@
-# API/E2E Testing
+# Stage 7 Executable Validation (API/E2E)
 
-Use this document for Stage 7 API/E2E test implementation and execution.
+Use this document for Stage 7 executable validation implementation and execution.
+Stage 7 can cover API, browser/UI, native desktop/UI, CLI, process/lifecycle, integration, or other executable scenarios when those are the real boundaries being proven.
 Do not use this file for unit/integration tracking; that belongs in `implementation.md`.
 Stage 7 starts after Stage 6 implementation (source + unit/integration) is complete.
 
 Validation philosophy:
-- first persist the API/E2E validation that should live in the repository and govern future changes
+- first persist the executable validation assets that should live in the repository and govern future changes
 - then use broader executable validation when needed to prove behavior in the current environment
 - keep temporary validation-only scaffolding only when it is clearly useful beyond the current ticket
 - keep one canonical `api-e2e-testing.md` file for the ticket; record later rounds in the same file and treat the latest round as authoritative while preserving earlier rounds as history
@@ -31,6 +32,9 @@ Round rules:
 - Requirements source: `tickets/in-progress/<ticket-name>/requirements.md`
 - Call stack source: `tickets/in-progress/<ticket-name>/future-state-runtime-call-stack.md`
 - Design source (`Medium/Large`): `tickets/in-progress/<ticket-name>/proposed-design.md`
+- Interface/system shape in scope: `API` / `Browser UI` / `Native Desktop UI` / `CLI` / `Worker/Process` / `Distributed Sync` / `Other`
+- Platform/runtime targets:
+- Lifecycle boundaries in scope (`Install` / `Startup` / `Update` / `Restart` / `Migration` / `Shutdown` / `Recovery` / `None`):
 
 ## Coverage Rules
 
@@ -40,7 +44,7 @@ Round rules:
 - Every relevant spine from the approved design basis must map to at least one scenario, or explicitly `N/A` with rationale.
 - `Design-Risk` scenarios must include explicit technical objective/risk and expected outcome.
 - Use stable scenario IDs with `AV-` prefix (for example: `AV-001`).
-- Manual testing is not part of the default workflow.
+- Unstructured manual-only testing is not part of the default workflow. If OS/platform constraints force a human-assisted execution step, record the exact steps, automated evidence captured, constraints, and residual risk; do not treat ad hoc manual confirmation as sufficient Stage 7 coverage.
 - Stage 7 cannot close while any acceptance criterion is `Unmapped`, `Not Run`, `Failed`, or `Blocked` unless explicitly marked `Waived` by user decision for infeasible cases.
 - During Stage 7 execution, `workflow-state.md` should show `Current Stage = 7` and `Code Edit Permission = Unlocked`.
 - Stage 7 includes test-file/harness implementation and test execution.
@@ -75,13 +79,21 @@ Round rules:
 
 ## Scenario Catalog
 
-| Scenario ID | Spine ID(s) | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Level (`API`/`E2E`) | Objective/Risk | Expected Outcome | Durable Validation Asset(s) | Temporary Validation Method / Setup | Command/Harness | Status (`Not Started`/`In Progress`/`Passed`/`Failed`/`Blocked`/`N/A`) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AV-001 | DS-001 | Requirement | AC-001 | R-001 | UC-001 | API | N/A |  |  |  |  | Not Started |
+| Scenario ID | Spine ID(s) | Source Type (`Requirement`/`Design-Risk`) | Acceptance Criteria ID(s) | Requirement ID(s) | Use Case ID(s) | Validation Mode (`API`/`Browser-E2E`/`Desktop-UI`/`CLI`/`Integration`/`Process`/`Lifecycle`/`Other`) | Platform / Runtime | Lifecycle Boundary (`None`/`Install`/`Startup`/`Update`/`Restart`/`Migration`/`Shutdown`/`Recovery`) | Objective/Risk | Expected Outcome | Durable Validation Asset(s) | Temporary Validation Method / Setup | Command/Harness | Status (`Not Started`/`In Progress`/`Passed`/`Failed`/`Blocked`/`N/A`) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AV-001 | DS-001 | Requirement | AC-001 | R-001 | UC-001 | API | local service | None | N/A |  |  |  |  | Not Started |
+
+## Example Scenario Shapes (Adapt, Do Not Copy Literally)
+
+- API/service contract: create or update durable API tests that prove request, response, validation, and downstream side effects.
+- Browser UI flow: use repo-resident browser tests or focused automation to prove visible state changes and user-facing outcomes.
+- Native desktop updater flow: prove version `from` -> update apply -> relaunch/restart -> version `to` and persisted-state or migration result.
+- Worker/process flow: start the relevant processes or harnesses and prove enqueue/trigger -> background execution -> observable completion state.
+- Multi-node or distributed flow: stand up the needed local or containerized topology and prove replication, failover, or synchronization behavior.
 
 ## Validation Assets Implemented Or Updated
 
-| Asset Path / Name | Asset Type (`API Test`/`E2E Test`/`Harness`/`Fixture`/`Helper`/`Other`) | Durable In Repo (`Yes`/`No`) | Scenario ID(s) | Notes |
+| Asset Path / Name | Asset Type (`API Test`/`Browser Test`/`Desktop Automation`/`CLI Harness`/`Lifecycle Harness`/`Process Probe`/`Harness`/`Fixture`/`Helper`/`Other`) | Durable In Repo (`Yes`/`No`) | Scenario ID(s) | Notes |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
@@ -125,8 +137,11 @@ Rules:
 - Any infeasible scenarios (`Yes`/`No`):
 - If `Yes`, concrete infeasibility reason per scenario:
 - Environment constraints (secrets/tokens/access limits/dependencies):
+- Platform/runtime specifics for lifecycle-sensitive scenarios (OS/device/runtime/version `from` -> `to`/package channel or update feed/signing/access requirements):
 - Compensating automated evidence:
 - Residual risk notes:
+- Human-assisted execution steps required because of platform or OS constraints (`Yes`/`No`):
+- If `Yes`, exact steps and evidence capture:
 - User waiver for infeasible acceptance criteria recorded (`Yes`/`No`):
 - If `Yes`, waiver reference (date/user decision):
 - Temporary validation-only scaffolding cleaned up (`Yes`/`No`/`Partially`):
@@ -137,7 +152,7 @@ Rules:
 - Latest authoritative round:
 - Latest authoritative result (`Pass`/`Fail`/`Blocked`):
 - Stage 7 complete: `Yes` / `No`
-- Durable API/E2E validation that should live in the repository was implemented or updated: `Yes` / `No`
+- Durable executable validation that should live in the repository was implemented or updated: `Yes` / `No`
 - All in-scope acceptance criteria mapped to scenarios: `Yes` / `No`
 - All relevant spines mapped to scenarios: `Yes` / `No`
 - All executable in-scope acceptance criteria status = `Passed`: `Yes` / `No`

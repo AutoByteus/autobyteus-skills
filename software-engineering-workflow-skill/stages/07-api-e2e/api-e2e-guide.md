@@ -1,9 +1,9 @@
-# Stage 7 API/E2E Guide
+# Stage 7 API/E2E And Executable Validation Guide
 
 ## Purpose
 
 Stage 7 is the executable validation gate between implementation and code review.
-It proves that the implemented system satisfies acceptance criteria and important design-risk behavior end to end.
+It proves that the implemented system satisfies acceptance criteria and important design-risk behavior across the real executable boundaries of the system, not only through HTTP APIs or browser-only flows.
 
 ## Inputs
 
@@ -19,25 +19,35 @@ It proves that the implemented system satisfies acceptance criteria and importan
 ## Mandatory Validation Structure
 
 - build an acceptance-criteria matrix from `requirements.md`
-- map every in-scope acceptance criterion to at least one executable API/E2E scenario
+- map every in-scope acceptance criterion to at least one executable validation scenario
 - map every relevant spine to at least one executable scenario, or mark it `N/A` with rationale
-- record scenario source, expected outcome, command or harness, and result in `api-e2e-testing.md`
+- record scenario source, validation mode, platform/runtime target, expected outcome, command or harness, and result in `api-e2e-testing.md`
 - keep one canonical `api-e2e-testing.md` path across reruns; do not create versioned copies by default
 - on round `>1`, recheck prior unresolved failures first and update the prior-failure resolution section before declaring the new gate result
 - treat the latest recorded validation round as authoritative while keeping earlier rounds as history
 - reuse the same scenario IDs across reruns for the same scenarios; create new IDs only for newly discovered coverage
 - during Stage 7 execution, `workflow-state.md` should show `Current Stage = 7` and `Code Edit Permission = Unlocked`
+- treat scenario type as problem-dependent rather than hardcoded: API, browser UI, native desktop UI, CLI, process/lifecycle, integration, and distributed-system checks are all valid Stage 7 forms when they are the real boundary being proven
 
 ## Validation Asset Rules
 
-- Start with durable validation first: add or update the API/E2E tests, harnesses, and validation assets that should remain in the repository and govern future changes.
-- If durable repo-resident validation is not enough to prove behavior, continue with broader executable validation such as temporary scripts, probes, environment setup, containerized setups, mocked or emulated dependencies, or browser/computer automation.
+- Start with durable validation first: add or update the tests, harnesses, and validation assets that should remain in the repository and govern future changes.
+- If durable repo-resident validation is not enough to prove behavior, continue with broader executable validation such as temporary scripts, probes, environment setup, containerized setups, mocked or emulated dependencies, CLI harnesses, native desktop automation, lifecycle/update/restart checks, multi-process or multi-node orchestration, or browser/computer automation.
 - Record clearly which validation assets were durable in-repo additions versus temporary validation-only methods or scaffolding.
 - Remove temporary validation-only scaffolding after the result is recorded unless keeping it is clearly useful as durable future coverage.
+
+## Scenario Pattern Examples
+
+- Backend/service API: request -> service/domain execution -> persistence or downstream effect -> returned contract and error behavior.
+- Browser UI: user action -> rendered state transition -> network side effect -> final success or failure presentation.
+- Native desktop updater: version `from` -> update download/apply -> relaunch/restart -> version `to` -> persisted state or migration verification.
+- Worker/process lifecycle: enqueue or trigger -> background loop/process handoff -> side effect -> completion, ack, or durable state transition.
+- Distributed or multi-node: action on node A -> sync/replication/failover -> observable state or behavior on node B.
 
 ## Feasibility Rules
 
 - If a scenario is infeasible in the current environment, record the exact reason, constraints, compensating evidence, and residual risk.
+- If the scenario is platform- or lifecycle-sensitive, record the relevant OS/runtime/version/package or update-feed specifics instead of reducing the blocker to a generic environment note.
 - Keep Stage 7 `Blocked` until the user explicitly waives infeasible acceptance criteria.
 
 ## Failure Classification
@@ -52,4 +62,4 @@ Do not classify a fix as `Local Fix` when it works only by degrading ownership, 
 
 ## Exit Gate
 
-This stage is complete only when all executable in-scope acceptance criteria are `Passed`, all relevant executable spines have evidence, and no unresolved failures or blockers remain.
+This stage is complete only when all executable in-scope acceptance criteria are `Passed`, all relevant executable spines have evidence, and no unresolved failures or blockers remain across the real in-scope boundaries of the system.

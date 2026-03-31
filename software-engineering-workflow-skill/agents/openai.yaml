@@ -24,8 +24,11 @@ interface:
     Stage 6 implements source + unit/integration against the approved
     spine/ownership design and keeps file placement aligned with the owning
     subsystem and folder structure, using optional module groupings only when they
-    materially help readability; Stage 7 implements API/E2E tests and executes the
-    acceptance-criteria plus relevant-spine closure gate;
+    materially help readability; Stage 7 implements API/E2E and other executable
+    validation assets, and executes the acceptance-criteria plus relevant-spine
+    closure gate across the real in-scope interfaces and runtime boundaries
+    (service, UI, native desktop, CLI, process/lifecycle, integration, or
+    distributed flows as needed);
     Stage 8 runs code review only after Stage 7 passes and enforces hard file-size
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
     effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`

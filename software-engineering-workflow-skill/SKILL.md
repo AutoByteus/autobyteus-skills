@@ -1,13 +1,13 @@
 ---
 name: software-engineering-workflow-skill
-description: "Run a staged software-engineering delivery feedback loop from bootstrap through investigation, requirements, design, runtime review, implementation, API/E2E validation, code review, docs sync, and final handoff with durable artifacts and explicit re-entry."
+description: "Run a staged software-engineering delivery feedback loop from bootstrap through investigation, requirements, design, runtime review, implementation, API/E2E and executable validation, code review, docs sync, and final handoff with durable artifacts and explicit re-entry."
 ---
 
 # Software Engineering Workflow Skill
 
 ## Overview
 
-Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E evidence, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, off-spine concerns, and derived separation of concerns.
+Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E and other executable validation evidence appropriate to the system, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, off-spine concerns, and derived separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
 
@@ -140,8 +140,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Code Edit Permission = Unlocked`,
   - Stage 5 gate is `Go Confirmed`,
   - required upstream artifacts are marked `Pass` with evidence.
-- Do not start API/E2E test implementation and execution until implementation execution is complete with required unit/integration verification and Stage 6 modernization/ownership-dependency checks are satisfied.
-- Do not start code review until API/E2E test gate is `Pass`.
+- Do not start Stage 7 executable-validation implementation and execution until implementation execution is complete with required unit/integration verification and Stage 6 modernization/ownership-dependency checks are satisfied.
+- Do not start code review until the Stage 7 executable-validation gate is `Pass`.
 - Do not start post-testing `docs/` synchronization until code review is complete (for infeasible acceptance criteria in Stage 7, explicit user waiver + constraints + compensating evidence + residual risk must be recorded).
 - Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
 - User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, run release/publication/deployment work, or move the ticket to `done` before that user signal.
@@ -153,7 +153,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Post-finalization cleanup rule (mandatory when a dedicated ticket worktree/branch exists): after repository finalization and any applicable release/publication/deployment work are complete (or explicitly recorded as not required), remove the dedicated ticket worktree recorded in Stage 0, run worktree-prune cleanup, and, when the local ticket branch is fully merged into the resolved finalization target and no longer needed, delete that local ticket branch. Do not delete remote branches unless explicit user instruction or documented project policy requires it. If cleanup requires stepping out of the ticket worktree, execute it from a safe parent repo checkout instead of skipping it.
 - Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, target-branch update, merge, or required post-finalization cleanup fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete. If a release/publication/deployment step is applicable and later fails or is undocumented, record that blocker too, but do not undo completed repository finalization.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
-- Treat engineering completion, user verification, ticket archival, repository finalization, release/publication/deployment, and post-finalization cleanup as separate gates: engineering completion ends at implementation + API/E2E test gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/`, complete required Stage 10 repository finalization, run any applicable release/publication/deployment work, and complete any required worktree/branch cleanup.
+- Treat engineering completion, user verification, ticket archival, repository finalization, release/publication/deployment, and post-finalization cleanup as separate gates: engineering completion ends at implementation + Stage 7 executable-validation gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/`, complete required Stage 10 repository finalization, run any applicable release/publication/deployment work, and complete any required worktree/branch cleanup.
 - `Small` scope exception: drafting `implementation.md` (solution sketch section only) before review is allowed as design input, but this draft does not unlock implementation kickoff.
 - Future-state runtime call stack review must run as iterative deep-review rounds (not one-pass review).
 - `Go Confirmed` cannot be declared immediately after required upstream artifact updates from a blocking round.
@@ -169,7 +169,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Unclear` (cross-cutting scope or low root-cause confidence): return to `Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5`.
 - For any Stage 5 blocking round, record classification + return path in `future-state-runtime-call-stack-review.md` and `workflow-state.md` before starting the next round.
 - Stage 6 non-local re-entry rule (mandatory): if a Stage 6 issue is classified as `Design Impact`, `Requirement Gap`, or `Unclear`, record classification + return path in `workflow-state.md`, set `Code Edit Permission = Locked`, and transition to the mapped upstream stage path before further source edits.
-- Re-entry declaration rule (mandatory): when a post-implementation gate (`Stage 7` API/E2E testing or `Stage 8` code review) finds issues, explicitly record:
+- Re-entry declaration rule (mandatory): when a post-implementation gate (`Stage 7` executable validation or `Stage 8` code review) finds issues, explicitly record:
   - trigger stage (`7`/`8`),
   - classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`),
   - required return stage path before any code edit.
@@ -204,7 +204,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 4 | Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` current | Locked |
 | 5 | Future-State Runtime Call Stack Review | `Go Confirmed` (two consecutive clean rounds with no blockers/persisted updates/new use cases) | Locked |
 | 6 | Source Implementation + Unit/Integration | Source code + required unit/integration checks complete + no backward-compat/legacy retention + ownership-driven dependency quality preserved + touched files correctly placed | Unlocked |
-| 7 | API/E2E Test Implementation + Gate | API/E2E scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
+| 7 | API/E2E + Executable Validation Gate | executable validation scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
 | 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface-boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs-sync.md` current + `docs/` updates complete or no-impact rationale recorded | Locked |
 | 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> repository finalization into resolved target branch (when git repo) + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded | Locked |
@@ -220,7 +220,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 4 Future-State Runtime Call Stack | `future-state-runtime-call-stack.md` is current for in-scope use cases | Stay in `4` and regenerate the future-state runtime call stack | `5` |
 | 5 Future-State Runtime Call Stack Review | Future-state runtime call stack review reaches `Go Confirmed` (two consecutive clean rounds with no blockers, no required persisted artifact updates, and no newly discovered use cases) | Classified re-entry before next review round (`Design Impact`: `3 -> 4 -> 5`, `Requirement Gap`: `2 -> 3 -> 4 -> 5`, `Unclear`: `1 -> 2 -> 3 -> 4 -> 5`) | `6` |
 | 6 Source + Unit/Integration | Source implementation complete, required unit/integration checks pass, no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid (no new unjustified cycles/tight coupling), and touched files sit in the correct folder under the correct owning subsystem | Local issues: stay in `6`; classified re-entry for non-local issues (`Design Impact`: `1 -> 3 -> 4 -> 5 -> 6`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6`) | `7` |
-| 7 API/E2E Gate | API/E2E scenarios implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
+| 7 API/E2E + Executable Validation Gate | executable validation scenarios are implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
 | 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | If docs cannot yet be made truthful, classify and re-enter (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); stay in `9 (Blocked)` only for external docs blockers that do not require upstream artifact changes | `10` |
 | 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, and required post-finalization worktree/branch cleanup is complete when applicable | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization/cleanup is complete | End |
@@ -330,7 +330,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - For each acceptance criterion, include a stable `acceptance_criteria_id` (for example: `AC-001`) and an explicit measurable expected outcome.
 - Acceptance criteria must be testable and cover primary behavior plus relevant edge/error behavior.
 - Include a requirement coverage map to call-stack use cases (all requirements must map to at least one use case).
-- Include an acceptance-criteria coverage map to Stage 7 scenarios (all acceptance criteria must map to at least one API/E2E scenario).
+- Include an acceptance-criteria coverage map to Stage 7 scenarios (all acceptance criteria must map to at least one executable validation scenario).
 - Confirm the triage result (`Small` vs `Medium` vs `Large`) and rationale in the requirements doc.
 - Refine requirements from the latest `investigation-notes.md`; do not derive requirements from memory-only investigation.
 - Design-ready requirement gate must make expected behavior clear enough to draft design and runtime call stacks.
@@ -587,7 +587,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - then execute source implementation with required unit/integration verification.
 - Stage separation rule (mandatory):
   - Stage 6 implements source code and verifies file and service boundaries, while preserving readable subsystem grouping, with unit/integration tests.
-  - Stage 7 implements API/E2E tests and runs API/E2E test scenarios against acceptance criteria.
+  - Stage 7 implements executable validation assets and runs the mapped Stage 7 scenarios against acceptance criteria.
   - Stage 8 runs the code review gate after Stage 7 passes.
 - Include requirement traceability in plan/progress (`requirement -> design section -> call stack/use_case -> implementation tasks/tests`).
 - Include spine traceability in plan/progress (`spine -> owner -> use case -> implementation tasks -> validation scenarios`).
@@ -642,19 +642,19 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Use `stages/06-implementation/implementation-template.md`.
 - Do not speak for routine `implementation.md` edits. Announce only for persisted `workflow-state.md` events (Stage 6 entry, lock/unlock change, gate/transition outcomes).
 
-### 7) Implement API/E2E Tests And Run API/E2E Test Gate (Mandatory)
+### 7) Implement API/E2E And Other Executable Validation And Run Stage 7 Gate (Mandatory)
 
 - Run this stage immediately after `Stage 6` completes.
-- At Stage 7 entry, update `workflow-state.md` and keep `Code Edit Permission = Unlocked` while API/E2E test artifacts are being implemented/executed.
+- At Stage 7 entry, update `workflow-state.md` and keep `Code Edit Permission = Unlocked` while Stage 7 validation artifacts are being implemented/executed.
 - Create/update `tickets/in-progress/<ticket-name>/api-e2e-testing.md` as the canonical scenario + result artifact.
 - Multi-round artifact rule (mandatory): keep one canonical `api-e2e-testing.md` path for the ticket. Do not create versioned copies by default. On every rerun, check prior unresolved failures first, then continue validation. The latest round result is authoritative; earlier rounds remain history.
 - Round-resolution rule (mandatory): on Stage 7 round `>1`, update the prior-failure resolution check before declaring the new gate result.
 - Stage 7 scope includes:
-  - implementing API test files/harness as needed,
-  - implementing E2E test files/harness as needed,
-  - executing API/E2E scenarios mapped from acceptance criteria.
-- Durable validation-first rule (mandatory): first implement or update the API/E2E tests, harnesses, and validation code that should live in the repository and govern future changes.
-- Broader executable-validation rule (mandatory): if durable repo-resident validation is not enough to prove the behavior, continue with broader executable validation work as needed, including temporary scripts, probes, environment setup, containerized setup, mocked or emulated dependencies, or computer/browser automation when that is the reasonable way to verify the flow.
+  - implementing durable repo-resident validation assets as needed,
+  - implementing API, browser/UI, native desktop/UI, CLI, process/lifecycle, integration, multi-service, or multi-node harnesses as needed,
+  - executing Stage 7 scenarios mapped from acceptance criteria.
+- Durable validation-first rule (mandatory): first implement or update the validation tests, harnesses, and assets that should live in the repository and govern future changes.
+- Broader executable-validation rule (mandatory): if durable repo-resident validation is not enough to prove the behavior, continue with broader executable validation work as needed, including temporary scripts, probes, environment setup, containerized setup, mocked or emulated dependencies, CLI harnesses, native desktop automation, lifecycle/update/restart checks, multi-process or multi-node orchestration, or browser/computer automation when that is the reasonable way to verify the flow.
 - Persistence rule (mandatory): validation that should remain useful for future changes should stay in the codebase; one-off proof scaffolding may be temporary.
 - Cleanup rule (mandatory): remove temporary validation-only scaffolding after the result is recorded unless keeping it as durable coverage is clearly useful.
 - If Stage 7 failures require source-code changes, declare re-entry and return to Stage 6 first.
@@ -664,8 +664,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Spine coverage rule (mandatory): every relevant spine from the approved design basis must map to at least one Stage 7 scenario, or be explicitly marked `N/A` with rationale.
 - Acceptance-criteria closure loop (mandatory):
   - build and maintain an explicit Stage 7 acceptance-criteria matrix sourced from `requirements.md` (`acceptance_criteria_id` -> mapped scenario IDs -> execution status),
-  - every in-scope acceptance criterion must map to at least one executable API/E2E scenario before execution starts,
-  - every relevant spine must map to at least one executable API/E2E scenario before execution starts unless explicitly `N/A`,
+  - every in-scope acceptance criterion must map to at least one executable Stage 7 scenario before execution starts,
+  - every relevant spine must map to at least one executable Stage 7 scenario before execution starts unless explicitly `N/A`,
   - any acceptance criterion with status `Unmapped`, `Not Run`, `Failed`, or `Blocked` keeps Stage 7 open and requires re-entry unless explicitly marked `Waived` by user decision for infeasible cases,
   - rerun the required re-entry chain and return to Stage 7 until all in-scope acceptance criteria are `Passed` or explicitly `Waived`.
 - For each scenario, record at minimum:
@@ -674,16 +674,24 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - mapped `acceptance_criteria_id` values,
   - mapped `requirement_id` and `use_case_id` values,
   - source type (`Requirement`/`Design-Risk`),
-  - test level (`API`/`E2E`),
+  - validation mode (`API`/`Browser-E2E`/`Desktop-UI`/`CLI`/`Integration`/`Process`/`Lifecycle`/`Other`),
+  - platform/runtime target,
   - expected outcome,
   - durable validation asset(s) added/updated when applicable,
   - temporary validation method/setup used when applicable,
   - execution command/harness,
   - result (`Passed`/`Failed`/`Blocked`/`N/A`).
 - Stable scenario-ID rule (mandatory): reuse the same `scenario_id` for the same scenario across reruns. Add a new `scenario_id` only for newly discovered coverage.
-- API test depth rule (mandatory): when scenario level is `API`, validate contract-level behavior including required fields/schema shape, status codes, and error payload behavior for mapped acceptance criteria.
-- Cross-boundary test rule (mandatory): for client/server or multi-service scope, include API/E2E scenarios that validate cross-boundary interaction behavior (request -> boundary handoff -> downstream effect -> returned state).
-- Manual testing policy: do not include manual testing in the default workflow. If the user performs manual verification outside the workflow, treat the user's explicit completion/verification message as the Stage 10 trigger to move the ticket to `done` and start repository finalization.
+- Scenario-pattern examples (illustrative, not exhaustive):
+  - backend/service API change: request -> handler -> domain/service -> persistence -> response contract,
+  - browser UI flow: user action -> UI state change -> network effect -> rendered confirmation/error state,
+  - native desktop updater flow: version `from` -> update download/apply -> relaunch/restart -> version `to` -> persisted state/migration check,
+  - worker/process flow: enqueue/trigger -> worker loop/process handoff -> side effect -> completion/ack state,
+  - distributed/multi-node flow: node A action -> replication/sync -> node B visible state or failover behavior.
+- API test depth rule (mandatory): when validation mode is `API`, validate contract-level behavior including required fields/schema shape, status codes, and error payload behavior for mapped acceptance criteria.
+- Lifecycle/update rule (mandatory): when a scenario covers install/update/startup/restart/shutdown/migration/recovery behavior, record version `from`/`to` when relevant, platform/runtime target, package/update channel or feed when relevant, relaunch/restart evidence, and persisted-state outcome.
+- Cross-boundary test rule (mandatory): for client/server, multi-service, or multi-process scope, include Stage 7 scenarios that validate cross-boundary interaction behavior (trigger -> boundary handoff -> downstream effect -> returned or observable state).
+- Manual testing policy: unstructured manual-only testing is not part of the default workflow. If OS/platform constraints make a human-assisted execution step unavoidable, record the exact steps, automated evidence captured, constraints, and residual risk; do not treat ad hoc manual confirmation as sufficient Stage 7 coverage.
 - Feasibility policy:
   - if a scenario is not executable in current environment (missing secrets/tokens, unavailable partner system, infra limit), record concrete infeasibility reasons and constraints in `api-e2e-testing.md`; reflect only a short downstream status pointer in `implementation.md` when needed,
   - record compensating automated evidence and residual risk notes for each infeasible critical scenario,
@@ -706,12 +714,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - `Requirement Gap` path: `Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
   - `Unclear`/cross-cutting root cause path: `Stage 0 -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 5 -> Stage 6 -> Stage 7`.
 - Stage completion gate:
-  - durable API/E2E validation that should live in the repository has been implemented or updated,
+  - durable executable validation that should live in the repository has been implemented or updated,
   - all in-scope acceptance criteria from `requirements.md` are mapped to Stage 7 scenarios,
   - all relevant spines from the design basis are mapped to Stage 7 scenarios or explicitly `N/A`,
   - all executable in-scope acceptance criteria have execution status `Passed`,
   - all executable relevant spines have scenario evidence that passed,
-  - all executable mapped API/E2E scenarios are resolved (`Passed`), with no unresolved failures/blockers,
+  - all executable mapped Stage 7 scenarios are resolved (`Passed`), with no unresolved failures/blockers,
   - temporary validation-only scaffolding is either cleaned up or explicitly retained with rationale,
   - if any acceptance criterion is infeasible due to environment constraints, Stage 7 remains `Blocked` until explicit user waiver is recorded with constraints + compensating evidence + residual risk.
 - Before transitioning to Stage 8, update `workflow-state.md` with Stage 7 gate result and transition evidence.
@@ -720,7 +728,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 8) Run Code Review Gate (Mandatory, Post-Testing)
 
-- Run this stage only after `Stage 7` API/E2E test gate is `Pass`.
+- Run this stage only after the `Stage 7` executable-validation gate is `Pass`.
 - At Stage 8 entry, update `workflow-state.md` and set `Code Edit Permission = Locked`.
 - Create/update `tickets/in-progress/<ticket-name>/code-review.md` as the canonical code review artifact.
 - Investigation-context rule (mandatory): Stage 8 may read the latest `investigation-notes.md` as upstream context when it materially explains the changed scope, current-behavior findings, external constraints, or a review finding. Investigation notes are context, not review authority.
@@ -784,7 +792,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Use `stages/09-docs-sync/docs-sync-guide.md`.
 - Create/update `tickets/in-progress/<ticket-name>/docs-sync.md` as the canonical Stage 9 artifact.
 - Use `stages/09-docs-sync/docs-sync-template.md`.
-- After Stage 7 API/E2E testing and Stage 8 code review are complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
+- After Stage 7 executable validation and Stage 8 code review are complete, update project documentation under the project `docs/` folder (and other canonical architecture docs such as `ARCHITECTURE.md` when impacted) so docs reflect the latest codebase behavior.
 - Treat `docs/` as the long-lived canonical source of truth for the current codebase.
 - Treat ticket artifacts under `tickets/` as task-local, time-bound records; they are not the long-term source of truth.
 - Stage 9 exists to promote durable design and runtime knowledge out of time-bound ticket artifacts and into long-lived project documentation.
@@ -814,12 +822,12 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 
 ### 10) Final Handoff
 
-- Complete handoff only after implementation execution, Stage 7 API/E2E testing, Stage 8 code review, and docs synchronization are complete.
+- Complete handoff only after implementation execution, Stage 7 executable validation, Stage 8 code review, and docs synchronization are complete.
 - Create/update `tickets/in-progress/<ticket-name>/handoff-summary.md` as the canonical Stage 10 artifact.
 - Use `stages/10-handoff/handoff-guide.md` and `stages/10-handoff/handoff-summary-template.md`.
 - Handoff summary must include:
   - delivered scope vs planned scope,
-  - verification summary (unit/integration plus API/E2E testing, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
+  - verification summary (unit/integration plus Stage 7 executable validation, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
   - docs files updated (or explicit no-impact rationale) plus the `docs-sync.md` artifact path,
   - release-note status (`created` with artifact path, or explicit `not required` rationale).
 - When release notes are required, create/update `tickets/in-progress/<ticket-name>/release-notes.md` before waiting for user verification.
@@ -890,7 +898,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - finalize/update `tickets/in-progress/<ticket-name>/implementation.md`
   - execute source implementation plus required unit/integration verification and log progress in real time
   - close Stage 6 only when no backward-compatibility/legacy-retention paths remain in scope, ownership-driven dependencies remain valid, and touched files sit in the correct folder under the correct owning subsystem
-- Stage 7 (API/E2E test implementation + API/E2E test gate):
+- Stage 7 (API/E2E + executable validation implementation and gate):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 7`, `Code Edit Permission = Unlocked`)
   - create/update `tickets/in-progress/<ticket-name>/api-e2e-testing.md`
   - maintain acceptance-criteria matrix (`acceptance_criteria_id` -> scenario coverage -> pass status)
@@ -941,7 +949,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 6 implementation:
   - `stages/06-implementation/implementation-template.md`
   - `stages/06-implementation/implementation-example.md`
-- Stage 7 API/E2E:
+- Stage 7 API/E2E + executable validation:
   - `stages/07-api-e2e/README.md`
   - `stages/07-api-e2e/api-e2e-guide.md`
   - `stages/07-api-e2e/api-e2e-testing-template.md`

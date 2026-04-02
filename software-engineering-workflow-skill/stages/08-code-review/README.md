@@ -12,11 +12,11 @@ Run the independent code-review gate after Stage 7 validation passes.
 ## Stage-Owned Outputs
 
 - `tickets/in-progress/<ticket-name>/code-review.md`
-- final Stage 8 decision, detailed review scorecard, plus any re-entry declaration
+- final Stage 8 decision, canonical priority-ordered review scorecard, plus any re-entry declaration
 
 ## Exit Gate
 
-Leave Stage 8 only when the review decision is `Pass`, all mandatory review checks are satisfied, and the detailed review scorecard is recorded.
+Leave Stage 8 only when the review decision is `Pass`, all mandatory review checks are satisfied, the detailed priority-ordered review scorecard is recorded, and no scorecard category is below `9.0`.
 
 ## Local Files
 

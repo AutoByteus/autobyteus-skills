@@ -9,31 +9,34 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 
 ## Review Scorecard (Mandatory)
 
-The Stage 8 report must include a detailed scorecard.
+The Stage 8 report must include a detailed priority-ordered scorecard.
 Each score must explain itself; do not record a number without concrete rationale.
-Use equal-weight scoring across the required categories below, with each category scored from `1.0` to `10.0` in `0.5` increments.
-Report the result as both `Overall: X.X / 10` and `YY / 100`.
+Use the listed order as the reasoning order for the review.
+Score each category from `1.0` to `10.0` in `0.5` increments.
+Report the result as both `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the Stage 8 pass/fail rule.
+Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
 The scorecard is diagnostic and comparative. It does not average away blockers, and it never overrides a failed mandatory check.
+Ownership-driven dependency quality and shortcut avoidance are judged mainly inside ownership/boundary, API, and separation/placement categories rather than as a separate top-level score row.
 
-| Category | What Drives The Score |
-| --- | --- |
-| Spine clarity and traceability | data-flow spine inventory clarity, off-spine concern clarity, ease of tracing the main changed flow end to end |
-| Ownership clarity and boundary encapsulation | ownership boundary preservation, repeated coordination ownership, empty indirection avoidance, authoritative boundary preservation |
-| Separation of concerns and file placement | file responsibility clarity, file placement, flat-vs-over-split layout judgment |
-| API/interface/query/command clarity | interface/API/query/command/service-method boundary clarity, explicit identity and subject shape |
-| Shared-structure/data-model tightness and reusable owned structures | existing capability reuse, reusable owned structure extraction, shared-structure tightness, duplication pressure |
-| Dependency quality and shortcut avoidance | ownership-driven dependency quality, no unjustified cycles, no forbidden shortcuts |
-| Naming quality and local readability | naming quality across files, folders, APIs, types, functions, parameters, variables, plus naming-to-responsibility alignment |
-| Validation strength | validation evidence sufficiency, test quality, test maintainability |
-| Runtime correctness under edge cases | confidence that the changed logic behaves correctly on unhappy paths, edge cases, and cross-boundary transitions |
-| Modernization / cleanup / no legacy | dead/obsolete cleanup completeness, no backward-compatibility mechanisms, no retained legacy behavior |
+| Priority | Category | What Drives The Score |
+| --- | --- | --- |
+| `1` | `Data-Flow Spine Inventory and Clarity` | clarity of the relevant primary and secondary data-flow spines, completeness of spine inventory, and ease of tracing the changed behavior across those spines |
+| `2` | `Ownership Clarity and Boundary Encapsulation` | ownership boundary preservation, authoritative boundary preservation, repeated coordination ownership, shortcut avoidance, and no bypass of owned lower-level concerns |
+| `3` | `API / Interface / Query / Command Clarity` | interface/API/query/command/service-method boundary clarity, one subject per boundary, explicit identity shape, and no ambiguous public contract |
+| `4` | `Separation of Concerns and File Placement` | file responsibility clarity, placement under the correct owning subsystem/folder, and readable flat-vs-over-split layout judgment |
+| `5` | `Shared-Structure / Data-Model Tightness and Reusable Owned Structures` | existing capability reuse, reusable owned structure extraction, tight shared structures, and no kitchen-sink or overlapping parallel shapes |
+| `6` | `Naming Quality and Local Readability` | naming quality across files, folders, APIs, types, functions, parameters, and variables, plus naming-to-responsibility alignment |
+| `7` | `Validation Strength` | validation evidence sufficiency, test quality, and test maintainability |
+| `8` | `Runtime Correctness Under Edge Cases` | confidence that the changed logic behaves correctly on unhappy paths, edge cases, lifecycle transitions, and cross-boundary transitions |
+| `9` | `No Backward-Compatibility / No Legacy Retention` | absence of compatibility wrappers, dual-path behavior, retained old-behavior branches, and other legacy-retention shapes in changed scope |
+| `10` | `Cleanup Completeness` | removal of dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths left in changed scope |
 
 Scoring guidance:
 
-- `9.0-10.0`: strong engineering shape with no meaningful weakness in the changed scope
-- `7.0-8.5`: solid overall, but with limited weakness or cleanup still worth calling out
-- `5.0-6.5`: material weakness exists; if it maps to a mandatory Stage 8 check, the review likely fails
-- `<5.0`: serious structural, validation, correctness, or modernization problem
+- `9.0-10.0`: clean Stage 8 pass territory for that category
+- `8.0-8.5`: strong but still not clean enough for strict pass; a real gap remains
+- `6.0-7.5`: significant weakness that should normally fail review
+- `<6.0`: serious structural, validation, correctness, legacy, or cleanup failure
 
 ## Primary Review Questions
 

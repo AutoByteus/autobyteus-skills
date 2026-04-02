@@ -743,19 +743,22 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - source files and test files,
   - include changed files and directly impacted related files when structural risk exists.
 - File-size gate scope (mandatory): the `>500` effective-line hard limit and `>220` changed-line delta gate apply to changed source implementation files only. Test files stay in review scope for correctness, maintainability, and validation quality, but they do not fail the gate merely for exceeding those source-file size thresholds.
-- Mandatory review scorecard rule (mandatory): record a detailed scorecard in `code-review.md` on every Stage 8 round. Score these ten equal-weight categories from `1.0` to `10.0` in `0.5` increments and record for each row why it earned that score, what is weak, and what should improve:
-  - spine clarity and traceability,
-  - ownership clarity and boundary encapsulation,
-  - separation of concerns and file placement,
-  - API/interface/query/command clarity,
-  - shared-structure/data-model tightness and reusable owned structures,
-  - dependency quality and shortcut avoidance,
-  - naming quality and local readability,
-  - validation strength,
-  - runtime correctness under edge cases,
-  - modernization / cleanup / no legacy.
-- Scorecard overall rule (mandatory): report the equal-weight average as both `Overall: X.X / 10` and `YY / 100`.
-- Scorecard interpretation rule (mandatory): the scorecard is diagnostic and comparative. It never overrides blocking findings or failed mandatory Stage 8 checks.
+- Mandatory review scorecard rule (mandatory): record a detailed priority-ordered scorecard in `code-review.md` on every Stage 8 round. Score these ten categories from `1.0` to `10.0` in `0.5` increments and record for each row why it earned that score, what is weak, and what should improve:
+  - `1` `Data-Flow Spine Inventory and Clarity`,
+  - `2` `Ownership Clarity and Boundary Encapsulation`,
+  - `3` `API / Interface / Query / Command Clarity`,
+  - `4` `Separation of Concerns and File Placement`,
+  - `5` `Shared-Structure / Data-Model Tightness and Reusable Owned Structures`,
+  - `6` `Naming Quality and Local Readability`,
+  - `7` `Validation Strength`,
+  - `8` `Runtime Correctness Under Edge Cases`,
+  - `9` `No Backward-Compatibility / No Legacy Retention`,
+  - `10` `Cleanup Completeness`.
+- Review-order rule (mandatory): judge the scorecard in the listed order because the design reasoning should flow from data-flow spine inventory -> ownership/boundary authority -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
+- Scorecard overall rule (mandatory): report `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but the average is never the Stage 8 pass/fail rule.
+- Per-category gate rule (mandatory): every scorecard category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail Stage 8.
+- Scorecard interpretation rule (mandatory): the scorecard is diagnostic and comparative, but it is not an averaging escape hatch. A high overall score never overrides a low-priority-category failure or a failed mandatory Stage 8 check.
+- Score-row ownership note (mandatory): ownership-driven dependency quality and shortcut avoidance are judged mainly inside `Ownership Clarity and Boundary Encapsulation` plus `API / Interface / Query / Command Clarity` and `Separation of Concerns and File Placement`, rather than as a separate top-level score row.
 - Mandatory review checks:
   - data-flow spine inventory preservation,
   - ownership boundary preservation,
@@ -792,7 +795,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no soft middle band (`501-700`) and no default exception path in this workflow.
   - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`, and the detailed review scorecard is recorded.
+- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`, the detailed review scorecard is recorded in the canonical priority order, and no scorecard category is below `9.0`.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
   - `Local Fix`: the issue requires source changes but remains inside the shared design principles and intended behavior without requiring design or requirement artifact updates; rerun `Stage 6 -> Stage 7 -> Stage 8`.

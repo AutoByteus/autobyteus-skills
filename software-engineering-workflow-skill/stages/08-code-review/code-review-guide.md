@@ -28,25 +28,28 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 
 ## Mandatory Review Scorecard
 
-- Record a detailed scorecard in `code-review.md` on every Stage 8 review round.
+- Record a detailed priority-ordered scorecard in `code-review.md` on every Stage 8 review round.
+- Judge categories in the listed order. The review reasoning should move from data-flow spine inventory -> ownership/boundary authority -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
 - Score each category from `1.0` to `10.0` in `0.5` increments.
 - For every scored category, record:
   - why the code earned that score,
   - what concrete weakness, gap, or drag kept the score lower,
   - what specific improvement is expected.
-- Mandatory scorecard categories:
-  - spine clarity and traceability
-  - ownership clarity and boundary encapsulation
-  - separation of concerns and file placement
-  - API/interface/query/command clarity
-  - shared-structure/data-model tightness and reusable owned structures
-  - dependency quality and shortcut avoidance
-  - naming quality and local readability
-  - validation strength
-  - runtime correctness under edge cases
-  - modernization / cleanup / no legacy
-- Use an equal-weight average across the ten categories and report it as both `Overall: X.X / 10` and `YY / 100`.
-- The scorecard is diagnostic, not the gate by itself. Scores never override blocking findings or failed mandatory checks.
+- Mandatory scorecard categories in priority order:
+  - `1` `Data-Flow Spine Inventory and Clarity`
+  - `2` `Ownership Clarity and Boundary Encapsulation`
+  - `3` `API / Interface / Query / Command Clarity`
+  - `4` `Separation of Concerns and File Placement`
+  - `5` `Shared-Structure / Data-Model Tightness and Reusable Owned Structures`
+  - `6` `Naming Quality and Local Readability`
+  - `7` `Validation Strength`
+  - `8` `Runtime Correctness Under Edge Cases`
+  - `9` `No Backward-Compatibility / No Legacy Retention`
+  - `10` `Cleanup Completeness`
+- Report `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the Stage 8 pass/fail rule.
+- Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
+- Ownership-driven dependency quality and shortcut avoidance should be judged mainly inside `Ownership Clarity and Boundary Encapsulation` plus `API / Interface / Query / Command Clarity` and `Separation of Concerns and File Placement`, not as a separate score row.
+- The scorecard is diagnostic, but it is not an escape hatch. Scores never override blocking findings or failed mandatory checks.
 
 ## Mandatory Review Areas
 

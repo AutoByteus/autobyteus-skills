@@ -176,7 +176,20 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 - Required scorecard shape:
   - overall `/10`
   - overall `/100`
-  - all ten categories with `score + why this score + what is weak + what should improve`
+  - all ten categories in canonical priority order with `score + why this score + what is weak + what should improve`
+  - clean pass target: no category below `9.0`
+  - overall summary is trend-only; it is not the pass/fail rule
+- Canonical priority order:
+  - `1` `Data-Flow Spine Inventory and Clarity`
+  - `2` `Ownership Clarity and Boundary Encapsulation`
+  - `3` `API / Interface / Query / Command Clarity`
+  - `4` `Separation of Concerns and File Placement`
+  - `5` `Shared-Structure / Data-Model Tightness and Reusable Owned Structures`
+  - `6` `Naming Quality and Local Readability`
+  - `7` `Validation Strength`
+  - `8` `Runtime Correctness Under Edge Cases`
+  - `9` `No Backward-Compatibility / No Legacy Retention`
+  - `10` `Cleanup Completeness`
 - Scope (source + tests):
 - line-count measurement command (`effective non-empty`):
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`

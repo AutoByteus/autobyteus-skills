@@ -93,28 +93,31 @@ Rules:
 
 Record the scorecard on every review round, including failing rounds.
 The scorecard explains current quality; it does not override the Stage 8 gate.
+Use the canonical category order below. The order reflects the review reasoning path rather than an equal-weight category list.
 
 - Overall score (`/10`):
 - Overall score (`/100`):
-- Score calculation note: equal-weight average across the ten categories below; round `/10` to one decimal place and `/100` to the nearest whole number.
+- Score calculation note: report `/10` and `/100` for summary/trend visibility only. If an overall score is reported, a simple average across the ten categories below is acceptable, but the average is never the Stage 8 pass/fail rule.
 
-| Category | Score (`1.0-10.0`) | Why This Score | What Is Weak / Holding It Down | What Should Improve |
-| --- | --- | --- | --- | --- |
-| Spine clarity and traceability |  |  |  |  |
-| Ownership clarity and boundary encapsulation |  |  |  |  |
-| Separation of concerns and file placement |  |  |  |  |
-| API/interface/query/command clarity |  |  |  |  |
-| Shared-structure/data-model tightness and reusable owned structures |  |  |  |  |
-| Dependency quality and shortcut avoidance |  |  |  |  |
-| Naming quality and local readability |  |  |  |  |
-| Validation strength |  |  |  |  |
-| Runtime correctness under edge cases |  |  |  |  |
-| Modernization / cleanup / no legacy |  |  |  |  |
+| Priority | Category | Score (`1.0-10.0`) | Why This Score | What Is Weak / Holding It Down | What Should Improve |
+| --- | --- | --- | --- | --- | --- |
+| `1` | `Data-Flow Spine Inventory and Clarity` |  |  |  |  |
+| `2` | `Ownership Clarity and Boundary Encapsulation` |  |  |  |  |
+| `3` | `API / Interface / Query / Command Clarity` |  |  |  |  |
+| `4` | `Separation of Concerns and File Placement` |  |  |  |  |
+| `5` | `Shared-Structure / Data-Model Tightness and Reusable Owned Structures` |  |  |  |  |
+| `6` | `Naming Quality and Local Readability` |  |  |  |  |
+| `7` | `Validation Strength` |  |  |  |  |
+| `8` | `Runtime Correctness Under Edge Cases` |  |  |  |  |
+| `9` | `No Backward-Compatibility / No Legacy Retention` |  |  |  |  |
+| `10` | `Cleanup Completeness` |  |  |  |  |
 
 Rules:
 
 - Do not leave the scorecard as raw numbers only; every row must explain the score, the weakness, and the expected improvement.
-- No minimum numeric score automatically passes or fails Stage 8. The gate still follows mandatory checks and blocking findings.
+- Follow the listed priority order. The scorecard is not an unordered checklist.
+- Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail review.
+- Do not let the overall summary override a weak category. The gate still follows mandatory checks and blocking findings.
 - If a category is not heavily exercised, score the quality of the relevant changed boundary anyway and explain the limited scope in the rationale column.
 
 ## Findings
@@ -159,7 +162,8 @@ Rules:
 - Decision: `Pass` / `Fail`
 - Implementation can proceed to `Stage 9`: `Yes` / `No`
 - Mandatory pass checks:
-  - Review scorecard is recorded with rationale, weakness, and required-improvement notes for all ten categories
+  - Review scorecard is recorded with rationale, weakness, and required-improvement notes for all ten categories in the canonical priority order
+  - No scorecard category is below `9.0`
   - All changed source files have effective non-empty line count `<=500`
   - Required `>220` changed-line delta-gate assessments are recorded for all applicable changed source files
   - Data-flow spine inventory clarity and preservation under shared principles = `Pass`

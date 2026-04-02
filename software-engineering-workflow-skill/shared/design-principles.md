@@ -2,6 +2,7 @@
 
 Use these principles for Stage 3 design work and Stage 5 future-state review.
 They are the shared design language for this workflow.
+The Stage 8 priority-ordered review scorecard is derived from this language: data-flow spine inventory and clarity -> ownership and boundary encapsulation -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
 
 ## Terminology
 
@@ -12,18 +13,19 @@ They are the shared design language for this workflow.
 
 ## Core Principles
 
-### 1. Data-Flow Spine Clarity
+### 1. Data-Flow Spine Inventory and Clarity
 
-- Identify the primary end-to-end spine for each in-scope use case.
+- Identify and inventory the relevant data-flow spines for each in-scope use case.
 - Enumerate all relevant spines explicitly, not only the biggest one:
-  - primary end-to-end spines,
+  - primary spines,
+  - secondary spines,
   - return/event spines,
   - bounded local spines inside one owner when a loop, worker cycle, state machine, or dispatcher materially affects the design.
 - For each spine, state its start, end, owner, and why it exists.
 - Keep only true main-line nodes on each spine.
-- If the main line or bounded local spines are hard to draw, the design is probably fragmented.
+- If the declared spine inventory is incomplete, or if the main line / secondary line / bounded local spines are hard to draw, the design is probably fragmented.
 
-### 2. Ownership Clarity
+### 2. Ownership Clarity and Boundary Encapsulation
 
 - Each main-line node must own something concrete:
   - state
@@ -36,6 +38,8 @@ They are the shared design language for this workflow.
 - Main domain subject nodes on the spine should stay coherent; do not force one node to absorb every nearby responsibility just because it is on the main line.
 - When additional responsibilities are needed to make one node work, split them into clear off-spine concerns around that owner instead of creating hidden mixed-concern blobs.
 - If a concern has no clear owner, the boundary is wrong.
+- When one boundary intentionally encapsulates lower-level concerns, callers above it should depend on the authoritative outer boundary instead of bypassing it and mixing in the internals directly.
+- API/interface/query/command shape should be derived from this ownership and boundary model, not designed independently from it.
 
 ### 3. Off-Spine Concerns Around The Spine
 
@@ -70,7 +74,7 @@ They are the shared design language for this workflow.
 
 ## Required Design Questions
 
-- What are the primary execution/data-flow spines for the in-scope use cases?
+- What are the relevant primary, secondary, return/event, and bounded local data-flow spines for the in-scope use cases?
 - Which bounded local/internal spines exist inside owned nodes, and where do they start and end?
 - What are the main domain subject nodes on each spine?
 - What does each node own?

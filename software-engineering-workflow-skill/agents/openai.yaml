@@ -33,15 +33,19 @@ interface:
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
     effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
     middle band; and `>220` changed-line delta requires recorded design-impact
-    assessment), and requires a detailed review scorecard in `code-review.md`
-    with overall `/10` and `/100` plus category scoring for spine
-    clarity/traceability, ownership plus boundary encapsulation, separation of
-    concerns plus placement, API/interface clarity, shared-structure tightness
-    plus reusable owned structures, dependency quality, naming/readability,
-    validation strength, runtime correctness under edge cases, and
-    modernization/cleanup/no legacy; every row must record the score, why it
-    earned that score, what is weak, and what should improve; scores are
-    diagnostic and never override blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
+    assessment), and requires a detailed priority-ordered review scorecard in
+    `code-review.md` with overall `/10` and `/100` for summary/trend visibility
+    plus category scoring in this order: `Data-Flow Spine Inventory and
+    Clarity`, `Ownership Clarity and Boundary Encapsulation`, `API / Interface /
+    Query / Command Clarity`, `Separation of Concerns and File Placement`,
+    `Shared-Structure / Data-Model Tightness and Reusable Owned Structures`,
+    `Naming Quality and Local Readability`, `Validation Strength`, `Runtime
+    Correctness Under Edge Cases`, `No Backward-Compatibility / No Legacy
+    Retention`, and `Cleanup Completeness`; every row must record the score, why
+    it earned that score, what is weak, and what should improve; the order is
+    the review reasoning order, not an equal-weight list; no scorecard category
+    below `9.0` qualifies as a clean pass; the overall summary never overrides
+    blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
     and promotes durable design/runtime knowledge into canonical project docs;
     Stage 10 creates `handoff-summary.md`, and when release notes are required,
     also creates `release-notes.md`, waits for explicit user

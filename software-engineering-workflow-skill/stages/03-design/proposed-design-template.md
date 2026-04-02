@@ -153,9 +153,29 @@ Use this section to show which broader functional areas own which parts of the t
 
 - Allowed dependency directions:
 - Authoritative public entrypoints versus internal owned sub-layers:
+- Authoritative Boundary Rule per domain subject (no boundary bypass / no mixed-level dependency):
 - Forbidden shortcuts:
 - Boundary bypasses that are not allowed:
 - Temporary exceptions and removal plan:
+
+Authoritative Boundary Rule examples:
+- Good shape:
+  - `Caller -> ArtifactStore`
+  - `ArtifactStore -> ArtifactRepository`
+- Bad shape:
+  - `Caller -> ArtifactStore`
+  - `Caller -> ArtifactRepository`
+  - `ArtifactStore -> ArtifactRepository`
+- Good shape:
+  - `Handler -> DiscoverabilityStore`
+  - `DiscoverabilityStore -> MergePolicy`
+- Bad shape:
+  - `Handler -> DiscoverabilityStore`
+  - `Handler -> MergePolicy`
+  - `DiscoverabilityStore -> MergePolicy`
+- Review intent:
+  - choose one authoritative boundary per subject for upper-layer callers
+  - if callers need internals directly, the boundary is wrong or the API is incomplete
 
 ## Architecture Direction Decision (Mandatory)
 
@@ -165,7 +185,7 @@ Use this section to show which broader functional areas own which parts of the t
 - Spine inventory completeness assessment: `Yes` / `No`
 - Ownership clarity assessment: `Yes` / `No`
 - Off-spine concern clarity assessment: `Yes` / `No`
-- Boundary encapsulation assessment: `Yes` / `No`
+- Authoritative Boundary Rule assessment: `Yes` / `No`
 - File placement within the owning subsystem assessment: `Yes` / `No`
 - Outcome (`Keep`/`Add`/`Split`/`Merge`/`Move`/`Remove`):
 - Note: `Keep` is valid only when the current spine, ownership boundaries, off-spine concerns, and file placement are already coherent for the in-scope behavior.
@@ -184,7 +204,7 @@ Use this section to show which broader functional areas own which parts of the t
 | Responsibility overload exists in one file or one optional module grouping |  |  | Split / Keep |
 | Proposed indirection owns real policy, translation, or boundary concern |  |  | Keep / Remove |
 | Every off-spine concern has a clear owner on the spine |  |  | Fix / Keep |
-| Authoritative public boundaries stay authoritative; callers do not depend on both an outer owner and one of its internal owned mechanisms |  |  | Fix / Keep |
+| Authoritative Boundary Rule is preserved: authoritative public boundaries stay authoritative; callers do not depend on both an outer owner and one of its internal owned mechanisms |  |  | Fix / Keep |
 | Existing capability area/subsystem was reused or extended where it naturally fits |  |  | Reuse/Extend / Create New |
 | Repeated structures were extracted into reusable owned files where needed |  |  | Extract / Keep Local |
 | Current structure can remain unchanged without spine/ownership degradation |  |  | Keep / Change |

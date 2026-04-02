@@ -3,6 +3,7 @@
 Use these principles for Stage 3 design work and Stage 5 future-state review.
 They are the shared design language for this workflow.
 The Stage 8 priority-ordered review scorecard is derived from this language: data-flow spine inventory and clarity -> ownership and boundary encapsulation -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
+One especially important law in this workflow is the `Authoritative Boundary Rule`: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time.
 
 ## Terminology
 
@@ -38,6 +39,7 @@ The Stage 8 priority-ordered review scorecard is derived from this language: dat
 - Main domain subject nodes on the spine should stay coherent; do not force one node to absorb every nearby responsibility just because it is on the main line.
 - When additional responsibilities are needed to make one node work, split them into clear off-spine concerns around that owner instead of creating hidden mixed-concern blobs.
 - If a concern has no clear owner, the boundary is wrong.
+- Authoritative Boundary Rule (mandatory): callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time. This is the `no boundary bypass / no mixed-level dependency` rule.
 - When one boundary intentionally encapsulates lower-level concerns, callers above it should depend on the authoritative outer boundary instead of bypassing it and mixing in the internals directly.
 - API/interface/query/command shape should be derived from this ownership and boundary model, not designed independently from it.
 
@@ -56,7 +58,7 @@ The Stage 8 priority-ordered review scorecard is derived from this language: dat
 - No backward compatibility or legacy retention is a hard modernization rule for in-scope behavior. Design the clean-cut target directly and make removal of obsolete paths explicit.
 - Removal is first-class architecture work, not optional cleanup. When clearer ownership, reusable owned structures, or better file responsibilities make redundant pieces unnecessary, name and remove/decommission those pieces explicitly in scope.
 - Dependency direction follows ownership; name allowed directions and forbidden shortcuts explicitly.
-- Boundary encapsulation follows ownership too: when one boundary or owner intentionally encapsulates another concern, callers above it should depend on the outer owner, not on both the outer owner and its internals at the same time.
+- Authoritative Boundary Rule (mandatory): when one boundary or owner intentionally encapsulates another concern, callers above it should depend on the outer owner, not on both the outer owner and its internals at the same time.
 - This rule is about authority and encapsulation, not about specific labels like `service`, `manager`, `repository`, `controller`, or `facade`.
 - If a caller needs both an outer boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns, either the boundary is wrong or the caller is bypassing ownership. Resolve that by choosing one authoritative entrypoint, or by redesigning the boundary and responsibilities explicitly.
 - If callers only bypass an internal concern because the outer boundary does not expose enough usable API, fix that by strengthening the authoritative boundary or by reshaping ownership explicitly. Do not normalize the bypass as the steady-state design.

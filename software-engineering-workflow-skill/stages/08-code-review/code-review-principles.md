@@ -17,6 +17,7 @@ Report the result as both `Overall: X.X / 10` and `YY / 100` for summary/trend v
 Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
 The scorecard is diagnostic and comparative. It does not average away blockers, and it never overrides a failed mandatory check.
 Ownership-driven dependency quality and shortcut avoidance are judged mainly inside ownership/boundary, API, and separation/placement categories rather than as a separate top-level score row.
+The `Authoritative Boundary Rule` is one of the highest-signal checks in this workflow: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time. This is the `no boundary bypass / no mixed-level dependency` rule.
 
 | Priority | Category | What Drives The Score |
 | --- | --- | --- |
@@ -50,6 +51,7 @@ Scoring guidance:
 - Is separation of concerns still scope-appropriate, with each file owning a coherent responsibility and each optional module grouping, if used, grouping a coherent set of files instead of mixed unrelated work?
 - Do dependencies follow ownership, with no forbidden shortcuts or unjustified cycles?
 - Do callers avoid bypassing an owning boundary by depending on both the outer owner and one of its internal managers, repositories, helpers, or lower-level concerns at the same time?
+- Does the implementation preserve the `Authoritative Boundary Rule`, so upper layers talk to one authoritative boundary per subject instead of mixing levels?
 - Do file paths still match ownership, and do any optional module groupings still reflect the right capability grouping?
 - Is the resulting subsystem, folder, and file layout readable for the scope, without becoming too flat or too artificially fragmented?
 - Do interfaces, APIs, queries, commands, and reused service methods still have one clear subject, one responsibility, and explicit identity shape?
@@ -73,7 +75,7 @@ Scoring guidance:
 - A shared/base type was widened into a one-for-all structure with mostly-optional fields instead of using a tighter shared core plus meaningful specialization
 - The same logic or policy was copied into multiple changed files instead of being owned once in the right place
 - One file or optional module grouping now mixes unrelated concerns or responsibilities that should be split
-- A caller depends on both an outer service/boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns
+- The `Authoritative Boundary Rule` is broken: a caller depends on both an outer service/boundary and one of that boundary's internal managers, repositories, helpers, or lower-level concerns
 - A file is in the wrong folder for its real concern
 - The layout is technically valid per-file but now feels too flat or too over-split for the real ownership structure
 - An interface/API/query/command/service method accepts an ambiguous ID or selector and has to guess what subject or owner that input refers to
@@ -111,6 +113,7 @@ Scoring guidance:
 - Duplicated code, repeated structures, or repeated policy logic remain in changed scope in a way that shows ownership or decomposition is still wrong.
 - A shared/base structure became a kitchen-sink model, which shows the decomposition or ownership model is still wrong.
 - A boundary is bypassed so callers depend on both the outer boundary and one of its internal lower-level concerns.
+- The implementation breaks the `Authoritative Boundary Rule`, which usually means ownership, API shape, and data-flow traceability are no longer clean enough.
 - Dead code, obsolete files, unused helpers/tests/flags/adapters, or dormant replaced paths remain in scope after the change.
 - A changed file crossed the size/shape threshold in a way that shows decomposition or ownership boundaries are no longer healthy.
 - A working fix would degrade the design if left as-is.

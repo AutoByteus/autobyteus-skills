@@ -49,6 +49,7 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - Report `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the Stage 8 pass/fail rule.
 - Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
 - Ownership-driven dependency quality and shortcut avoidance should be judged mainly inside `Ownership Clarity and Boundary Encapsulation` plus `API / Interface / Query / Command Clarity` and `Separation of Concerns and File Placement`, not as a separate score row.
+- `Authoritative Boundary Rule` (mandatory): treat `no boundary bypass / no mixed-level dependency` as one of the highest-signal architecture checks. A caller above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals.
 - The scorecard is diagnostic, but it is not an escape hatch. Scores never override blocking findings or failed mandatory checks.
 
 ## Mandatory Review Areas
@@ -57,7 +58,7 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - existing-capability reuse and reusable-owned-structure extraction
 - shared-structure/data-model tightness and shared-base coherence
 - separation of concerns, file responsibility, and file placement
-- dependency quality, boundary quality, boundary encapsulation quality, and naming quality across files, folders, APIs, types, functions, parameters, and variables
+- dependency quality, authoritative-boundary quality, boundary encapsulation quality, and naming quality across files, folders, APIs, types, functions, parameters, and variables
 - names must stay concrete and unsurprising; reject misleading abbreviations, vague placeholders, or names that hide side effects or ownership
 - `spine`, `owner`, and `off-spine concern` are relationship terms, not naming templates; reject generic names like `Support`, `Supporting`, `OffSpine`, `SideConcern`, or `Helper` when they hide the concrete concern actually handled
 - no unjustified duplication or repeated structures in changed scope

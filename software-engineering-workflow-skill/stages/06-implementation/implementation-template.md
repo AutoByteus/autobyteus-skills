@@ -173,6 +173,10 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 ### Code Review Gate Plan (Stage 8)
 
 - Gate artifact path: `tickets/in-progress/<ticket-name>/code-review.md`
+- Required scorecard shape:
+  - overall `/10`
+  - overall `/100`
+  - all ten categories with `score + why this score + what is weak + what should improve`
 - Scope (source + tests):
 - line-count measurement command (`effective non-empty`):
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
@@ -181,6 +185,7 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 - per-file diff delta gate (`>220` changed lines) assessment approach:
 - Hard-limit handling details in `code-review.md` (required re-entry path and split/refactor plan):
 - file-placement review approach (how wrong-folder placements will be detected and corrected):
+- scorecard evidence-prep notes (which changed files, boundaries, tests, and edge-case paths support each Stage 8 category):
 
 | File | Current Line Count | Adds/Expands Functionality (`Yes`/`No`) | Ownership/SoC Risk (`Low`/`Medium`/`High`) | Required Action (`Keep`/`Split`/`Move`/`Refactor`) | Expected Review Classification if not addressed |
 | --- | --- | --- | --- | --- | --- |
@@ -200,6 +205,7 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
   - detailed scenario execution results, failure history, and escalation records belong in the Stage 7 artifact, not here
 - Stage 8 handoff notes for code review:
   - canonical artifact path: `tickets/in-progress/<ticket-name>/code-review.md`
+  - expected scorecard drag areas:
   - predicted design-impact hotspots:
   - predicted file-placement hotspots:
   - predicted interface/API/query/command/service-method boundary hotspots:

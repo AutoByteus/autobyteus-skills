@@ -29,11 +29,19 @@ interface:
     closure gate across the real in-scope interfaces and runtime boundaries
     (service, UI, native desktop, CLI, process/lifecycle, integration, or
     distributed flows as needed);
-    Stage 8 runs code review only after Stage 7 passes and enforces hard file-size
+    Stage 8 runs code review only after Stage 7 passes, enforces hard file-size
     policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
     effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
     middle band; and `>220` changed-line delta requires recorded design-impact
-    assessment); Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
+    assessment), and requires a detailed review scorecard in `code-review.md`
+    with overall `/10` and `/100` plus category scoring for spine
+    clarity/traceability, ownership plus boundary encapsulation, separation of
+    concerns plus placement, API/interface clarity, shared-structure tightness
+    plus reusable owned structures, dependency quality, naming/readability,
+    validation strength, runtime correctness under edge cases, and
+    modernization/cleanup/no legacy; every row must record the score, why it
+    earned that score, what is weak, and what should improve; scores are
+    diagnostic and never override blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
     and promotes durable design/runtime knowledge into canonical project docs;
     Stage 10 creates `handoff-summary.md`, and when release notes are required,
     also creates `release-notes.md`, waits for explicit user
@@ -67,7 +75,8 @@ interface:
     old-behavior retention). Stage 3 design is invalid if it depends on
     compatibility wrappers or legacy fallback branches, Stage 6 must remove
     in-scope legacy/compatibility paths instead of keeping rollout crutches, and
-    Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass. Stage movement is
+    Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass and the
+    detailed review scorecard is recorded. Stage movement is
     controlled by the Stage Transition
     Contract + Transition Matrix; when a trigger condition is met, transition
     immediately to the mapped path and execute the target stage without waiting

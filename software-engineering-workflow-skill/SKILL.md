@@ -743,6 +743,19 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - source files and test files,
   - include changed files and directly impacted related files when structural risk exists.
 - File-size gate scope (mandatory): the `>500` effective-line hard limit and `>220` changed-line delta gate apply to changed source implementation files only. Test files stay in review scope for correctness, maintainability, and validation quality, but they do not fail the gate merely for exceeding those source-file size thresholds.
+- Mandatory review scorecard rule (mandatory): record a detailed scorecard in `code-review.md` on every Stage 8 round. Score these ten equal-weight categories from `1.0` to `10.0` in `0.5` increments and record for each row why it earned that score, what is weak, and what should improve:
+  - spine clarity and traceability,
+  - ownership clarity and boundary encapsulation,
+  - separation of concerns and file placement,
+  - API/interface/query/command clarity,
+  - shared-structure/data-model tightness and reusable owned structures,
+  - dependency quality and shortcut avoidance,
+  - naming quality and local readability,
+  - validation strength,
+  - runtime correctness under edge cases,
+  - modernization / cleanup / no legacy.
+- Scorecard overall rule (mandatory): report the equal-weight average as both `Overall: X.X / 10` and `YY / 100`.
+- Scorecard interpretation rule (mandatory): the scorecard is diagnostic and comparative. It never overrides blocking findings or failed mandatory Stage 8 checks.
 - Mandatory review checks:
   - data-flow spine inventory preservation,
   - ownership boundary preservation,
@@ -779,7 +792,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - no soft middle band (`501-700`) and no default exception path in this workflow.
   - delta gate (mandatory): if a single changed source file has `> 220` changed lines in the current diff, record a design-impact assessment even when file size is `<= 500`.
 - Gate decision:
-- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`.
+- `Pass`: continue to `Stage 9` only when all mandatory review checks (including `<=500` hard-limit + required `>220` delta-gate assessments + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection control + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks) are `Pass`, and the detailed review scorecard is recorded.
   - `Fail`: apply re-entry declaration and follow re-entry mapping before any source code edits.
 - Stage 8 failure classification rule (mandatory):
   - `Local Fix`: the issue requires source changes but remains inside the shared design principles and intended behavior without requiring design or requirement artifact updates; rerun `Stage 6 -> Stage 7 -> Stage 8`.
@@ -913,7 +926,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
 - Stage 8 (code review gate, only after `Stage 7 = Pass`):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 8`, `Code Edit Permission = Locked`)
   - create/update `tickets/in-progress/<ticket-name>/code-review.md`
-  - record gate result (`Pass`/`Fail`) and any re-entry declaration before `Stage 9`
+  - record the detailed review scorecard plus gate result (`Pass`/`Fail`) and any re-entry declaration before `Stage 9`
 - Stage 9 (post-testing documentation sync):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`8 -> 9`)
   - create/update `tickets/in-progress/<ticket-name>/docs-sync.md`

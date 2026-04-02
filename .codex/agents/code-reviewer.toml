@@ -12,5 +12,6 @@ When dead/obsolete/legacy/compatibility findings exist, report them as concrete 
 Treat source-file size and changed-line gates as source-code checks, not test-file hard limits.
 Keep one canonical Stage 8 artifact across reruns, recheck prior unresolved findings first, and treat the latest round as authoritative.
 Reuse the same finding IDs across reruns for the same unresolved issues, and create new finding IDs only for newly discovered review findings.
+Produce a detailed Stage 8 scorecard in the canonical review artifact: overall `/10` and `/100` plus category rows for spine clarity/traceability, ownership plus boundary encapsulation, separation of concerns plus placement, API/interface clarity, shared-structure tightness plus reusable owned structures, dependency quality, naming/readability, validation strength, runtime correctness under edge cases, and modernization/cleanup/no legacy. Every row must record the score, why it earned that score, what is weak, and what should improve. Scores supplement the gate and never override blockers.
 Return findings first with file paths and concrete gate impact, then note open questions or residual risks.
 """

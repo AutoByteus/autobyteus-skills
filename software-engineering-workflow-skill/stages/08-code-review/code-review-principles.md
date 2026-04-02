@@ -7,6 +7,34 @@ Earlier design artifacts are context and evidence, not truth sources.
 If the review shows that the earlier design basis was weak, incomplete, or wrong, classify that as `Design Impact` instead of lowering the Stage 8 bar.
 This is a stricter review, not a weaker one: it must enforce scope-appropriate separation of concerns and file-size discipline while also enforcing spine and ownership clarity.
 
+## Review Scorecard (Mandatory)
+
+The Stage 8 report must include a detailed scorecard.
+Each score must explain itself; do not record a number without concrete rationale.
+Use equal-weight scoring across the required categories below, with each category scored from `1.0` to `10.0` in `0.5` increments.
+Report the result as both `Overall: X.X / 10` and `YY / 100`.
+The scorecard is diagnostic and comparative. It does not average away blockers, and it never overrides a failed mandatory check.
+
+| Category | What Drives The Score |
+| --- | --- |
+| Spine clarity and traceability | data-flow spine inventory clarity, off-spine concern clarity, ease of tracing the main changed flow end to end |
+| Ownership clarity and boundary encapsulation | ownership boundary preservation, repeated coordination ownership, empty indirection avoidance, authoritative boundary preservation |
+| Separation of concerns and file placement | file responsibility clarity, file placement, flat-vs-over-split layout judgment |
+| API/interface/query/command clarity | interface/API/query/command/service-method boundary clarity, explicit identity and subject shape |
+| Shared-structure/data-model tightness and reusable owned structures | existing capability reuse, reusable owned structure extraction, shared-structure tightness, duplication pressure |
+| Dependency quality and shortcut avoidance | ownership-driven dependency quality, no unjustified cycles, no forbidden shortcuts |
+| Naming quality and local readability | naming quality across files, folders, APIs, types, functions, parameters, variables, plus naming-to-responsibility alignment |
+| Validation strength | validation evidence sufficiency, test quality, test maintainability |
+| Runtime correctness under edge cases | confidence that the changed logic behaves correctly on unhappy paths, edge cases, and cross-boundary transitions |
+| Modernization / cleanup / no legacy | dead/obsolete cleanup completeness, no backward-compatibility mechanisms, no retained legacy behavior |
+
+Scoring guidance:
+
+- `9.0-10.0`: strong engineering shape with no meaningful weakness in the changed scope
+- `7.0-8.5`: solid overall, but with limited weakness or cleanup still worth calling out
+- `5.0-6.5`: material weakness exists; if it maps to a mandatory Stage 8 check, the review likely fails
+- `<5.0`: serious structural, validation, correctness, or modernization problem
+
 ## Primary Review Questions
 
 - Does the implementation produce a clear, traceable data-flow spine inventory, including any bounded local spines that materially affect behavior?

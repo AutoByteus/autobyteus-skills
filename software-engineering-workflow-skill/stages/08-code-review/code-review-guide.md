@@ -26,6 +26,28 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - changed test files
 - directly impacted related files when structural risk exists
 
+## Mandatory Review Scorecard
+
+- Record a detailed scorecard in `code-review.md` on every Stage 8 review round.
+- Score each category from `1.0` to `10.0` in `0.5` increments.
+- For every scored category, record:
+  - why the code earned that score,
+  - what concrete weakness, gap, or drag kept the score lower,
+  - what specific improvement is expected.
+- Mandatory scorecard categories:
+  - spine clarity and traceability
+  - ownership clarity and boundary encapsulation
+  - separation of concerns and file placement
+  - API/interface/query/command clarity
+  - shared-structure/data-model tightness and reusable owned structures
+  - dependency quality and shortcut avoidance
+  - naming quality and local readability
+  - validation strength
+  - runtime correctness under edge cases
+  - modernization / cleanup / no legacy
+- Use an equal-weight average across the ten categories and report it as both `Overall: X.X / 10` and `YY / 100`.
+- The scorecard is diagnostic, not the gate by itself. Scores never override blocking findings or failed mandatory checks.
+
 ## Mandatory Review Areas
 
 - data-flow spine, ownership, and off-spine concern quality
@@ -40,6 +62,7 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - cleanup completeness for dead, obsolete, replaced, and legacy code in scope
 - test quality, test maintainability, and validation sufficiency
 - no backward compatibility and no legacy retention
+- mandatory scorecard coverage with evidence-backed rationale, weaknesses, and required improvements for every category
 - keep one canonical `code-review.md` path across reruns; do not create versioned copies by default
 - on round `>1`, recheck prior unresolved findings first and update the prior-findings resolution section before declaring the new gate result
 - reuse the same finding IDs across reruns for the same unresolved issues; create new IDs only for newly discovered findings
@@ -61,4 +84,4 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 
 ## Exit Gate
 
-This stage is complete only when all mandatory Stage 8 checks pass and the final review decision is recorded as `Pass`.
+This stage is complete only when all mandatory Stage 8 checks pass, the final review decision is recorded as `Pass`, and the detailed review scorecard is recorded.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Authoring Playbook"
+  short_description: "Create lean agents and self-operating teams"
+  default_prompt: "Use $agent-authoring-playbook to create or refactor agents and agent teams with a clean split between `agent.md` role contracts and `SKILL.md` runtime playbooks. Keep `agent.md` lean, keep runtime logic in `SKILL.md`, avoid duplicated prompt content, keep self-operating teams free of centralized workflow-matrix prose, and use the individual-agent and agent-team reference tracks as needed."

@@ -12,6 +12,15 @@ Canonical stage map, shared references, and default artifact paths are below.
 Use `shared/workflow-control.md` for transition and re-entry control.
 Use the stage folders for the detailed behavior of each stage.
 
+## Workflow Model
+
+- Begin with Stage 0 and use `stages/00-bootstrap/bootstrap-checklist.md` first.
+- Keep one ticket-local artifact set per task under `tickets/in-progress/<ticket-name>/` unless the user specifies a different location.
+- `workflow-state.md` is the execution-control artifact for current stage, code-edit lock, gate status, and re-entry state.
+- Each stage owns one primary artifact plus its local guides, templates, and examples.
+- Stage movement and classified re-entry follow `shared/workflow-control.md`.
+- Stage 3 design, Stage 5 review, and Stage 8 review all use `shared/design-principles.md`.
+
 ## Canonical Files
 
 - `shared/workflow-control.md`

@@ -16,7 +16,7 @@ Validate the implemented behavior against acceptance criteria and relevant runti
 
 ## Exit Gate
 
-Leave Stage 7 only when all executable in-scope acceptance criteria are `Passed` or explicitly `Waived` by the user for infeasible cases, and the relevant spines have matching evidence.
+Leave Stage 7 only when all executable in-scope acceptance criteria are `Passed` or explicitly `Waived` by the user for infeasible cases, and the relevant primary, return/event, and bounded local spines have matching evidence or explicit `N/A` rationale.
 
 ## Local Files
 

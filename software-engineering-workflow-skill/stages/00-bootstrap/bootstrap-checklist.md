@@ -2,6 +2,13 @@
 
 Use this checklist at the start of every ticket before investigation begins.
 
+## Ticket Entry Rules
+
+- Use one ticket folder per task under `tickets/in-progress/<ticket-name>/`.
+- If the user specifies a different artifact location, follow the user instruction.
+- If a completed ticket is reopened, move it from `tickets/done/<ticket-name>/` back to `tickets/in-progress/<ticket-name>/` before new updates.
+- Stage 10 owns the move into `tickets/done/`; Stage 0 only owns ticket creation, reuse, or reopen.
+
 ## Required Order
 
 1. Create or reuse `tickets/in-progress/<ticket-name>/`.
@@ -17,6 +24,7 @@ Use this checklist at the start of every ticket before investigation begins.
 ## Bootstrap Rules
 
 - Do not start deep investigation before the bootstrap sequence is physically written.
+- Use `shared/workflow-control.md` as the canonical source for workflow-state, stage-transition, and edit-lock rules.
 - Reuse the existing ticket folder and branch/worktree when they already match the ticket.
 - If the user specifies a base branch, always use the latest tracked remote state of that branch instead of a stale local branch.
 - Do not create a new ticket branch/worktree from a stale local base; refresh tracked remote refs first.

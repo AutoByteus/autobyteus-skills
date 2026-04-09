@@ -2,124 +2,15 @@ interface:
   display_name: "Software Engineering Workflow"
   short_description: "Staged engineering delivery loop"
   default_prompt: >-
-    Use $software-engineering-workflow-skill with strict stage gates and ticket
-    lifecycle discipline. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
-    7 -> 8 -> 9 -> 10`: Stage 0 bootstraps ticket context in order
-    (`tickets/in-progress/<ticket-name>/` -> if git repo: resolve explicit
-    user-specified base branch first, otherwise infer the tracked remote
-    default/integration branch -> refresh tracked remote refs before new
-    bootstrap -> create/reuse dedicated ticket worktree + `codex/<ticket-name>`
-    branch from the latest tracked remote base -> `requirements.md` status
-    `Draft`) and initializes `workflow-state.md` with
-    `Current Stage=0` and `Code Edit Permission=Locked`; Stage 1 is investigation
-    (deep understanding + triage) and is not read-only: use whatever bounded
-    evidence-gathering work the problem requires, including repros, focused
-    tests/scripts, temporary probes, minimal setup/mocks, public API/spec/issue
-    research, and upstream or sample-repo inspection when needed; Stage 2
-    refines requirements to `Design-ready`;
-    Stage 3 sets design basis; Stage 4 builds future-state runtime call stacks;
-    Stage 5 runs iterative deep review until `Go Confirmed` (two clean rounds with
-    no blockers, no required persisted artifact updates, and no newly discovered
-    use cases);
-    Stage 6 implements source + unit/integration against the approved
-    spine/ownership design and keeps file placement aligned with the owning
-    subsystem and folder structure, using optional module groupings only when they
-    materially help readability; Stage 7 implements API/E2E and other executable
-    validation assets, and executes the acceptance-criteria plus relevant-spine
-    closure gate across the real in-scope interfaces and runtime boundaries
-    (service, UI, native desktop, CLI, process/lifecycle, integration, or
-    distributed flows as needed);
-    Stage 8 runs code review only after Stage 7 passes, enforces hard file-size
-    policy (`rg -n "\\S" <file-path> | wc -l`; any changed source file `>500`
-    effective non-empty lines => `Design Impact` + `Fail`; no soft `501-700`
-    middle band; and `>220` changed-line delta requires recorded design-impact
-    assessment), and requires a detailed priority-ordered review scorecard in
-    `code-review.md` with overall `/10` and `/100` for summary/trend visibility
-    plus category scoring in this order: `Data-Flow Spine Inventory and
-    Clarity`, `Ownership Clarity and Boundary Encapsulation`, `API / Interface /
-    Query / Command Clarity`, `Separation of Concerns and File Placement`,
-    `Shared-Structure / Data-Model Tightness and Reusable Owned Structures`,
-    `Naming Quality and Local Readability`, `Validation Strength`, `Runtime
-    Correctness Under Edge Cases`, `No Backward-Compatibility / No Legacy
-    Retention`, and `Cleanup Completeness`; every row must record the score, why
-    it earned that score, what is weak, and what should improve; the order is
-    the review reasoning order, not an equal-weight list; no scorecard category
-    below `9.0` qualifies as a clean pass; the overall summary never overrides
-    blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
-    and promotes durable design/runtime knowledge into canonical project docs;
-    Stage 10 creates `handoff-summary.md`, and when release notes are required,
-    also creates `release-notes.md`, waits for explicit user
-    completion/verification (for example after manual testing), then moves the
-    ticket folder to `tickets/done/<ticket-name>/`, and only after that, when
-    the project is a git repository, commits and pushes the ticket branch,
-    updates the resolved bootstrap base branch (unless explicitly overridden by
-    the user) from remote, merges the ticket branch into that target branch, and
-    pushes the updated target branch. After repository finalization, if the
-    project has an applicable documented release/publication/deployment step,
-    run that method and feed it the archived
-    `tickets/done/<ticket-name>/release-notes.md` artifact when release notes
-    are required. When Stage 0 recorded a dedicated ticket worktree or local
-    ticket branch for the task, Stage 10 is not complete until post-finalization
-    cleanup is done too: remove the dedicated ticket worktree, run worktree
-    prune, and when the local ticket branch is fully merged into the resolved
-    finalization target and no longer needed, delete that local ticket branch.
-    Across
-    design/review/implementation, enforce shared architecture principles
-    (`data-flow spine inventory and clarity`, `ownership clarity and boundary encapsulation`, `off-spine concerns around
-    the spine`; `Authoritative Boundary Rule` for every subject boundary
-    (`no boundary bypass / no mixed-level dependency`: callers above a subject's
-    authoritative boundary must use that boundary rather than that boundary plus
-    one of its internals); reuse or extension of existing capability areas before new ad hoc
-    helpers; draft file responsibilities first, then extract reusable owned structures,
-    then finalize file responsibilities and folder/path mapping; scope-appropriate
-    separation of concerns derived from spine and ownership; dependency direction
-    following ownership; file placement following ownership inside the correct
-    subsystem and folder, with optional module groupings only when they help readability;
-    interface boundaries with one subject, one
-    responsibility, and explicit identity shape; examples when needed to clarify
-    non-obvious shapes), and enforce modernization explicitly as a hard rule (no
-    backward compatibility mechanisms, no dual-path behavior, no legacy
-    old-behavior retention). Stage 3 design is invalid if it depends on
-    compatibility wrappers or legacy fallback branches, Stage 6 must remove
-    in-scope legacy/compatibility paths instead of keeping rollout crutches, and
-    Stage 8 cannot pass unless no-backward-compat/no-legacy checks pass and the
-    detailed review scorecard is recorded. Stage movement is
-    controlled by the Stage Transition
-    Contract + Transition Matrix; when a trigger condition is met, transition
-    immediately to the mapped path and execute the target stage without waiting
-    for another user message. Apply the Transition Execution Rule and the
-    Re-entry Completion Rule: do not stop after only recording the transition
-    and describing the next step, and do not treat a re-entry as complete until
-    work has actually resumed in the returned stage. No source-code edits are allowed unless
-    `workflow-state.md` shows `Current Stage=6`, `Code Edit Permission=Unlocked`,
-    and Stage 5 `Go Confirmed` evidence. Stage 7 stays open until all executable
-    mapped acceptance criteria pass or are explicitly waived for infeasible
-    cases, and all relevant executable spines have passing evidence or explicit
-    `N/A` rationale. For Stage
-    5 blockers, apply classified re-entry before re-review: `Design Impact` ->
-    `3 -> 4 -> 5`; `Requirement Gap` -> `2 -> 3 -> 4 -> 5`; `Unclear` ->
-    `1 -> 2 -> 3 -> 4 -> 5`. For Stage 6 non-local failures, apply classified
-    re-entry before more source edits: `Design Impact` -> `1 -> 3 -> 4 -> 5 -> 6`;
-    `Requirement Gap` -> `2 -> 3 -> 4 -> 5 -> 6`; `Unclear` -> `0 -> 1 -> 2 ->
-    3 -> 4 -> 5 -> 6`. For any
-    Stage 7/8 failure, require re-entry declaration in `workflow-state.md` before
-    edits and follow classification paths: `Local Fix` -> `6 -> 7` (and include
-    `-> 8` when failure trigger is Stage 8); `Validation Gap` -> `7 -> 8`
-    when Stage 8 only lacks sufficient validation evidence; `Design Impact` ->
-    `1 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure trigger is
-    Stage 8); `Requirement Gap` -> `2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include
-    `-> 8` when failure trigger is Stage 8); `Unclear`/cross-cutting root cause
-    -> `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7` (and include `-> 8` when failure
-    trigger is Stage 8; Stage 0 re-entry means same ticket context, not a new
-    ticket). For blocked Stage 9 docs-sync results, classify and rerun:
-    `Local Fix` -> `6 -> 7 -> 8 -> 9`; `Requirement Gap` -> `2 -> 3 -> 4 ->
-    5 -> 6 -> 7 -> 8 -> 9`; `Unclear` -> `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
-    7 -> 8 -> 9`; stay in `Stage 9 (Blocked)` only for external docs-access
-    blockers that do not require upstream artifact changes. Audible
-    notifications are transition-driven: call `Speak` with `play=true` only after
-    `workflow-state.md` updates for stage transitions, gate decisions, re-entry
-    declarations, or lock/unlock changes, and include current stage + next action.
-    Do not include manual testing by default. Move ticket to
-    `tickets/done/<ticket-name>/` only on explicit user completion/verification
-    instruction; if reopened, move it back to
-    `tickets/in-progress/<ticket-name>/` before new updates.
+    Use $software-engineering-workflow-skill with strict stage-gate and
+    ticket-lifecycle discipline. Treat the skill's own files as canonical
+    rather than duplicating workflow prose in the prompt: use `SKILL.md` for
+    the stage map and default artifact paths, `shared/workflow-control.md` for
+    transition, re-entry, workflow-state, edit-lock, and notification rules,
+    `shared/design-principles.md` for shared design doctrine, and
+    `shared/workflow-state-template.md` for the execution-control artifact
+    shape. Use the matching `stages/*` files for stage-specific behavior. Keep
+    one ticket-local artifact set, maintain `workflow-state.md` as the
+    execution lock controller, do not edit source unless the lock rules allow
+    it, do not skip gates, and do not move to archival/finalization until the
+    explicit user-verification rules in Stage 10 are satisfied.

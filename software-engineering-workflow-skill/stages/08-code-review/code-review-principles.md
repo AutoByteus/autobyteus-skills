@@ -18,10 +18,11 @@ Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every cate
 The scorecard is diagnostic and comparative. It does not average away blockers, and it never overrides a failed mandatory check.
 Ownership-driven dependency quality and shortcut avoidance are judged mainly inside ownership/boundary, API, and separation/placement categories rather than as a separate top-level score row.
 The `Authoritative Boundary Rule` is one of the highest-signal checks in this workflow: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time. This is the `no boundary bypass / no mixed-level dependency` rule.
+The `Spine Span Sufficiency Rule` is also mandatory: each relevant reviewed primary spine must be stretched far enough to expose the real business path rather than stopping at the local edited segment. Practical default is `4-5` meaningful nodes unless the full path is genuinely smaller.
 
 | Priority | Category | What Drives The Score |
 | --- | --- | --- |
-| `1` | `Data-Flow Spine Inventory and Clarity` | clarity of the relevant primary and secondary data-flow spines, completeness of spine inventory, and ease of tracing the changed behavior across those spines |
+| `1` | `Data-Flow Spine Inventory and Clarity` | clarity of the relevant primary, secondary, return/event, and bounded local data-flow spines, sufficiency of each relevant primary-spine span, completeness of spine inventory, and ease of tracing the changed behavior across those spines |
 | `2` | `Ownership Clarity and Boundary Encapsulation` | ownership boundary preservation, authoritative boundary preservation, repeated coordination ownership, shortcut avoidance, and no bypass of owned lower-level concerns |
 | `3` | `API / Interface / Query / Command Clarity` | interface/API/query/command/service-method boundary clarity, one subject per boundary, explicit identity shape, and no ambiguous public contract |
 | `4` | `Separation of Concerns and File Placement` | file responsibility clarity, placement under the correct owning subsystem/folder, and readable flat-vs-over-split layout judgment |
@@ -42,6 +43,8 @@ Scoring guidance:
 ## Primary Review Questions
 
 - Does the implementation produce a clear, traceable data-flow spine inventory, including any bounded local spines that materially affect behavior?
+- If multiple top-level business paths are in scope, are there multiple primary spines rather than one vague compressed chain?
+- Is each relevant primary spine long enough to expose the real business path rather than only the local edited path?
 - Are ownership boundaries still clear in the code?
 - Do off-spine concerns still serve clear owners instead of becoming orchestration blobs?
 - Did the implementation reuse or extend existing capability areas where appropriate, instead of introducing fresh ad hoc helpers beside the flow?
@@ -68,6 +71,7 @@ Scoring guidance:
 ## Review Smells
 
 - Main flow is hard to trace or only seems acceptable if you rely on stale design assumptions
+- The review spine is too short and only covers a local edited path, so the real initiating surface, authoritative owner, or downstream consequence stays hidden
 - Ownership moved into helpers, utils, mappers, or registries
 - Support branches now contain sequencing that belongs to a spine owner
 - A new helper/service was added even though an existing subsystem already owned that category of responsibility

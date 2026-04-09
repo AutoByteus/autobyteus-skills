@@ -21,6 +21,12 @@ It proves that the implemented system satisfies acceptance criteria and importan
 - build an acceptance-criteria matrix from `requirements.md`
 - map every in-scope acceptance criterion to at least one executable validation scenario
 - map every relevant spine to at least one executable scenario, or mark it `N/A` with rationale
+- treat `relevant spine` explicitly as:
+  - every in-scope primary business spine,
+  - every meaningful return/event spine,
+  - every bounded local spine that materially affects behavior
+- if multiple primary business paths are in scope, map each primary spine explicitly instead of collapsing them into one generic scenario
+- when a bounded local spine is in scope, keep it attached to its parent owner in the validation reasoning; it adds local proof and does not replace coverage of the longer primary spine
 - record scenario source, validation mode, platform/runtime target, expected outcome, command or harness, and result in `api-e2e-testing.md`
 - keep one canonical `api-e2e-testing.md` path across reruns; do not create versioned copies by default
 - on round `>1`, recheck prior unresolved failures first and update the prior-failure resolution section before declaring the new gate result
@@ -28,6 +34,16 @@ It proves that the implemented system satisfies acceptance criteria and importan
 - reuse the same scenario IDs across reruns for the same scenarios; create new IDs only for newly discovered coverage
 - during Stage 7 execution, `workflow-state.md` should show `Current Stage = 7` and `Code Edit Permission = Unlocked`
 - treat scenario type as problem-dependent rather than hardcoded: API, browser UI, native desktop UI, CLI, process/lifecycle, integration, and distributed-system checks are all valid Stage 7 forms when they are the real boundary being proven
+
+## Execution And Depth Expectations
+
+- enter Stage 7 immediately after Stage 6 completes for the current scope
+- implement or update durable repo-resident validation first when that validation should remain as future protection in the codebase
+- build the acceptance-criteria matrix and spine coverage matrix before execution starts, not only after failures happen
+- for API scenarios, validate contract-level behavior, including schema shape, required fields, status codes, and mapped error behavior
+- for lifecycle-sensitive scenarios, record the relevant `from` / `to` version, platform/runtime target, package or update channel when relevant, restart or relaunch evidence, and persisted-state outcome
+- for client/server, multi-service, or multi-process scope, include cross-boundary scenarios that prove trigger -> boundary handoff -> downstream effect -> returned or observable state
+- unstructured manual-only testing is not part of the default Stage 7 standard; if human-assisted execution is unavoidable, record exact steps, automated evidence captured, constraints, and residual risk
 
 ## Validation Asset Rules
 
@@ -62,4 +78,4 @@ Do not classify a fix as `Local Fix` when it works only by degrading ownership, 
 
 ## Exit Gate
 
-This stage is complete only when all executable in-scope acceptance criteria are `Passed`, all relevant executable spines have evidence, and no unresolved failures or blockers remain across the real in-scope boundaries of the system.
+This stage is complete only when all executable in-scope acceptance criteria are `Passed`, all relevant executable primary/return-event/bounded-local spines have evidence (or explicit `N/A` rationale), and no unresolved failures or blockers remain across the real in-scope boundaries of the system.

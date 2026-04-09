@@ -1,8 +1,8 @@
 # Stage 7 Executable Validation (API/E2E)
 
-Use this document for Stage 7 executable validation implementation and execution.
+Stage 7 executable-validation artifact for implementation and execution.
 Stage 7 can cover API, browser/UI, native desktop/UI, CLI, process/lifecycle, integration, or other executable scenarios when those are the real boundaries being proven.
-Do not use this file for unit/integration tracking; that belongs in `implementation.md`.
+Keep unit/integration tracking in `implementation.md`, not here.
 Stage 7 starts after Stage 6 implementation (source + unit/integration) is complete.
 
 Validation philosophy:
@@ -76,6 +76,11 @@ Round rules:
 | Spine ID | Spine Scope (`Primary End-to-End`/`Return-Event`/`Bounded Local`) | Governing Owner | Scenario ID(s) | Coverage Status (`Unmapped`/`Planned`/`Passed`/`Failed`/`Blocked`/`N/A`) | Notes |
 | --- | --- | --- | --- | --- | --- |
 | DS-001 |  |  | AV-001 | Planned |  |
+
+Notes:
+- `Primary End-to-End` means the primary top-level business spine for one use case/path. Multiple primary rows are allowed.
+- `Return-Event` rows should be used when a callback/response/event-propagation path is behaviorally important enough to prove separately.
+- `Bounded Local` rows should name the parent owner in `Governing Owner`.
 
 ## Scenario Catalog
 

@@ -1,8 +1,8 @@
 # Future-State Runtime Call Stacks (Debug-Trace Style)
 
-Use this document as a future-state (`to-be`) execution model derived from the design basis.
+Future-state (`to-be`) execution model derived from the design basis.
 Prefer exact `file:function` frames, explicit branching, and clear state/persistence boundaries.
-Do not treat this document as an as-is trace of current code behavior.
+Do not treat it as an as-is trace of current code behavior.
 
 ## Conventions
 
@@ -36,7 +36,14 @@ Do not treat this document as an as-is trace of current code behavior.
 - Model target design behavior even when current code diverges.
 - If migration from as-is to to-be requires transition logic, describe that logic in `Transition Notes`; do not replace the to-be call stack with current flow.
 - Every use case must declare which spine(s) it exercises from the approved design basis.
+- `Primary End-to-End` in this document means the primary top-level business spine for that use case. There can be multiple primary use cases and multiple primary spines across one ticket.
 - If a use case primarily validates a bounded local spine (for example an event loop, worker cycle, state-machine transition flow, or dispatcher flow), state that explicitly instead of hiding it inside a generic end-to-end stack.
+- A bounded local spine is always attached to a parent owner. It adds local internal detail and does not replace the longer primary business spine for that area.
+- `Spine Span Sufficiency Rule` (mandatory): the primary runtime call stack for a use case must be stretched far enough to expose the real business path rather than only the local edited segment. Practical default is `4-5` meaningful frames unless the full path is genuinely smaller.
+- Good shape:
+  - `Browser UI -> Session Bootstrap -> Runtime Invocation -> Exposure Composer -> Browser Surface`
+- Bad shape:
+  - `Exposure Composer -> Browser Surface`
 
 ## Use Case Index (Stable IDs)
 
@@ -49,6 +56,7 @@ Rules:
 - Every in-scope requirement must map to at least one use case in this index.
 - `Design-Risk` use cases are allowed only when the technical objective/risk is explicit and testable.
 - Every use case must map to at least one spine from the approved spine inventory.
+- Multiple rows with `Spine Scope = Primary End-to-End` are valid when multiple top-level business paths are in scope.
 
 ## Transition Notes
 
@@ -63,6 +71,8 @@ Rules:
 - Spine Scope:
 - Governing Owner:
 - Why This Use Case Matters To This Spine:
+- Why This Spine Span Is Long Enough:
+- If `Spine Scope = Bounded Local`, Parent Owner:
 
 ### Goal
 
@@ -133,6 +143,8 @@ persistence/persist-order.ts:persist(...)
 - Spine Scope:
 - Governing Owner:
 - Why This Use Case Matters To This Spine:
+- Why This Spine Span Is Long Enough:
+- If `Spine Scope = Bounded Local`, Parent Owner:
 
 ### Goal
 

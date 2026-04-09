@@ -58,6 +58,7 @@ Document discipline:
 
 - Use Cases In Scope:
 - Spine Inventory In Scope:
+- Primary Spine Span Sufficiency Rationale:
 - Primary Owners / Main Domain Subjects:
 - Requirement Coverage Guarantee (all requirements mapped to at least one use case):
 - Design-Risk Use Cases (if any, with risk/objective):
@@ -96,6 +97,8 @@ Document discipline:
 - Mandatory cleanup rule: remove dead code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths in scope before Stage 6 can close.
 - Mandatory ownership/decoupling/SoC rule: preserve clear subsystem boundaries, one-way dependency direction, and scope-appropriate file responsibilities; avoid adding tight coupling/cycles or mixed-concern files.
 - Mandatory `Authoritative Boundary Rule`: when one boundary is the intended public authority for a domain subject, do not let callers above it depend on both that boundary and one of its internal managers, repositories, helpers, or lower-level concerns. This is the `no boundary bypass / no mixed-level dependency` rule. If the boundary lacks needed API, expand or redesign it instead of normalizing the bypass.
+- Mandatory `Spine Span Sufficiency Rule`: implementation must keep the longer primary spine visible enough to preserve a global view of the business path. Do not collapse the implementation story down to only the local edited segment when that hides the initiating surface, authoritative owner boundary, or downstream consequence. Practical default is `4-5` meaningful nodes unless the real path is genuinely smaller.
+- Multiple-primary-spines note: if the scope contains multiple top-level business paths, implementation traceability should preserve all relevant primary spines rather than forcing everything into one local path story.
 - Mandatory shared-structure coherence rule: when implementing shared data structures, keep the shared core tight. If one case needs extra fields, use a meaningful specialized variant or composition instead of expanding the shared base into a kitchen-sink shape.
 - Mandatory file-placement rule: keep each touched file in the folder/boundary that owns its concern; plan explicit moves when current placement is misleading.
 - Mandatory shared-principles implementation rule: apply the shared design principles and common design practices independently during coding. If file-level implementation detail reveals that the reviewed design is incomplete, weak, or wrong, record the issue and classify `Design Impact` instead of patching around it locally.
@@ -166,6 +169,7 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 - Dead/obsolete code or unused helpers/tests/flags/adapters left in scope: `No` / `Yes (blocked)`
 - Shared data structures remain tight (no kitchen-sink base or overlapping parallel shapes introduced): `Yes` / `No (blocked)`
 - Shared design/common-practice rules reapplied during implementation (and any file-level design weakness routed as `Design Impact` when needed): `Yes` / `No (blocked)`
+- Spine Span Sufficiency preserved (implementation still follows a global enough primary spine, not only a local touched path): `Yes` / `No (blocked)`
 - Authoritative Boundary Rule preserved (no boundary bypass / no mixed-level dependency): `Yes` / `No (blocked)`
 - Decoupling impact assessment completed: `Yes` / `No`
 - New tight coupling or cyclic dependency introduced: `No` / `Yes (blocked)`

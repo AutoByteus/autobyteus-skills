@@ -54,6 +54,14 @@ When the ticket produces a user-facing release or GitHub Release body:
 - omit internal refactors, tests, docs-only changes, and low-level implementation detail
 - after the ticket is archived, hand the archived `tickets/done/<ticket-name>/release-notes.md` artifact into the release/publication path when such a path is applicable
 
+## Release Notes Content Rules
+
+- keep notes short and user-facing
+- target `3` to `7` bullets total across all sections
+- omit empty sections instead of writing filler text
+- do not include upgrade steps unless the user explicitly asks for them
+- use `release-notes-template.md` as the starting structure
+
 ## Finalization Order For Git Repositories
 
 After explicit user confirmation:
@@ -66,6 +74,7 @@ After explicit user confirmation:
 6. Push the updated target branch.
 
 Use the Stage 0 resolved base remote and base branch as the default finalization target unless the user explicitly overrides it later.
+If the finalization target cannot be derived confidently, stop once and ask before merge/finalization instead of guessing.
 
 ## Release / Publication / Deployment (When Applicable)
 

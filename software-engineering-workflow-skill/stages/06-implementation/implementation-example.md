@@ -14,7 +14,7 @@ It demonstrates how one merged file can hold:
 ## Scope Classification
 
 - Classification: `Small`
-- Reasoning: request changes one primary order-submission spine and one bounded local validation flow without requiring a separate proposed design doc
+- Reasoning: request changes one primary order-submission spine and one return/error timeout spine without requiring a separate proposed design doc
 
 ## Upstream Artifacts (Required)
 
@@ -36,7 +36,8 @@ It demonstrates how one merged file can hold:
 ### Solution Sketch (Required For `Small`, Optional Otherwise)
 
 - Use Cases In Scope: `UC-001 submit order`, `UC-002 handle downstream timeout`
-- Spine Inventory In Scope: `DS-001 request spine`, `DS-002 timeout/error spine`
+- Spine Inventory In Scope: `DS-001 primary request spine`, `DS-002 return/error timeout spine`
+- Primary Spine Span Sufficiency Rationale: `DS-001` stays stretched from request entrypoint through submission sequencing and provider boundary to the returned contract, so the artifact still shows the full business path even though most code edits happen in the service and gateway layers.
 - Primary Owners / Main Domain Subjects: `OrderController`, `OrderSubmissionService`, `PaymentGatewayClient`
 - Requirement Coverage Guarantee: every requirement maps to at least one use case and one Stage 7 scenario
 - Design-Risk Use Cases: downstream timeout should not leave duplicate order submission

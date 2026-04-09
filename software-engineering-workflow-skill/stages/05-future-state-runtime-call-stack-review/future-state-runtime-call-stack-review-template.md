@@ -1,8 +1,8 @@
 # Future-State Runtime Call Stack Review
 
-Use this document as the pre-implementation gate for future-state runtime-call-stack quality and use-case completeness.
-This review validates alignment with target (`to-be`) design behavior, not parity with current (`as-is`) code.
-Keep one canonical `future-state-runtime-call-stack-review.md` path for the ticket. Record later rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
+Pre-implementation gate for future-state runtime-call-stack quality and use-case completeness.
+Validate alignment with target (`to-be`) design behavior, not parity with current (`as-is`) code.
+Keep one canonical `future-state-runtime-call-stack-review.md` path per ticket. Record later rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
 
 ## Review Meta
 
@@ -25,7 +25,6 @@ Keep one canonical `future-state-runtime-call-stack-review.md` path for the tick
   - `Small`: `tickets/in-progress/<ticket-name>/implementation.md` (solution sketch)
   - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 - Artifact Versions In This Round:
   - Requirements Status:
   - Design Version:
@@ -39,6 +38,12 @@ Keep one canonical `future-state-runtime-call-stack-review.md` path for the tick
 - Shared-principles rule: review uses the same design principles as Stage 3 (`data-flow spine inventory and clarity`, `ownership clarity and boundary encapsulation`, `off-spine concerns around the spine`, ownership-driven dependency validation, and the `Authoritative Boundary Rule`).
 - Existing-capability rule: review must fail ad hoc off-spine concern growth when an existing subsystem or capability area should have been reused or extended.
 - Spine inventory rule: review must verify that all relevant spines are explicitly listed in the design basis, including bounded local spines when a loop, worker cycle, state machine, or dispatcher materially affects behavior.
+- Primary-scope note: `Primary End-to-End` is per use case/business path, not globally singular. Review should accept multiple primary spines when the business scope genuinely contains multiple top-level paths.
+- `Spine Span Sufficiency Rule` (mandatory): review must fail a primary spine that stops at the local edited segment and does not reach far enough to expose the real business path, authoritative owner boundary, and downstream consequence. Practical default is `4-5` meaningful nodes unless the full path is genuinely smaller.
+- Good-shape example:
+  - `Browser UI -> Session Bootstrap -> Runtime Invocation -> Exposure Composer -> Browser Surface`
+- Bad-shape example:
+  - `Exposure Composer -> Browser Surface`
 - `Authoritative Boundary Rule` (mandatory): review must fail designs where callers depend on both an authoritative outer boundary and one of that boundary's internal lower-level concerns instead of using one authoritative entrypoint. This is the `no boundary bypass / no mixed-level dependency` rule.
 - Good-shape example:
   - `API Handler -> ArtifactStore -> ArtifactRepository`
@@ -98,9 +103,10 @@ Rule:
 ## Per-Use-Case Review
 
 Mapping note:
-- The Stage 8 scorecard category `Data-Flow Spine Inventory and Clarity` is decomposed here into per-use-case flow clarity plus design-basis spine-inventory completeness so the design review can be more explicit before implementation.
+- The Stage 8 scorecard category `Data-Flow Spine Inventory and Clarity` is decomposed here into per-use-case flow clarity, primary-spine span sufficiency, and design-basis spine-inventory completeness so the design review can be more explicit before implementation.
+- Review intent for bounded local spines: if a loop/state-machine/dispatcher flow materially shapes one owner, review it as a bounded local spine attached to that owner, but do not let it replace the longer primary business spine for that area.
 
-| Use Case | Spine ID(s) | Architecture Fit (`Pass`/`Fail`) | Data-Flow Spine Clarity Within Declared Inventory (`Pass`/`Fail`) | Spine Inventory Completeness (`Pass`/`Fail`) | Ownership Clarity (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`/`N/A`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Authoritative Boundary Rule Check (`Pass`/`Fail`) | File Placement Alignment (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Method Boundary Clarity (`Pass`/`Fail`) | Existing-Structure Bias Check (`Pass`/`Fail`) | Anti-Hack Check (`Pass`/`Fail`) | Local-Fix Degradation Check (`Pass`/`Fail`) | Example-Based Clarity (`Pass`/`Fail`/`N/A`) | Terminology & Concept Naturalness (`Pass`/`Fail`) | File And API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Use-Case Source Traceability (`Pass`/`Fail`) | Design-Risk Justification Quality (`Pass`/`Fail`/`N/A`) | Business Flow Completeness (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | Legacy Retention Removed (`Pass`/`Fail`) | No Compatibility Wrappers/Dual Paths (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
+| Use Case | Spine ID(s) | Architecture Fit (`Pass`/`Fail`) | Data-Flow Spine Clarity Within Declared Inventory (`Pass`/`Fail`) | Spine Span Sufficiency (`Pass`/`Fail`) | Spine Inventory Completeness (`Pass`/`Fail`) | Ownership Clarity (`Pass`/`Fail`) | Support Structure Clarity (`Pass`/`Fail`) | Existing Capability/Subsystem Reuse (`Pass`/`Fail`/`N/A`) | Ownership-Driven Dependency Check (`Pass`/`Fail`) | Authoritative Boundary Rule Check (`Pass`/`Fail`) | File Placement Alignment (`Pass`/`Fail`) | Flat-Vs-Over-Split Layout Judgment (`Pass`/`Fail`) | Interface/API/Method Boundary Clarity (`Pass`/`Fail`) | Existing-Structure Bias Check (`Pass`/`Fail`) | Anti-Hack Check (`Pass`/`Fail`) | Local-Fix Degradation Check (`Pass`/`Fail`) | Example-Based Clarity (`Pass`/`Fail`/`N/A`) | Terminology & Concept Naturalness (`Pass`/`Fail`) | File And API Naming Clarity (`Pass`/`Fail`) | Name-to-Responsibility Alignment Under Scope Drift (`Pass`/`Fail`) | Future-State Alignment With Design Basis (`Pass`/`Fail`) | Use-Case Coverage Completeness (`Pass`/`Fail`) | Use-Case Source Traceability (`Pass`/`Fail`) | Design-Risk Justification Quality (`Pass`/`Fail`/`N/A`) | Business Flow Completeness (`Pass`/`Fail`) | Scope-Appropriate SoC Check (`Pass`/`Fail`) | Dependency Flow Smells | Redundancy/Duplication Check (`Pass`/`Fail`) | Simplification Opportunity Check (`Pass`/`Fail`) | Remove/Decommission Completeness (`Pass`/`Fail`/`N/A`) | Legacy Retention Removed (`Pass`/`Fail`) | No Compatibility Wrappers/Dual Paths (`Pass`/`Fail`) | Verdict (`Pass`/`Fail`) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | UC-001 | DS-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
@@ -125,6 +131,7 @@ Rule:
 - Gate rule checks (all must be `Yes` for `Implementation can start = Yes`):
   - Architecture fit is `Pass` for all in-scope use cases:
   - Data-flow spine clarity within declared inventory is `Pass` for all in-scope use cases:
+  - Spine span sufficiency is `Pass` for all in-scope use cases:
   - Spine inventory completeness is `Pass` for the design basis:
   - Combined `Data-Flow Spine Inventory and Clarity` reasoning is clean enough for later Stage 8 review:
   - Ownership clarity is `Pass` for all in-scope use cases:

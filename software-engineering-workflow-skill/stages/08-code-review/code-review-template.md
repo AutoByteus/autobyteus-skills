@@ -1,8 +1,8 @@
 # Code Review
 
-Use this document for `Stage 8` code review after Stage 7 executable validation passes.
-This gate enforces structure quality, source-file maintainability, and mandatory re-entry rules.
-Keep one canonical `code-review.md` file for the ticket. Record later review rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
+Stage 8 code-review artifact after Stage 7 executable validation passes.
+Enforce structure quality, source-file maintainability, and mandatory re-entry rules here.
+Keep one canonical `code-review.md` file per ticket. Record later review rounds in the same file, and treat the latest round as authoritative while preserving earlier rounds as history.
 
 ## Review Meta
 
@@ -16,7 +16,6 @@ Keep one canonical `code-review.md` file for the ticket. Record later review rou
 - Earlier design artifact(s) reviewed as context:
 - Runtime call stack artifact:
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 - Code Review Principles: `stages/08-code-review/code-review-principles.md`
 
 Round rules:
@@ -64,8 +63,13 @@ Rules:
 ## Structural Integrity Checks (Mandatory)
 
 Treat the `Authoritative Boundary Rule` as one of the highest-signal structural checks in this table.
+Treat the `Spine Span Sufficiency Rule` as a hard check too: the primary review spine must be long enough to expose the real business path rather than only the local edited segment.
 
 Quick examples:
+- Good spine span:
+  - `Browser UI -> Session Bootstrap -> Runtime Invocation -> Exposure Composer -> Browser Surface`
+- Bad spine span:
+  - `Exposure Composer -> Browser Surface`
 - Good shape:
   - `Caller -> Service`
   - `Service -> Repository`
@@ -80,6 +84,7 @@ Quick examples:
 | Check | Result (`Pass`/`Fail`) | Evidence | Required Action |
 | --- | --- | --- | --- |
 | Data-flow spine inventory clarity and preservation under shared principles |  |  |  |
+| Spine span sufficiency check (each relevant primary spine is long enough to expose the real business path rather than only a local edited segment) |  |  |  |
 | Ownership boundary preservation and clarity |  |  |  |
 | Off-spine concern clarity (off-spine concerns serve clear owners and stay off the main line) |  |  |  |
 | Existing capability/subsystem reuse check (no fresh helper where an existing subsystem should own it) |  |  |  |
@@ -130,6 +135,7 @@ Rules:
 
 - Do not leave the scorecard as raw numbers only; every row must explain the score, the weakness, and the expected improvement.
 - Follow the listed priority order. The scorecard is not an unordered checklist.
+- Category `1` must include spine-span judgment. If any relevant primary reviewed spine is too short to expose the real business path, category `1` cannot pass cleanly.
 - Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail review.
 - Do not let the overall summary override a weak category. The gate still follows mandatory checks and blocking findings.
 - If a category is not heavily exercised, score the quality of the relevant changed boundary anyway and explain the limited scope in the rationale column.
@@ -181,6 +187,7 @@ Rules:
   - All changed source files have effective non-empty line count `<=500`
   - Required `>220` changed-line delta-gate assessments are recorded for all applicable changed source files
   - Data-flow spine inventory clarity and preservation under shared principles = `Pass`
+  - Spine span sufficiency check = `Pass`
   - Ownership boundary preservation = `Pass`
   - Support structure clarity = `Pass`
   - Existing capability/subsystem reuse check = `Pass`

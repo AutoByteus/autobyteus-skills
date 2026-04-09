@@ -16,7 +16,7 @@ Run the independent code-review gate after Stage 7 validation passes.
 
 ## Exit Gate
 
-Leave Stage 8 only when the review decision is `Pass`, all mandatory review checks are satisfied, the detailed priority-ordered review scorecard is recorded, and no scorecard category is below `9.0`.
+Leave Stage 8 only when the review decision is `Pass`, all mandatory review checks are satisfied, the detailed priority-ordered review scorecard is recorded, no scorecard category is below `9.0`, and category `1` confirms both spine inventory clarity and spine-span sufficiency across the relevant reviewed paths.
 
 ## Local Files
 

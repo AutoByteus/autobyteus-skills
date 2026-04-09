@@ -3,7 +3,7 @@
 ## Purpose
 
 Stage 8 is an independent engineering gate.
-It uses the shared design principles, shared common practices, and Stage 8 hard review gates to judge the implementation after testing.
+It uses the shared design principles and Stage 8 hard review gates to judge the implementation after testing.
 
 ## Inputs
 
@@ -11,6 +11,7 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - Stage 7 validation evidence
 - latest `investigation-notes.md` when it materially explains the changed scope, current behavior, external constraints, or a review finding
 - earlier design artifacts as context only
+- `shared/design-principles.md`
 - `code-review-principles.md`
 
 ## Review Authority
@@ -49,12 +50,20 @@ It uses the shared design principles, shared common practices, and Stage 8 hard 
 - Report `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the Stage 8 pass/fail rule.
 - Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
 - Ownership-driven dependency quality and shortcut avoidance should be judged mainly inside `Ownership Clarity and Boundary Encapsulation` plus `API / Interface / Query / Command Clarity` and `Separation of Concerns and File Placement`, not as a separate score row.
+- `Spine Span Sufficiency Rule` (mandatory): when judging category `1`, stretch the primary reviewed spine far enough to expose the initiating surface, authoritative owner boundary, and meaningful downstream consequence instead of stopping at the local edited segment. Practical default is `4-5` meaningful nodes unless the full path is genuinely smaller.
+- `Primary` here is per business path/use case, not globally singular. If the change affects multiple top-level business paths, review all relevant primary spines in category `1`.
+- Important bounded local spines inside one owner (for example an event loop or state machine) should also be reviewed when they materially affect behavior, but they do not replace the longer primary business spine.
+- Good-shape example:
+  - `Browser UI -> Session Bootstrap -> Runtime Invocation -> Exposure Composer -> Browser Surface`
+- Bad-shape example:
+  - `Exposure Composer -> Browser Surface`
 - `Authoritative Boundary Rule` (mandatory): treat `no boundary bypass / no mixed-level dependency` as one of the highest-signal architecture checks. A caller above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals.
 - The scorecard is diagnostic, but it is not an escape hatch. Scores never override blocking findings or failed mandatory checks.
 
 ## Mandatory Review Areas
 
 - data-flow spine, ownership, and off-spine concern quality
+- spine span sufficiency for the relevant reviewed primary path(s)
 - existing-capability reuse and reusable-owned-structure extraction
 - shared-structure/data-model tightness and shared-base coherence
 - separation of concerns, file responsibility, and file placement

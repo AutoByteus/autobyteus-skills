@@ -39,6 +39,33 @@ Treat the following as examples, not a closed list. Choose whatever evidence-gat
 - constraints, unknowns, and design implications
 - enough codebase/runtime/API detail that later stages do not need to rediscover the same facts from scratch
 
+## Minimum Understanding Pass
+
+Before design begins, investigation should identify at least:
+
+- in-scope entrypoints and execution boundaries
+- touched files, affected subsystems, and likely owners
+- expected canonical file locations or folder owners for touched concerns
+- current naming conventions that new design work should respect or deliberately correct
+- unknowns that could invalidate design assumptions
+
+## Scope Triage And Workflow Depth
+
+Use practical signals rather than a rigid file-count rule:
+
+- estimated files touched
+- new or changed interface boundaries
+- schema, persistence, or runtime-flow impact
+- cross-boundary or architectural impact
+
+Choose workflow depth explicitly:
+
+- `Small`: refine a lightweight solution sketch in `implementation.md`, then continue through future-state runtime call stacks and review before implementation execution
+- `Medium`: create a proposed design, then continue through future-state runtime call stacks, review, and implementation baseline
+- `Large`: follow the same full design-first path as `Medium`, with more explicit architecture and decomposition work
+
+Re-evaluate during later stages. If scope expands or structural smells appear, append the updated triage rationale and escalate to the fuller workflow instead of keeping the old classification by inertia.
+
 ## Investigation Rules
 
 - Do not keep results only in memory.

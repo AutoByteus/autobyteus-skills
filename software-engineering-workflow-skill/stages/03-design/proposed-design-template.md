@@ -16,7 +16,6 @@
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
 - Requirements Status: `Design-ready` / `Refined`
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 
 ## Terminology
 
@@ -81,15 +80,41 @@ List every relevant spine that matters to understanding the design.
 | DS-001 |  |  |  |  |  |
 
 Rule:
+- `Primary End-to-End` means the primary top-level business spine for one in-scope use case or major business path. Multiple `Primary End-to-End` rows are allowed and expected when multiple business paths matter.
+- `Return-Event` means a meaningful return path, callback path, or event-propagation path that matters to behavior. It may move outward/upward/back across boundaries.
 - If a loop, worker cycle, state machine, or dispatcher materially shapes behavior inside one owner, add a `Bounded Local` spine for it instead of leaving it implicit.
+- `Bounded Local` means an internal flow inside one owner. Name the parent owner clearly; this row adds local detail and does not replace the longer primary spine.
+- `Spine Span Sufficiency Rule` (mandatory): the primary spine must be stretched far enough to expose the real business path, not only the local edited segment. Practical default is `4-5` meaningful nodes unless the full path is genuinely smaller.
 
 ## Primary Execution / Data-Flow Spine(s)
 
 Write each primary end-to-end line as a short arrow chain.
+There can be multiple primary lines in this section.
 
 Examples:
 - `Frontend -> API -> Service -> Repository -> Database`
 - `Input -> RunManager -> Run -> RunBackend -> Runtime -> Provider`
+
+Hard rule:
+- Even if the code change touches only `1-3` nodes, the primary spine must still extend far enough to expose the initiating surface, the authoritative owner boundary, and the meaningful downstream consequence.
+- A bounded local spine does not replace that longer primary spine when the longer spine is needed to judge business meaning correctly.
+
+Required produced-artifact shape for each primary spine:
+- spine ID
+- short arrow chain
+- short narrative
+- main domain subject nodes
+- governing owner
+- why the span is long enough
+
+Spine span examples:
+- Good shape:
+  - `Browser UI -> Session Bootstrap -> Runtime Invocation -> Exposure Composer -> Browser Surface`
+- Bad shape:
+  - `Exposure Composer -> Browser Surface`
+
+Fail condition:
+- If the shorter local path hides who initiated the behavior, which boundary is authoritative, or what downstream effect matters, the primary spine is too short.
 
 ## Spine Actors / Main-Line Nodes
 
@@ -114,6 +139,7 @@ For each important spine, describe the end-to-end motion in prose so a reader ca
 ## Return / Event Spine(s) (If Applicable)
 
 Write each return/event line using the same approach as the execution spine.
+Use this when the return/callback/event-propagation path is architecturally meaningful. Direction can be outward, upward, or back across boundaries; what matters is whether the path changes how the behavior should be understood.
 
 ## Bounded Local / Internal Spines (If Applicable)
 
@@ -128,6 +154,10 @@ For each one, write:
 - start and end,
 - short arrow chain,
 - why it must be explicit in the design.
+
+Example:
+- parent owner: `EventLoopOwner`
+- bounded local spine: `Receive Event -> Normalize -> Select Handler -> Apply Transition -> Emit Next Event`
 
 ## Off-Spine Concerns Around The Spine
 
@@ -182,6 +212,7 @@ Authoritative Boundary Rule examples:
 - Chosen direction:
 - Rationale (`complexity`, `testability`, `operability`, `evolution cost`):
 - Data-flow spine clarity assessment: `Yes` / `No`
+- Spine span sufficiency assessment: `Yes` / `No`
 - Spine inventory completeness assessment: `Yes` / `No`
 - Ownership clarity assessment: `Yes` / `No`
 - Off-spine concern clarity assessment: `Yes` / `No`
@@ -204,6 +235,7 @@ Authoritative Boundary Rule examples:
 | Responsibility overload exists in one file or one optional module grouping |  |  | Split / Keep |
 | Proposed indirection owns real policy, translation, or boundary concern |  |  | Keep / Remove |
 | Every off-spine concern has a clear owner on the spine |  |  | Fix / Keep |
+| Primary spine is stretched far enough to expose the real business path instead of only a local edited segment |  |  | Fix / Keep |
 | Authoritative Boundary Rule is preserved: authoritative public boundaries stay authoritative; callers do not depend on both an outer owner and one of its internal owned mechanisms |  |  | Fix / Keep |
 | Existing capability area/subsystem was reused or extended where it naturally fits |  |  | Reuse/Extend / Create New |
 | Repeated structures were extracted into reusable owned files where needed |  |  | Extract / Keep Local |

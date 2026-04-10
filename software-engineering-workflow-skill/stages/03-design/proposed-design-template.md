@@ -16,7 +16,6 @@
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
 - Requirements Status: `Design-ready` / `Refined`
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 
 ## Terminology
 

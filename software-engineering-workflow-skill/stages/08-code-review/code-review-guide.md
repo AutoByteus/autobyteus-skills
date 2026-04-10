@@ -3,7 +3,7 @@
 ## Purpose
 
 Stage 8 is an independent engineering gate.
-It uses the shared design principles, shared common practices, and Stage 8 hard review gates to judge the implementation after testing.
+It uses the shared design principles and Stage 8 hard review gates to judge the implementation after testing.
 
 ## Inputs
 

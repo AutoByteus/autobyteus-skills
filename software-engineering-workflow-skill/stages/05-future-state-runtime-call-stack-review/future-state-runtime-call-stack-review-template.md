@@ -25,7 +25,6 @@ Keep one canonical `future-state-runtime-call-stack-review.md` path for the tick
   - `Small`: `tickets/in-progress/<ticket-name>/implementation.md` (solution sketch)
   - `Medium/Large`: `tickets/in-progress/<ticket-name>/proposed-design.md`
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 - Artifact Versions In This Round:
   - Requirements Status:
   - Design Version:

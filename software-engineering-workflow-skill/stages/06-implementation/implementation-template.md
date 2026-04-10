@@ -165,7 +165,7 @@ The canonical Stage 7 execution record, closure matrices, feasibility record, an
 - Legacy code retained for old behavior: `No` / `Yes (blocked)`
 - Dead/obsolete code or unused helpers/tests/flags/adapters left in scope: `No` / `Yes (blocked)`
 - Shared data structures remain tight (no kitchen-sink base or overlapping parallel shapes introduced): `Yes` / `No (blocked)`
-- Shared design/common-practice rules reapplied during implementation (and any file-level design weakness routed as `Design Impact` when needed): `Yes` / `No (blocked)`
+- Shared design-principles guidance reapplied during implementation (and any file-level design weakness routed as `Design Impact` when needed): `Yes` / `No (blocked)`
 - Authoritative Boundary Rule preserved (no boundary bypass / no mixed-level dependency): `Yes` / `No (blocked)`
 - Decoupling impact assessment completed: `Yes` / `No`
 - New tight coupling or cyclic dependency introduced: `No` / `Yes (blocked)`

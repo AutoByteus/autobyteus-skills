@@ -16,7 +16,6 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - `SKILL.md` is the workflow router. It defines the stage rules and points each stage to its owned templates/references.
 - `shared/` stores cross-stage references that multiple stages reuse:
   - `shared/design-principles.md`
-  - `shared/common-design-practices.md`
   - `shared/workflow-state-template.md`
 - `stages/` stores stage-owned templates and references:
   - `stages/00-bootstrap/`
@@ -347,8 +346,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 ### Shared Design Principles (Design + Review, Mandatory)
 
 - Design and review must use the same principles and vocabulary. Review is a check of design quality, not a different rule system.
-- Use `shared/design-principles.md` as the primary shared reference for Stage 3 design work and Stage 5 review.
-- Use `shared/common-design-practices.md` for helper practices and local pattern choices only when they clarify a clearly owned spine node or off-spine concern.
+- Use `shared/design-principles.md` as the shared reference for Stage 3 design work, Stage 5 review, and Stage 8 structural review.
+- `shared/design-principles.md` also carries the derived applied workflow, structural triggers, local mechanisms, and example shapes that were previously split into a second helper file.
 - Use `stages/08-code-review/code-review-principles.md` as the Stage 8 review reference.
 - The core principles are:
   - `data-flow spine inventory and clarity`,
@@ -954,7 +953,6 @@ These defaults list file-producing stages; gating and handoff rules still follow
 
 - Shared:
   - `shared/design-principles.md`
-  - `shared/common-design-practices.md`
   - `shared/workflow-state-template.md`
 - Stage 0 bootstrap:
   - `stages/00-bootstrap/bootstrap-checklist.md`

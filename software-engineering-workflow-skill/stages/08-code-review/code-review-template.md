@@ -16,7 +16,6 @@ Keep one canonical `code-review.md` file for the ticket. Record later review rou
 - Earlier design artifact(s) reviewed as context:
 - Runtime call stack artifact:
 - Shared Design Principles: `shared/design-principles.md`
-- Common Design Practices: `shared/common-design-practices.md`
 - Code Review Principles: `stages/08-code-review/code-review-principles.md`
 
 Round rules:

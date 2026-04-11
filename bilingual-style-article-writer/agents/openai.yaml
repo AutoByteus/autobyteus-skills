@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bilingual Style Writer"
+  short_description: "Draft WeChat and Medium articles in learned styles."
+  default_prompt: "Help me write a bilingual article in a selected author style from idea to publish-ready draft."

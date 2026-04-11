@@ -1,18 +1,22 @@
 interface:
-  display_name: "Deep Learning Experiment Workflow"
-  short_description: "Stage-gated deep learning delivery loop"
+  display_name: "LLM Fine-Tuning"
+  short_description: "Stage-gated LLM fine-tuning loop"
   default_prompt: >-
-    Use $deep-learning-experiment-workflow-skill with strict stage gates for
-    deep-learning work. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
-    7 -> 8`: Stage 0 bootstraps the ticket, draft requirements, and
-    `workflow-state.md`; Stage 1 performs durable investigation across code,
-    configs, logs, open-source references, and model or data assumptions; Stage
-    2 refines `requirements.md` into explicit requirements and success criteria;
-    Stage 3 creates `experiment-plan.md`; Stage 4 executes implementation with
-    source edits allowed only when `workflow-state.md` shows `Current Stage=4`
-    and `Code Edit Permission=Unlocked`; Stage 5 produces empirical evidence in
-    `training-validation-report.md`; Stage 6 runs deep-learning-focused code
-    review; Stage 7 syncs durable docs; Stage 8 creates `handoff-summary.md`,
+    Use $llm-fine-tuning-skill with strict stage gates for LLM fine-tuning
+    work. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`:
+    Stage 0 bootstraps the ticket, draft requirements, and `workflow-state.md`;
+    Stage 1 performs durable investigation across code, configs, logs,
+    datasets, open-source references, papers, framework internals, tokenizer or
+    template assumptions, and model constraints; Stage 2 refines
+    `requirements.md` into explicit requirements and success criteria; Stage 3
+    creates `implementation-plan.md` with data-preparation design, prompt or
+    chat formatting, objective and update strategy, and evaluation design;
+    Stage 4 executes implementation and data preparation with source edits
+    allowed only when `workflow-state.md` shows `Current Stage=4` and
+    `Code Edit Permission=Unlocked`; Stage 5 produces empirical evidence in
+    `training-validation-report.md`; Stage 6 runs LLM-fine-tuning-focused
+    code review; Stage 7 syncs durable docs; Stage 8 creates
+    `handoff-summary.md`,
     waits for explicit user verification, archives the ticket, and performs
     repository finalization when applicable. Use classified re-entry instead of
     patching over upstream gaps: `Local Fix`, `Validation Gap`, `Plan Impact`,

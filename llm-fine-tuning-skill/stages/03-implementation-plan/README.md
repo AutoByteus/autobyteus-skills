@@ -1,3 +1,3 @@
-# Stage 3 Experiment Plan
+# Stage 3 Implementation Plan
 
-Primary local guide: `experiment-plan-template.md`
+Primary local guide: `implementation-plan-template.md`

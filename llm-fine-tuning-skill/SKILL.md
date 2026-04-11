@@ -1,14 +1,15 @@
 ---
-name: deep-learning-experiment-workflow-skill
-description: "Run a staged deep-learning experiment workflow from bootstrap through investigation, requirements and success criteria, experiment planning, implementation, training and validation, code review, docs sync, and handoff. Use for model training, fine-tuning, ablations, evaluation, and reproducible empirical validation."
+name: llm-fine-tuning-skill
+description: "Run a staged LLM fine-tuning workflow from bootstrap through investigation, requirements and success criteria, implementation planning, implementation plus data preparation, training and validation, code review, docs sync, and handoff. Use for supervised fine-tuning, preference tuning, reinforcement-style training, and other LLM adaptation work with reproducible empirical validation."
 ---
 
-# Deep Learning Experiment Workflow Skill
+# LLM Fine-Tuning Skill
 
 ## Overview
 
-Run a staged workflow for deep-learning work where the hard parts are usually investigation quality, experiment definition, and empirical validation rather than large implementation volume.
-Use this skill for tasks such as model training, fine-tuning, architecture changes, loss-function changes, data-pipeline changes, ablations, benchmark comparisons, and reproducible evaluation work.
+Run a staged workflow for LLM fine-tuning work where the hard parts are usually investigation quality, implementation planning, data preparation, prompt or chat formatting, tokenizer correctness, and empirical validation rather than large implementation volume.
+Use this skill for tasks such as supervised fine-tuning, preference tuning, reinforcement-style training, domain adaptation, data-format changes, eval-set changes, benchmark comparisons, and reproducible validation work.
+This skill is method-agnostic. It can be used for adapter-based, quantized, or full-parameter tuning, but it should force the workflow to make the chosen objective and update strategy explicit instead of assuming one method.
 
 This workflow is stage-gated.
 Do not batch-generate all artifacts by default.
@@ -22,9 +23,9 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `stages/00-bootstrap/`
   - `stages/01-investigation/`
   - `stages/02-requirements-and-success-criteria/`
-  - `stages/03-experiment-plan/`
+  - `stages/03-implementation-plan/`
   - `stages/04-implementation/`
-  - `stages/05-training-validation/`
+  - `stages/05-training-and-validation/`
   - `stages/06-code-review/`
   - `stages/07-docs-sync/`
   - `stages/08-handoff/`
@@ -65,7 +66,7 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `Current Stage = 4`
   - `Code Edit Permission = Unlocked`
 - Default state is `Locked`.
-- Unlock source-code edits only after Stage 3 `Experiment Plan` is current enough to drive implementation.
+- Unlock source-code edits only after Stage 3 `Implementation Plan` is current enough to drive implementation.
 - If Stage 5, 6, or 7 fails and a re-entry is required, lock source edits before taking the return path.
 
 ### Canonical Flow
@@ -94,9 +95,10 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `stages/01-investigation/investigation-notes-template.md`
 - Investigation is first-class in this workflow.
 - Investigation can include:
-  - reading local code, configs, logs, checkpoints, and datasets,
-  - reading open-source repositories and relevant documentation,
-  - checking papers or model references when needed,
+  - reading local code, configs, datasets, logs, checkpoints, and eval harnesses,
+  - reading tokenizer, prompt-template, and response-formatting logic,
+  - reading open-source fine-tuning repositories, framework internals, and relevant documentation,
+  - checking papers, model cards, or fine-tuning references when needed,
   - running probes, small scripts, reproductions, and data sanity checks.
 - Required outcome:
   - `investigation-notes.md` is a durable dossier with concrete evidence,
@@ -110,60 +112,76 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `stages/02-requirements-and-success-criteria/requirements-success-criteria-guide.md`
 - Required outcome:
   - `requirements.md` moves from `Draft` to `Plan-ready` or `Refined`,
-  - task definition, baseline, metrics, thresholds, constraints, and success criteria are explicit,
+  - task definition, baseline, measurable or rubric-defined outcomes, constraints, and success criteria are explicit,
   - the planned validation gate can measure pass, fail, or inconclusive results truthfully.
 
-### 3) Experiment Plan
+### 3) Implementation Plan
 
 - Primary files:
-  - `stages/03-experiment-plan/README.md`
-  - `stages/03-experiment-plan/experiment-plan-template.md`
-- This stage replaces heavy software-architecture runtime modeling.
+  - `stages/03-implementation-plan/README.md`
+  - `stages/03-implementation-plan/implementation-plan-template.md`
+- This stage replaces heavy software-architecture runtime modeling with a concrete implementation plan.
 - Focus on:
-  - chosen hypothesis and rationale,
-  - model or algorithm changes,
-  - data and split assumptions,
-  - loss, optimizer, scheduler, and training recipe,
-  - evaluation protocol,
-  - ablations or comparison matrix,
+  - dataset sourcing, curation, filtering, split assumptions, and data-preparation design,
+  - prompt or chat template design,
+  - tokenizer, special-token, masking, truncation, and packing behavior,
+  - base model choice, objective type, and parameter-update strategy,
+  - optimizer, scheduler, and fine-tuning recipe,
+  - evaluation protocol, held-out prompt suites, inference settings, and sample-based validation,
+  - objective-specific needs such as preference pairs, reward signals, or trajectory handling when applicable,
+  - comparison matrix or ablations,
   - reproducibility plan,
   - implementation work items.
 - Required outcome:
-  - `experiment-plan.md` is current and can drive Stage 4 implementation and Stage 5 training or evaluation.
+  - `implementation-plan.md` is current and can drive Stage 4 implementation and Stage 5 training or evaluation.
 
-### 4) Implementation
+### 4) Implementation & Data Preparation
 
 - Primary files:
   - `stages/04-implementation/README.md`
   - `stages/04-implementation/implementation-template.md`
 - Implementation is important, but it is not the center of this workflow.
+- Data preparation execution belongs here, not in Stage 5.
+- This stage owns the materialization of dataset manifests, formatted samples, tokenized artifacts, or other prepared inputs that Stage 5 will consume.
 - Keep the artifact execution-oriented:
   - changed files,
+  - data-preparation scripts and materialized artifacts,
   - config updates,
   - commands,
   - checkpoints and logging paths,
   - smoke checks,
   - readiness for training and validation.
 - Required outcome:
-  - implementation matches the experiment plan closely enough to run Stage 5,
+  - implementation matches the implementation plan closely enough to run Stage 5,
   - source edits are complete for the current iteration,
+  - required data preparation is complete,
   - smoke or unit checks needed before training are complete.
 
 ### 5) Training & Validation
 
 - Primary files:
-  - `stages/05-training-validation/README.md`
-  - `stages/05-training-validation/training-validation-guide.md`
-  - `stages/05-training-validation/training-validation-template.md`
+  - `stages/05-training-and-validation/README.md`
+  - `stages/05-training-and-validation/training-validation-guide.md`
+  - `stages/05-training-and-validation/training-validation-template.md`
 - This is the primary evidence gate of the workflow.
+- Training here can mean supervised fine-tuning, preference optimization, or reinforcement-style optimization depending on the chosen objective.
+- Stage 5 should consume the prepared code, configs, and data artifacts produced in Stage 4.
+- Do not move substantial data-preparation work into Stage 5; only bounded integrity checks belong here.
 - Record actual empirical evidence, not only intent:
+  - objective type,
+  - base model and parameter-update strategy,
   - run configuration,
   - commit or diff basis,
   - seed,
-  - data version or split,
+  - dataset manifest or split,
+  - tokenizer or template version,
+  - inference or generation settings used for evaluation,
+  - eval harness, judge, or human-review configuration,
   - hardware or environment,
-  - checkpoints,
-  - metrics,
+  - checkpoints or update artifacts,
+  - metrics or rubric results,
+  - sampled outputs when relevant,
+  - objective-specific artifacts when relevant,
   - baseline comparison,
   - failure analysis,
   - pass, fail, or inconclusive decision.
@@ -179,13 +197,17 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `stages/06-code-review/code-review-guide.md`
   - `stages/06-code-review/code-review-template.md`
 - Run code review only after Stage 5 evidence is current.
-- Review focus for deep-learning work includes:
+- Review focus for LLM fine-tuning work includes:
   - data leakage,
-  - train or eval mode mistakes,
-  - metric correctness,
-  - label and mask alignment,
-  - checkpoint and config semantics,
-  - numerical stability,
+  - data provenance and split contamination mistakes,
+  - prompt or chat-template mistakes,
+  - tokenizer and special-token mistakes,
+  - label masking and target alignment,
+  - preference-pair, reward, or trajectory wiring mistakes when applicable,
+  - truncation or packing mistakes,
+  - generation-setting or inference-template mistakes during evaluation,
+  - eval-harness correctness,
+  - checkpoint, update-artifact, and config semantics,
   - reproducibility gaps,
   - logging and artifact traceability.
 - Required outcome:
@@ -200,8 +222,11 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
 - Update durable docs only after the current implementation and validation story is truthful.
 - Typical sync targets:
   - training commands,
-  - config assumptions,
-  - dataset or split expectations,
+  - dataset-preparation steps and manifest identity,
+  - tokenizer or chat-template assumptions,
+  - base-model, objective, and update-strategy assumptions,
+  - inference or generation settings used for evaluation,
+  - evaluator, judge, or human-review configuration,
   - best-known run summary,
   - reproduction notes,
   - important caveats.
@@ -214,7 +239,7 @@ Advance only when the current stage gate is satisfied or a classified re-entry p
   - `stages/08-handoff/handoff-summary-template.md`
 - Finish with:
   - a clear summary of what changed,
-  - best run or best evidence,
+  - best training run or best evidence,
   - open risks and next experiments,
   - explicit user verification,
   - ticket archival and repository finalization when applicable.
@@ -225,7 +250,7 @@ Use classified re-entry when a later stage proves the issue is upstream:
 
 - `Local Fix`: the current iteration can be corrected by revisiting implementation directly.
 - `Validation Gap`: Stage 6 lacks enough Stage 5 evidence; return to `5 -> 6`.
-- `Plan Impact`: the experiment plan is no longer sound enough; return through Stage 3 before more implementation.
+- `Plan Impact`: the implementation plan is no longer sound enough; return through Stage 3 before more implementation.
 - `Requirement Gap`: success criteria or scope were incomplete or wrong; return through Stage 2.
 - `Investigation Gap`: the evidence base is insufficient; return through Stage 1.
 - `Unclear`: root cause is still uncertain or cross-cutting; reopen from Stage 0 controls and rerun the chain.

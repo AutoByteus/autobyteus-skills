@@ -26,18 +26,22 @@
 
 | Area | Findings | Evidence | Open Questions |
 | --- | --- | --- | --- |
-| Training Entrypoints |  |  |  |
+| Fine-Tuning Entrypoints |  |  |  |
 | Validation / Evaluation Entrypoints |  |  |  |
-| Model / Architecture |  |  |  |
-| Data Pipeline / Splits |  |  |  |
-| Loss / Objective |  |  |  |
-| Metrics / Logging |  |  |  |
-| Checkpointing / Resume |  |  |  |
+| Inference / Serving Path Used For Validation |  |  |  |
+| External Papers / Reference Implementations |  |  |  |
+| Base Model / Update Strategy |  |  |  |
+| Tokenizer / Prompt Or Chat Template |  |  |  |
+| Data Preparation / Curation / Splits |  |  |  |
+| Objective / Loss / Reward / Preference Flow |  |  |  |
+| Metrics / Judge / Logging |  |  |  |
+| Checkpointing / Resume / Merge |  |  |  |
 
 ## Baseline Understanding
 
 - Existing baseline:
 - Best known metric:
+- Best known qualitative behavior:
 - Comparison target:
 - Confidence in baseline record:
 
@@ -45,6 +49,8 @@
 
 - Compute constraints:
 - Dataset constraints:
+- Data provenance or privacy constraints:
+- Evaluator or judge constraints:
 - Reproducibility risks:
 - Operational risks:
 

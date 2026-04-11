@@ -25,10 +25,16 @@ Write to:
 | Check | Result (`Pass` / `Fail` / `Needs Follow-Up`) | Evidence |
 | --- | --- | --- |
 | Data leakage / split contamination |  |  |
-| Train / eval mode correctness |  |  |
+| Data provenance / manifest integrity |  |  |
+| Prompt / chat-template correctness |  |  |
+| Tokenizer / special-token correctness |  |  |
 | Metric correctness |  |  |
-| Label / mask / target alignment |  |  |
-| Checkpoint semantics |  |  |
+| Label / mask / target / boundary alignment |  |  |
+| Preference / reward / trajectory wiring if applicable |  |  |
+| Truncation / packing correctness |  |  |
+| Evaluation generation-setting correctness |  |  |
+| Checkpoint / update-artifact / merge semantics |  |  |
+| Evaluator / judge correctness |  |  |
 | Config traceability |  |  |
 | Reproducibility sufficiency |  |  |
 | Numerical stability risk |  |  |

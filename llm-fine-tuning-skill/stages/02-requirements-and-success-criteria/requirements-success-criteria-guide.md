@@ -7,7 +7,7 @@ Use this stage to turn `requirements.md` from `Draft` into `Plan-ready` or `Refi
 - the task definition is explicit enough to plan experiments without guesswork
 - each requirement has a stable `requirement_id`
 - each success criterion has a stable `success_criteria_id`
-- success criteria are measurable and can be closed by Stage 5 evidence
+- success criteria are measurable or rubric-defined and can be closed by Stage 5 evidence
 
 ## Minimum Sections
 
@@ -20,18 +20,26 @@ Use this stage to turn `requirements.md` from `Draft` into `Plan-ready` or `Refi
 - assumptions
 - risks and open questions
 
-## Required Deep-Learning Content
+## Required LLM Fine-Tuning Content
 
-- target metric or metrics
+- target metric or metrics and any qualitative acceptance criteria
 - threshold, improvement target, or expected comparison direction
-- dataset or split assumptions
-- evaluation protocol assumptions
+- output-format, style, or instruction-following expectations when those matter
+- dataset provenance, privacy, contamination, and split assumptions
+- prompt or chat-format assumptions
+- evaluation protocol assumptions:
+  - automatic metrics,
+  - held-out prompt suites,
+  - judge or human review,
+  - regression or safety checks
 - resource constraints:
   - GPU or accelerator availability,
   - runtime budget,
   - memory limits,
   - storage constraints
 - pass, fail, and inconclusive conditions
+
+If the task is not purely metric-driven, define the closure rubric explicitly enough that Stage 5 can apply it consistently.
 
 ## Rules
 
@@ -41,4 +49,4 @@ Use this stage to turn `requirements.md` from `Draft` into `Plan-ready` or `Refi
 
 ## Exit Gate
 
-Leave Stage 2 only when `requirements.md` is `Plan-ready` or `Refined` and every critical outcome has a measurable closure path.
+Leave Stage 2 only when `requirements.md` is `Plan-ready` or `Refined` and every critical outcome has a measurable or rubric-defined closure path.

@@ -6,7 +6,11 @@ Only sync docs that can now be stated truthfully from the current evidence.
 
 - training or evaluation commands
 - config assumptions
-- dataset or split expectations
+- dataset-preparation steps and manifest identity
+- tokenizer or chat-template assumptions
+- objective type and update-strategy assumptions
+- evaluation generation settings
+- evaluator, judge, or human-review assumptions
 - best-known run summary
 - checkpoint handling notes
 - reproduction steps

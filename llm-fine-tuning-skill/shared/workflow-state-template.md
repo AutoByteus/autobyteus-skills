@@ -37,11 +37,11 @@ Note:
 | --- | --- | --- | --- |
 | 0 Bootstrap | Not Started | Ticket bootstrap complete, draft `requirements.md` created, and `workflow-state.md` initialized |  |
 | 1 Investigation | Not Started | `investigation-notes.md` current and durable enough to support downstream stages |  |
-| 2 Requirements & Success Criteria | Not Started | `requirements.md` is `Plan-ready` or `Refined`, with measurable success criteria |  |
-| 3 Experiment Plan | Not Started | `experiment-plan.md` current and implementation-ready |  |
-| 4 Implementation | Not Started | `implementation.md` current, planned source/config changes completed for the iteration, and training-ready smoke checks complete |  |
-| 5 Training & Validation | Not Started | `training-validation-report.md` current with run evidence, metric outcomes, and explicit gate decision |  |
-| 6 Code Review | Not Started | `code-review.md` records a pass or fail decision with deep-learning-specific review checks completed |  |
+| 2 Requirements & Success Criteria | Not Started | `requirements.md` is `Plan-ready` or `Refined`, with measurable or rubric-defined success criteria |  |
+| 3 Implementation Plan | Not Started | `implementation-plan.md` current and implementation-ready |  |
+| 4 Implementation & Data Preparation | Not Started | `implementation.md` current, planned source/config/data-preparation changes completed for the iteration, required data preparation complete, and training-ready smoke checks complete |  |
+| 5 Training & Validation | Not Started | `training-validation-report.md` current with run and evaluation evidence, metric or rubric outcomes, and explicit gate decision |  |
+| 6 Code Review | Not Started | `code-review.md` records a pass or fail decision with LLM-fine-tuning-specific review checks completed |  |
 | 7 Docs Sync | Not Started | `docs-sync.md` current and durable docs updated or truthful no-impact rationale recorded |  |
 | 8 Handoff | Not Started | `handoff-summary.md` current, explicit user verification received, ticket moved to `done`, and repository finalization complete when applicable |  |
 
@@ -51,10 +51,10 @@ Note:
 | --- | --- | --- |
 | 0 | Bootstrap complete and `requirements.md` is `Draft` | stay in `0` |
 | 1 | `investigation-notes.md` current with scope and evidence | stay in `1` |
-| 2 | `requirements.md` is `Plan-ready` or `Refined` with measurable success criteria | stay in `2` |
-| 3 | `experiment-plan.md` is current enough to drive implementation and validation | stay in `3` |
-| 4 | Implementation for the current iteration is complete and training-ready | local issues: stay in `4`; otherwise classified re-entry |
-| 5 | Training and validation evidence closes the current success criteria truthfully | `Blocked` when environment, compute, or data constraints prevent closure without explicit user decision; otherwise classified re-entry |
+| 2 | `requirements.md` is `Plan-ready` or `Refined` with measurable or rubric-defined success criteria | stay in `2` |
+| 3 | `implementation-plan.md` is current enough to drive implementation and validation | stay in `3` |
+| 4 | Implementation and data preparation for the current iteration are complete, the prepared inputs are ready for Stage 5, and training-ready checks pass | local issues: stay in `4`; otherwise classified re-entry |
+| 5 | Training and validation evidence closes the current success criteria truthfully | `Blocked` when environment, compute, evaluator, human-review, or data constraints prevent closure without explicit user decision; otherwise classified re-entry |
 | 6 | Code review decision is `Pass` and mandatory review checks are satisfied | classified re-entry |
 | 7 | Docs are updated or truthful no-impact rationale is recorded | classified re-entry or stay in `7 (Blocked)` for external docs blockers |
 | 8 | Handoff summary is complete, explicit user verification is received, ticket moved to `done`, and finalization is complete when applicable | stay in `8` |
@@ -74,7 +74,7 @@ Note:
 | Stage 5 failure (`Requirement Gap`) | `2 -> 3 -> 4 -> 5` | Fail |
 | Stage 5 failure (`Investigation Gap`) | `1 -> 2 -> 3 -> 4 -> 5` | Fail |
 | Stage 5 failure (`Unclear`) | `0 -> 1 -> 2 -> 3 -> 4 -> 5` | Fail |
-| Stage 5 blocked by environment, compute, or dataset availability | stay in `5` | Blocked |
+| Stage 5 blocked by environment, compute, evaluator, human-review, or dataset availability | stay in `5` | Blocked |
 | Stage 6 failure (`Local Fix`) | `4 -> 5 -> 6` | Fail |
 | Stage 6 failure (`Validation Gap`) | `5 -> 6` | Fail |
 | Stage 6 failure (`Plan Impact`) | `1 -> 3 -> 4 -> 5 -> 6` | Fail |

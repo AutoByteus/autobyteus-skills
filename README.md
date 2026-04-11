@@ -10,9 +10,9 @@ This repository contains reusable Codex skills used across AutoByteus projects.
 
 Stage-gated engineering workflow from investigation and requirements to implementation and docs sync.
 
-### Deep Learning Experiment Workflow Skill
+### LLM Fine-Tuning Skill
 
-Stage-gated deep-learning workflow centered on durable investigation, explicit success criteria, experiment planning, and empirical training/validation evidence.
+Stage-gated LLM fine-tuning workflow centered on durable investigation, implementation planning, implementation plus data preparation, and empirical training/validation evidence.
 
 ### Product UI Prototyping
 

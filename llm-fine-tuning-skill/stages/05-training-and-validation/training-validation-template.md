@@ -11,18 +11,25 @@ Write to:
 ## Artifact Basis
 
 - Requirements: `tickets/in-progress/<ticket-name>/requirements.md`
-- Experiment plan: `tickets/in-progress/<ticket-name>/experiment-plan.md`
+- Implementation plan: `tickets/in-progress/<ticket-name>/implementation-plan.md`
 - Implementation: `tickets/in-progress/<ticket-name>/implementation.md`
+- Stage 4 prepared data artifacts: record the exact manifests, materialized datasets, or tokenized outputs consumed by the run
 
 ## Run Registry
 
-| Run ID | Purpose | Code Basis | Config | Seed | Data / Split Version | Hardware / Environment | Status (`Queued` / `Running` / `Completed` / `Failed`) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| RUN-001 |  |  |  |  |  |  |  |  |
+| Run ID | Purpose | Objective Type | Base Model | Update Strategy | Config | Seed | Dataset Manifest / Split | Prepared Data Artifact(s) | Tokenizer / Template Version | Evaluation Generation Settings | Hardware / Environment | Status (`Queued` / `Running` / `Completed` / `Failed`) | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RUN-001 |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 ## Metric Summary
 
-| Run ID | Metric | Result | Baseline | Delta | Notes |
+| Run ID | Evaluator / Judge | Metric Or Rubric | Result | Baseline | Delta | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| RUN-001 |  |  |  |  |  |  |
+
+## Qualitative Or Behavioral Review
+
+| Run ID | Prompt Set / Sample ID | Criterion | Output Summary | Decision (`Good` / `Bad` / `Mixed`) | Notes |
 | --- | --- | --- | --- | --- | --- |
 | RUN-001 |  |  |  |  |  |
 
@@ -41,18 +48,29 @@ Write to:
 ## Failure Analysis
 
 - Implementation defects found:
-- Training instability or optimization issues:
-- Data or split issues:
-- Metric interpretation issues:
+- Data preparation or split issues:
+- Prompt or chat-format issues:
+- Tokenizer or masking issues:
+- Objective or optimization issues:
+- Evaluator or judge issues:
 - Remaining unknowns:
+
+## Objective-Specific Evidence
+
+- Preference-pair, reward, or trajectory artifacts:
+- Objective-specific caveats:
 
 ## Reproducibility Record
 
 - Exact command(s):
 - Config file(s):
 - Seed(s):
-- Dataset or split version:
-- Checkpoint(s):
+- Dataset manifest or split version:
+- Prepared data artifact(s):
+- Tokenizer or template version:
+- Evaluation generation settings:
+- Evaluator, judge, or human-review config:
+- Checkpoint(s) or update artifact(s):
 - Environment details:
 
 ## Gate Decision

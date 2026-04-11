@@ -2,17 +2,20 @@
 
 ## Purpose
 
-Run training or evaluation work and validate the implemented approach against the current success criteria.
+Consume the Stage 4-prepared code, configs, and data artifacts, run training or evaluation work, and validate the implemented approach against the current success criteria.
 
 ## Enter This Stage When
 
 - Stage 4 is complete for the current iteration
-- the code and configs are stable enough to run training or evaluation meaningfully
+- the code, prepared data artifacts, and configs are stable enough to run training or evaluation meaningfully
+
+Note:
+- Data preparation is not owned here except for bounded integrity checks that confirm the Stage 4 outputs are usable.
 
 ## Stage-Owned Outputs
 
 - `tickets/in-progress/<ticket-name>/training-validation-report.md`
-- run logs, checkpoints, metrics, and any retained evidence artifacts
+- run logs, checkpoints or update artifacts, metrics, sample outputs, and any retained evidence artifacts
 
 ## Exit Gate
 

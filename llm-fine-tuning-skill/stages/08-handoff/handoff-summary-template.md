@@ -12,8 +12,13 @@ Write to:
 ## Best Current Evidence
 
 - Best run:
-- Best metric summary:
+- Best quantitative or rubric summary:
 - Comparison to baseline:
+- Dataset manifest or split:
+- Tokenizer or template version:
+- Objective type and update strategy:
+- Evaluation generation settings:
+- Evaluator, judge, or human-review basis:
 - Confidence level:
 
 ## Artifacts

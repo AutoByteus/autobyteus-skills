@@ -23,7 +23,11 @@ Write to:
 
 - Commands:
 - Config assumptions:
-- Dataset or split assumptions:
+- Dataset-preparation steps and manifest identity:
+- Tokenizer or chat-template assumptions:
+- Objective type and update strategy:
+- Evaluation generation settings:
+- Evaluator, judge, or human-review assumptions:
 - Best current result:
 - Reproduction notes:
 - Caveats:

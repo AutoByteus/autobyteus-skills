@@ -8,6 +8,7 @@ The handoff should make the current iteration easy to continue without rediscove
 - what was actually run
 - the best current result
 - what passed, failed, or remained inconclusive
+- the exact dataset manifest, tokenizer or template version, and evaluation settings behind the best result
 - important artifacts and where they live
 - next experiments or next engineering actions
 - explicit remaining risks

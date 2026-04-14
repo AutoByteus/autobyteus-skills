@@ -13,7 +13,56 @@ Example file: `references/examples/ryan-examples.md`
 - Keep claims sharp, but tie them back to workflow behavior, architectural signals, or repeated failure patterns.
 - Use direct correction language when refining a common belief: acknowledge the shallow explanation, then replace it with the deeper one.
 - Revisit the same core nouns across the piece instead of swapping in many synonyms. Ryan prefers conceptual stability over stylistic variety.
+- Prefer exact referents over rhetorical compression. If the article distinguishes between human doer, software work surface, application logic, agent runtime, and delivery boundary, keep those nouns separate instead of collapsing them into one cleaner but less accurate word.
 - End with a directional conclusion that sounds like a design principle, not a motivational wrap-up.
+- Keep structural clarity as the invariant, but treat rhetorical intensity as adjustable.
+- Do not force correction language, binary contrast, or manifesto energy when the user asks for factual or paper-like prose.
+- When the author is describing their own product, workflow, or runtime change, prefer builder ownership language such as `we used`, `we observed`, and `we changed`.
+
+## Important Boundary
+
+- Ryan's strongest samples in this skill are essay-like Medium pieces.
+- That does not mean every Ryan-aligned draft should sound like a strategy essay.
+- If the user asks for `factual`, `scientific`, `paper-like`, `technical note`, `architecture note`, or objects to sales tone, keep Ryan's structure discipline and terminology stability but downshift the rhetoric.
+
+## Ryan Variant Map
+
+Treat Ryan as one writing system with multiple controlled variants, not as one fixed sound.
+
+| Variant | Use when | Opening stance | Allowed pressure | Main risk to avoid |
+| --- | --- | --- | --- | --- |
+| `essay-thesis` | the user wants a strong Medium argument or strategic viewpoint | direct thesis in paragraph 1 | medium to high | sounding like a manifesto when evidence is still thin |
+| `factual-technical` | the user wants a technical explanation or engineering note | scope, mechanism, or main observation first | low | drifting into unnecessary contrast or commentary |
+| `builder-direct` | the user is describing their own product, workflow, runtime change, or internal observation | `we used`, `we observed`, `we changed` | low to medium | slipping back into detached analyst prose |
+| `paper-report` | the user wants a more formal, report-like, or scientific style | scope, method, observations, limitations | low | becoming dry but still carrying essay pivots |
+
+Default selection:
+
+- if the user speaks from firsthand product/workflow ownership, choose `builder-direct`
+- if the user asks for factual or technical explanation, choose `factual-technical`
+- if the user asks for scientific/report-like prose, choose `paper-report`
+- use `essay-thesis` only when the user clearly wants argument pressure
+
+## Direction Cues And Override Rules
+
+Use the user's revision language as a hard routing signal:
+
+| User feedback | Ryan direction change |
+| --- | --- |
+| `too salesy`, `too much Medium tone`, `too much rhetoric` | move to `factual-technical` or `paper-report`; remove contrastive hooks unless essential |
+| `be direct`, `start with what we used`, `write practically` | move to `builder-direct`; start from prior system state |
+| `sounds like someone else built it` | restore builder ownership language throughout |
+| `too repetitive` | compress transitions and remove repeated restatements of the same central claim |
+| `not accurate` plus new details | replace generic mechanism with the user-supplied causal chain immediately |
+
+Revision precedence inside Ryan:
+
+1. factual accuracy
+2. mechanism accuracy
+3. ownership stance
+4. logical flow
+5. rhetorical pressure
+6. sentence polish
 
 ## Title And Thesis Signature
 
@@ -24,6 +73,10 @@ Example file: `references/examples/ryan-examples.md`
   - `The core work is not X. It is Y.`
   - `That is true. But it is not the root cause.`
   - `The deeper problem is...`
+- In factual technical mode, titles may be descriptive rather than argumentative.
+- In factual technical mode, the opening may begin with scope, implementation context, or observed behavior instead of a contrastive thesis.
+- In builder-report mode, the opening may begin directly from the prior system state: what was used, what it was supposed to do, and where it started to break.
+- In paper-report mode, the opening may begin from scope, system boundary, or observed runtime condition without any thesis compression at all.
 
 ## Structural Signature
 
@@ -48,6 +101,76 @@ The article often feels like a controlled escalation:
 
 Use explicit sectioning when helpful, but Ryan can also maintain structure through paragraph sequencing alone.
 
+### Builder-Report Variant
+
+When the user is describing their own system evolution, prefer this sequence:
+
+1. what we were using
+2. what that system already did well
+3. where it started to break
+4. why we changed the design
+5. what the new structure is
+6. what we observed after the change
+7. what bounded conclusion follows
+
+This variant should feel direct and practical. Do not open with `This article explains...` or `This note describes...` if a concrete builder opening is available.
+
+When the article is a derivation about architecture or system structure, builder-direct can also use this sequence:
+
+1. what the older system was
+2. who or what was actually doing the work
+3. what changed
+4. what the new decomposition is
+5. what new boundary or artifact model follows
+6. what practical UI or workflow consequence follows
+7. what bounded conclusion follows
+
+### Paper-Report Variant
+
+When the user wants a more scientific or report-like article, prefer this sequence:
+
+1. scope or system under discussion
+2. relevant implementation or workflow structure
+3. observed behavior or limitation
+4. mechanism behind that behavior
+5. redesign or comparison if relevant
+6. bounded conclusion
+7. limitations or next implications when useful
+
+This variant should feel factual and low-pressure. It should not inherit Medium-style thesis pressure by accident.
+
+## Rhetorical Pressure Control
+
+Use one of these pressure levels explicitly:
+
+- `Low`: factual technical prose. Start from scope, implementation, builder context, or observation. Keep conclusions bounded. Prefer direct system openings when the author is speaking from firsthand product experience.
+- `Medium`: Ryan's normal technical-essay mode. Thesis appears early, but claims still stay mechanism-backed.
+- `High`: only when the user clearly wants manifesto, strong persuasion, or founder-style positioning.
+
+Default to `Low` for technical requests unless the user explicitly asks for a more argumentative article.
+
+Variant-pressure alignment:
+
+- `essay-thesis` normally uses `Medium`
+- `factual-technical` normally uses `Low`
+- `builder-direct` normally uses `Low` or restrained `Medium`
+- `paper-report` uses `Low`
+
+## Ryan Factual Technical Variant
+
+When the user wants paper-like or report-like prose:
+
+- keep Ryan's structural discipline and repeated terminology
+- reduce thesis pressure in the opening
+- present mechanism and evidence before interpretation
+- replace sharp correction language with bounded statements
+- avoid `not X, but Y` unless it is truly necessary
+- avoid lines such as `that changed everything`, `the future is`, or `what changed our thinking` unless reflective voice is explicitly requested
+- let the conclusion sound like a constrained finding, not a slogan
+- avoid detached report openers such as `this note describes` when the user wants direct builder voice
+- avoid reopening the same claim in the intro, body transition, and conclusion when one clear statement is enough
+- avoid switching variants mid-draft, such as opening in `builder-direct` and closing in `essay-thesis`
+
 ## Paragraph Rhythm And Sentence Mechanics
 
 - Keep paragraphs compact. One logical move per paragraph is the default.
@@ -58,16 +181,19 @@ Use explicit sectioning when helpful, but Ryan can also maintain structure throu
   - immediately narrow it with `But that is not the root cause`
 - Short question paragraphs are valid when they tighten the argument, for example `Why?`
 - Repetition is deliberate. Key terms such as `architecture`, `review`, `ownership`, `spine`, or `fragmentation` can appear many times without being disguised.
+- Repeated terminology is not the same as repeated claims. Reuse key nouns, but do not restate the same paragraph-level point unless it advances the argument.
 - Prefer sentence chains that accumulate clarity:
   - claim
   - clarification
   - implication
+- When the draft uses words like `runtime`, `system`, `surface`, or `application`, make sure the referent is recoverable in the same paragraph. Ryan prefers stable referents to stylistic variation.
 
 ## Reasoning Pattern
 
 - Use binary contrasts to sharpen meaning: design vs validation, local cleanliness vs global structure, context-window limitation vs architectural weakness.
 - Diagnose root cause by treating visible failures as signals rather than as final explanations.
 - Move from operational pain to structural cause, not from abstract philosophy to implementation.
+- For architecture derivation articles, move from prior system decomposition to new decomposition before claiming UI or workflow consequences.
 - Turn architecture into something inspectable through artifacts: spines, boundaries, ownership, APIs, file placement, validation paths.
 - Prefer reviewable dimensions over vague quality language. Ryan likes named criteria and explicit checks.
 - Use `if X, then Y` style constraints when defining process rigor.
@@ -77,9 +203,25 @@ Use explicit sectioning when helpful, but Ryan can also maintain structure throu
 
 - Prefer repeated observed patterns over anecdotal storytelling.
 - Use one concrete loop or failure pattern to prove the thesis.
-- Name the exact signal that changed the author's thinking.
+- In essay mode, naming the exact signal that changed the author's thinking can be effective.
+- In factual technical mode, state the observation directly instead of dramatizing the signal.
+- When the user provides a more exact runtime explanation, prefer that exact mechanism over a broader abstract summary.
+- Preserve distinctions like `software as work surface` versus `human as doer` when the article depends on that difference.
 - When listing quality dimensions, list them as concrete review surfaces rather than abstract values.
 - Use architecture vocabulary as evidence vocabulary. The evidence is often the structure itself.
+- If a table already captures the main mechanism or comparison, the prose around it should interpret or transition, not restate the same rows.
+
+## Anti-Patterns
+
+Avoid these common Ryan failure modes:
+
+- opening with detached meta-lines like `This article explains...` when builder-direct voice is clearly better
+- using `not X, but Y` multiple times in the same draft when one direct sentence would be clearer
+- sounding like an outside analyst when the article is about the author's own system
+- keeping a generic high-level explanation after the user has supplied a more precise mechanism
+- collapsing distinct system components into vague nouns like `runtime`, `system`, or `interface` after the user has already clarified the boundary
+- restating the same conclusion in the introduction, a transition section, and the ending
+- using a second table or closing summary that merely repeats the first comparison table
 
 ## Typical English Markers
 
@@ -94,7 +236,33 @@ Use explicit sectioning when helpful, but Ryan can also maintain structure throu
 - `So my current view is this:`
 - `That is the direction I now believe in.`
 
-These phrases are not mandatory to copy, but their rhetorical function matters:
+These phrases are essay-mode markers, not mandatory defaults. Use them only when the requested rhetorical mode actually needs that pressure.
+
+Builder-direct markers:
+
+- `In AutoByteus, we first used...`
+- `For small tickets, this worked well.`
+- `When the tasks became larger, we started to see...`
+- `That is why we changed...`
+- `After the split, we noticed...`
+- `The cost was not only task context...`
+- `Part of the token budget was being spent on maintaining the workflow itself...`
+
+Paper-report markers:
+
+- `The current workflow has...`
+- `The observed limitation appears in...`
+- `This behavior is most visible when...`
+- `The main mechanism is...`
+- `Taken together, these observations suggest...`
+
+Low-rhetoric correction markers:
+
+- `The earlier explanation was too broad.`
+- `The more exact mechanism is...`
+- `The main cost appeared in...`
+
+Their rhetorical function matters:
 
 - compress the thesis
 - pivot to a deeper layer
@@ -126,6 +294,12 @@ These phrases are not mandatory to copy, but their rhetorical function matters:
 - Avoid style shifts between formal and casual tone.
 - Avoid soft hedging that weakens a hard-earned argument.
 - Avoid storytelling detours that do not strengthen the structural claim.
+- Avoid sales tone, founder evangelism, or product-marketing cadence unless explicitly requested.
+- Avoid repeated `not X, but Y` pivots when a direct factual sentence would be clearer.
+- Avoid interpretive phrases like `very important signal` when the underlying observation can be stated directly.
+- Avoid inflated directional claims such as `the future is ...` unless the user clearly wants a visionary essay.
+- Avoid opening in detached analyst mode when the user is clearly speaking as the builder.
+- Avoid concluding in grand strategic language when the body stayed factual and bounded.
 
 ## Language Fingerprint: Chinese
 
@@ -157,7 +331,7 @@ These phrases are not mandatory to copy, but their rhetorical function matters:
 - Preserve section intent across languages even when sentence shape changes.
 - Adapt idiom and rhythm per language; do not line-translate.
 - Keep technical terms aligned, especially for concepts like `separation of concerns`, `runtime validation`, `call stack`, `ownership`, `authoritative boundary`, and `data-flow spine`.
-- Preserve the contrast structure. If the English draft says `not X, but Y`, the Chinese draft should keep the same argumentative turn.
+- Preserve the contrast structure only when the source draft actually uses it. Do not inject a `not X, but Y` turn during conversion if the source is factual or paper-like.
 
 ## Cross-Language Conversion Preferences
 
@@ -192,6 +366,7 @@ Ryan's strongest natural fit in the current corpus is:
 Before finalizing, verify:
 
 1. Thesis appears in the first 1-3 paragraphs.
+   In factual technical mode, a clear scope statement or main observation can replace a hard thesis hook.
 2. At least one explicit distinction frames the whole article.
 3. The draft corrects a shallow explanation or incomplete industry belief where relevant.
 4. One repeated engineering signal or failure pattern is used as evidence.
@@ -201,3 +376,11 @@ Before finalizing, verify:
 8. The conclusion compresses the argument into 2-4 short statements or one strong directional paragraph.
 9. Tone stays analytical, architecture-first, and non-hyped throughout.
 10. The reader leaves with a clearer way to inspect or judge the system, not just a stronger opinion.
+11. The rhetorical mode (`essay` vs `factual-technical` vs `paper-like`) is explicit and matched.
+12. No sales-tone drift, forced contrast, or unearned persuasion remains in factual technical drafts.
+13. The opening stance is correct for the request: thesis-first, scope-first, or builder-direct.
+14. No duplicate summary section or repeated comparison table restates the same point without adding new information.
+15. The Ryan variant (`essay-thesis`, `factual-technical`, `builder-direct`, or `paper-report`) is explicit and the draft does not drift into another variant.
+16. If the piece is firsthand product narration, at least the opening and one later section clearly preserve builder ownership language.
+17. If the user supplied a more precise runtime or workflow mechanism during revision, the final draft uses that mechanism instead of the earlier generic abstraction.
+18. If the user objected to sales tone, detachment, or repetition, the final draft contains explicit evidence that those failure modes were removed.

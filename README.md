@@ -29,9 +29,3 @@ State-by-state UI behavior prototyping workflow with manifest, flow maps, and vi
 ![UX Journey Definition](infographics/ux-journey-definition.png)
 
 One canonical experience-story artifact that defines actions, responses, transitions, and recovery paths.
-
-### Computer Use Playbook
-
-![Computer Use Playbook](infographics/computer-use-playbook.png)
-
-Deterministic computer-use workflow across browser DOM actions, shell operations, and native UI escalation.

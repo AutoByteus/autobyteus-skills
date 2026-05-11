@@ -128,6 +128,128 @@ Use this when the user writes first in English and asks for Chinese adaptation.
 - Keep key technical terms stable when Chinese paraphrase would reduce precision.
 - Let the Chinese version sound like a native technical article, not a literal translation.
 
+## Example H: English Factual Technical Opening
+
+### Prompt Shape
+
+- Topic: describe how a product implements agent teams
+- Goal: explain the runtime model in a factual technical way
+- Audience: engineers who dislike sales or manifesto tone
+
+### Ryan-Style Low-Pressure Example
+
+`This note describes how agent teams are implemented in AutoByteus and summarizes the runtime behavior we have observed in recent software-engineering workflows. The main observation is that the workflow becomes more stable when each member operates with a narrow responsibility, a durable artifact boundary, and explicit handoff rules. The sections below focus on the runtime and workflow mechanisms that produce that behavior.`
+
+### Why It Works
+
+- Opens with scope instead of a slogan.
+- States the main observation without forcing a contrastive hook.
+- Keeps the tone analytical while preserving clear structure.
+
+## Example H2: English Builder-Direct Opening
+
+### Prompt Shape
+
+- Topic: explain why a team design replaced a single workflow skill
+- Goal: write from the builder's perspective without sales tone
+- Audience: engineers who want a practical system-evolution explanation
+
+### Ryan-Style Low-Pressure Example
+
+`In AutoByteus, we first used one end-to-end software-engineering workflow skill. It already handled investigation, design, implementation, validation, code review, and final handoff in one structured flow. When the tasks became larger, we started to see the same pressure point: one agent had to carry too many stage-specific responsibilities at once. That is why we kept the workflow and moved the runtime to a dedicated agent team.`
+
+### Why It Works
+
+- Opens directly from the prior system state.
+- Uses builder ownership language without sounding promotional.
+- Preserves factual flow: prior system, capability, limitation, redesign.
+
+## Example H3: Builder-Direct Mechanism Correction
+
+### Prompt Shape
+
+- Topic: explain more precisely why a single-agent workflow struggled
+- Goal: replace a generic explanation with the actual runtime mechanism
+- Audience: technical readers who care about correctness more than rhetoric
+
+### Ryan-Style Low-Pressure Example
+
+`The pressure did not come only from one agent handling many stages. On larger tickets, repeated compaction forced the agent to rebuild part of its working context again and again. At the same time, the agent had to carry the workflow state itself: current stage, re-entry conditions, artifact obligations, and finalization rules. So part of the token budget was being spent on maintaining the workflow process, not only on the local engineering task.`
+
+### Why It Works
+
+- Replaces a broad abstraction with the concrete runtime mechanism.
+- Keeps builder-direct factual tone.
+- Moves from observed behavior to bounded explanation without dramatizing it.
+
+## Example I: Factual Technical Evidence Paragraph
+
+### Prompt Shape
+
+- Topic: explain why a team workflow stays stable
+- Goal: describe the mechanism without essay-like rhetoric
+- Audience: technical readers evaluating architecture
+
+### Ryan-Style Low-Pressure Example
+
+`In the current software-engineering team, members do not continuously coordinate through freeform discussion. They usually work until an artifact is produced, then hand off the cumulative artifact set to the next specialist. This reduces repeated context reconstruction and keeps the coordination surface smaller and easier to inspect.`
+
+### Why It Works
+
+- States behavior first, then implication.
+- Uses no forced diagnosis language.
+- Keeps nouns concrete and stable.
+
+## Example J: Factual Technical Closing
+
+### Prompt Shape
+
+- Topic: summarize the practical value of a team design
+- Goal: end with a bounded conclusion rather than a manifesto
+- Audience: engineers reading a technical note
+
+### Ryan-Style Low-Pressure Example
+
+`Taken together, these behaviors suggest that the practical value of the team structure is not only parallelism. It is responsibility partitioning under explicit runtime coordination. In the current implementation, that appears to be the main reason the workflow remains stable across design, implementation, validation, and review stages.`
+
+### Why It Works
+
+- Keeps the conclusion bounded to the observed implementation.
+- Still compresses the central claim.
+- Avoids product-marketing tone.
+
+## Example K: Anti-Pattern And Fix
+
+### Too Detached / Too Salesy
+
+`This article explains a major breakthrough in how AutoByteus rethinks AI software engineering. What changed our thinking was not just that the workflow worked, but that it revealed a deeper future for agent teams.`
+
+### Better Ryan Builder-Direct
+
+`In AutoByteus, we first used one end-to-end workflow skill. It worked well on small tickets. The limit appeared on larger tickets, where repeated compaction and workflow-state bookkeeping started consuming too much context. That is why we moved the same workflow into a dedicated agent team.`
+
+### Why The Fix Is Better
+
+- Removes promotional framing.
+- Restores builder ownership.
+- States mechanism instead of slogan.
+
+## Example L: Redundancy Anti-Pattern And Fix
+
+### Too Repetitive
+
+`The workflow was already strong. The important point is that the workflow was already strong. This is why the practical value is that the workflow was already strong but the runtime was not ideal.`
+
+### Better Compressed Version
+
+`The workflow itself was already complete. The problem appeared in how one agent had to carry it at runtime.`
+
+### Why The Fix Is Better
+
+- Keeps the core distinction.
+- Removes empty transition phrases.
+- Preserves the claim in one clean sentence instead of three restatements.
+
 ## Reusable Micro-Templates
 
 ### English Thesis Pivot
@@ -149,6 +271,22 @@ Use this when the user writes first in English and asks for Chinese adaptation.
 ### English Directional Close
 
 `That is the direction I now believe in.`
+
+### English Factual Opening
+
+`This note describes X and summarizes the observed behavior of Y.`
+
+### English Builder-Direct Opening
+
+`In Product X, we first used Y. It already handled Z. When scope increased, we started to see Q. That is why we changed the runtime to W.`
+
+### English Mechanism Correction
+
+`The earlier explanation was too broad. The more exact mechanism was X, which caused Y during long-running execution.`
+
+### English Factual Close
+
+`Taken together, these observations suggest X in the current implementation.`
 
 ### Chinese Thesis Pivot
 

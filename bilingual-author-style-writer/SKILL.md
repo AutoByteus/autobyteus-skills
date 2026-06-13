@@ -1,9 +1,9 @@
 ---
-name: bilingual-style-article-writer
+name: bilingual-author-style-writer
 description: Write and revise publish-ready Chinese (WeChat) and English (Medium) articles or factual technical notes in configurable author styles. Use when the user provides ideas, rough notes, or sample articles and asks Codex to match an existing style profile or create a new profile for any author, then iterate drafts until final.
 ---
 
-# Bilingual Style Article Writer
+# Bilingual Author Style Writer
 
 Use this skill to convert raw ideas into clear, publishable writing with explicit voice control.
 

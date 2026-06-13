@@ -14,7 +14,7 @@ Stage-gated engineering workflow from investigation and requirements to implemen
 
 Stage-gated LLM fine-tuning workflow centered on durable investigation, implementation planning, implementation plus data preparation, and empirical training/validation evidence.
 
-### Bilingual Style Article Writer
+### Bilingual Author Style Writer
 
 Style-aware workflow for drafting and revising Chinese WeChat and English Medium articles in configurable author voices with profile-based examples.
 

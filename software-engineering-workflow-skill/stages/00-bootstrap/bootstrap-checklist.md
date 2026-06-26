@@ -12,7 +12,7 @@ Use this checklist at the start of every ticket before investigation begins.
 4. If the project is a git repository, create or reuse a dedicated ticket worktree for `codex/<ticket-name>`; when creating a new ticket branch, create it from the latest tracked remote state of the resolved base branch.
 5. Create or update `tickets/in-progress/<ticket-name>/workflow-state.md` from `shared/workflow-state-template.md` and fill the `Stage 0 Bootstrap Record`.
 6. Set `Current Stage = 0` and `Code Edit Permission = Locked`.
-7. Create or update `tickets/in-progress/<ticket-name>/requirements.md` with status `Draft`.
+7. Create or update `tickets/in-progress/<ticket-name>/requirements.md` with status `Draft` from user input, Product Manager feature brief, or bug evidence.
 
 ## Bootstrap Rules
 
@@ -20,7 +20,9 @@ Use this checklist at the start of every ticket before investigation begins.
 - Reuse the existing ticket folder and branch/worktree when they already match the ticket.
 - If the user specifies a base branch, always use the latest tracked remote state of that branch instead of a stale local branch.
 - Do not create a new ticket branch/worktree from a stale local base; refresh tracked remote refs first.
-- Capture the draft requirement from user input or bug evidence first; do not wait for perfect understanding.
+- Capture the draft requirement from user input, Product Manager feature brief, or bug evidence first; do not wait for perfect understanding.
+- When the ticket starts from a Product Manager feature brief, record that source in `workflow-state.md` and preserve Product Manager as the next-feature owner; Stage 0 owns ticket/worktree/bootstrap and draft requirements, not product prioritization.
+- A Product Manager feature brief does not unlock source edits or bypass any Stage 0-10 gate.
 - If remote refresh, base-branch resolution, or ticket-worktree creation fails, keep Stage 0 blocked and record the blocker.
 - If the repo is not under git, still create the ticket folder and stage artifacts in the same order.
 
@@ -33,3 +35,4 @@ Use this checklist at the start of every ticket before investigation begins.
 - if git repo and a new ticket worktree/branch was created: remote refresh result recorded
 - `workflow-state.md` initialized
 - `requirements.md` exists with status `Draft`
+- if started from a Product Manager feature brief: brief source/path or message reference recorded

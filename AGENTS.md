@@ -22,6 +22,12 @@ Preferred delegation shape for workflow-skill work:
 - `deployment_engineer`: Stage 10 handoff summary, verification hold, and finalization work
 - `implementation_worker`: bounded implementation work only when ownership is disjoint
 
+Product iteration loop:
+- The canonical `product_manager` agent is the team-local Product Manager in `/Volumes/bingq/AutoByteus/autobyteus-agents/agent-teams/software-engineering-team/agents/product-manager/`, not a skill-repo `.codex/agents` agent.
+- This skill repository documents how the workflow uses that role: Product Manager proposes what to build next, and the normal engineering workflow still runs through Stage 0-10 for each ticket.
+- After Stage 10 completion, `deployment_engineer` (the Delivery/Deployment Engineer) sends or records a completion packet for `product_manager` when the canonical team recipient is available so Product Manager can propose the next feature.
+- Product Manager proposals must route back through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, user verification, finalization, or release/deployment rules.
+
 Parallel-write caution:
 - Prefer bounded delegation and clear ownership.
 - Use write-capable implementation workers only for disjoint ownership or separate worktrees.

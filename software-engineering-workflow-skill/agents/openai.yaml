@@ -3,7 +3,12 @@ interface:
   short_description: "Staged engineering delivery loop"
   default_prompt: >-
     Use $software-engineering-workflow-skill with strict stage gates and ticket
-    lifecycle discipline. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
+    lifecycle discipline. In product-iteration mode, the canonical team-local
+    `product_manager` from the AutoByteus software-engineering team owns the outer loop: `Product Manager -> Engineering Intake / Stage 0 ->
+    Stage 1-10 delivery -> Delivery/Deployment Engineer -> Product Manager ->
+    next feature brief`; Product Manager proposes the next feature, while
+    Solution Designer/design stages refine concrete briefs and the normal gates
+    still control engineering execution. Canonical flow is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 ->
     7 -> 8 -> 9 -> 10`: Stage 0 bootstraps ticket context in order
     (`tickets/in-progress/<ticket-name>/` -> if git repo: resolve explicit
     user-specified base branch first, otherwise infer the tracked remote
@@ -63,6 +68,15 @@ interface:
     cleanup is done too: remove the dedicated ticket worktree, run worktree
     prune, and when the local ticket branch is fully merged into the resolved
     finalization target and no longer needed, delete that local ticket branch.
+    When product-iteration mode is active, after truthful Stage 10 completion
+    state exists, Stage 10 sends `send_message_to(product_manager)` with a
+    self-contained completion packet and relevant artifact paths when the tool
+    and recipient are available; if unavailable, persist the packet path/status
+    and record `Pending` or `Blocked` rather than marking the callback `Sent`.
+    Product Manager must then propose the next feature and route it back through
+    Engineering Intake / Stage 0 without bypassing code-edit locks, validation,
+    review, docs sync, explicit user verification, finalization, release or
+    cleanup gates.
     Across
     design/review/implementation, enforce shared architecture principles
     (`data-flow spine inventory and clarity`, `ownership clarity and boundary encapsulation`, `off-spine concerns around

@@ -7,9 +7,24 @@ description: "Run a staged software-engineering delivery feedback loop from boot
 
 ## Overview
 
-Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E and other executable validation evidence appropriate to the system, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, off-spine concerns, and derived separation of concerns.
+Run a staged software-engineering delivery workflow for software changes: bootstrap ticket context, investigate and refine requirements, build design and future-state runtime artifacts, drive implementation with one implementation artifact that carries both a stable baseline and live progress tracking, validate behavior with API/E2E and other executable validation evidence appropriate to the system, apply independent code review, synchronize long-lived docs, and finish with explicit user-verified handoff and repository finalization. For product-iteration mode, a dedicated Product Manager owns the outer loop that proposes the next feature, receives the Delivery/Deployment Engineer completion packet after Stage 10, and proposes the next feature without bypassing the engineering gates. For medium/large scope, include a full proposed design document organized by data-flow spine inventory, ownership, off-spine concerns, and derived separation of concerns.
 This workflow is stage-gated. Do not batch-generate all artifacts by default.
 In this skill, future-state runtime call stacks are future-state (`to-be`) execution models. They are not traces of current (`as-is`) implementation behavior.
+
+## Product Iteration Wrapper Loop
+
+When product-iteration mode is active, the workflow is an outer product loop around the unchanged per-ticket engineering workflow:
+
+`Product Manager -> Product Feature Brief -> Engineering Intake / Stage 0 -> Stage 1-10 Engineering Delivery -> Delivery/Deployment Engineer -> Completion Packet -> Product Manager -> Next Feature Brief`
+
+- In the AutoByteus software-engineering team runtime, the canonical Product Manager is the team-local `product_manager` agent in `autobyteus-agents`; this skill documents the workflow behavior and does not define the canonical agent package.
+- Product Manager owns product opportunity selection, priority rationale, and next-feature proposal.
+- Product Manager does not own requirements refinement, architecture, implementation, validation, review, docs sync, user verification, repository finalization, release/publication/deployment, or source-code edits.
+- Solution Designer/design-stage roles refine a concrete Product Manager or user brief into requirements and design artifacts; they are not the continuous roadmap owner.
+- Engineering Intake / Stage 0 accepts a Product Manager feature brief as input evidence, then still creates the ticket/worktree/bootstrap artifacts and `requirements.md` through the normal Stage 0 controls.
+- Delivery/Deployment Engineer (the existing `deployment_engineer` Stage 10 role) owns the completion packet after Stage 10 status is truthful. Product Manager owns the next-feature decision after receiving that packet.
+- If `send_message_to` and recipient `product_manager` are available, Stage 10 sends a self-contained completion message to `product_manager` with relevant artifact paths. If messaging or the recipient is unavailable, Stage 10 persists the completion packet/status and records `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent` unless the send succeeds.
+- The Product Manager loop cannot bypass Stage 0-10 gates, code-edit locks, Stage 7 validation, Stage 8 review, Stage 9 docs sync, explicit user verification, ticket archival, repository finalization, release/publication/deployment rules, or cleanup.
 
 ## Skill Layout
 
@@ -64,7 +79,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
     - when creating a new ticket worktree/branch, refresh tracked remote refs first so bootstrap starts from the latest remote state instead of a stale local head,
     - create/reuse a dedicated ticket worktree for the ticket branch before writing artifacts,
     - when creating a new ticket branch, create `codex/<ticket-name>` from the latest tracked remote base branch,
-  - create/update `requirements.md` with status `Draft` from user-provided requirement intent.
+  - create/update `requirements.md` with status `Draft` from user-provided requirement intent or a Product Manager feature brief.
 - Investigation must not start before the ticket bootstrap and `requirements.md` `Draft` are physically written.
 - If a dedicated worktree already exists for the ticket, reuse it instead of creating a new one.
 - If the user specifies a base branch, always use the latest tracked remote state of that branch rather than guessing from a local copy.
@@ -128,7 +143,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Treat `workflow-state.md` as an execution lock controller, not optional documentation.
 - Transition authority rule (mandatory): stage movement is controlled by the Stage Transition Contract + Transition Matrix. When a trigger condition is met, transition immediately to the mapped path; do not continue in the current stage by preference.
 - Transition Execution Rule (mandatory): whenever `workflow-state.md` is updated to declare a stage transition or classified re-entry, immediately enter and execute the target stage by default, without waiting for another user message. Recording the transition and describing the next step is not sufficient. The transition is not complete until work has actually resumed in the target stage. Stop only for a real blocker or an explicit user-only gate.
-- Requirements can start as rough `Draft` from user input/bug report artifacts before deep analysis.
+- Requirements can start as rough `Draft` from user input, a Product Manager feature brief, or bug report artifacts before deep analysis.
 - Do not start investigation until ticket/worktree bootstrap is complete and `requirements.md` status `Draft` is physically written.
 - Do not mark understanding pass complete until `investigation-notes.md` is physically written and current for the ticket.
 - Do not draft design artifacts (`proposed-design.md` or small-scope solution sketch in `implementation.md`) until deep understanding pass is complete and `requirements.md` reaches `Design-ready`.
@@ -142,7 +157,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Do not start Stage 7 executable-validation implementation and execution until implementation execution is complete with required unit/integration verification and Stage 6 modernization/ownership-dependency checks are satisfied.
 - Do not start code review until the Stage 7 executable-validation gate is `Pass`.
 - Do not start post-testing `docs/` synchronization until code review is complete (for infeasible acceptance criteria in Stage 7, explicit user waiver + constraints + compensating evidence + residual risk must be recorded).
-- Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete.
+- Do not close the task until post-testing `docs/` synchronization is completed (or explicit no-impact decision is recorded with rationale), and do not mark final completion until any required Stage 10 user-verification/archive/finalization work is complete and, when product-iteration mode is active, Product Manager notification status is recorded truthfully.
 - User-verification hold rule (mandatory): after Stage 9 passes, persist the handoff summary and keep Stage 10 open until the user explicitly confirms completion/verification (for example after manual testing). Do not commit, push, merge, run release/publication/deployment work, or move the ticket to `done` before that user signal.
 - Release-notes artifact rule (mandatory when applicable): if the ticket leads to a user-facing app release or any GitHub Release body, Stage 10 must also persist `tickets/in-progress/<ticket-name>/release-notes.md` with short functional user-facing notes before final release. If not applicable, record an explicit `release-notes not required` rationale in the handoff summary.
 - Repository finalization rule (mandatory for git repositories): after the explicit user completion/verification signal is received and before Stage 10 is marked complete, first move the ticket folder to `tickets/done/<ticket-name>/`, then commit all in-scope changes on the ticket branch (including the moved ticket files), push the ticket branch to remote, update the resolved finalization target branch from remote, merge the ticket branch into that updated target branch locally, and push the updated target branch.
@@ -150,6 +165,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Release publication handoff rule (mandatory when release notes are required): after the ticket is moved to `tickets/done/<ticket-name>/`, pass the archived ticket-local `tickets/done/<ticket-name>/release-notes.md` artifact into the project release/publication path when such a step is applicable (for example via a release script, a documented command, a tag/release workflow, or the repo's release-body source file).
 - Finalization-target rule (mandatory): use the Stage 0 `Resolved Base Remote` and `Resolved Base Branch` as the default Stage 10 merge target unless the user explicitly overrides that target later. If the target cannot be derived with high confidence, pause Stage 10 and ask once before merge/finalization instead of guessing.
 - Post-finalization cleanup rule (mandatory when a dedicated ticket worktree/branch exists): after repository finalization and any applicable release/publication/deployment work are complete (or explicitly recorded as not required), remove the dedicated ticket worktree recorded in Stage 0, run worktree-prune cleanup, and, when the local ticket branch is fully merged into the resolved finalization target and no longer needed, delete that local ticket branch. Do not delete remote branches unless explicit user instruction or documented project policy requires it. If cleanup requires stepping out of the ticket worktree, execute it from a safe parent repo checkout instead of skipping it.
+- Stage 10 Product Manager callback rule (mandatory when product-iteration mode is active): after explicit user verification and all required Stage 10 archival/finalization/release-publication-deployment/cleanup work are complete enough to report truthfully, send the completion packet to `product_manager` with `send_message_to` when available. If messaging or the recipient is unavailable, persist the packet path and record the callback as `Pending` or `Blocked`; do not claim callback success.
 - Stage 10 blockage rule (mandatory): if the move to `tickets/done/`, commit, push, target-branch update, merge, or required post-finalization cleanup fails after user confirmation, keep Stage 10 `In Progress`/`Blocked`, record the blocker in `workflow-state.md`, and do not mark final handoff complete. If a release/publication/deployment step is applicable and later fails or is undocumented, record that blocker too, but do not undo completed repository finalization.
 - Keep the ticket folder under `tickets/in-progress/` until explicit user completion confirmation is received.
 - Treat engineering completion, user verification, ticket archival, repository finalization, release/publication/deployment, and post-finalization cleanup as separate gates: engineering completion ends at implementation + Stage 7 executable-validation gate + code review + docs sync; after that, wait for explicit user completion/verification; only then move the ticket to `tickets/done/`, complete required Stage 10 repository finalization, run any applicable release/publication/deployment work, and complete any required worktree/branch cleanup.
@@ -206,7 +222,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 7 | API/E2E + Executable Validation Gate | executable validation scenarios implemented and acceptance-criteria + spine coverage closure complete | Unlocked |
 | 8 | Code Review Gate | Code review decision recorded (`Pass`/`Fail`) with `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + ownership-driven dependency quality + Authoritative Boundary Rule preservation + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface-boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks | Locked |
 | 9 | Docs Sync | `docs-sync.md` current + `docs/` updates complete or no-impact rationale recorded | Locked |
-| 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> repository finalization into resolved target branch (when git repo) + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded | Locked |
+| 10 | Final Handoff | Delivery summary ready + explicit user verification -> move ticket to `done` -> repository finalization into resolved target branch (when git repo) + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded + Product Manager notification status recorded when product-iteration mode is active | Locked |
 
 ### Stage Transition Contract (Enforcement)
 
@@ -222,7 +238,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | 7 API/E2E + Executable Validation Gate | executable validation scenarios are implemented and all executable mapped acceptance criteria are `Passed` (or explicitly `Waived` by user for infeasible cases), and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise re-enter by classification (`Local Fix`: `6 -> 7`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`) | `8` |
 | 8 Code Review Gate | Code review decision is `Pass` with all mandatory review checks satisfied (including `<=500` effective-line hard-limit on changed source files only + required `>220` delta-gate assessments on changed source files only + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + ownership-driven dependency quality + Authoritative Boundary Rule preservation + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy) | Re-enter by classification (`Local Fix`: `6 -> 7 -> 8`, `Validation Gap`: `7 -> 8`, `Design Impact`: `1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8`) | `9` |
 | 9 Docs Sync | `docs-sync.md` is current and docs updates are completed, or explicit no-impact rationale is recorded | If docs cannot yet be made truthful, classify and re-enter (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); stay in `9 (Blocked)` only for external docs blockers that do not require upstream artifact changes | `10` |
-| 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, and required post-finalization worktree/branch cleanup is complete when applicable | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization/cleanup is complete | End |
+| 10 Final Handoff | Handoff summary is complete, explicit user completion/verification instruction is received, the ticket has been moved to `tickets/done/<ticket-name>/`, and, when in a git repository, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, required post-finalization worktree/branch cleanup is complete when applicable, and Product Manager notification status is recorded when product-iteration mode is active | Stay in `Stage 10` until the user verifies completion and Stage 10 archival/finalization/cleanup is complete; if PM messaging is unavailable, persist `Pending`/`Blocked` status instead of claiming success | End |
 
 ### Transition Matrix (Pass/Fail/Blocked)
 
@@ -252,6 +268,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 | Stage 9 blocked by external docs/access issue only | stay in `Stage 9 (Blocked)` | Use when no upstream artifact changes are needed and the blocker is purely docs-environment or docs-access related. |
 | Stage 10 awaiting explicit user verification | stay in `Stage 10 (In Progress)` | Wait for explicit user completion/verification before moving the ticket to `done` and starting repository finalization. |
 | Stage 10 archival/repository finalization/release-publication-deployment/cleanup blocked | stay in `Stage 10 (Blocked)` | Record the move/commit/git/release-publication-deployment/cleanup blocker, resolve it, then finish handoff. |
+| Stage 10 Product Manager notification unavailable in product-iteration mode | stay in `Stage 10` until the completion packet path/status is persisted | Record `Pending` or `Blocked` with recipient `product_manager`, packet evidence, and reason; only a successful `send_message_to(product_manager)` is `Sent`. |
 
 ### 0) Bootstrap Ticket + Capture Draft Requirement
 
@@ -262,7 +279,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - if git repo and a new ticket worktree/branch is needed, refresh tracked remote refs first,
   - if git repo, create/reuse dedicated ticket worktree for `codex/<ticket-name>`; when creating a new ticket branch, branch it from the latest tracked remote base,
   - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` from `shared/workflow-state-template.md`, set `Current Stage = 0`, `Code Edit Permission = Locked`, and fill `Stage 0 Bootstrap Record`,
-  - capture initial requirement snapshot (`requirements.md` status `Draft`) from user input/bug report evidence first (text, images, logs, repro notes, constraints).
+  - capture initial requirement snapshot (`requirements.md` status `Draft`) from user input, Product Manager feature brief, or bug report evidence first (text, images, logs, repro notes, constraints, artifact paths).
 - Do not run deep investigation before Stage 0 bootstrap and `requirements.md` `Draft` are physically written.
 - If remote refresh, base-branch resolution, or ticket-worktree creation fails, keep Stage 0 blocked and record the failure in `workflow-state.md` instead of falling back to a stale local branch.
 - Before transitioning to Stage 1, update `workflow-state.md` snapshot + transition log + stage gate evidence.
@@ -331,7 +348,7 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - Include a requirement coverage map to call-stack use cases (all requirements must map to at least one use case).
 - Include an acceptance-criteria coverage map to Stage 7 scenarios (all acceptance criteria must map to at least one executable validation scenario).
 - Confirm the triage result (`Small` vs `Medium` vs `Large`) and rationale in the requirements doc.
-- Refine requirements from the latest `investigation-notes.md`; do not derive requirements from memory-only investigation.
+- Refine requirements from the latest `investigation-notes.md` and any Product Manager feature brief captured in Stage 0; do not derive requirements from memory-only investigation or treat the PM brief as a replacement for `requirements.md`.
 - Design-ready requirement gate must make expected behavior clear enough to draft design and runtime call stacks.
 - If understanding is not sufficient to reach `Design-ready`, continue understanding pass and refine requirements first.
 - After `requirements.md` reaches `Design-ready` and is confirmed as design input, announce only with the persisted `workflow-state.md` transition/gate update.
@@ -850,7 +867,8 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
   - delivered scope vs planned scope,
   - verification summary (unit/integration plus Stage 7 executable validation, acceptance-criteria closure status, and for infeasible criteria documented constraints + compensating automated evidence + explicit user waiver reference),
   - docs files updated (or explicit no-impact rationale) plus the `docs-sync.md` artifact path,
-  - release-note status (`created` with artifact path, or explicit `not required` rationale).
+  - release-note status (`created` with artifact path, or explicit `not required` rationale),
+  - Product Manager notification status when product-iteration mode is active (`Sent` / `Pending` / `Blocked`) plus recipient, packet source/path, sent timestamp or pending/blocker reason, and next-iteration status.
 - When release notes are required, create/update `tickets/in-progress/<ticket-name>/release-notes.md` before waiting for user verification.
 - Release-note content rules (mandatory when release notes are required):
   - use short user-facing functional notes only,
@@ -880,6 +898,9 @@ In this skill, future-state runtime call stacks are future-state (`to-be`) execu
 - If moving the ticket to `done` or any repository-finalization step fails (commit/push/merge conflict/remote rejection), record the blocker in `workflow-state.md`, keep Stage 10 open, and resume only after the blocker is resolved.
 - If an applicable release/publication/deployment step later fails or is undocumented, record that blocker in `workflow-state.md`, keep Stage 10 open, and do not undo completed repository finalization.
 - If required worktree/branch cleanup fails after repository finalization, record that blocker in `workflow-state.md`, keep Stage 10 open, and finish cleanup before treating the ticket as done.
+- When product-iteration mode is active, after the finalization/cleanup gates above have truthful status, prepare the Product Manager completion packet from the handoff summary and send it with `send_message_to(product_manager)` when that tool and recipient are available. The message content must be self-contained and include reference artifact paths. If the send is unavailable, persist the packet path/status in `handoff-summary.md` and `workflow-state.md` as `Pending` or `Blocked`; do not mark the callback as `Sent`.
+- Product Manager completion packet fields must include: ticket name, delivered scope, verification summary, docs sync result, release/publication/deployment/finalization state, residual risks or deferred items, relevant artifact paths, product implications or follow-up context, and a request for Product Manager to propose the next feature.
+- Delivery/Deployment Engineer must not decide the next feature. The next feature must come from Product Manager and route back through Engineering Intake / Stage 0.
 - Ticket state transition:
   - keep ticket under `tickets/in-progress/<ticket-name>/` by default after handoff and while waiting for explicit user completion/verification,
   - on explicit user confirmation that the ticket is finished/verified (or explicit user move instruction), first move the ticket to `tickets/done/<ticket-name>/`, then run repository finalization if applicable.
@@ -897,7 +918,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - if git repo and a new ticket worktree/branch is needed, refresh tracked remote refs first
   - if git repo, create/reuse dedicated ticket worktree for `codex/<ticket-name>`; when creating a new ticket branch, branch it from the latest tracked remote base
   - create/update `tickets/in-progress/<ticket-name>/workflow-state.md` (`Current Stage = 0`, `Code Edit Permission = Locked`, `Stage 0 Bootstrap Record` filled)
-  - `tickets/in-progress/<ticket-name>/requirements.md` (`Draft`)
+  - `tickets/in-progress/<ticket-name>/requirements.md` (`Draft` from user input, Product Manager feature brief, or bug evidence)
 - Stage 1 (investigation + understanding + triage):
   - update `tickets/in-progress/<ticket-name>/workflow-state.md` transition (`0 -> 1`)
   - `tickets/in-progress/<ticket-name>/investigation-notes.md`
@@ -946,6 +967,7 @@ These defaults list file-producing stages; gating and handoff rules still follow
   - if git repo and the user explicitly confirms completion/verification, update the resolved finalization target branch from remote, merge the ticket branch into it, and push the updated target branch
   - if git repo and the user explicitly confirms completion/verification and the project has an applicable documented release/publication/deployment step, run that method after repository finalization and feed it the archived ticket release-notes artifact (typically `tickets/done/<ticket-name>/release-notes.md`) when release notes are required
   - if git repo and Stage 0 recorded a dedicated ticket worktree/branch for this ticket, after repository finalization and any applicable release/publication/deployment work, remove that dedicated worktree, run worktree prune, and when the local ticket branch is fully merged into the resolved finalization target and no longer needed, delete the local ticket branch
+  - when product-iteration mode is active, send `send_message_to(product_manager)` with a self-contained completion packet and relevant artifact paths when available; otherwise persist the packet path and mark callback status `Pending` or `Blocked` with reason
   - keep ticket in `tickets/in-progress/<ticket-name>/` unless user explicitly confirms completion/verification or asks to move it
   - if user reopens later, move it back to `tickets/in-progress/<ticket-name>/` before new updates
 

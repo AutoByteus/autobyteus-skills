@@ -11,6 +11,7 @@ It separates:
 - repository finalization
 - release / publication / deployment when applicable
 - post-finalization cleanup when applicable
+- Product Manager completion notification when product-iteration mode is active
 
 ## Inputs
 
@@ -32,6 +33,7 @@ Record at least:
 - docs updated or no-impact rationale
 - release-note status
 - cleanup status
+- Product Manager notification status, recipient, completion packet source/path, sent timestamp or pending/blocker reason, and next-iteration status when product-iteration mode is active
 
 ## User-Verification Hold
 
@@ -89,6 +91,49 @@ Use the Stage 0 resolved base remote and base branch as the default finalization
   - when the local ticket branch is fully merged into the resolved finalization target and no longer needed, delete the local ticket branch.
 - Do not delete remote branches unless explicit user instruction or documented project policy requires it.
 
+## Product Manager Completion Callback (Product-Iteration Mode)
+
+When product-iteration mode is active, Stage 10 also closes the delivery-to-product loop.
+
+Timing:
+
+- Prepare the completion packet only after the handoff summary can report truthful delivery status.
+- Send or persist the Product Manager callback after explicit user verification and after required archival, repository finalization, applicable release/publication/deployment work, and required post-finalization cleanup are complete or have truthful blocker status.
+- Do not send a Product Manager completion packet before user verification/finalization gates just to keep the loop moving.
+
+Use `send_message_to(product_manager)` when the runtime exposes both the tool and the `product_manager` recipient:
+
+- set recipient to exactly `product_manager`
+- make the message self-contained
+- include relevant artifact paths as references
+- request that Product Manager propose the next feature and route it back through Engineering Intake / Stage 0
+
+Completion packet fields:
+
+- ticket name
+- delivered scope
+- verification summary
+- docs sync result
+- release/publication/deployment/finalization state
+- residual risks or deferred items
+- relevant artifact paths
+- product implications or follow-up context
+- explicit request for Product Manager to propose the next feature
+
+Fallback when messaging is unavailable:
+
+- persist the completion packet source/path in `handoff-summary.md`
+- update `workflow-state.md` Product Iteration Record
+- record status as `Pending` when the packet is ready but cannot be sent now
+- record status as `Blocked` when a concrete blocker prevents a usable packet or route
+- never mark the Product Manager callback as `Sent` unless `send_message_to(product_manager)` succeeds
+
+Ownership:
+
+- Delivery/Deployment Engineer owns packet emission and truthful status.
+- Product Manager owns the next-feature proposal.
+- The next feature must route through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, explicit user verification, finalization, release/publication/deployment, or cleanup rules.
+
 ## Blockers
 
 If any move, commit, push, or merge step fails:
@@ -109,6 +154,12 @@ If required worktree/branch cleanup fails:
 - keep Stage 10 open
 - do not treat the ticket as fully done until cleanup is complete
 
+If Product Manager notification cannot be sent in product-iteration mode:
+
+- persist the completion packet path/status in `handoff-summary.md` and `workflow-state.md`
+- keep callback status `Pending` or `Blocked`
+- do not report the product loop callback as successful
+
 ## Exit Gate
 
-This stage is complete only when explicit user verification is received, all required archival/repository-finalization work is complete, any applicable release/publication/deployment work is complete or explicitly recorded as not required, and required post-finalization cleanup is complete when applicable.
+This stage is complete only when explicit user verification is received, all required archival/repository-finalization work is complete, any applicable release/publication/deployment work is complete or explicitly recorded as not required, required post-finalization cleanup is complete when applicable, and Product Manager notification status is recorded when product-iteration mode is active.

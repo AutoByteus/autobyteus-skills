@@ -38,6 +38,7 @@ Record at least:
 
 ## Verification / Acceptance Hold
 
+- Product-iteration override: when product-iteration mode is active, do not ask the user for routine verification. Send the Product Manager acceptance packet and treat Product Manager's response as the verification/acceptance path.
 - After the handoff summary is written, keep Stage 10 open until the applicable verification path is satisfied.
 - For normal one-off engineering runs, wait for explicit user completion or verification.
 - For product-iteration runs, do not ask the user for routine verification; send the Product Manager acceptance packet and treat Product Manager acceptance as the product-loop verification signal.

@@ -18,6 +18,10 @@ Persist the final delivery summary, wait for the applicable verification signal,
 - post-finalization worktree/branch cleanup record when applicable
 - Product Manager acceptance callback status when product-iteration mode is active (`Sent`, `Pending`, or `Blocked`) with recipient, packet source/path, and next-iteration status
 
+## Product-Iteration Verification Override
+
+When product-iteration mode is active, do not wait for routine user verification. Send or persist the Product Manager acceptance packet and track Product Manager acceptance status. User verification is only required if Product Manager blocks on a user/product decision, an external side effect requires explicit user approval, or the user explicitly requested manual verification.
+
 ## Exit Gate
 
 Leave Stage 10 only when the applicable verification signal is satisfied (explicit user verification for one-off runs; Product Manager acceptance request/acceptance tracking for product-iteration runs), any required move-to-done, repository finalization, applicable release/publication/deployment work, and required post-finalization cleanup are complete or explicitly recorded as not required, and Product Manager acceptance callback status is recorded when product-iteration mode is active.

@@ -6,7 +6,7 @@ interface:
     lifecycle discipline. The normal Software Engineering Team starts with
     `solution_designer` and treats product iteration as inactive by default; the
     separate Product Iteration Team starts with `product_manager` and treats
-    product iteration as active by default. In product-iteration mode, the canonical team-local
+    product iteration as active by default. In product-iteration mode, Stage 10 does not wait for routine user verification; it sends a Product Manager acceptance packet, and `product_manager` acceptance is the loop verification signal. The canonical team-local
     `product_manager` from AutoByteus owns the outer loop: `Product Manager -> Engineering Intake / Stage 0 ->
     Stage 1-10 delivery -> Delivery/Deployment Engineer -> Product Manager ->
     next feature brief`; Product Manager proposes the next feature, while

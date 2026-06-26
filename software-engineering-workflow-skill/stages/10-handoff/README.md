@@ -2,12 +2,12 @@
 
 ## Purpose
 
-Persist the final delivery summary, wait for explicit user verification, archive the ticket, perform repository finalization when applicable, run any applicable release/publication/deployment step, complete required ticket-worktree/branch cleanup, and, when product-iteration mode is active, notify or record notification status for Product Manager.
+Persist the final delivery summary, wait for the applicable verification signal, archive the ticket, perform repository finalization when applicable, run any applicable release/publication/deployment step, complete required ticket-worktree/branch cleanup, and, when product-iteration mode is active, notify or record notification status for Product Manager.
 
 ## Enter This Stage When
 
 - Stage 9 is complete
-- engineering delivery is complete and the workflow is ready to wait for user verification
+- engineering delivery is complete and the workflow is ready for user verification or Product Manager acceptance
 
 ## Stage-Owned Outputs
 
@@ -16,13 +16,13 @@ Persist the final delivery summary, wait for explicit user verification, archive
 - archived ticket state and repository finalization record when applicable
 - release/publication/deployment record when applicable
 - post-finalization worktree/branch cleanup record when applicable
-- Product Manager completion notification status when product-iteration mode is active (`Sent`, `Pending`, or `Blocked`) with recipient, packet source/path, and next-iteration status
+- Product Manager acceptance callback status when product-iteration mode is active (`Sent`, `Pending`, or `Blocked`) with recipient, packet source/path, and next-iteration status
 
 ## Exit Gate
 
-Leave Stage 10 only when the user explicitly confirms completion or verification, any required move-to-done, repository finalization, applicable release/publication/deployment work, and required post-finalization cleanup are complete or explicitly recorded as not required, and Product Manager notification status is recorded when product-iteration mode is active.
+Leave Stage 10 only when the applicable verification signal is satisfied (explicit user verification for one-off runs; Product Manager acceptance request/acceptance tracking for product-iteration runs), any required move-to-done, repository finalization, applicable release/publication/deployment work, and required post-finalization cleanup are complete or explicitly recorded as not required, and Product Manager acceptance callback status is recorded when product-iteration mode is active.
 
-If `send_message_to(product_manager)` is unavailable, persist the completion packet path/status and record `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent`.
+If `send_message_to(product_manager)` is unavailable, persist the acceptance packet path/status and record `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent`.
 
 ## Local Files
 

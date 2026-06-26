@@ -21,7 +21,7 @@ Use this checklist at the start of every ticket before investigation begins.
 - If the user specifies a base branch, always use the latest tracked remote state of that branch instead of a stale local branch.
 - Do not create a new ticket branch/worktree from a stale local base; refresh tracked remote refs first.
 - Capture the draft requirement from user input, Product Manager feature brief, or bug evidence first; do not wait for perfect understanding.
-- When the ticket starts from a Product Manager feature brief or from the Product Iteration Team, record that source in `workflow-state.md` and preserve Product Manager as the product-loop owner; Stage 0 owns ticket/worktree/bootstrap and draft requirements, not product prioritization.
+- When the ticket starts from a Product Manager feature brief or from the Product Iteration Team, record that source in `workflow-state.md` and preserve Product Manager as the product-loop owner and product acceptance owner; Stage 0 owns ticket/worktree/bootstrap and draft requirements, not product prioritization.
 - A Product Manager feature brief does not unlock source edits or bypass any Stage 0-10 gate.
 - If remote refresh, base-branch resolution, or ticket-worktree creation fails, keep Stage 0 blocked and record the blocker.
 - If the repo is not under git, still create the ticket folder and stage artifacts in the same order.

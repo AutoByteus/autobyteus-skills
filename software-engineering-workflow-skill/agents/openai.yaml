@@ -56,8 +56,7 @@ interface:
     blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
     and promotes durable design/runtime knowledge into canonical project docs;
     Stage 10 creates `handoff-summary.md`, and when release notes are required,
-    also creates `release-notes.md`, waits for explicit user
-    completion/verification (for example after manual testing), then moves the
+    also creates `release-notes.md`, waits for the applicable verification signal (explicit user verification for one-off runs, Product Manager acceptance for product-iteration runs), then moves the
     ticket folder to `tickets/done/<ticket-name>/`, and only after that, when
     the project is a git repository, commits and pushes the ticket branch,
     updates the resolved bootstrap base branch (unless explicitly overridden by
@@ -71,14 +70,15 @@ interface:
     cleanup is done too: remove the dedicated ticket worktree, run worktree
     prune, and when the local ticket branch is fully merged into the resolved
     finalization target and no longer needed, delete that local ticket branch.
-    When product-iteration mode is active, after truthful Stage 10 completion
-    state exists, Stage 10 sends `send_message_to(product_manager)` with a
-    self-contained completion packet and relevant artifact paths when the tool
-    and recipient are available; if unavailable, persist the packet path/status
-    and record `Pending` or `Blocked` rather than marking the callback `Sent`.
-    Product Manager must then propose the next feature and route it back through
+    When product-iteration mode is active, after truthful Stage 10 delivery evidence
+    exists, Stage 10 sends `send_message_to(product_manager)` with a
+    self-contained acceptance packet and relevant artifact paths when the tool
+    and recipient are available instead of asking the user for routine verification;
+    if unavailable, persist the packet path/status and record `Pending` or
+    `Blocked` rather than marking the callback `Sent`. Product Manager must then
+    accept or route rework, and if accepted propose the next feature and route it back through
     Engineering Intake / Stage 0 without bypassing code-edit locks, validation,
-    review, docs sync, explicit user verification, finalization, release or
+    review, docs sync, Product Manager acceptance or user verification as applicable, finalization, release or
     cleanup gates.
     Across
     design/review/implementation, enforce shared architecture principles

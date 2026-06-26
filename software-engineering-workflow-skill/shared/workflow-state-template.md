@@ -14,7 +14,8 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 - Re-Entry Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`): `N/A`
 - Product Iteration Mode: `Inactive` / `Active`
 - Product Iteration Source: `Normal Team` / `Product Iteration Team` / `Product Manager Brief` / `User Requested Loop` / `N/A`
-- Product Manager Notification Status: `Not Required` / `Not Started` / `Sent` / `Pending` / `Blocked`
+- Product Manager Acceptance Callback Status: `Not Required` / `Not Started` / `Sent` / `Pending` / `Blocked`
+- Product Manager Acceptance Status: `N/A` / `Requested` / `Accepted` / `Needs Rework` / `Blocked`
 - Last Transition ID:
 - Last Updated:
 
@@ -41,8 +42,9 @@ Note:
 - Product Iteration Mode (`Inactive`/`Active`):
 - Product Iteration Source (`Normal Team`/`Product Iteration Team`/`Product Manager Brief`/`User Requested Loop`/`N/A`):
 - Product Manager Recipient: `product_manager` / `N/A`
-- Completion Packet Source / Payload Path:
-- Notification Status (`Not Required`/`Not Started`/`Sent`/`Pending`/`Blocked`):
+- Acceptance Packet Source / Payload Path:
+- Acceptance Callback Status (`Not Required`/`Not Started`/`Sent`/`Pending`/`Blocked`):
+- Product Manager Acceptance Status (`N/A`/`Requested`/`Accepted`/`Needs Rework`/`Blocked`):
 - Notification Sent At:
 - Pending / Blocker Reason:
 - Next Iteration Status (`N/A`/`Product Manager Proposal Required`/`Proposal Sent`/`Pending`/`Blocked`):
@@ -50,9 +52,9 @@ Note:
 
 Note:
 - Use this section when the run starts in the Product Iteration Team, a Product Manager feature brief starts the ticket, the user explicitly requests the loop, or product-iteration mode is otherwise active.
-- `Sent` means `send_message_to(product_manager)` succeeded with self-contained content and relevant artifact paths.
-- If `send_message_to` or recipient `product_manager` is unavailable, persist the completion packet source/path and record `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent`.
-- Product Manager owns the next feature proposal. The next iteration must route back through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, user verification, finalization, release/publication/deployment, or cleanup rules.
+- `Sent` means `send_message_to(product_manager)` succeeded with a self-contained acceptance packet and relevant artifact paths.
+- If `send_message_to` or recipient `product_manager` is unavailable, persist the acceptance packet source/path and record `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent`.
+- Product Manager owns product-loop acceptance and the next feature proposal. The next iteration must route back through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, Product Manager acceptance or user verification as applicable, finalization, release/publication/deployment, or cleanup rules.
 
 ## Stage Gates
 
@@ -68,7 +70,7 @@ Note:
 | 7 API/E2E + Executable Validation | Not Started | executable validation implementation complete + acceptance-criteria and spine scenario gates complete |  |
 | 8 Code Review | Not Started | Code review gate `Pass`/`Fail` recorded + priority-ordered detailed review scorecard recorded (`Overall /10`, `Overall /100`, all ten category rows in canonical order with score + why + weakness + improvement, and no category below `9.0` for `Pass`) + all changed source files `<=500` effective non-empty lines + `>220` delta-gate assessments recorded + data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied for `Pass` |  |
 | 9 Docs Sync | Not Started | `docs-sync.md` current + docs updated or no-impact rationale recorded |  |
-| 10 Handoff / Ticket State | Not Started | `handoff-summary.md` current + explicit user verification received + ticket moved to `done` + repository finalization into resolved target branch complete when git repo + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded + Product Manager notification status recorded when product-iteration mode is active |  |
+| 10 Handoff / Ticket State | Not Started | `handoff-summary.md` current + applicable verification path satisfied (explicit user verification for one-off runs; Product Manager acceptance request/status for product-iteration runs) + ticket moved to `done` when finalization is in scope + repository finalization into resolved target branch complete when git repo + any applicable release/publication/deployment step completed or explicitly recorded as not required + required post-finalization worktree/branch cleanup complete when applicable + ticket state decision recorded + Product Manager acceptance callback status recorded when product-iteration mode is active |  |
 
 ## Stage Transition Contract (Quick Reference)
 
@@ -84,7 +86,7 @@ Note:
 | 7 | executable-validation gate closes all executable mapped acceptance criteria (`Passed` or explicit user `Waived`) and all relevant executable spines have passing scenario evidence (or explicit `N/A` rationale) | `Blocked` on infeasible/no waiver; otherwise classified re-entry |
 | 8 | Code review gate decision is `Pass` with priority-ordered detailed review scorecard recorded (`Overall /10`, `Overall /100`, all ten category rows in canonical order with score + why + weakness + improvement), no scorecard category below `9.0`, all changed source files `<=500` effective non-empty lines, required `>220` delta-gate assessments recorded, and data-flow spine inventory/ownership/off-spine concern checks + existing-capability reuse + reusable-owned-structure extraction + shared-structure/data-model tightness + shared-base coherence + repeated-coordination ownership + empty-indirection + scope-appropriate separation of concerns + file placement within the correct subsystem and folder, with any optional module grouping justified + flat-vs-over-split layout judgment + interface/API/query/command/service-method boundary clarity + naming quality across files/folders/APIs/types/functions/parameters/variables + naming-to-responsibility alignment + no unjustified duplication of code/repeated structures in changed scope + patch-on-patch complexity control + dead/obsolete code cleanup completeness in changed scope + test quality + test maintainability + validation-evidence sufficiency + no-backward-compat/no-legacy checks satisfied | classified re-entry then rerun |
 | 9 | `docs-sync.md` is current and docs are updated or no-impact rationale is recorded | classify and re-enter when docs cannot yet be made truthful (`Local Fix`: `6 -> 7 -> 8 -> 9`, `Requirement Gap`: `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`, `Unclear`: `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9`); otherwise stay in `9` only for external docs blockers |
-| 10 | `handoff-summary.md` is current, explicit user completion/verification is received, the ticket is moved to `tickets/done/<ticket-name>/`, and, when git repo, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, required post-finalization worktree/branch cleanup is complete when applicable, and Product Manager notification status is recorded when product-iteration mode is active | stay in `10` |
+| 10 | `handoff-summary.md` is current, the applicable verification path is satisfied (explicit user completion/verification for one-off runs; Product Manager acceptance request/status for product-iteration runs), the ticket is moved to `tickets/done/<ticket-name>/` when finalization is in scope, and, when git repo, repository finalization is complete, any applicable release/publication/deployment step is complete or explicitly recorded as not required, required post-finalization worktree/branch cleanup is complete when applicable, and Product Manager acceptance callback status is recorded when product-iteration mode is active | stay in `10` |
 
 ## Transition Matrix (Reference)
 
@@ -112,17 +114,17 @@ Note:
 | Stage 9 blocked docs-sync result (`Requirement Gap`) | `2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Fail |
 | Stage 9 blocked docs-sync result (`Unclear`) | `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` | Fail |
 | Stage 9 blocked by external docs/access issue only | stay in `9` | Blocked |
-| Stage 10 awaiting explicit user verification | stay in `10` | In Progress |
+| Stage 10 awaiting verification/acceptance | stay in `10` | In Progress |
 | Stage 10 archival/repository finalization/release-publication-deployment/cleanup blocked | stay in `10` | Blocked |
-| Stage 10 Product Manager notification unavailable in product-iteration mode | stay in `10` until packet path/status is persisted | Pending / Blocked |
+| Stage 10 Product Manager acceptance callback unavailable in product-iteration mode | stay in `10` until packet path/status is persisted | Pending / Blocked |
 
 Note:
 - In re-entry paths, Stage 0 means re-open bootstrap controls in the same ticket/worktree (`workflow-state.md`, lock state, artifact baselines); do not create a new ticket folder.
 - For Stage 5 failures, record classified re-entry first; then persist artifact updates in the returned upstream stage before running the next Stage 5 round.
-- Stage 10 can remain `In Progress` while waiting for explicit user completion/verification before moving the ticket to `done` and starting repository finalization.
+- Stage 10 can remain `In Progress` while waiting for explicit user completion/verification in one-off runs, or while sending/tracking Product Manager acceptance in product-iteration runs, before moving the ticket to `done` and starting repository finalization when applicable.
 - After repository finalization is complete, Stage 10 may still remain `Blocked` if an applicable release/publication/deployment step fails or is undocumented.
 - After repository finalization and any applicable release/publication/deployment work are complete, Stage 10 may still remain `Blocked` until required ticket-worktree/local-branch cleanup is complete when a dedicated ticket worktree/branch exists.
-- In product-iteration mode, Stage 10 must record Product Manager notification status as `Sent`, `Pending`, or `Blocked`. Only a successful `send_message_to(product_manager)` with relevant artifact paths counts as `Sent`; messaging-unavailable fallback is `Pending` or `Blocked`, not success.
+- In product-iteration mode, Stage 10 must record Product Manager acceptance callback status as `Sent`, `Pending`, or `Blocked`. Only a successful `send_message_to(product_manager)` with relevant artifact paths counts as `Sent`; messaging-unavailable fallback is `Pending` or `Blocked`, not success.
 
 ## Pre-Edit Checklist (Stage 6 Source-Code Edits)
 

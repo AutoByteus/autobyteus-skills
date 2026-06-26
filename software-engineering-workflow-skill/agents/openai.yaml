@@ -3,8 +3,11 @@ interface:
   short_description: "Staged engineering delivery loop"
   default_prompt: >-
     Use $software-engineering-workflow-skill with strict stage gates and ticket
-    lifecycle discipline. In product-iteration mode, the canonical team-local
-    `product_manager` from the AutoByteus software-engineering team owns the outer loop: `Product Manager -> Engineering Intake / Stage 0 ->
+    lifecycle discipline. The normal Software Engineering Team starts with
+    `solution_designer` and treats product iteration as inactive by default; the
+    separate Product Iteration Team starts with `product_manager` and treats
+    product iteration as active by default. In product-iteration mode, the canonical team-local
+    `product_manager` from AutoByteus owns the outer loop: `Product Manager -> Engineering Intake / Stage 0 ->
     Stage 1-10 delivery -> Delivery/Deployment Engineer -> Product Manager ->
     next feature brief`; Product Manager proposes the next feature, while
     Solution Designer/design stages refine concrete briefs and the normal gates

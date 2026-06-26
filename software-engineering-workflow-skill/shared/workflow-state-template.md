@@ -13,6 +13,7 @@ Stage movement is controlled by this file's Stage Transition Contract + Transiti
 - Active Re-Entry: `No` / `Yes`
 - Re-Entry Classification (`Local Fix`/`Validation Gap`/`Design Impact`/`Requirement Gap`/`Unclear`): `N/A`
 - Product Iteration Mode: `Inactive` / `Active`
+- Product Iteration Source: `Normal Team` / `Product Iteration Team` / `Product Manager Brief` / `User Requested Loop` / `N/A`
 - Product Manager Notification Status: `Not Required` / `Not Started` / `Sent` / `Pending` / `Blocked`
 - Last Transition ID:
 - Last Updated:
@@ -38,6 +39,7 @@ Note:
 ## Product Iteration Record
 
 - Product Iteration Mode (`Inactive`/`Active`):
+- Product Iteration Source (`Normal Team`/`Product Iteration Team`/`Product Manager Brief`/`User Requested Loop`/`N/A`):
 - Product Manager Recipient: `product_manager` / `N/A`
 - Completion Packet Source / Payload Path:
 - Notification Status (`Not Required`/`Not Started`/`Sent`/`Pending`/`Blocked`):
@@ -47,7 +49,7 @@ Note:
 - Next Feature Proposal Path / Message Reference:
 
 Note:
-- Use this section when a Product Manager feature brief starts the ticket or when product-iteration mode is active.
+- Use this section when the run starts in the Product Iteration Team, a Product Manager feature brief starts the ticket, the user explicitly requests the loop, or product-iteration mode is otherwise active.
 - `Sent` means `send_message_to(product_manager)` succeeded with self-contained content and relevant artifact paths.
 - If `send_message_to` or recipient `product_manager` is unavailable, persist the completion packet source/path and record `Pending` or `Blocked`; do not mark the Product Manager callback as `Sent`.
 - Product Manager owns the next feature proposal. The next iteration must route back through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, user verification, finalization, release/publication/deployment, or cleanup rules.

@@ -93,7 +93,7 @@ Use the Stage 0 resolved base remote and base branch as the default finalization
 
 ## Product Manager Completion Callback (Product-Iteration Mode)
 
-When product-iteration mode is active, Stage 10 also closes the delivery-to-product loop.
+When product-iteration mode is active, including runs that started in the Product Iteration Team, Stage 10 also closes the delivery-to-product loop.
 
 Timing:
 

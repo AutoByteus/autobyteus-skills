@@ -34,20 +34,20 @@ Record at least:
 - docs updated or no-impact rationale
 - release-note status
 - cleanup status
-- Product Manager acceptance callback status, recipient, acceptance packet source/path, sent timestamp or pending/blocker reason, acceptance status, and next-iteration status when product-iteration mode is active
+- Acceptance Callback Status, recipient, acceptance packet source/path, sent timestamp or pending/blocker reason, Product Manager Acceptance Status, Product Iteration Loop Status, and next-iteration status when product-iteration mode is active
 
 ## Verification / Acceptance Hold
 
-- Product-iteration override: when product-iteration mode is active, do not ask the user for routine verification. Send the Product Manager acceptance packet and treat Product Manager's response as the verification/acceptance path.
+- Product-iteration override: when product-iteration mode is active, do not ask the user for routine verification. Send the Product Manager acceptance packet, record Acceptance Callback Status separately, and treat Product Manager Acceptance Status = `Accepted` as the verification/acceptance path.
 - After the handoff summary is written, keep Stage 10 open until the applicable verification path is satisfied.
 - For normal one-off engineering runs, wait for explicit user completion or verification.
-- For product-iteration runs, do not ask the user for routine verification; send the Product Manager acceptance packet and treat Product Manager acceptance as the product-loop verification signal.
+- For product-iteration runs, do not ask the user for routine verification; send the Product Manager acceptance packet and treat Product Manager Acceptance Status = `Accepted` as the product-loop verification signal.
 - Do not move the ticket to `done`, commit, push, merge, or run release/publication/deployment work before the applicable verification signal unless the project explicitly documents a safe pre-verification checkpoint.
 
 ## Ticket Archival
 
 - Stage 10 owns the move from `tickets/in-progress/<ticket-name>/` to `tickets/done/<ticket-name>/`.
-- Perform that move only after the applicable verification signal or explicit user move instruction.
+- Perform that move only after the applicable verification signal: explicit user verification for one-off runs, or Product Manager Acceptance Status = `Accepted` for product-iteration runs.
 - Move the ticket before the final commit so the committed state contains the archived ticket path.
 - If the ticket is reopened later, the next Stage 0 bootstrap should move it back to `tickets/in-progress/<ticket-name>/` before any new updates.
 
@@ -102,7 +102,7 @@ When product-iteration mode is active, including runs that started in the Produc
 Timing:
 
 - Prepare the acceptance packet only after the handoff summary can report truthful delivery status and verification evidence.
-- Send or persist the Product Manager acceptance callback before routine user verification in product-iteration mode; Product Manager is the verification owner for the loop.
+- Send or persist the Product Manager acceptance callback before any routine user verification in product-iteration mode; Product Manager is the verification owner for the loop, and Product Manager Acceptance Status = `Accepted` is required before archival/finalization.
 - Do not ask the user to verify every product-loop feature unless Product Manager marks the acceptance as blocked on user/product clarification or the project explicitly requires human approval for a high-risk external side effect.
 
 Use `send_message_to(product_manager)` when the runtime exposes both the tool and the `product_manager` recipient:
@@ -110,7 +110,7 @@ Use `send_message_to(product_manager)` when the runtime exposes both the tool an
 - set recipient to exactly `product_manager`
 - make the message self-contained
 - include relevant artifact paths as references
-- request that Product Manager accept the delivery or route rework, and if accepted propose the next feature and route it back through Engineering Intake / Stage 0
+- request that Product Manager accept the delivery or route rework, and if accepted update the Product Iteration Plan, propose the next feature, and route it back through Engineering Intake / Stage 0
 
 Acceptance packet fields:
 
@@ -123,7 +123,8 @@ Acceptance packet fields:
 - residual risks or deferred items
 - relevant artifact paths
 - product implications or follow-up context
-- explicit request for Product Manager to accept or route rework and, if accepted, propose the next feature
+- Product Iteration Loop Status if known
+- explicit request for Product Manager to accept or route rework and, if accepted, update the Product Iteration Plan and propose the next feature
 
 Fallback when messaging is unavailable:
 
@@ -131,12 +132,12 @@ Fallback when messaging is unavailable:
 - update `workflow-state.md` Product Iteration Record
 - record status as `Pending` when the packet is ready but cannot be sent now
 - record status as `Blocked` when a concrete blocker prevents a usable packet or route
-- never mark the Product Manager callback as `Sent` unless `send_message_to(product_manager)` succeeds
+- never mark Acceptance Callback Status as `Sent` unless `send_message_to(product_manager)` succeeds; callback `Sent` is not Product Manager Acceptance Status `Accepted`
 
 Ownership:
 
 - Delivery/Deployment Engineer owns packet emission and truthful status.
-- Product Manager owns product acceptance and the next-feature proposal.
+- Product Manager owns product acceptance, Product Iteration Plan updates, Product Iteration Loop Status, and the next-feature proposal.
 - The next feature must route through Engineering Intake / Stage 0 and must not bypass code-edit locks, validation, review, docs sync, Product Manager acceptance or user verification as applicable, finalization, release/publication/deployment, or cleanup rules.
 
 ## Blockers
@@ -162,9 +163,9 @@ If required worktree/branch cleanup fails:
 If Product Manager acceptance callback cannot be sent in product-iteration mode:
 
 - persist the acceptance packet path/status in `handoff-summary.md` and `workflow-state.md`
-- keep callback status `Pending` or `Blocked`
-- do not report the product acceptance callback as successful
+- keep Acceptance Callback Status `Pending` or `Blocked`
+- do not report the product acceptance callback as successful or Product Manager accepted
 
 ## Exit Gate
 
-This stage is complete only when the applicable verification path is satisfied (explicit user verification for one-off runs; Product Manager acceptance request sent/persisted and acceptance status tracked for product-iteration runs), all required archival/repository-finalization work is complete, any applicable release/publication/deployment work is complete or explicitly recorded as not required, required post-finalization cleanup is complete when applicable, and Product Manager acceptance callback status is recorded when product-iteration mode is active.
+This stage is complete only when the applicable verification path is satisfied (explicit user verification for one-off runs; Product Manager Acceptance Status = `Accepted` for product-iteration runs), all required archival/repository-finalization work is complete, any applicable release/publication/deployment work is complete or explicitly recorded as not required, required post-finalization cleanup is complete when applicable, and Acceptance Callback Status is recorded when product-iteration mode is active. Callback `Sent` / `Pending` / `Blocked` or persisted packet status alone does not satisfy Product Manager acceptance.

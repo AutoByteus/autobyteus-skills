@@ -47,24 +47,25 @@ After applicable verification/acceptance and ticket archival, this file normally
 - Verification owner: `User` / `Product Manager`
 - Waiting for explicit user verification: `Yes` / `No` / `N/A - Product Manager acceptance`
 - User verification received:
-- Product Manager acceptance status: `N/A` / `Requested` / `Accepted` / `Needs Rework` / `Blocked`
+- Product Manager acceptance status: `N/A` / `Requested` / `Accepted` / `Needs Rework` / `Blocked` (`Requested` is pre-decision only; only `Accepted` unlocks product-iteration ticket archival/finalization)
 - Verification / acceptance reference:
 - Notes:
 
 ## Product Manager Iteration Acceptance Callback
 
 - Product iteration mode: `Inactive` / `Active`
+- Product Iteration Loop Status: `Inactive` / `Active` / `Paused` / `Blocked` / `Stopped`
 - Product Manager recipient: `product_manager` / `N/A`
-- Acceptance request status: `Not Required` / `Sent` / `Pending` / `Blocked`
+- Acceptance callback status: `Not Required` / `Not Started` / `Sent` / `Pending` / `Blocked`
 - Acceptance packet source / payload path:
 - `send_message_to(product_manager)` sent timestamp:
 - Pending / blocker reason:
 - Required packet fields confirmed (`ticket name`, `delivered scope`, `source brief/requirements reference`, `verification summary`, `docs sync result`, `release/publication/deployment/finalization state or explicit not-yet-finalized status`, `residual risks/deferred items`, `relevant artifact paths`, `product implications/follow-up context`, `request for Product Manager acceptance and next feature if accepted`): `Yes` / `No`
 - Relevant artifact paths:
-- Product Manager acceptance status: `N/A` / `Requested` / `Accepted` / `Needs Rework` / `Blocked`
+- Product Manager acceptance status: `N/A` / `Requested` / `Accepted` / `Needs Rework` / `Blocked` (`Requested` is pre-decision only; only `Accepted` unlocks product-iteration ticket archival/finalization)
 - Product implications / follow-up context:
-- Next iteration status: `N/A` / `Product Manager Proposal Required` / `Proposal Sent` / `Pending` / `Blocked`
-- Next feature proposal path / message reference:
+- Next iteration status: `N/A` / `Proposal Sent` / `Pending` / `Blocked`
+- Next Product Feature Brief path / message reference:
 - Notes:
 
 ## Finalization Record

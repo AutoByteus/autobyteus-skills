@@ -6,7 +6,7 @@ interface:
     lifecycle discipline. The normal Software Engineering Team starts with
     `solution_designer` and treats product iteration as inactive by default; the
     separate Product Iteration Team starts with `product_manager` and treats
-    product iteration as active by default. In product-iteration mode, Stage 10 does not wait for routine user verification; it sends a Product Manager acceptance packet, and `product_manager` acceptance is the loop verification signal. The canonical team-local
+    product iteration as active by default. In product-iteration mode, Stage 10 does not wait for routine user verification; it sends a Product Manager acceptance packet, and Product Manager Acceptance Status = `Accepted` is the loop verification signal. Product Manager maintains the Product Iteration Plan/backlog/cursor and routes exactly one Product Feature Brief at a time. The canonical team-local
     `product_manager` from AutoByteus owns the outer loop: `Product Manager -> Engineering Intake / Stage 0 ->
     Stage 1-10 delivery -> Delivery/Deployment Engineer -> Product Manager ->
     next feature brief`; Product Manager proposes the next feature, while
@@ -56,7 +56,7 @@ interface:
     blockers or failed mandatory checks; Stage 9 creates `docs-sync.md`, synchronizes long-lived docs,
     and promotes durable design/runtime knowledge into canonical project docs;
     Stage 10 creates `handoff-summary.md`, and when release notes are required,
-    also creates `release-notes.md`, waits for the applicable verification signal (explicit user verification for one-off runs, Product Manager acceptance for product-iteration runs), then moves the
+    also creates `release-notes.md`, waits for the applicable verification signal (explicit user verification for one-off runs, Product Manager Acceptance Status = `Accepted` for product-iteration runs), then moves the
     ticket folder to `tickets/done/<ticket-name>/`, and only after that, when
     the project is a git repository, commits and pushes the ticket branch,
     updates the resolved bootstrap base branch (unless explicitly overridden by
@@ -74,8 +74,9 @@ interface:
     exists, Stage 10 sends `send_message_to(product_manager)` with a
     self-contained acceptance packet and relevant artifact paths when the tool
     and recipient are available instead of asking the user for routine verification;
-    if unavailable, persist the packet path/status and record `Pending` or
-    `Blocked` rather than marking the callback `Sent`. Product Manager must then
+    if unavailable, persist the packet path/status and record Acceptance Callback Status `Pending` or
+    `Blocked` rather than marking the callback `Sent`; Callback `Sent`/`Pending`/`Blocked`
+    alone is not Product Manager `Accepted`. Product Manager must then
     accept or route rework, and if accepted propose the next feature and route it back through
     Engineering Intake / Stage 0 without bypassing code-edit locks, validation,
     review, docs sync, Product Manager acceptance or user verification as applicable, finalization, release or
@@ -137,6 +138,8 @@ interface:
     `workflow-state.md` updates for stage transitions, gate decisions, re-entry
     declarations, or lock/unlock changes, and include current stage + next action.
     Do not include manual testing by default. Move ticket to
-    `tickets/done/<ticket-name>/` only on explicit user completion/verification
-    instruction; if reopened, move it back to
+    `tickets/done/<ticket-name>/` only after the applicable verification signal:
+    explicit user completion/verification for one-off runs or Product Manager Acceptance
+    Status = `Accepted` for product-iteration runs. Callback `Sent`/`Pending`/`Blocked`
+    alone is not Product Manager `Accepted`; if reopened, move it back to
     `tickets/in-progress/<ticket-name>/` before new updates.

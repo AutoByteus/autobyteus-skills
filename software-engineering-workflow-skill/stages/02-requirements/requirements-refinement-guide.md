@@ -20,7 +20,7 @@ Valid draft inputs include direct user intent, bug evidence, investigation evide
 - constraints / dependencies
 - assumptions
 - open questions / risks
-- source brief / evidence references, including Product Manager brief path or message reference when present
+- source brief / evidence references, including Product Manager brief path or message reference, Product Iteration Plan reference, and selected slice ID when present
 
 ## Required Mappings
 
@@ -30,8 +30,8 @@ Valid draft inputs include direct user intent, bug evidence, investigation evide
 
 ## Stage 2 Rules
 
-- refine from the latest `investigation-notes.md` and any Product Manager feature brief captured in Stage 0, not from memory alone
+- refine from the latest `investigation-notes.md`, any Product Manager feature brief, Product Iteration Plan reference, and selected slice ID captured in Stage 0, not from memory alone
 - keep Solution Designer / requirements refinement focused on a concrete brief; Product Manager remains authoritative for next-feature proposal and continuous product iteration
 - do not move to Stage 3 until the requirements are design-ready
 - if later stages reveal behavior gaps, update the same `requirements.md` in place and mark it `Refined`
-- do not let a Product Manager brief bypass Stage 3 design, Stage 5 review, Stage 6 code-edit locks, Stage 7 validation, Stage 8 review, Stage 9 docs sync, Stage 10 user verification/finalization, or release/deployment controls
+- do not let a Product Manager brief bypass Stage 3 design, Stage 5 review, Stage 6 code-edit locks, Stage 7 validation, Stage 8 review, Stage 9 docs sync, Stage 10 Product Manager acceptance or user verification as applicable, or release/deployment controls

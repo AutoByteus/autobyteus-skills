@@ -1,12 +1,15 @@
 # Docs Sync
 
-Use this as the canonical Stage 9 artifact.
+Use this artifact only when a durable docs-sync record is useful.
+
+Write to:
+- `tickets/in-progress/<ticket-name>/docs-sync.md`
 
 ## Scope
 
 - Ticket:
-- Trigger Stage: `9`
-- Workflow state source: `tickets/in-progress/<ticket-name>/workflow-state.md`
+- Trigger:
+- Requirements/design/implementation sources reviewed:
 
 ## Why Docs Were Updated
 
@@ -25,9 +28,9 @@ Use this as the canonical Stage 9 artifact.
 | --- | --- | --- | --- |
 |  |  |  |  |
 
-## Durable Design / Runtime Knowledge Promoted
+## Durable Knowledge Promoted
 
-| Topic | What Future Readers Need To Understand | Source Ticket Artifact(s) | Target Long-Lived Doc |
+| Topic | What Future Readers Need To Understand | Source Artifact(s) | Target Long-Lived Doc |
 | --- | --- | --- | --- |
 |  |  |  |  |
 
@@ -37,7 +40,7 @@ Use this as the canonical Stage 9 artifact.
 | --- | --- | --- |
 |  |  |  |
 
-## No-Impact Decision (Use Only If Truly No Docs Changes Are Needed)
+## No-Impact Decision
 
 - Docs impact: `No impact`
 - Rationale:
@@ -46,6 +49,5 @@ Use this as the canonical Stage 9 artifact.
 ## Final Result
 
 - Result: `Updated` / `No impact` / `Blocked`
-- If `Blocked` because earlier-stage work is required, classification: `Local Fix` / `Requirement Gap` / `Unclear`
-- Required return path or unblock condition:
+- If blocked, required next loop:
 - Follow-up needed:

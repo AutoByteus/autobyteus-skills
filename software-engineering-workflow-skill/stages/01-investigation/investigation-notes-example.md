@@ -3,8 +3,7 @@
 ## Investigation Status
 
 - Current Status: `Current`
-- Scope Triage: `Medium`
-- Triage Rationale: touches API behavior, worker allocation logic, and room-state coordination
+- Investigation Boundary: API behavior, worker allocation logic, and room-state coordination
 - Investigation Goal: understand why `Start Recording All Occupied Rooms` sometimes reuses the wrong worker allocation path
 - Primary Questions To Resolve:
   - where does the request enter the runtime spine?
@@ -66,7 +65,7 @@
 - Relevant behavior, contract, or constraint learned:
   - upstream sample never routes this flow through a second fallback allocator
 - Confidence and freshness:
-  - Medium-High / 2026-03-25
+  - High / 2026-03-25
 
 ### Reproduction / Environment Setup
 
@@ -115,12 +114,12 @@
 ### Implementation / Placement Implications
 
 - implementation should delete stale legacy worker allocation code in scope
-- Stage 8 should verify no duplicate allocator logic remains
+- Code review should verify no duplicate allocator logic remains
 
 ## Re-Entry Additions
 
 ### 2026-03-26 Re-Entry Update
 
-- Trigger: Stage 7 executable validation found the allocator still diverges under retry conditions
+- Trigger: executable validation found the allocator still diverges under retry conditions
 - New evidence: retry path enters `allocateWorkerLegacy` through one stale adapter wrapper
 - Updated implications: design and implementation must remove that wrapper and keep one canonical allocator path

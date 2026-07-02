@@ -1,20 +1,20 @@
 # Code Review Principles
 
-Use these principles for Stage 8 code review.
+Use these principles for code review.
 Code review is an independent engineering gate.
-Its primary authority is the shared design principles, common design practices, and the Stage 8 code-review rules themselves.
+Its primary authority is the shared design principles, common design practices, and the code-review rules themselves.
 Earlier design artifacts are context and evidence, not truth sources.
-If the review shows that the earlier design basis was weak, incomplete, or wrong, classify that as `Design Impact` instead of lowering the Stage 8 bar.
+If the review shows that the earlier design basis was weak, incomplete, or wrong, classify that as `Design Impact` instead of lowering the review bar.
 This is a stricter review, not a weaker one: it must enforce scope-appropriate separation of concerns and file-size discipline while also enforcing spine and ownership clarity.
 
-## Review Scorecard (Mandatory)
+## Durable Review Scorecard
 
-The Stage 8 report must include a detailed priority-ordered scorecard.
+When a durable review artifact is used, include a detailed priority-ordered scorecard.
 Each score must explain itself; do not record a number without concrete rationale.
 Use the listed order as the reasoning order for the review.
 Score each category from `1.0` to `10.0` in `0.5` increments.
-Report the result as both `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the Stage 8 pass/fail rule.
-Every category is mandatory. Clean Stage 8 pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
+Report the result as both `Overall: X.X / 10` and `YY / 100` for summary/trend visibility only. If an overall score is reported, a simple average is acceptable, but it is never the pass/fail rule.
+Every category is required when the full scorecard is used. Clean pass target is `>= 9.0` in every category. Any category below `9.0` is a real gap and should normally fail the review.
 The scorecard is diagnostic and comparative. It does not average away blockers, and it never overrides a failed mandatory check.
 Ownership-driven dependency quality and shortcut avoidance are judged mainly inside ownership/boundary, API, and separation/placement categories rather than as a separate top-level score row.
 The `Authoritative Boundary Rule` is one of the highest-signal checks in this workflow: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time. This is the `no boundary bypass / no mixed-level dependency` rule.
@@ -34,7 +34,7 @@ The `Authoritative Boundary Rule` is one of the highest-signal checks in this wo
 
 Scoring guidance:
 
-- `9.0-10.0`: clean Stage 8 pass territory for that category
+- `9.0-10.0`: clean pass territory for that category
 - `8.0-8.5`: strong but still not clean enough for strict pass; a real gap remains
 - `6.0-7.5`: significant weakness that should normally fail review
 - `<6.0`: serious structural, validation, correctness, legacy, or cleanup failure
@@ -101,8 +101,8 @@ Scoring guidance:
 ### Validation Gap
 
 - The main issue is insufficient validation coverage or evidence.
-- The code may be acceptable, but Stage 7 proof is not strong enough yet.
-- Reopen Stage 7 before accepting Stage 8.
+- The code may be acceptable, but executable proof is not strong enough yet.
+- Strengthen validation before accepting the review.
 
 ### Design Impact
 

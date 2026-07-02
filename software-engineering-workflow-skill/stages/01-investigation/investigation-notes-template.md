@@ -4,14 +4,13 @@ Use one canonical file:
 - `tickets/in-progress/<ticket-name>/investigation-notes.md`
 
 Purpose:
-- capture durable investigation evidence in enough detail that later stages can reuse the work without repeating the same major searches unless facts have changed
+- capture durable investigation evidence in enough detail that later work can reuse it without repeating the same major searches unless facts have changed
 - keep the artifact readable with short synthesis sections, but preserve concrete evidence, source paths, URLs, commands, and observations
 
 ## Investigation Status
 
 - Current Status: `Draft` / `In Progress` / `Current`
-- Scope Triage: `Small` / `Medium` / `Large`
-- Triage Rationale:
+- Investigation Boundary:
 - Investigation Goal:
 - Primary Questions To Resolve:
 
@@ -97,7 +96,7 @@ Purpose:
 
 ## Re-Entry Additions
 
-Append new dated evidence here when later stages reopen investigation.
+Append new dated evidence here when later work reopens investigation.
 
 ### YYYY-MM-DD Re-Entry Update
 

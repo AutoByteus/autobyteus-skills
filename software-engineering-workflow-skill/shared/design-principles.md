@@ -1,8 +1,8 @@
 # Design Principles
 
-Single canonical design doctrine for Stage 3 design work, Stage 5 future-state review, and Stage 8 code review.
+Single canonical design doctrine for lightweight design sketches, optional proposed design documents, implementation decisions, and code review.
 This file is the shared design language for this workflow.
-The Stage 8 priority-ordered review scorecard is derived from this language:
+The code-review priority-ordered scorecard is derived from this language:
 data-flow spine inventory and clarity -> ownership and boundary encapsulation -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
 One especially important law in this workflow is the `Authoritative Boundary Rule`: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time.
 

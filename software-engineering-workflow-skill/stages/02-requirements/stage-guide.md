@@ -21,8 +21,7 @@ Clarify what behavior the task must deliver and how success will be verified.
 
 ## Outputs
 
-- working-context requirements for simple tasks, or
-- `tickets/in-progress/<ticket-name>/requirements.md` when durable capture is useful
+- updated `tickets/in-progress/<ticket-name>/requirements.md`
 
 ## Exit Condition
 

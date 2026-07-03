@@ -1,6 +1,6 @@
 # Handoff Summary
 
-Use this artifact only when a durable handoff record is useful.
+Use this artifact for the handoff stage.
 
 Write to:
 - `tickets/in-progress/<ticket-name>/handoff-summary.md`

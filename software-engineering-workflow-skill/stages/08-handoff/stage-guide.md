@@ -21,13 +21,13 @@ Summarize the completed engineering task clearly.
 - Summarize docs updated or no-impact rationale.
 - Record residual risk or blocked validation.
 - Create release notes only when the change is user-facing or the user asks for them.
-- Create `handoff-summary.md` only when a durable handoff artifact is useful.
+- Create `handoff-summary.md`.
 
 ## Outputs
 
-- final assistant response, and optionally:
-  - `tickets/in-progress/<ticket-name>/handoff-summary.md`
-  - `tickets/in-progress/<ticket-name>/release-notes.md`
+- final assistant response
+- `tickets/in-progress/<ticket-name>/handoff-summary.md`
+- `tickets/in-progress/<ticket-name>/release-notes.md` when release notes are required
 
 ## Exit Condition
 

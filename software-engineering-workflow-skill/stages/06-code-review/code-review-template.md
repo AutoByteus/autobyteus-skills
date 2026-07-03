@@ -1,6 +1,6 @@
 # Code Review
 
-Use this artifact when a durable review record is useful.
+Use this artifact for the code review stage.
 
 Write to:
 - `tickets/in-progress/<ticket-name>/code-review.md`

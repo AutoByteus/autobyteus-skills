@@ -1,22 +1,22 @@
 interface:
   display_name: "Software Engineering Workflow"
-  short_description: "Lean engineering task workflow"
+  short_description: "Durable staged engineering workflow"
   default_prompt: >-
-    Use $software-engineering-workflow-skill as a lean engineering task workflow:
+    Use $software-engineering-workflow-skill as a durable staged engineering task workflow:
     investigate enough to understand the current behavior and touched ownership
-    area, clarify requirements and acceptance criteria, sketch design only when
-    it reduces risk, implement with the repository's existing patterns, validate
+    area, clarify requirements and acceptance criteria, keep design concise unless
+    fuller design reduces risk, implement with the repository's existing patterns, validate
     with proportional executable evidence, review the diff, update long-lived
-    docs when needed, and provide a concise handoff. Do not create
-    process-control artifacts, require a dedicated branch/worktree, add extra
-    architecture review artifacts, use notification tools for stage movement,
-    or run repository finalization unless the user explicitly asks.
-    Skip ticket artifacts by default and summarize validation in the final
-    response unless durable artifacts are useful. When artifacts help, create
-    only useful files under `tickets/in-progress/<ticket-name>/`, such as `requirements.md`,
-    `investigation-notes.md`, `proposed-design.md`, `implementation.md`,
-    `executable-validation.md`, `code-review.md`, `docs-sync.md`,
-    `handoff-summary.md`, and `release-notes.md`. Preserve shared design principles:
+    docs when needed, and provide a concise handoff. Create or reuse
+    `tickets/in-progress/<ticket-name>/`; in git repositories, create or reuse a
+    dedicated task branch/worktree before writing stage artifacts. Do not create
+    separate workflow control artifacts, add extra architecture review
+    artifacts, use notification tools for stage movement, or run repository
+    finalization unless the user explicitly asks. Write durable artifacts for
+    each reached stage: `requirements.md`, `investigation-notes.md`,
+    `proposed-design.md` when fuller design is needed, `implementation.md`,
+    `executable-validation.md`, `code-review.md`, `docs-sync.md`, `handoff-summary.md`, and
+    `release-notes.md` when release notes are required. Preserve shared design principles:
     data-flow spine clarity, ownership clarity, off-spine concerns with explicit
     owners, the Authoritative Boundary Rule, coherent file placement, clear API
     subject boundaries, no unjustified duplication, no backward-compatibility

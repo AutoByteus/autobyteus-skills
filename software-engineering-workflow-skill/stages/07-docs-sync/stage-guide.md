@@ -32,9 +32,8 @@ Update docs when the change affects:
 
 ## Outputs
 
-- updated long-lived docs, or
-- no-impact rationale in working context, or
-- `tickets/in-progress/<ticket-name>/docs-sync.md` when durable tracking is useful
+- updated long-lived docs when needed
+- `tickets/in-progress/<ticket-name>/docs-sync.md` with update details or no-impact rationale
 
 ## Exit Condition
 

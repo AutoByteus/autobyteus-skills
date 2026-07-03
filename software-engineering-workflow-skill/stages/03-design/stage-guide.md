@@ -13,9 +13,9 @@ Choose a coherent implementation shape before coding when the change involves ow
 
 ## Actions
 
-- Decide whether a durable design artifact is useful.
-- For most tasks, write a short solution sketch in `implementation.md` or working context.
-- Use `proposed-design-template.md` only when a fuller design document materially reduces risk.
+- Write the design decision as a durable artifact.
+- For straightforward tasks, write a short solution sketch in `implementation.md`.
+- Use `proposed-design-template.md` when a fuller design document materially reduces risk.
 - Identify the owning boundary or file for the change.
 - Check whether current file placement and naming still match responsibility.
 - Identify new files, APIs, tests, and obsolete code to remove.
@@ -23,8 +23,7 @@ Choose a coherent implementation shape before coding when the change involves ow
 
 ## Outputs
 
-- working-context design decision, or
-- solution sketch in `implementation.md`, or
+- solution sketch in `tickets/in-progress/<ticket-name>/implementation.md`, or
 - `tickets/in-progress/<ticket-name>/proposed-design.md` for design-heavy work
 
 ## Exit Condition

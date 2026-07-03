@@ -13,7 +13,7 @@ Make the code change while preserving repository patterns, ownership boundaries,
 
 ## Actions
 
-- Create or update `implementation.md` only when a durable plan/progress record helps.
+- Create or update `implementation.md`.
 - Implement foundational dependencies before dependents.
 - Keep edits scoped to the requested behavior.
 - Add or update unit/integration tests where they provide useful coverage.
@@ -28,7 +28,7 @@ Make the code change while preserving repository patterns, ownership boundaries,
 
 - source and test changes
 - unit/integration verification evidence
-- optional `tickets/in-progress/<ticket-name>/implementation.md`
+- `tickets/in-progress/<ticket-name>/implementation.md`
 
 ## Exit Condition
 
@@ -36,8 +36,7 @@ Implementation is complete when the requested behavior is implemented, relevant 
 
 ## Next Step
 
-- If behavior needs proof across API, UI, CLI, process, lifecycle, integration, or another executable boundary, proceed to `stages/05-executable-validation/stage-guide.md`.
-- Otherwise proceed to `stages/06-code-review/stage-guide.md`.
+Proceed to `stages/05-executable-validation/stage-guide.md`.
 
 ## Problem Routing
 

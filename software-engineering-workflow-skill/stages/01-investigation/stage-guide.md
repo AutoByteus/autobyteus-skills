@@ -21,10 +21,9 @@ Build accurate understanding before requirements, design, and implementation. In
 
 ## Outputs
 
-- working-context findings for simple tasks, or
-- `tickets/in-progress/<ticket-name>/investigation-notes.md` when durable evidence is useful
+- `tickets/in-progress/<ticket-name>/investigation-notes.md`
 
-When writing `investigation-notes.md`, include:
+Include:
 
 - investigation goals, questions, or hypotheses
 - task goal and investigation boundary

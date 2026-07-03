@@ -23,12 +23,11 @@ Review the changed code and validation evidence before docs sync and handoff.
 - Apply source-file size policy to changed source implementation files:
   - effective non-empty line count: `rg -n "\\S" <file-path> | wc -l`
   - changed-line delta: `git diff --numstat <base-ref>...HEAD -- <file-path>`
-- Persist `code-review.md` only when durable review evidence is useful.
+- Persist `code-review.md`.
 - Use `code-review-principles.md` for the full scorecard order when a detailed durable review is useful.
 
 ## Outputs
 
-- internal review findings in working context, or
 - `tickets/in-progress/<ticket-name>/code-review.md`
 
 ## Exit Condition

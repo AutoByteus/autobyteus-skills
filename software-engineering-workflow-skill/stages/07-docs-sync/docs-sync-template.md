@@ -1,6 +1,6 @@
 # Docs Sync
 
-Use this artifact only when a durable docs-sync record is useful.
+Use this artifact for the docs sync stage.
 
 Write to:
 - `tickets/in-progress/<ticket-name>/docs-sync.md`

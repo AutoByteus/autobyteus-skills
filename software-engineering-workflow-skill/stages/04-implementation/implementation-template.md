@@ -1,6 +1,6 @@
 # Implementation
 
-Use this artifact when the ticket benefits from a durable plan and progress record.
+Use this artifact for the implementation stage.
 
 Write to:
 - `tickets/in-progress/<ticket-name>/implementation.md`

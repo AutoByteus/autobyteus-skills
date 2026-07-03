@@ -1,6 +1,6 @@
 # Executable Validation
 
-Use this document when validation goes beyond simple unit/integration test notes.
+Use this artifact for the executable validation stage.
 
 Write to:
 - `tickets/in-progress/<ticket-name>/executable-validation.md`

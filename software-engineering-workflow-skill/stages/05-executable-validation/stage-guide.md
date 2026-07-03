@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Prove the changed behavior across the real boundary of the system when unit/integration tests alone are not enough.
+Prove the changed behavior across the real boundary of the system, or record why unit/integration evidence is sufficient for this task.
 
 Executable validation may include API, browser/UI, desktop UI, CLI, worker/process, lifecycle, integration, or another executable surface.
 
@@ -19,18 +19,18 @@ Executable validation may include API, browser/UI, desktop UI, CLI, worker/proce
 - Map critical acceptance criteria to executable scenarios.
 - Prefer durable repo-resident validation when it should govern future changes.
 - Use temporary scripts, probes, local setup, mocks, containers, CLI harnesses, desktop automation, lifecycle checks, or browser automation when durable tests alone cannot prove the behavior.
-- Record scenario source, validation mode, platform/runtime target, expected outcome, command or harness, and result when durable tracking is useful.
+- Record scenario source, validation mode, platform/runtime target, expected outcome, command or harness, and result.
 - Remove temporary validation-only scaffolding unless keeping it is clearly useful.
 
 ## Outputs
 
-- executable validation commands/results in working context or final response
+- executable validation commands/results or no-additional-boundary rationale
 - durable validation assets when useful
-- optional `tickets/in-progress/<ticket-name>/executable-validation.md`
+- `tickets/in-progress/<ticket-name>/executable-validation.md`
 
 ## Exit Condition
 
-Executable validation is complete when critical acceptance criteria have passing evidence, temporary scaffolding is cleaned up or intentionally retained, and unresolved blockers or residual risks are recorded.
+Executable validation is complete when critical acceptance criteria have passing evidence or an explicit no-additional-boundary rationale, temporary scaffolding is cleaned up or intentionally retained, and unresolved blockers or residual risks are recorded.
 
 ## Next Step
 

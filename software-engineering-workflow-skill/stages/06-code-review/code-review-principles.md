@@ -9,14 +9,14 @@ This is a stricter review, not a weaker one: it must enforce scope-appropriate s
 
 ## Contents
 
-- `Durable Review Scorecard`: optional full scorecard for durable review artifacts.
+- `Durable Review Scorecard`: full scorecard guidance for detailed review records.
 - `Primary Review Questions`: practical review prompts.
 - `Review Smells`: warning signs that should trigger findings.
 - `Classification Guidance`: how to route review failures.
 
 ## Durable Review Scorecard
 
-When a durable review artifact is used, include a detailed priority-ordered scorecard.
+When using the full scorecard in `code-review.md`, include a detailed priority-ordered scorecard.
 Each score must explain itself; do not record a number without concrete rationale.
 Use the listed order as the reasoning order for the review.
 Score each category from `1.0` to `10.0` in `0.5` increments.

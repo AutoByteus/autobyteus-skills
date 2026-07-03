@@ -39,6 +39,6 @@ End the workflow.
 
 ## Problem Routing
 
-- Do not move a ticket to `tickets/done/` unless the user explicitly asks or confirms completion/verification.
+- Do not archive or move ticket artifacts unless the user explicitly asks.
 - Do not commit, push, merge, release, deploy, delete branches, or clean worktrees unless the user explicitly asks.
-- If a completed ticket is reopened, move it back to `tickets/in-progress/<ticket-name>/` before adding new ticket artifacts.
+- If completed work is reopened, place any new ticket artifacts under `tickets/in-progress/<ticket-name>/`.

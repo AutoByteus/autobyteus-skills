@@ -6,6 +6,17 @@ The code-review priority-ordered scorecard is derived from this language:
 data-flow spine inventory and clarity -> ownership and boundary encapsulation -> API shape -> separation of concerns and placement -> shared structures -> naming -> validation -> runtime edge cases -> no backward-compatibility / no legacy retention -> cleanup completeness.
 One especially important law in this workflow is the `Authoritative Boundary Rule`: callers above a subject's authoritative boundary must depend on that boundary, not on that boundary and one of its internals at the same time.
 
+## Contents
+
+- `Terminology`: shared architecture vocabulary.
+- `Core Principles`: spine, ownership, and off-spine concern rules.
+- `Applied Design Workflow`: how to turn principles into a change plan.
+- `Structural Triggers`: signs that design structure should change.
+- `Common Local Mechanisms`: when common mechanisms fit.
+- `Example Shapes`: compact good/bad examples.
+- `Required Design Questions`: review prompts for design work.
+- `Design Smells`: warning signs to challenge.
+
 ## Terminology
 
 - `Subsystem` / `capability area`: a larger functional area that owns a broader category of work and may contain multiple files plus optional module groupings.

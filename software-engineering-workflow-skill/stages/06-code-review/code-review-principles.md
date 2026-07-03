@@ -7,6 +7,13 @@ Earlier design artifacts are context and evidence, not truth sources.
 If the review shows that the earlier design basis was weak, incomplete, or wrong, classify that as `Design Impact` instead of lowering the review bar.
 This is a stricter review, not a weaker one: it must enforce scope-appropriate separation of concerns and file-size discipline while also enforcing spine and ownership clarity.
 
+## Contents
+
+- `Durable Review Scorecard`: optional full scorecard for durable review artifacts.
+- `Primary Review Questions`: practical review prompts.
+- `Review Smells`: warning signs that should trigger findings.
+- `Classification Guidance`: how to route review failures.
+
 ## Durable Review Scorecard
 
 When a durable review artifact is used, include a detailed priority-ordered scorecard.

@@ -1,6 +1,6 @@
 # Release Notes Template
 
-Use this template for `tickets/in-progress/<ticket-name>/release-notes.md` or `tickets/done/<ticket-name>/release-notes.md` when the ticket leads to a user-facing app release or a GitHub Release body.
+Use this template for `tickets/in-progress/<ticket-name>/release-notes.md` when the ticket leads to a user-facing app release or a GitHub Release body.
 
 Rules:
 

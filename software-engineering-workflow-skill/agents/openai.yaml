@@ -14,8 +14,9 @@ interface:
     Skip ticket artifacts by default and summarize validation in the final
     response unless durable artifacts are useful. When artifacts help, create
     only useful files under `tickets/in-progress/<ticket-name>/`, such as `requirements.md`,
-    `investigation-notes.md`, `implementation.md`, `executable-validation.md`,
-    `code-review.md`, `docs-sync.md`, and `handoff-summary.md`. Preserve shared design principles:
+    `investigation-notes.md`, `proposed-design.md`, `implementation.md`,
+    `executable-validation.md`, `code-review.md`, `docs-sync.md`,
+    `handoff-summary.md`, and `release-notes.md`. Preserve shared design principles:
     data-flow spine clarity, ownership clarity, off-spine concerns with explicit
     owners, the Authoritative Boundary Rule, coherent file placement, clear API
     subject boundaries, no unjustified duplication, no backward-compatibility

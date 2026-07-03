@@ -67,5 +67,6 @@ Common artifact names:
 - `code-review.md`
 - `docs-sync.md`
 - `handoff-summary.md`
+- `release-notes.md`
 
 Keep one canonical artifact per type. Do not create versioned duplicates by default.

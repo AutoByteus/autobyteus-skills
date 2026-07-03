@@ -5,8 +5,7 @@ Use this artifact only when a durable handoff record is useful.
 Write to:
 - `tickets/in-progress/<ticket-name>/handoff-summary.md`
 
-If the user later confirms the ticket is finished and asks to archive it, move this file with the ticket to:
-- `tickets/done/<ticket-name>/handoff-summary.md`
+If the user later asks to archive the ticket, move this file only to the user-requested archive location.
 
 ## Summary Meta
 
@@ -49,13 +48,8 @@ If the user later confirms the ticket is finished and asks to archive it, move t
 - Release notes artifact:
 - Notes:
 
-## Optional User-Requested Finalization
+## User-Requested Follow-Up
 
-- Ticket archived to:
-- Branch:
-- Commit status:
-- Push status:
-- Merge status:
-- Release/publication/deployment status:
-- Branch/worktree cleanup status:
-- Blockers / notes:
+- Requested action:
+- Status:
+- Notes:

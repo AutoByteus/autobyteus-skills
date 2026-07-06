@@ -8,7 +8,7 @@ This repository contains reusable Codex skills used across AutoByteus projects.
 
 ![Software Engineering Workflow Skill](infographics/software-engineering-workflow-skill-v2.png)
 
-Stage-gated engineering workflow from investigation and requirements to implementation, docs sync, final handoff, and an optional Product Manager iteration loop that uses the canonical `product_manager` role from the AutoByteus software-engineering team for next-feature proposals.
+Stage-gated engineering workflow from investigation and requirements to implementation and docs sync.
 
 ### LLM Fine-Tuning Skill
 

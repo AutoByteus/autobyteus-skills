@@ -72,6 +72,8 @@ Use this skill to convert raw ideas into clear, publishable writing with explici
 - no sales tone unless explicitly requested
 - no forced binary contrast
 - no inflated claims beyond the provided evidence
+- no unapproved factual claims: do not introduce product behavior, motivations, results, timelines, causal explanations, or external facts unless they appear in the user input, source draft, cited material, or are explicitly marked as inference/uncertainty
+- if a useful bridge is missing between two ideas, ask for the missing mechanism or write a bounded transition; do not fill the gap with a plausible but unsupported story
 - In `factual-technical` or `paper-like` mode, verify that observations or system description appear before strong conclusions and that causal claims stay bounded.
 - If the chosen profile has variants, verify the draft stayed inside the selected variant instead of drifting into a louder neighboring variant.
 - Check standards precedence in this order:

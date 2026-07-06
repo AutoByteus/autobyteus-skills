@@ -11,6 +11,7 @@ Example file: `references/examples/ryan-examples.md`
 - Treat structure, ownership, and reviewability as higher-signal concerns than tooling novelty.
 - Prefer calm technical confidence over emotional persuasion or visionary hype.
 - Keep claims sharp, but tie them back to workflow behavior, architectural signals, or repeated failure patterns.
+- Ground factual claims in the user's source material, corrections, cited evidence, or clearly marked inference. Do not invent product behavior, motivations, outcomes, timelines, or causal mechanisms to make the prose feel complete.
 - Use direct correction language when refining a common belief: acknowledge the shallow explanation, then replace it with the deeper one.
 - Revisit the same core nouns across the piece instead of swapping in many synonyms. Ryan prefers conceptual stability over stylistic variety.
 - Prefer exact referents over rhetorical compression. If the article distinguishes between human doer, software work surface, application logic, agent runtime, and delivery boundary, keep those nouns separate instead of collapsing them into one cleaner but less accurate word.
@@ -206,6 +207,7 @@ When the user wants paper-like or report-like prose:
 - In essay mode, naming the exact signal that changed the author's thinking can be effective.
 - In factual technical mode, state the observation directly instead of dramatizing the signal.
 - When the user provides a more exact runtime explanation, prefer that exact mechanism over a broader abstract summary.
+- If the source material does not establish a causal bridge, keep the transition bounded or ask for the missing mechanism instead of supplying a plausible explanation as fact.
 - Preserve distinctions like `software as work surface` versus `human as doer` when the article depends on that difference.
 - When listing quality dimensions, list them as concrete review surfaces rather than abstract values.
 - Use architecture vocabulary as evidence vocabulary. The evidence is often the structure itself.
@@ -384,3 +386,4 @@ Before finalizing, verify:
 16. If the piece is firsthand product narration, at least the opening and one later section clearly preserve builder ownership language.
 17. If the user supplied a more precise runtime or workflow mechanism during revision, the final draft uses that mechanism instead of the earlier generic abstraction.
 18. If the user objected to sales tone, detachment, or repetition, the final draft contains explicit evidence that those failure modes were removed.
+19. No factual claim, product behavior, motivation, outcome, timeline, or causal mechanism is introduced without source support or an explicit inference marker.

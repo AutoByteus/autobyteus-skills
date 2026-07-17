@@ -21,6 +21,7 @@ Keep this document concise.
 - Owning boundary/files:
 - API or interface changes:
 - Data/storage/schema changes:
+- Rendered frontend affected (`Yes`/`No`):
 - File placement decision:
 - Obsolete code to remove:
 - Risks/open questions:
@@ -48,9 +49,24 @@ Keep this document concise.
 
 - Unit tests:
 - Integration tests:
-- API/E2E/CLI/process/lifecycle validation:
+- Frontend rendered-result self-check:
+- Stage 05 executable-validation handoff/readiness:
 - Manual or human-assisted checks, if unavoidable:
 - Known validation constraints:
+
+## Frontend Rendered-Result Check
+
+Use this section when the change affects a rendered frontend or user interaction. If not applicable, write `Not Applicable` with a short reason.
+
+- Affected surfaces/journeys:
+- Approved UI/UX, interaction, requirement, or design references:
+- Design system, shared components, and adjacent product surfaces reviewed:
+- Development or preview surface used:
+- States, layouts, viewports, and interactions inspected:
+- Visual or interaction issues found and corrected:
+- Supporting evidence, screenshots if useful, and remaining unverified states or limitations:
+
+This is implementation self-validation and polish. It does not replace Stage 05 executable validation.
 
 ## Execution Log
 
@@ -61,7 +77,8 @@ Keep this document concise.
 ## Validation Summary
 
 - Unit/integration result:
-- Executable validation result:
+- Frontend rendered-result check:
+- Stage 05 executable-validation readiness:
 - Acceptance criteria covered:
 - Blocked or waived validation:
 
@@ -77,6 +94,7 @@ Keep this document concise.
 
 - Implementation complete:
 - Required tests pass:
+- Frontend rendered-result check complete or not applicable:
 - No obsolete code left in scope:
 - File placement remains coherent:
 - Validation evidence is sufficient:

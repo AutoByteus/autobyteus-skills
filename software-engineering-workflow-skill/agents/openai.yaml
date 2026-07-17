@@ -5,8 +5,9 @@ interface:
     Use $software-engineering-workflow-skill as a durable staged engineering task workflow:
     investigate enough to understand the current behavior and touched ownership
     area, clarify requirements and acceptance criteria, keep design concise unless
-    fuller design reduces risk, implement with the repository's existing patterns, validate
-    with proportional executable evidence, review the diff, update long-lived
+    fuller design reduces risk, implement with the repository's existing patterns,
+    inspect rendered frontend quality when UI is affected, validate with proportional
+    executable evidence, review the diff, update long-lived
     docs when needed, and provide a concise handoff. Create or reuse
     `tickets/in-progress/<ticket-name>/`; in git repositories, create or reuse a
     dedicated task branch/worktree before writing stage artifacts. Do not create

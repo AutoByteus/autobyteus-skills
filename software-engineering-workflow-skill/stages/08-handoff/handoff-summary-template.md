@@ -48,6 +48,22 @@ If the user later asks to archive the ticket, move this file only to the user-re
 - Release notes artifact:
 - Notes:
 
+## Latest Base / Finalization Readiness
+
+Use this section when the user explicitly asks for repository finalization, release, publication, or deployment. Otherwise write `Not Applicable` with a short reason.
+
+- Requested finalization/deployment action:
+- Bootstrap base branch / tracked remote base:
+- Latest tracked remote base reference checked:
+- Base advanced beyond current ticket branch integration point: `Yes` / `No` / `Unknown`
+- Integration method: `Merge` / `Rebase` / `Already current` / `Not run`
+- New base commits integrated into ticket branch: `Yes` / `No`
+- Post-integration executable check or smoke path:
+- Post-integration result: `Passed` / `Blocked` / `Not required`
+- Handoff/docs/release notes updated after integration: `Yes` / `No` / `Not needed`
+- Renewed user verification required: `Yes` / `No`
+- Blocker or residual risk:
+
 ## User-Requested Follow-Up
 
 - Requested action:

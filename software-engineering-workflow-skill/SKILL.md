@@ -43,7 +43,7 @@ When a stage is formally skipped, record the skip in the handoff summary with a 
 - Do not create separate workflow control artifacts.
 - Do not use notification tools for stage movement.
 - Do not create extra architecture review artifacts beyond the stage-owned outputs.
-- Do not run commit, push, merge, release, deployment, ticket archival, or branch cleanup unless the user explicitly asks.
+- Do not run commit, push, merge, release, deployment, ticket archival, or branch cleanup unless the user explicitly asks. When the user does explicitly ask for repository finalization, release, publication, or deployment, follow Stage 08's latest-base integration refresh before proceeding.
 
 ## Stage Contract
 
@@ -69,7 +69,7 @@ Then follow the `Next Step` section in each stage guide:
 6. `stages/05-executable-validation/stage-guide.md` - record executable validation evidence or no-additional-boundary rationale.
 7. `stages/06-code-review/stage-guide.md` - review the changed code and validation evidence.
 8. `stages/07-docs-sync/stage-guide.md` - update long-lived docs when impacted.
-9. `stages/08-handoff/stage-guide.md` - summarize delivery and remaining risk.
+9. `stages/08-handoff/stage-guide.md` - summarize delivery and remaining risk; when finalization, release, publication, or deployment is explicitly requested, refresh/integrate the latest tracked remote base before proceeding.
 
 ## Shared References
 

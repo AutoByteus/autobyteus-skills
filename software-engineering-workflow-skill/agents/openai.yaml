@@ -13,7 +13,9 @@ interface:
     dedicated task branch/worktree before writing stage artifacts. Do not create
     separate workflow control artifacts, add extra architecture review
     artifacts, use notification tools for stage movement, or run repository
-    finalization unless the user explicitly asks. Write durable artifacts for
+    finalization unless the user explicitly asks; when finalization, release,
+    publication, or deployment is explicitly requested, refresh/integrate the
+    latest tracked remote base into the ticket branch before proceeding. Write durable artifacts for
     each reached stage: `requirements.md`, `investigation-notes.md`,
     `proposed-design.md` when fuller design is needed, `implementation.md`,
     `executable-validation.md`, `code-review.md`, `docs-sync.md`, `handoff-summary.md`, and

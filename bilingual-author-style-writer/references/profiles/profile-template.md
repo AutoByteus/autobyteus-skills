@@ -43,21 +43,21 @@ Preferred article sequence:
 
 ### Chinese Do
 
-- 
+-
 
 ### Chinese Avoid
 
-- 
+-
 
 ## Language Fingerprint: English
 
 ### English Do
 
-- 
+-
 
 ### English Avoid
 
-- 
+-
 
 ## Math-Heavy Adaptation
 
@@ -67,11 +67,11 @@ Preferred article sequence:
 
 ## Draft Checklist
 
-1. 
-2. 
-3. 
-4. 
-5. 
+1.
+2.
+3.
+4.
+5.
 
 ## Cross-Language Conversion Preferences
 

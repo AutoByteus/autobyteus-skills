@@ -1,6 +1,6 @@
 # Ryan Style Profile (Chinese + English)
 
-This profile is derived from the existing Ryan samples in this skill setup and reinforced by the April 3, 2026 Medium article on architecture-design and code-review agents.
+This profile is derived from the Ryan samples stored in this package.
 Profile ID: `ryan`
 Example file: `references/examples/ryan-examples.md`
 
@@ -11,11 +11,11 @@ Example file: `references/examples/ryan-examples.md`
 - Treat structure, ownership, and reviewability as higher-signal concerns than tooling novelty.
 - Prefer calm technical confidence over emotional persuasion or visionary hype.
 - Keep claims sharp, but tie them back to workflow behavior, architectural signals, or repeated failure patterns.
-- Ground factual claims in the user's source material, corrections, cited evidence, or clearly marked inference. Do not invent product behavior, motivations, outcomes, timelines, or causal mechanisms to make the prose feel complete.
+- Ground factual claims in the user's source material, corrections, cited evidence, or explicit user approval. Keep an unsupported inference as an open question rather than presenting it as a final fact. Do not invent product behavior, motivations, outcomes, timelines, or causal mechanisms to make the prose feel complete.
 - Use direct correction language when refining a common belief: acknowledge the shallow explanation, then replace it with the deeper one.
 - Revisit the same core nouns across the piece instead of swapping in many synonyms. Ryan prefers conceptual stability over stylistic variety.
 - Prefer exact referents over rhetorical compression. If the article distinguishes between human doer, software work surface, application logic, agent runtime, and delivery boundary, keep those nouns separate instead of collapsing them into one cleaner but less accurate word.
-- End with a directional conclusion that sounds like a design principle, not a motivational wrap-up.
+- End with a conclusion that matches the selected variant: a directional design principle for `essay-thesis`, or a bounded finding for `factual-technical` and `paper-report`.
 - Keep structural clarity as the invariant, but treat rhetorical intensity as adjustable.
 - Do not force correction language, binary contrast, or manifesto energy when the user asks for factual or paper-like prose.
 - When the author is describing their own product, workflow, or runtime change, prefer builder ownership language such as `we used`, `we observed`, and `we changed`.
@@ -81,7 +81,7 @@ Revision precedence inside Ryan:
 
 ## Structural Signature
 
-Ryan writing usually follows this sequence:
+The default `essay-thesis` variant usually follows this sequence:
 
 1. Open with a direct thesis or conclusion.
 2. Name the common industry belief or common explanation.
@@ -191,7 +191,7 @@ When the user wants paper-like or report-like prose:
 
 ## Reasoning Pattern
 
-- Use binary contrasts to sharpen meaning: design vs validation, local cleanliness vs global structure, context-window limitation vs architectural weakness.
+- Use a binary contrast only when it exposes a real distinction in the source material: design vs validation, local cleanliness vs global structure, or context-window limitation vs architectural weakness. Do not invent a contrast to make a paragraph sound stronger.
 - Diagnose root cause by treating visible failures as signals rather than as final explanations.
 - Move from operational pain to structural cause, not from abstract philosophy to implementation.
 - For architecture derivation articles, move from prior system decomposition to new decomposition before claiming UI or workflow consequences.
@@ -369,13 +369,13 @@ Before finalizing, verify:
 
 1. Thesis appears in the first 1-3 paragraphs.
    In factual technical mode, a clear scope statement or main observation can replace a hard thesis hook.
-2. At least one explicit distinction frames the whole article.
-3. The draft corrects a shallow explanation or incomplete industry belief where relevant.
-4. One repeated engineering signal or failure pattern is used as evidence.
-5. The article introduces a structural model, artifact, or evaluation lens.
+2. For `essay-thesis`, or when the source material depends on a real distinction, one explicit distinction frames the article. Do not force one in factual or paper-like prose.
+3. The draft corrects a shallow explanation or incomplete industry belief where relevant and supported.
+4. For engineering or system topics, one concrete repeated signal or failure pattern is used as evidence when available.
+5. When relevant, the article introduces a structural model, artifact, or evaluation lens.
 6. Method or judgment criteria are described as reproducible steps or dimensions.
 7. Terminology stays stable throughout the draft.
-8. The conclusion compresses the argument into 2-4 short statements or one strong directional paragraph.
+8. The conclusion matches the selected variant: a bounded finding for `factual-technical` or `paper-report`, or 2-4 compressed statements or one directional paragraph for `essay-thesis`.
 9. Tone stays analytical, architecture-first, and non-hyped throughout.
 10. The reader leaves with a clearer way to inspect or judge the system, not just a stronger opinion.
 11. The rhetorical mode (`essay` vs `factual-technical` vs `paper-like`) is explicit and matched.
@@ -386,4 +386,4 @@ Before finalizing, verify:
 16. If the piece is firsthand product narration, at least the opening and one later section clearly preserve builder ownership language.
 17. If the user supplied a more precise runtime or workflow mechanism during revision, the final draft uses that mechanism instead of the earlier generic abstraction.
 18. If the user objected to sales tone, detachment, or repetition, the final draft contains explicit evidence that those failure modes were removed.
-19. No factual claim, product behavior, motivation, outcome, timeline, or causal mechanism is introduced without source support or an explicit inference marker.
+19. No factual claim, product behavior, motivation, outcome, timeline, or causal mechanism is introduced without source support or explicit user approval. An inference marker alone is not approval for a final factual claim.

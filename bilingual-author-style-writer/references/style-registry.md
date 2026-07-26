@@ -15,7 +15,7 @@ Use this file as the single source of truth for available writing profiles.
 2. Resolve the requested author to `profile_id` (lowercase hyphen-case).
 3. Read the selected profile file from the `file` column.
 4. If `example_file` is not empty, read it for few-shot guidance.
-5. Read platform rules from `platform-output-rules.md`.
+5. After the writing contract and outline are stable, read platform rules from `platform-output-rules.md` before drafting.
 6. Draft only after profile + platform constraints are loaded.
 
 ## Add New Author Profile

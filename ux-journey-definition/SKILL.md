@@ -17,28 +17,6 @@ The artifact must also encode cognition-first decisions so flow order and intera
 
 ## Workflow
 
-### Audible Notifications (Speak Tool, Required)
-
-- Use the `Speak` tool for key stage-boundary updates so the user does not need to watch the screen continuously.
-- Hard rule: speak at both stage start and stage completion for each key stage below (no selective skipping).
-- Required speak stages:
-  - workflow kickoff (`prototype context acknowledged`, `next stage`),
-  - product story + main journey stage (`started`, then draft completed),
-  - cognitive load criteria stage (`started`, then criteria drafted),
-  - screen stories + alternate/error paths stage (`started`, then draft completed),
-  - transition index stage (`started`, then index completed),
-  - canonical artifact write stage (`started`, then `experience-story.md` written/updated),
-  - quality gate stage (`started`, then `Pass`/`Needs fixes` result),
-  - handoff-ready stage for `$product-ui-prototyping` (`started`, then ready status).
-- Speak trigger policy:
-  - do not skip required stage-boundary speak events,
-  - for completion events, speak only after milestone content is physically written,
-  - do not speak for partial drafts between required stage-boundary events,
-  - batch close-together milestone updates into one short message.
-- Keep each spoken message short (1-2 sentences), status-first, with one clear next step.
-- If the `Speak` tool fails or is unavailable, continue workflow and provide the same update in text.
-- Do not speak secrets, tokens, or full sensitive payloads.
-
 ### 1) Capture Product Story
 
 Write one short paragraph:
@@ -47,7 +25,6 @@ Write one short paragraph:
 - what success looks like.
 
 Keep this concrete and product-facing.
-- Speak completion after product story draft is physically written.
 
 ### 2) Write Main Journey (Happy Path)
 
@@ -58,7 +35,6 @@ Each step should include:
 - which `screen_id` is involved.
 
 Prioritize one critical flow first before expanding.
-- Speak completion after main journey draft is physically written.
 
 ### 3) Define Cognitive Load Criteria (Required)
 
@@ -70,7 +46,6 @@ Before writing detailed screen behavior, define a short cognition-first rubric f
 - progression policy (when to unlock complexity).
 
 Keep this practical and measurable so it can be used as a review gate.
-- Speak completion after cognitive-load criteria are physically written.
 
 ### 4) Write Screen Stories
 
@@ -85,7 +60,6 @@ Required shape:
 - cognitive objective (what mental burden this screen reduces)
 - cognition controls (chunking, progressive disclosure, contrast/clarity choices)
 - states to prototype (`default`, `loading`, `success`, `error`, `empty` when applicable)
-- Speak completion after screen stories are physically written.
 
 ### 5) Capture Alternate/Error Paths
 
@@ -98,7 +72,6 @@ For each branch, state:
 - trigger/condition,
 - what user sees,
 - recovery action and destination.
-- Speak completion after alternate/error paths are physically written.
 
 ### 6) Build Transition Index
 
@@ -112,7 +85,6 @@ Columns:
 - `expected_feedback`
 
 Use IDs consistently across the whole document.
-- Speak completion after the transition index is physically written.
 
 ### 7) Record Blocking Questions
 
@@ -188,7 +160,6 @@ Use this structure in `experience-story.md`:
 - Early modules prioritize semantic/stem-connected content before higher-interference pattern groups.
 - Each screen declares its cognitive objective and concrete burden-control mechanisms.
 - The document can be directly used by `$product-ui-prototyping`.
-- Speak quality-gate result after validation completes.
 
 ## Handoff To Prototyping
 
@@ -198,4 +169,3 @@ When visual prototyping is requested next, invoke `$product-ui-prototyping` with
 - chosen platform (`web`, `ios`, `android`)
 
 Then generate state images, flow maps, and viewer artifacts based on the transition index and screen stories.
-- Speak handoff-ready completion after `experience-story.md` is written/updated.

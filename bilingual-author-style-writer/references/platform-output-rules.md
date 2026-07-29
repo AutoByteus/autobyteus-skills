@@ -1,6 +1,6 @@
 # Platform Output Rules
 
-Use these rules after style selection and before final delivery.
+Use these rules after the writing contract, claim/evidence map, and structural outline are stable and before drafting; recheck them before final delivery. Platform rules package approved content; they do not authorize new claims or stronger conclusions.
 
 ## WeChat (Chinese)
 
@@ -12,7 +12,7 @@ Use these rules after style selection and before final delivery.
 - Use tables when they clarify stages, role decomposition, or mechanism differences, but avoid repeating the same comparison again in a later summary table.
 - Keep technical terms precise; include English term in parentheses where helpful.
 - For formulas, use readable LaTeX blocks and explain symbols in nearby text.
-- End with a compact takeaway section ("最后的想法" style is acceptable).
+- End with a compact takeaway section ("最后的想法" style is acceptable) when the requested mode benefits from one; do not add a formulaic takeaway that merely repeats the article.
 
 ## Medium (English)
 
@@ -26,13 +26,14 @@ Use these rules after style selection and before final delivery.
 - Keep close alignment between heading and section content.
 - Keep equations compact and followed by plain-language interpretation.
 - Avoid sales, manifesto, or founder tone unless the user explicitly requests it.
-- End with a concise conclusion that restates method and implication; in factual technical mode, prefer bounded implication over directional slogan.
+- End with a concise conclusion that restates method and implication when the mode calls for one; in factual technical mode, prefer bounded implication over a directional slogan.
 
 ## Bilingual Delivery
 
 - Keep one shared argument skeleton across languages.
 - Adapt expression for each platform; do not produce literal translation.
 - Preserve key terminology and logical sequence.
+- Keep all claims within the shared approved claim/evidence map.
 - If user asks for both outputs, deliver in this order:
 1. WeChat Chinese draft
 2. Medium English draft
@@ -48,5 +49,6 @@ Use this when the user writes in one language first, then requests the other lan
 4. Run fidelity checks:
 - no missing claims
 - no new unsupported claims
+- no stronger claim in the target title, conclusion, or transitions than in the source
 - consistent terms and notation
 5. Return target draft plus 3-6 alignment notes.

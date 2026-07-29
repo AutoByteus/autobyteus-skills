@@ -16,9 +16,9 @@ Use this template to add example-driven guidance for any new profile.
 
 ### Why It Works
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Example B: Secondary-Language Opening Pattern
 
@@ -34,9 +34,9 @@ Use this template to add example-driven guidance for any new profile.
 
 ### Why It Works
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Example C: Cross-Language Conversion
 
@@ -71,4 +71,3 @@ Use this template to add example-driven guidance for any new profile.
 ### Target Language Closing
 
 `<line>`
-

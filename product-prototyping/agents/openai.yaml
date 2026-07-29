@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Prototyping"
+  short_description: "Build and evolve runnable Vue product prototypes"
+  default_prompt: "Use $product-prototyping to define, build, or evolve a runnable Vue product prototype with precise requirements and reviewable behavior."

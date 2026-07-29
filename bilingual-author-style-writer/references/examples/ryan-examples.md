@@ -1,6 +1,6 @@
 # Ryan Few-Shot Examples (EN + CN + Conversion)
 
-Use these examples to imitate structure and rhetorical motion, not to copy sentences.
+Use these examples to imitate structure and rhetorical motion, not to copy sentences or import facts. Product names, mechanisms, motivations, outcomes, timelines, and causal claims in examples are style demonstrations only; use them in a new article only when the user or an approved source confirms them.
 
 ## Example A: English Thesis-First Opening
 

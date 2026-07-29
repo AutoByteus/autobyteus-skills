@@ -1,6 +1,6 @@
 ---
 name: bilingual-author-style-writer
-description: Write and revise publish-ready Chinese (WeChat) and English (Medium) articles or factual technical notes in configurable author styles. Use when the user provides ideas, rough notes, or sample articles and asks Codex to match an existing style profile or create a new profile for any author, then iterate drafts until final.
+description: Write and revise publish-ready Chinese (WeChat) and English (Medium) articles or factual technical notes in configurable author styles. Use when the user provides ideas, rough notes, or sample articles and asks an agent to match an existing style profile or create a new profile for any author, then iterate drafts until final.
 ---
 
 # Bilingual Author Style Writer
@@ -9,18 +9,15 @@ Use this skill to convert raw ideas into clear, publishable writing with explici
 
 ## Workflow
 
-1. Lock the target before writing.
-- Ask for mode: `original-draft`, `cross-language-conversion`, or `dual-draft`.
-- Ask for platform: `WeChat`, `Medium`, or both.
-- Ask for language: `Chinese`, `English`, or bilingual.
-- In `cross-language-conversion`, ask for explicit `source language` and `target language`.
-- Ask for author/style profile name.
-- Ask for rhetorical mode: `essay`, `factual-technical`, `paper-like`, or `hybrid`.
-- Ask for objective, audience, and one-sentence takeaway.
-- Ask for expected technical depth (math rigor, engineering detail, examples, references).
+1. Lock the writing contract before writing.
+- Infer values that are already clear from the request or source material; do not ask the user to repeat them.
+- Resolve mode: `original-draft`, `cross-language-conversion`, or `dual-draft`; platform: `WeChat`, `Medium`, or both; language; author/style profile; rhetorical mode; objective; audience; takeaway; and expected technical depth.
+- Ask only for missing choices that would materially change the output. In `cross-language-conversion`, always resolve explicit `source language` and `target language`.
+- Record the resolved contract in working notes as: source material, output language/platform, profile + variant, rhetorical mode, objective/audience, depth, and open questions.
 - If user does not specify mode, default to `original-draft` in one language first.
 - If user does not specify rhetorical mode, default to `factual-technical` for technical topics and `essay` only when the request clearly asks for a persuasive article.
 - Do not assume that naming an author profile automatically authorizes high-rhetoric prose. Profile controls voice and structural habits; rhetorical pressure is a separate choice.
+- Keep unresolved factual, causal, motivational, outcome, timeline, and product-behavior questions visible in working notes. Do not silently resolve them through plausible-sounding prose.
 - If the user objects to prior drafts with phrases like `too salesy`, `too indirect`, `too much like an article about the article`, `too much contrast`, `too repetitive`, or `too detached`, treat those as hard style constraints for the next pass, not as soft preferences.
 
 2. Load the correct style profile.
@@ -28,13 +25,16 @@ Use this skill to convert raw ideas into clear, publishable writing with explici
 - Normalize profile id to lowercase hyphen-case (for example: `Ryan Zheng` -> `ryan-zheng`).
 - If profile exists in registry, read its mapped file under `references/profiles/`.
 - If example file exists for that profile in registry, load it before drafting.
+- Treat profiles and example files as style and structure guidance, not as factual source material. Do not reuse their product names, mechanisms, motivations, outcomes, timelines, or external claims in a new article unless the user or an approved source confirms them.
 - If the selected profile defines internal variants or stance modes, choose one explicitly before outlining. Record it in working notes as `profile + variant + rhetorical mode`.
 - Prefer profile variants that answer the user's actual stance request, not the loudest version of the profile.
 - If profile does not exist, create `references/profiles/<profile-id>.md` from `references/profiles/profile-template.md`, add a row in `style-registry.md`, and set status to `bootstrapping`.
 - For `bootstrapping` status, require 2-5 sample articles before final drafting.
 
 3. Build the argument skeleton first.
+- Build a claim and evidence map from the approved source material. Classify each planned claim as sourced fact, user-approved interpretation, style guidance, or unresolved question. Do not promote an unresolved question or unapproved inference into a final claim.
 - Produce title options.
+- Keep title claims within the evidence and confidence of the planned article; do not make the title stronger than the body supports.
 - Produce a section-by-section outline with section purpose.
 - For `essay`, state the thesis explicitly and list the evidence or examples each section will use.
 - For `factual-technical` or `paper-like`, state the scope, system/object under discussion, evidence basis, and bounded conclusion path instead of forcing a debate frame.
@@ -51,51 +51,46 @@ Use this skill to convert raw ideas into clear, publishable writing with explici
   6. what was observed after the change
   7. bounded practical implication
 - Do not force a contrastive hook such as `not X, but Y` unless the user explicitly wants argumentative prose or the source material already depends on that turn.
-- Confirm this skeleton with the user before full drafting.
+- For each section and transition, state how the next section follows from the previous one: continuation, contrast, cause, example, consequence, or bounded conclusion.
+- Read `references/platform-output-rules.md` after the writing contract, claim/evidence map, and outline are stable, and before full drafting.
+- Confirm this skeleton with the user before full drafting unless the user explicitly asks to proceed without an outline confirmation.
 
 4. Draft with native-language expression.
-- For `original-draft`, write fully in the chosen source language.
+- For `original-draft`, write in the selected output language. Use `dual-draft` when the user requests parallel Chinese and English drafts.
 - For `cross-language-conversion`, treat source article as the canonical logic and rewrite into target language with native flow.
 - Keep the same thesis and argument skeleton across languages.
 - Do not literal-translate paragraph by paragraph.
-- Rewrite naturally for each language while preserving logic, examples, and claims.
+- Rewrite naturally for each language while preserving the approved claims, evidence boundaries, logic, and examples.
 - Preserve the chosen rhetorical mode across revisions and conversions. In `factual-technical` mode, prefer mechanism -> evidence -> implication order over persuasion-first framing.
 - In builder-report narratives, prefer direct subject-first openings such as `In AutoByteus, we first used...` over detached meta-openers like `This article explains...` or `This note describes...`, unless the user explicitly wants report prose.
 - Keep the subject exact at sentence level. If the draft says `runtime`, `system`, `application`, or `interface`, make sure the reader can tell which one it means from local context; use the longer noun when precision matters.
 - For math-heavy content, define symbols on first use and keep notation stable.
 
 5. Run quality and style checks.
-- Check logic continuity: each section must push the central claim, scope explanation, or bounded conclusion forward.
-- Check style alignment against the chosen profile constraints.
-- Check platform fit using `references/platform-output-rules.md`.
-- Check rhetorical fit:
-- no sales tone unless explicitly requested
-- no forced binary contrast
-- no inflated claims beyond the provided evidence
-- In `factual-technical` or `paper-like` mode, verify that observations or system description appear before strong conclusions and that causal claims stay bounded.
-- If the chosen profile has variants, verify the draft stayed inside the selected variant instead of drifting into a louder neighboring variant.
-- Check standards precedence in this order:
-- factual accuracy from user-supplied corrections
-- mechanism accuracy
-- referent and terminology accuracy
-- structure and logic flow
-- voice/style matching
-- platform polish
-- Run a terminology-precision pass on technical drafts:
-- keep `application logic`, `application UI`, `agent runtime`, `agent team runtime`, `delivery boundary`, and `artifact` distinct when the article relies on those distinctions
-- if the user says the draft feels `vague`, assume some subjects are under-specified and expand them explicitly
-- do not trade away causal accuracy just to make the sentence shorter or more elegant
+- Run the checks in this order: macro structure and transitions -> factual grounding and cross-language fidelity -> clarity and terminology -> redundancy and economy -> voice, rhetorical fit, and platform polish.
+- Check macro flow: each section must advance the central claim, scope explanation, or bounded conclusion; each transition must express a real relationship rather than decorate a jump; and validation or evidence must appear before the conclusion that depends on it.
+- Check factual grounding and cross-language fidelity:
+  - every factual, causal, motivational, outcome, timeline, product-behavior, or external claim in the final draft must trace to the user input, source draft, cited material, or explicit user approval. Marking an unsupported idea as an inference does not authorize it as a final fact;
+  - if a useful bridge is missing between two ideas, ask for the missing mechanism or leave an open question in working notes; do not fill the gap with a plausible but unsupported story;
+  - in `factual-technical` or `paper-like` mode, observations or system description must appear before strong conclusions and causal claims must stay bounded;
+  - in `cross-language-conversion`, preserve all source claims without adding claims or strengthening the title, conclusion, example, or causal bridge, and keep notation and terms consistent.
+- Check standards precedence when rules conflict: factual accuracy from user-supplied corrections -> mechanism accuracy -> referent and terminology accuracy -> structure and logic flow -> voice/style matching -> platform polish. This is conflict precedence, not a reason to skip the macro-first review order.
+- Run a clarity and terminology pass on technical drafts:
+  - keep `application logic`, `application UI`, `agent runtime`, `agent team runtime`, `delivery boundary`, and `artifact` distinct when the article relies on those distinctions;
+  - if the user says the draft feels `vague`, expand under-specified subjects explicitly;
+  - do not trade away causal accuracy just to make the sentence shorter or more elegant.
 - Check redundancy aggressively:
-- each section must add at least one new fact, mechanism, example, or implication
-- do not restate the same central claim in the opening, transition section, and conclusion unless the function clearly changes
-- if one comparison table already carries the main contrast, do not add a second summary table that says the same thing
-- trim repeated phrases such as `the important point is`, `this is why`, or `the practical value is` when they introduce no new information
-- For builder narratives, verify the opening uses firsthand ownership language and that the body does not drift back into detached analyst narration.
-- For revised drafts, verify that earlier user complaints have been actively removed rather than only softened.
-- In `cross-language-conversion`, add fidelity checks:
-- no claim loss
-- no invented claims
-- notation and terms stay consistent
+  - each section must add at least one new fact, mechanism, example, or implication;
+  - do not restate the same central claim in the opening, transition section, and conclusion unless the function clearly changes;
+  - if one comparison table already carries the main contrast, do not add a second summary table that says the same thing;
+  - trim repeated phrases such as `the important point is`, `this is why`, or `the practical value is` when they introduce no new information;
+  - distinguish repeated terminology that keeps referents stable from repeated claims that add no new information. Preserve the former and remove the latter.
+- Check voice, rhetorical fit, and platform polish:
+  - verify style alignment against the chosen profile constraints and confirm that the draft stayed inside the selected variant instead of drifting into a louder neighboring variant;
+  - use no sales tone unless explicitly requested, no forced binary contrast, and no inflated claims beyond the provided evidence;
+  - for builder narratives, verify the opening uses firsthand ownership language and that the body does not drift back into detached analyst narration;
+  - for revised drafts, verify that earlier user complaints have been actively removed rather than only softened;
+  - recheck platform fit using `references/platform-output-rules.md` after the content is stable.
 - If the user asks for revisions, apply focused passes: `logic`, `voice`, `depth`, `length`, `title`, or `tone-temperature`.
 - Strong extra revision passes for technical architecture articles:
 - `subject-precision`: replace vague nouns with exact system components
@@ -134,6 +129,14 @@ When multiple cues appear, obey them in this order: accuracy -> directness/owner
 - `Cross-language conversion`: source article -> target-language adapted article.
 - `Bilingual pair`: CN + EN drafts with aligned thesis and argument order.
 - `Polish pass`: revised draft plus compact change log.
+
+## Delivery
+
+- Return only the requested output mode after the quality checks complete.
+- For a `Bilingual pair`, return the WeChat Chinese draft first, then the Medium English draft, followed by optional alignment notes.
+- For `Cross-language conversion`, return the target-language draft plus 3-6 alignment notes.
+- For a `Polish pass`, include the revised draft and a compact change log.
+- State unresolved factual or approval questions separately; do not present content with unresolved claims as publish-ready.
 
 ## Resources
 

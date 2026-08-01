@@ -240,6 +240,27 @@ Handle validation clearly and make sure everything is correct.
 
 The bad wording is vague about the actor, action, evidence, and completion condition.
 
+### Actionability and meta-context test
+
+Do not confuse a sentence that describes a package with a sentence that operates the skill. For every retained heading, opening sentence, ownership label, and explanatory bullet, ask: `What does this make the agent do?`
+
+- Remove or rewrite a sentence when it only identifies the file, reassures the reader, or repeats ownership that an actionable rule already establishes.
+- Keep it when it controls a trigger, decision, action, output, validation, routing, safety boundary, authority boundary, or necessary navigation.
+
+Remove:
+
+```text
+This is the shared writing reference for the article writing team.
+```
+
+when the file already says:
+
+```text
+Read this file before drafting or reviewing, and use it as the canonical quality standard.
+```
+
+The first sentence labels the file; the second changes agent behavior.
+
 ## 8. Classify defensive wording
 
 Do not remove every negative sentence. Test what branch it closes.
@@ -356,6 +377,7 @@ Pass 1: behavior/structure
 
 Pass 2: economy/coherence
 - Redundancy removed:
+- Non-actionable context removed or rewritten:
 - Defensive wording retained and why:
 - Transitions repaired:
 - Final residual risk:

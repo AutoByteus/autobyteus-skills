@@ -16,6 +16,7 @@ Apply this priority order: package structure and ownership -> content architectu
 - Read the target skill and its linked files before editing. Treat `SKILL.md`, metadata, references, scripts, and assets as one topology.
 - Review the package structure before local wording. Treat repeated content across files or sections as evidence of an ownership, boundary, or flow problem until proven otherwise.
 - Establish the target skill's behavioral invariants before trying to shorten it. Include any required outputs, artifacts, worktrees, stage transitions, tool use, validation, safety controls, and user-authority boundaries.
+- Distinguish behavior-bearing instructions from descriptive framing. Keep a sentence only when removing it would change the trigger, decision, action, output, validation, routing, safety, authority, or necessary navigation. Treat labels, self-descriptions, and scene-setting as removable unless they perform one of those functions.
 - Preserve behavior unless the user explicitly asks for a behavior change or the target contains a demonstrable contradiction, stale path, or unsupported claim.
 - Use evidence from the target files, repository instructions, available tools, trusted source material, and explicit user requirements. Label inferences and leave unresolved questions visible.
 - Preserve repository-specific branch, worktree, ticket-artifact, finalization, and user-approval rules when they apply; do not replace them with this skill's default editing path. Do not commit, push, merge, release, or deploy as an optimization side effect unless explicitly requested.
@@ -78,6 +79,7 @@ For every behavior-bearing rule, identify its purpose, precondition, action, out
 - explanation that can be removed if it adds no decision value.
 
 Use the ledger to distinguish useful guardrails from defensive noise. Do not catalogue filler mechanically when the skill is small, but do account for every rule whose removal could change behavior.
+For descriptive or ownership language, apply the actionability test: `What does this sentence make the agent do?` If the answer is only that it identifies or reassures, and a nearby actionable rule already establishes the same ownership or context, remove it or rewrite it as an instruction.
 
 ### 4. Diagnose the system
 
@@ -108,6 +110,7 @@ Apply the smallest coherent edit set:
 - replace unsupported certainty with a grounded statement, an explicit assumption, or a question;
 - replace inherited host-context labels with domain terms when the label does not change behavior; retain it when the target genuinely depends on that platform and state the dependency precisely;
 - make each retained instruction concrete, scoped, and easy to act on without adding explanatory noise;
+- remove context-only labels and explanations that do not change behavior; when context is needed for routing or authority, state the action or boundary it controls;
 - remove a negative instruction only when the positive instruction already rules out the alternative and no realistic failure, safety, authority, or ambiguity boundary is lost;
 - remove duplicates and stale files only after confirming their behavior is represented by the surviving authoritative source.
 
@@ -133,6 +136,8 @@ Always complete both passes, even when the first pass finds no issue.
 
 1. **Macro behavior and structure:** verify package topology, file ownership, authoritative sources, content hierarchy, section priority, primary spine, intended audience and scope, preserved invariants, prerequisites, links, outputs, recovery paths, validation coverage, and handoff.
 2. **Micro economy and coherence:** after the macro structure is stable, remove sentence-level redundancy, low-value defensive negatives, repeated transitions, unsupported qualifiers, and unnecessary explanations; then read the package in order to confirm that every retained section earns its place and no transition jumps.
+
+During the micro pass, run a semantic deletion test on retained headings, lead sentences, and explanatory bullets: if deleting the item leaves the trigger, action, decision, output, validation, authority, and navigation unchanged, delete it or rewrite it as an action. Do not preserve a context sentence merely because it sounds harmless or documents what the file is.
 
 After a material edit, rerun the affected checks. If the edit changes behavior or file topology, repeat both review passes.
 

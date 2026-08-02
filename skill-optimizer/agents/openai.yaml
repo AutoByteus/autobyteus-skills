@@ -1,4 +1,4 @@
 interface:
   display_name: "Skill Optimizer"
   short_description: "Tighten skill instructions and preserve behavior"
-  default_prompt: "Use $skill-optimizer to review a skill in priority order: package structure and ownership, content architecture and logical flow, factual and behavioral grounding, clarity and precision, then redundancy and economy, while preserving behavior and cross-file consistency."
+  default_prompt: "Use $skill-optimizer to analyze a skill in priority order: package structure and ownership, content architecture and logical flow, factual and behavioral grounding, clarity and precision, then redundancy and economy. Write one clear optimization-analysis.md with findings and a proposed plan, stop for user review and explicit approval, then make only the approved changes while preserving behavior and cross-file consistency."

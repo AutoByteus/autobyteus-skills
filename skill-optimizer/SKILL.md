@@ -19,6 +19,7 @@ Apply this priority order: package structure and ownership -> content architectu
 - Preserve behavior unless the user explicitly asks for a behavior change or the target contains a demonstrable contradiction, stale path, or unsupported claim.
 - Use evidence from the target files, repository instructions, available tools, trusted source material, and explicit user requirements. Label inferences and leave unresolved questions visible.
 - Preserve repository-specific branch, worktree, ticket-artifact, finalization, and user-approval rules when they apply; do not replace them with this skill's default editing path. Do not commit, push, merge, release, or deploy as an optimization side effect unless explicitly requested.
+- Always complete a user-visible analysis before editing. Write the analysis and proposed improvement plan to one clear file, stop for the user to review it, and edit only after explicit approval.
 - Keep the target skill's conceptual scope independent from its host platform. Retain a platform, product, company, or project name only when it changes the trigger, file format, tool integration, or behavior.
 - If a correction would materially change a user-visible commitment and the evidence is ambiguous, ask instead of guessing.
 - Make each rule live in one authoritative file. Use short cross-references instead of copying the same rule into several files.
@@ -81,22 +82,59 @@ Use the ledger to distinguish useful guardrails from defensive noise. Do not cat
 
 ### 4. Diagnose the system
 
+Diagnose the target in macro-to-micro order. Do not mix sentence-level cleanup into an unresolved package, ownership, flow, or behavioral problem.
+
+#### Macro analysis
+
 Check the target against the rubric for:
 
-- package topology, ownership, and structural redundancy;
+- package topology, ownership, authoritative sources, and structural redundancy;
 - content hierarchy, priority, and macro flow;
-- unsupported or overconfident claims;
-- scope drift and unnecessary platform, product, company, or project qualifiers;
-- missing prerequisites or abrupt transitions;
-- duplicated or contradictory rules;
-- low-value negative wording;
-- vague, ambiguous, or overloaded wording;
-- stale references, metadata drift, and unused files;
-- missing outputs, validation, recovery, or handoff behavior.
+- behavioral invariants, required outputs, validation, recovery, and handoff;
+- factual or behavioral grounding, unsupported certainty, and scope drift;
+- missing prerequisites, ambiguous contracts, abrupt transitions, and duplicated or contradictory rules;
+- stale references, metadata drift, unused files, and obsolete boundaries.
 
-Separate a wording defect from a design defect. Reordering or shortening text cannot fix a missing owner, an ambiguous contract, or an unsupported requirement.
+Separate design, ownership, flow, and grounding defects from wording defects. Reordering or shortening text cannot fix a missing owner, an ambiguous contract, or an unsupported requirement.
 
-### 5. Edit the authoritative sources
+Do not begin micro analysis until the macro structure and behavior are coherent enough to support it. If a macro defect blocks a micro decision, record the dependency in the analysis instead of guessing.
+
+#### Micro analysis
+
+After macro analysis is coherent, check:
+
+- vague, ambiguous, overloaded, or imprecise wording;
+- inconsistent terminology, qualifiers, conditions, or exception placement;
+- low-value negative wording and defensive noise;
+- repeated sentences, transitions, examples, or explanations;
+- unnecessary verbosity and opportunities for concise wording without information loss.
+
+Micro improvements must preserve the macro structure, behavioral invariants, evidence, safety boundaries, and required outputs.
+
+### 5. Write the analysis and pause for user review
+
+Before changing the target skill, create one user-visible `optimization-analysis.md` at the repository's appropriate analysis or ticket-artifact path. If no repository convention exists, place it beside the target skill and identify it as a review artifact rather than a runtime instruction.
+
+The file must be easy to scan and contain:
+
+- `Review Status: Analysis complete - awaiting user approval`;
+- the user's requested outcome and the review scope;
+- the current behavior and package/file ownership baseline;
+- preserved behavioral invariants, safety boundaries, and required outputs;
+- a `Macro analysis` section covering package structure, ownership, flow, behavior, grounding, outputs, validation, recovery, and handoff;
+- a `Micro analysis` section covering wording, terminology, redundancy, qualifiers, transitions, and economy, written only after the macro analysis is coherent;
+- macro findings followed by micro findings, each with severity, evidence, and concrete impact;
+- proposed improvements ordered macro first and micro second, including the exact file or boundary affected;
+- an explicit action for every proposal: `Keep`, `Add`, `Update`, `Remove`, `Move`, `Merge`, or `Restructure`;
+- assumptions, open questions, risks, and the validation plan;
+- `Target skill files changed during analysis: None`;
+- the path of the analysis artifact itself.
+
+Optimization is not synonymous with adding or updating files. A sound proposal may keep existing material, remove obsolete material, move or merge responsibilities, split an overloaded owner, restructure the package, or conclude that no change is justified.
+
+Stop after writing the analysis. Do not edit authoritative skill files, run implementation-oriented validation, commit, push, or perform other optimization side effects until the user explicitly approves the proposed plan. If the user changes the request, revise the analysis before editing.
+
+### 6. Edit the authoritative sources
 
 Apply the smallest coherent edit set:
 
@@ -111,9 +149,9 @@ Apply the smallest coherent edit set:
 - remove a negative instruction only when the positive instruction already rules out the alternative and no realistic failure, safety, authority, or ambiguity boundary is lost;
 - remove duplicates and stale files only after confirming their behavior is represented by the surviving authoritative source.
 
-Do not add a new process-state layer, package report format, helper script, or reference file solely to make the package appear more complete.
+Do not add a new process-state layer, helper script, or reference file solely to make the package appear more complete. The required analysis file is a review output, not a runtime dependency or a new execution-state layer.
 
-### 6. Validate the package
+### 7. Validate the package
 
 Review the changed package as a reader would load it:
 
@@ -127,7 +165,7 @@ Review the changed package as a reader would load it:
 
 Record limitations when a check cannot run. Do not claim a validation result that was not observed.
 
-### 7. Perform two review passes
+### 8. Perform two review passes
 
 Always complete both passes, even when the first pass finds no issue.
 
@@ -138,11 +176,11 @@ After a material edit, rerun the affected checks. If the edit changes behavior o
 
 ## Output
 
-Update the target skill at its authoritative path, using any repository-required branch, worktree, ticket-artifact, and finalization conventions, unless the user requests a separate copy. Report:
+Always create the analysis file before changing the target. After explicit user approval, update the target skill at its authoritative path, using any repository-required branch, worktree, ticket-artifact, and finalization conventions, unless the user requests a separate copy. Update the analysis status and report:
 
 - the files changed and the behavior preserved;
 - the meaningful redundancy, flow, grounding, or structure problems corrected;
 - validation performed and its result;
 - remaining ambiguity or risk.
 
-Create a separate optimization report only when the user requests one or when durable evidence is materially useful. Do not add README, changelog, or quick-reference files merely as package residue or side effects; preserve existing documentation when it serves a distinct audience or owns information not present in the skill.
+Do not add README, changelog, or quick-reference files merely as package residue or side effects; preserve existing documentation when it serves a distinct audience or owns information not present in the skill.

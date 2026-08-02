@@ -164,6 +164,8 @@ Before judging wording, list the target skill's observable commitments:
 
 Treat these commitments as invariants. A sentence may be verbose and still be necessary if deleting it changes one of them.
 
+Before editing, record the baseline, findings, and proposed improvement plan in one user-visible analysis artifact. For every proposed change, name the affected file or boundary and classify the action as `Keep`, `Add`, `Update`, `Remove`, `Move`, `Merge`, or `Restructure`. Optimization may correctly result in deletion, relocation, consolidation, boundary changes, or no change; it is not limited to adding or updating existing files. Stop for explicit user approval after the analysis and before changing authoritative sources.
+
 Good:
 
 ```text
@@ -342,23 +344,59 @@ Bad:
 Frontmatter says "skills" while the body silently restricts the task to "Codex skills".
 ```
 
-## 11. Two-pass review record
+## 11. Required analysis and two-pass review record
 
-The review can remain in working context unless a durable report is requested. Use this compact record when useful:
+The pre-edit analysis must be written to the user-visible `optimization-analysis.md` rather than remaining only in working context. Use this record:
 
 ```text
-Pass 1: behavior/structure
+Review Status: Analysis complete - awaiting user approval
+User request and scope:
+Current behavior and package ownership baseline:
+Preserved invariants and user-authority boundaries:
+Macro analysis:
+- Package topology and ownership:
+- Authoritative sources and boundaries:
+- Logical flow and content architecture:
+- Behavioral grounding and invariants:
+- Outputs, validation, recovery, and handoff:
+Micro analysis (only after macro analysis is coherent):
+- Wording and terminology:
+- Qualifiers, conditions, and exceptions:
+- Redundancy, transitions, and economy:
+Findings and evidence:
+- Macro findings:
+- Micro findings:
+Proposed improvements:
+- Macro actions, in order:
+- Action (`Keep`/`Add`/`Update`/`Remove`/`Move`/`Merge`/`Restructure`):
+- Affected file or boundary:
+- Reason and expected effect:
+- Micro actions, in order:
+- Action (`Keep`/`Add`/`Update`/`Remove`/`Move`/`Merge`/`Restructure`):
+- Affected file or boundary:
+- Reason and expected effect:
+Assumptions and open questions:
+Validation plan:
+Target skill files changed during analysis: None
+Analysis artifact:
+
+Post-approval implementation and validation record (fill only after approval):
+- Approval recorded:
+- Target files changed:
+- Behavior preserved or intentionally changed:
+- Validation performed and result:
+
+Macro review pass:
 - Invariants checked:
 - Grounding issues:
 - Flow or ownership issues:
 - Cross-file issues:
-- Corrections made:
 
-Pass 2: economy/coherence
+Micro review pass:
 - Redundancy removed:
 - Defensive wording retained and why:
 - Transitions repaired:
 - Final residual risk:
 ```
 
-If either pass finds a material defect, edit the authoritative source and rerun the relevant validation. Do not close the review by merely noting a known problem.
+Before approval, record material defects in the analysis and stop. After approval, if either pass finds a material defect, edit the authoritative source and rerun the relevant validation. Do not close the review by merely noting a known problem.

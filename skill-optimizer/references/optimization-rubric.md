@@ -271,6 +271,48 @@ Do not push until the user explicitly requests repository finalization.
 
 This closes a real external-side-effect boundary, so it is not redundant.
 
+### Test normal-path relevance before preserving a prohibition
+
+This is a direct economy test, not a reason to add more warnings. For each negative or prohibitive sentence:
+
+1. State the positive action or route it accompanies.
+2. Name the realistic mistake the prohibition prevents.
+3. Check whether the target workflow or package topology plausibly invites that mistake.
+4. Check whether the sentence protects a distinct safety, authority, recovery, validation, output, or ambiguity boundary.
+5. Classify it as `Keep`, `Rewrite`, `Remove`, or `Move`.
+
+If the answer to steps 2 and 3 is only “work the user never requested,” and step 4 is false, the sentence is garbage noise in the runtime skill. Remove it. If the package boundary needs documenting, move that information to package or team documentation instead of making the normal workflow defend against imaginary extensions.
+
+Article-writing example:
+
+```text
+Keep in the runtime skill:
+Use the bundled article-researcher skill when source investigation is needed.
+
+Remove from the runtime skill:
+Do not add another research agent or another writing skill.
+```
+
+The first sentence routes a real conditional dependency. The second answers an unasked question, blocks no plausible article-writing decision, and adds no safety, authority, recovery, validation, or output boundary. The fact that the package has one researcher and one writing skill is an ownership fact, not a runtime step.
+
+More low-value noise:
+
+```text
+Produce the requested article package.
+Do not create an unrelated helper file.
+Do not start an unrelated workflow.
+Do not explain anything else.
+```
+
+Unless the target workflow actually makes those actions plausible, keep the positive instruction and remove the warnings. Do not apply this rule to a real boundary:
+
+```text
+Draft the article and validate its sources.
+Do not publish or push the result until the user explicitly approves finalization.
+```
+
+The second sentence controls an external side effect and remains necessary. Likewise retain negatives that prevent security or privacy violations, destructive actions, unsupported claims, missing required outputs or validation, ambiguous routing, or a known obsolete path from being used.
+
 ### Keep or sharpen valuable defense
 
 Keep a negative or exception when it blocks a plausible and costly mistake, such as:

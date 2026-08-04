@@ -76,9 +76,10 @@ For every behavior-bearing rule, identify its purpose, precondition, action, out
 - prerequisite or constraint;
 - exception or recovery path;
 - validation or quality gate;
-- explanation that can be removed if it adds no decision value.
+- explanation that can be removed if it adds no decision value;
+- low-value noise: a prohibition or warning that closes no plausible branch and changes no output, safety boundary, authority rule, recovery path, or validation requirement.
 
-Use the ledger to distinguish useful guardrails from defensive noise. Do not catalogue filler mechanically when the skill is small, but do account for every rule whose removal could change behavior.
+Use the ledger to distinguish useful guardrails from defensive noise. For every negative or prohibitive instruction, record the positive route it supports, the realistic mistake it prevents, and the distinct boundary it protects. If it only forbids work the user did not request and the workflow does not plausibly invite, classify it as noise unless removing it would change behavior. Do not catalogue filler mechanically when the skill is small, but do account for every rule whose removal could change behavior.
 
 ### 4. Diagnose the system
 
@@ -108,8 +109,10 @@ After macro analysis is coherent, check:
 - low-value negative wording and defensive noise;
 - repeated sentences, transitions, examples, or explanations;
 - unnecessary verbosity and opportunities for concise wording without information loss.
+- every instruction-bearing sentence or bullet for normal-path relevance, especially prohibitions that may only describe unrequested work;
+- whether each retained negative sentence closes a plausible branch or protects a distinct safety, authority, recovery, validation, or output boundary.
 
-Micro improvements must preserve the macro structure, behavioral invariants, evidence, safety boundaries, and required outputs.
+Do not finish the micro pass until each negative or prohibitive sentence has a disposition: `Keep`, `Rewrite`, `Remove`, or `Move`. Micro improvements must preserve the macro structure, behavioral invariants, evidence, safety boundaries, and required outputs.
 
 ### 5. Write the analysis and pause for user review
 
@@ -146,7 +149,7 @@ Apply the smallest coherent edit set:
 - replace unsupported certainty with a grounded statement, an explicit assumption, or a question;
 - replace inherited host-context labels with domain terms when the label does not change behavior; retain it when the target genuinely depends on that platform and state the dependency precisely;
 - make each retained instruction concrete, scoped, and easy to act on without adding explanatory noise;
-- remove a negative instruction only when the positive instruction already rules out the alternative and no realistic failure, safety, authority, or ambiguity boundary is lost;
+- remove a negative instruction only when the positive instruction already rules out the alternative, the alternative is not a plausible normal-path branch, and no realistic failure, safety, authority, ambiguity, recovery, validation, or output boundary is lost; move package-only scope reminders to package documentation when they are needed but do not affect runtime behavior;
 - remove duplicates and stale files only after confirming their behavior is represented by the surviving authoritative source.
 
 Do not add a new process-state layer, helper script, or reference file solely to make the package appear more complete. The required analysis file is a review output, not a runtime dependency or a new execution-state layer.
@@ -170,7 +173,7 @@ Record limitations when a check cannot run. Do not claim a validation result tha
 Always complete both passes, even when the first pass finds no issue.
 
 1. **Macro behavior and structure:** verify package topology, file ownership, authoritative sources, content hierarchy, section priority, primary spine, intended audience and scope, preserved invariants, prerequisites, links, outputs, recovery paths, validation coverage, and handoff.
-2. **Micro economy and coherence:** after the macro structure is stable, remove sentence-level redundancy, low-value defensive negatives, repeated transitions, unsupported qualifiers, and unnecessary explanations; then read the package in order to confirm that every retained section earns its place and no transition jumps.
+2. **Micro economy and coherence:** after the macro structure is stable, remove sentence-level redundancy, low-value defensive negatives, repeated transitions, unsupported qualifiers, and unnecessary explanations; test every prohibition against a plausible branch and a distinct boundary; then read the package in order to confirm that every retained section earns its place and no transition jumps.
 
 After a material edit, rerun the affected checks. If the edit changes behavior or file topology, repeat both review passes.
 

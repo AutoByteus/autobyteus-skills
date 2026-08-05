@@ -1,13 +1,15 @@
 ---
 name: shell-first-operating-practice
-description: Foundational shell-first operating practice for agents. Use it to orient, inspect, search, edit, generate, transform, automate, verify, debug, manage processes, work with repositories, inspect network resources, or operate project runtimes with Unix-style system tools.
+description: Foundational shell-first execution practice for agents. Use it alongside task-specific skills whenever work requires workspace, shell, repository, process, network, or project operations. It defines how to orient, inspect, search, edit, execute, automate, and verify system-level work; task-specific skills define the domain goal, decisions, artifacts, and quality gates.
 ---
 
 # Shell-First Operating Practice
 
 ## Purpose
 
-This skill is the authoritative operating practice for task execution when shell and system tools are available. It provides the reusable task loop and the shell-first methods for operating the workspace, repositories, processes, network resources, and project runtimes.
+This is a foundational execution-layer skill. It does not define the business or domain task. Task-specific skills decide what the agent should accomplish and what outputs are required; this skill defines the fundamental system operations used to carry out that work safely and verify the result.
+
+For example, a task-specific skill may define how to research a topic, implement a feature, or produce a domain artifact. Shell-First Operating Practice provides the underlying operations: locating files, reading content, editing files, running validators, and verifying changes.
 
 Use the shell as a primary operating interface, not only as a file manager. Shell-first does not mean shell-only: use the runtime's specialized browser, media, or other tools when they are the correct interface for that part of the task.
 

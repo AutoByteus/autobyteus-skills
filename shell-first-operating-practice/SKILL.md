@@ -182,6 +182,7 @@ Use this edit-method selection order:
 | Structured data | `jq`, `python3`, or a format-aware parser |
 | Multi-line exact block | `python3` exact replacement with a missing-target guard |
 | Append-only content | quoted heredoc with `cat >>` |
+| New file | quoted heredoc with `cat > "path" <<'EOF'` |
 | Insert at anchor | `python3` exact anchor insertion |
 | Full generated file | heredoc or `python3`, preferably through a temp file |
 
@@ -192,6 +193,7 @@ Rules:
 - Avoid broad regex replacements when an exact anchor or parser is available.
 - Keep inspection, edit, and verification as separate commands when a failure would need diagnosis.
 - Write through a temp file when replacing important files.
+- Edits are shell-first: prefer the shell edit methods above, and use the dedicated `edit_file` tool only when the shell cannot achieve the edit.
 
 ## Filesystem Operations
 

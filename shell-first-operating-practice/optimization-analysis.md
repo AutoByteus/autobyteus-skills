@@ -209,4 +209,54 @@ The flows that matter (read/write/edit) are clear after the implemented addition
 - S-1, S-2, S-3, S-5: candidates for a merge/restructure pass. Do not edit without explicit approval.
 - S-6: Keep.
 
-Review Status note: this structural review is analysis-only. No files were changed for this section.
+### Implementation record (structural pass)
+
+Approved by the user. Applied to `shell-first-operating-practice/SKILL.md`:
+
+- **S-1 (two task loops):** merged `Core Task Loop` + `Shell-First Operating Loop` into one `Operating Loop` (9 steps: orient -> goal -> inspect -> search -> plan -> execute -> analyze/adjust -> verify -> report).
+- **S-2 (two Rules sections):** merged `General Operating Rules` + `Operating Rules` into one authoritative `Operating Rules` section (18 rules, no duplicate).
+- **S-3 (fragmented orientation):** removed the duplicated `pwd`/repo-root/`git status` bullets from `Orientation`; those are owned by `Entry Procedure`. `Orientation` now keeps only the unique commands (`which`/`command -v`, `env`) and notes that workspace/repo/dirty checks are owned by `Entry Procedure`.
+- **S-4 (verification/reporting):** resolved by the single merged loop (verify + report now appear once) and the single verify/report rule in `Operating Rules`; the detailed `Verification` section remains the authoritative owner.
+- **S-6 (Command Families table):** kept unchanged.
+
+### Validation performed (structural pass)
+
+- Re-read the full restructured skill; section flow is coherent.
+- `git diff --check` and trailing-whitespace check: passed.
+- Skill frontmatter and name unchanged: `shell-first-operating-practice`.
+- Two-pass review: macro (single loop, single rules owner, coherent spine) and micro (no duplicated rules or steps) both pass.
+
+## Micro organization review (second pass)
+
+The user asked whether the skill is well organized from macro and micro content levels. Macro is sound after the structural pass. The micro pass found genuine redundancies to tighten.
+
+### Micro findings
+
+- **m-1 — `git status --short` repeated 4x.** Entry Procedure (line 26), Filesystem Operations (line 189), Git work (line 216), and implicitly in Operating Loop step 1. Same behavior stated in several owners.
+- **m-2 — Anti-Patterns largely restates positive guidance.** E.g. "do not use `cat` on large files" (File Inspection size gate), "do not use unquoted paths" (Operating Rules "Quote paths"), "do not start with broad dumps" (Search targeted `ls`), "do not chain unrelated commands" (Operating Rules). Each repeats an earlier positive rule in negative form.
+- **m-3 — three soft-behavior sections (Preamble, Communication, Planning) sit in the middle** of the operational flow (between Operating Loop and Operating Rules), breaking the operational rhythm. They concern user-facing style and planning, not the operational command flow.
+- **m-4 — "Inspect first, smallest change, verify" appears in both the loop and Operating Rules** in slightly different words.
+
+### Disposition (micro pass)
+
+- m-1: reduce `git status --short` to one authoritative owner (Git work) and reference it from the other sites; or keep the domain-local reminders only where they are materially helpful.
+- m-2: keep Anti-Patterns as a consolidated negative checklist, but make each item clearly additive (a distinct failure mode not already covered) rather than a plain echo.
+- m-3: group the three soft-behavior sections into one "Working Style" cluster, or move them after the operational content, to preserve the operational rhythm.
+- m-4: accept the loop/rule wording difference (loop is procedural, rule is a guardrail) or unify the phrasing.
+
+### Implementation record (micro pass)
+
+Approved by the user. Applied to `shell-first-operating-practice/SKILL.md`:
+
+- **m-3:** grouped `Preamble Messages`, `Communication`, and `Planning` into one `Working Style` section (three `###` subsections) and moved it after `Verification`, ahead of `Anti-Patterns`. The operational spine (Entry -> Loop -> Rules -> Command Families -> domain sections -> Verification) is now contiguous.
+- **m-1:** removed the duplicated `git status --short` from `Filesystem Operations`; the Git and repository-work owner plus the Entry Procedure gate remain (two distinct boundaries). `git status --short` occurrences reduced from 4x to 2x.
+- **m-2:** kept `Anti-Patterns` as a consolidated negative checklist and added a framing line stating these are distinct failure modes that restate a positive rule only where the negative framing protects a real boundary.
+- **m-4:** kept the loop/Operating-Rules wording difference (loop is procedural, rule is a guardrail); unifying would lose the distinct framing.
+
+### Validation performed (micro pass)
+
+- Re-read the full reorganized skill; operational spine is contiguous and Working Style reads coherently.
+- `git diff --check` and trailing-whitespace check: passed.
+- Section map: 24 top-level sections, Working Style contains the three soft-behavior subsections.
+- Skill frontmatter and name unchanged: `shell-first-operating-practice`.
+- Two-pass review: macro (contiguous operational spine, grouped soft behavior) and micro (deduplicated git status, framed anti-patterns) both pass.

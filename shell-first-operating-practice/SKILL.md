@@ -26,71 +26,25 @@ This skill assumes the agent has a shell execution tool such as `run_bash`. If t
 - Before editing repository files, check current changes with `git status --short`.
 - For non-trivial work, decide the smallest useful action before changing files or starting processes.
 
-## Core Task Loop
+## Operating Loop
 
-After entry orientation, work iteratively:
+After entry orientation, work iteratively from goal to verified result:
 
-1. Understand the user's goal.
-2. Inspect the relevant context with the appropriate tool.
-3. Create a concise plan for non-trivial work.
-4. Execute the next useful action.
-5. Analyze the result.
-6. Adjust the plan when needed.
-7. Verify the final result.
-8. Report the outcome clearly.
+1. Orient: confirm workspace, repository root, branch, and relevant environment.
+2. Understand the user's goal.
+3. Inspect: read only the context needed for the task.
+4. Search: use precise search terms before browsing directories.
+5. Plan: choose the smallest useful next action; create a concise plan for non-trivial work.
+6. Execute: compose deterministic, bounded, non-interactive commands.
+7. Analyze the result and adjust the plan when needed.
+8. Verify: check the result with a command that would catch the likely failure.
+9. Report: summarize changed state, verification, and remaining caveats.
 
-## Preamble Messages
-
-Before using tools, briefly tell the user what you are about to do. Keep preambles to 1-2 sentences and group related actions together.
-
-Examples:
-
-- “I’ll first confirm the workspace with `pwd`, then inspect the relevant files.”
-- “I’ve found the likely config; now I’ll patch it and verify the result.”
-- “Next I’ll run the local checks to confirm the change behaves correctly.”
-
-## Communication
-
-- Use a concise, direct, and friendly tone.
-- Keep the user informed of meaningful actions without unnecessary detail.
-- Prioritize actionable guidance, clear assumptions, environment requirements, and next steps.
-
-## Planning
-
-For non-trivial tasks, maintain a clear plan. A good plan has meaningful, verifiable steps and changes as new information appears.
-
-Use a plan when:
-
-- The task has multiple phases.
-- The work may take several actions.
-- There are dependencies or uncertainty.
-- Verification matters.
-
-## General Operating Rules
+## Operating Rules
 
 - Use the tools provided by the runtime and choose the interface that fits the operation.
 - For shell-capable work, prefer the shell-first procedure in this skill.
 - For repository and text-file work, prefer the shell tool over dedicated file tools when both are available; use specialized tools for browser, media, or other domains when they are the correct interface.
-- When modifying files or system state, preserve unrelated user changes and complete paths discovered in context.
-- Solve the root cause, not only the surface symptom.
-- Keep changes minimal and focused.
-- Match the style and structure of the existing project.
-- Avoid destructive actions unless the user explicitly asks for them.
-- Do not commit changes or create branches unless explicitly requested.
-- Verify work with relevant checks whenever feasible. Report the verification performed, or clearly say when no automated check was available.
-
-## Shell-First Operating Loop
-
-1. Orient: confirm workspace, repository root, branch, and relevant environment.
-2. Inspect: read only the context needed for the task.
-3. Search: use precise search terms before browsing directories.
-4. Plan: choose the smallest useful next action.
-5. Execute: compose deterministic, bounded, non-interactive commands.
-6. Verify: check the result with a command that would catch the likely failure.
-7. Report: summarize changed state, verification, and remaining caveats.
-
-## Operating Rules
-
 - Inspect first, make the smallest useful change, then verify.
 - Navigate by intent, not by dumping directories. Derive likely names, symbols, strings, file extensions, and business terms from the user's request, then search for those directly.
 - Prefer deterministic non-interactive commands. Do not rely on interactive editors such as `vi`, `vim`, `nano`, or pagers that wait for input.
@@ -98,6 +52,13 @@ Use a plan when:
 - Keep command output bounded. Pipe discovery output through `sed -n '1,120p'`, `head`, or a more specific filter when a command could print too much.
 - Quote paths and variables. Assume file names may contain spaces.
 - Use project-native commands when they exist, such as `make`, `npm`, `pytest`, `cargo`, `go test`, `docker compose`, or framework CLIs.
+- When modifying files or system state, preserve unrelated user changes and complete paths discovered in context.
+- Solve the root cause, not only the surface symptom.
+- Keep changes minimal and focused.
+- Match the style and structure of the existing project.
+- Avoid destructive actions unless the user explicitly asks for them.
+- Do not commit changes or create branches unless explicitly requested.
+- Verify work with relevant checks whenever feasible. Report the verification performed, or clearly say when no automated check was available.
 
 ## Command Families
 
@@ -122,9 +83,6 @@ Use the right command family for the job:
 
 ## Orientation
 
-- Use `pwd` to confirm the active directory after the general entry procedure.
-- Use `git rev-parse --show-toplevel` when repository-relative paths matter.
-- Use `git status --short` before editing tracked files.
 - Use `which command` or `command -v command` before assuming optional tools exist.
 - Use `env | sort | sed -n '1,120p'` only when environment variables are relevant.
 
@@ -201,7 +159,6 @@ Rules:
 - Use explicit paths with `cp`, `mv`, and `rm`.
 - Use `rm` only for files that are generated, temporary, or explicitly requested for deletion.
 - Never use `rm -rf` unless the user explicitly asked for directory deletion and you have verified the path.
-- Before moving or deleting repository files, check `git status --short`.
 - When copying or moving agent bundles, verify both source and destination with `find path -maxdepth 2 -type f | sort`.
 
 ## Processes And Logs
@@ -249,7 +206,38 @@ Rules:
 - Verify generated files exist and contain the expected content.
 - If there is no relevant automated test, verify the changed file content directly and summarize the residual risk.
 
+## Working Style
+
+### Preamble Messages
+
+Before using tools, briefly tell the user what you are about to do. Keep preambles to 1-2 sentences and group related actions together.
+
+Examples:
+
+- “I’ll first confirm the workspace with `pwd`, then inspect the relevant files.”
+- “I’ve found the likely config; now I’ll patch it and verify the result.”
+- “Next I’ll run the local checks to confirm the change behaves correctly.”
+
+### Communication
+
+- Use a concise, direct, and friendly tone.
+- Keep the user informed of meaningful actions without unnecessary detail.
+- Prioritize actionable guidance, clear assumptions, environment requirements, and next steps.
+
+### Planning
+
+For non-trivial tasks, maintain a clear plan. A good plan has meaningful, verifiable steps and changes as new information appears.
+
+Use a plan when:
+
+- The task has multiple phases.
+- The work may take several actions.
+- There are dependencies or uncertainty.
+- Verification matters.
+
 ## Anti-Patterns
+
+These are distinct failure modes to avoid; each restates a positive rule only where the negative framing protects a real boundary.
 
 - Do not start with `ls -la`, `ls -R`, `find .`, `tree`, or broad recursive directory dumps.
 - Do not run generic whole-repo searches such as `rg -n "config" .` unless the term is truly rare.

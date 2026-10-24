@@ -18,6 +18,10 @@ Stage-gated LLM fine-tuning workflow centered on durable investigation, implemen
 
 Style-aware workflow for drafting and revising Chinese WeChat and English Medium articles in configurable author voices with profile-based examples.
 
+### Content Management
+
+Write, update and restructure any body of content (articles, documents, living records such as boards and logs, instruction packages, folders of files) so it stays easy to read and find things in as it grows. See [content-management/SKILL.md](content-management/SKILL.md).
+
 ### Product UI Prototyping
 
 ![Product UI Prototyping](infographics/product-ui-prototyping.png)

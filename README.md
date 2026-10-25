@@ -6,6 +6,8 @@ This repository contains reusable Codex skills used across AutoByteus projects.
 
 ### Software Engineering Workflow Skill
 
+> **Deprecated and frozen (2026-10-25).** This is the older workflow skill: the software engineering team now works from its own role skills, so this skill is no longer updated and does not describe current practice. The current practice lives in the [software engineering team package](https://github.com/AutoByteus/autobyteus-agents/tree/main/agent-teams/software-engineering-team) in `autobyteus-agents`.
+
 ![Software Engineering Workflow Skill](infographics/software-engineering-workflow-skill-v2.png)
 
 Stage-gated engineering workflow from investigation and requirements to implementation and docs sync.

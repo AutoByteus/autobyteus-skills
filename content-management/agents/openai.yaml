@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Management"
+  short_description: "Write, update and restructure content so it stays clear as it grows."
+  default_prompt: "Use $content-management to write, update or restructure this content: build the line before the prose, extend where a fact already lives, and restructure from the readers' needs without losing anything."

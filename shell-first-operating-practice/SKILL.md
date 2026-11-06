@@ -152,6 +152,8 @@ Rules:
 - Avoid broad regex replacements when an exact anchor or parser is available.
 - Keep inspection, edit, and verification as separate commands when a failure would need diagnosis.
 - Write through a temp file when replacing important files.
+- Keep large generated text or HTML out of nested shell or JSON quoting: write it with a quoted heredoc or a Python writer through a temp file. If generation fails before writing, switch methods instead of retrying the same escaped command.
+- For scripted substitutions, assert that each required replacement matched its expected count before writing, then search the result for the new text.
 - Edits are shell-first: prefer the shell edit methods above, and use the dedicated `edit_file` tool only when the shell cannot achieve the edit.
 
 ## Filesystem Operations
@@ -204,6 +206,7 @@ Rules:
 
 - Every shell-driven change needs a verification step.
 - Use checks that fit the task: `git diff -- path/to/file`, `rg -n "expected_text" path/to/file`, `python3 -m json.tool path/to/file.json >/dev/null`, `python3 -m py_compile path/to/file.py`, tests, linters, compilers, or the project's own checks.
+- When the task asks for a durable artifact, the result is that artifact: write it, or explicitly reuse an inspected existing one, then verify its path and contents. Orientation, inspection, or a plan alone is not completion.
 - Verify generated files exist and contain the expected content.
 - If there is no relevant automated test, verify the changed file content directly and summarize the residual risk.
 

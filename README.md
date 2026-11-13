@@ -24,6 +24,10 @@ Style-aware workflow for drafting and revising Chinese WeChat and English Medium
 
 Write, update and restructure any body of content (articles, documents, living records such as boards and logs, instruction packages, folders of files) so it stays easy to read and find things in as it grows. See [content-management/SKILL.md](content-management/SKILL.md).
 
+### Reflection
+
+Learn from past work, an agent's own or another agent's: after each piece of work a two-question check (what took extra steps, what did the user correct), written as records in a `reflections/` folder in the agent's semantic memory (or workspace), with lessons a later run reads at its start; and a full pass that reads the journals for repeated mistakes and slow routines and proposes skill changes for testing. See [reflection/SKILL.md](reflection/SKILL.md).
+
 ### Product UI Prototyping
 
 ![Product UI Prototyping](infographics/product-ui-prototyping.png)

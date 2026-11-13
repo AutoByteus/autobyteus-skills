@@ -45,7 +45,8 @@ Whenever the user corrects you, asks for something again, or changes what you ma
 
 Write the answer as a record in today's file ([record-file template](templates/record-file.md)), even when it is one line: "nothing extra". Give each finding the record's fields: the signal, what was wanted and what was done, why, how often, cost, fix, done. Then update the lessons:
 
-- **The user's feedback, or waste that happened before:** add a lesson. A one-off extra step stays a record.
+- **The user's feedback, or waste that happened before:** add a lesson. A one-off extra step, or a finding from a reviewer or a check that happened once, stays a record.
+- **The cause is a step or rule your skill lacks:** also add a proposal (full pass, step 5), not only a lesson.
 - **A lesson already covers it:** add the date to its count. The lesson did not work: rewrite it, and run a full pass on it.
 
 If you were told of an observer's report on your work, read it now: take in the lessons you accept, and record which you do not and why.
@@ -54,7 +55,7 @@ Name a new or changed lesson in one line of your report.
 
 ## Lessons
 
-`lessons.md` holds what to do differently, short enough to read at every start. One lesson per cause, not per correction:
+`lessons.md` holds what to do differently, short enough to read at every start. One lesson per cause, not per correction; one rule per lesson, in two or three lines. When a lesson needs more, split it or move the detail to its record:
 
 `**<situation>.** Mistake: <what went wrong>. Do instead: <what to do>. Written <date>; seen <n>: <dates>; records <IDs>.`
 

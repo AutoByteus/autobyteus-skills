@@ -40,7 +40,8 @@ Look at the files, notes, folders, tools and scripts the work uses. Was there a 
 
 Write one record per cause in today's file, listing the feedback it explains, and one record for the pass with what you read and the measures. Then:
 
-- **Lesson or knowledge:** add or update it in `lessons.md`.
+- **Lesson or knowledge:** add or update it in `lessons.md`: one rule, two or three lines.
+- **A step or rule the skill lacks:** a proposal as well as the lesson; the lesson only holds until the skill has it.
 - **Environment:** when the change is to your own working files or a script, make it and record what changed.
 - **Skill or shared standard:** add a proposal to `proposals.md`: the records, the rule (quoted) or the gap, the change in a few lines, how to test it old against new (the feedback it should have prevented is the test), and its status (open; sent, with where, such as a Task key; kept or rejected). Tell the user or the caller. For an AutoByteus agent package, the maintainer who tests it is the Agent Package Creator.
 - **Distill:** a lesson that has held through several chances, or several lessons with one cause, become a proposal for the skill. Once the skill has it, remove the lesson and name the change in a record.

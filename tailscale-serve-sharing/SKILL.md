@@ -32,12 +32,16 @@ uses, remove only that entry, and show that every other entry is as it was.
   address, which the user's own apps use.
 - **Use only a port the status does not show.** Never add a path
   (`--set-path`) or anything else to an existing entry: that changes it.
+- **Add your own entry, even when one already points at your server.** Do not
+  reuse it: its owner may change or remove it, and you would later have to turn
+  off an entry that is not yours.
 - **Never run** `tailscale serve reset`, `tailscale serve clear`, or
   `tailscale funnel`. The first two remove every entry; Funnel puts the server
   on the public internet. Do not change Tailscale's own settings (`tailscale
   up`, `tailscale set`, logging in or out).
-- **Turn off only the entry you added.** An entry of someone else's that looks
-  wrong or dead is reported to the user, not removed or "tidied".
+- **Turn off only the entry you added.** "Turn it off" means your entry. An
+  entry of someone else's, even one that serves the same page or looks wrong
+  or dead, is reported to the user, not removed or "tidied".
 - **Keep the local server on `127.0.0.1`.** Serve reaches it there. Binding it
   to all addresses (`0.0.0.0`, `--host`) also opens it to the local network;
   do not do that, or change the firewall or sharing settings, for this.
@@ -79,9 +83,10 @@ keep it:
 2. Read `tailscale serve status --json` and compare it with the before file:
    it must be the same. Request the other entries once more.
 3. Stop the local server if you started it for this.
-4. Tell the user it is off and that the other entries are as they were. If you
-   leave the share on, your report says so, with its address and how to turn it
-   off.
+4. Tell the user it is off and that the other entries are as they were. Name
+   any other entry that still serves the same page, with the command to turn it
+   off, and remove it only if the user then says so. If you leave your share on,
+   your report says so, with its address and how to turn it off.
 
 ## Recovery
 

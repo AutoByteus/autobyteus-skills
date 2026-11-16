@@ -28,6 +28,10 @@ Write, update and restructure any body of content (articles, documents, living r
 
 Learn from past work, an agent's own or another agent's: after each piece of work a two-question check (what took extra steps, what did the user correct), written as records in a `reflections/` folder in the agent's semantic memory (or workspace), with lessons a later run reads at its start; and a full pass that reads the journals for repeated mistakes and slow routines and proposes skill changes for testing. See [reflection/SKILL.md](reflection/SKILL.md).
 
+### Tailscale Serve Sharing
+
+Share a page or server running on this computer with the user's phone or other devices through Tailscale Serve, tailnet only: read the Serve configuration first, add one entry on a port nobody uses (never 443), remove only that entry, and show that every other entry is unchanged. See [tailscale-serve-sharing/SKILL.md](tailscale-serve-sharing/SKILL.md).
+
 ### Product UI Prototyping
 
 ![Product UI Prototyping](infographics/product-ui-prototyping.png)

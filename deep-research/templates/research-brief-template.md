@@ -1,6 +1,6 @@
 # Research brief — <question in a few words> — <YYYY-MM-DD>
 
-- Requested by: <user, or agent address and run ID>
+- Requested by: <your role, for your own work; the user; or an agent's address and run ID>
 - Question: <as asked>
 - Used for: <what the answer will be used for>
 - Scope and assumptions: <products, period, region, audience; assumptions made>
@@ -25,7 +25,7 @@
 
 ## Claims check
 
-| Claim the requester wants to make | Result | Evidence |
+| Claim the work wants to make | Result | Evidence |
 | --- | --- | --- |
 | <claim> | `supported` / `not supported` / `needs confirmation` | <source and date, or what is missing> |
 

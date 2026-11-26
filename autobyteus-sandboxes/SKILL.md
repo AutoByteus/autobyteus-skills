@@ -50,13 +50,13 @@ The result:
   "runMemoryFolder": "/…/sandboxes/sbx_7f3a9c0d1e/run-memory",
   "sharedFolders": [{ "name": "articles", "pathInSandbox": "/home/autobyteus/shared/articles" }],
   "agents": [{ "name": "Writer", "address": "/Writer" }],
-  "teams": [],
   "image": "autobyteus/autobyteus-server:1.5.15",
   "expiresAt": "2026-11-26T15:10:00.000Z"
 }
 ```
 
-Write down `sandboxId`, the two folders and the addresses: you need them for every later step.
+Write down `sandboxId`, the two folders and the addresses: you need them for every later step. A result leaves out
+empty fields: there is no `teams` when the package added no team, and no `sharedFolders` when you gave none.
 
 ## 2. Prepare the inputs
 
@@ -138,6 +138,7 @@ says what to do.
 | `SANDBOX_NOT_YOURS` | Another run created that sandbox | Use your own |
 | `SANDBOX_NOT_READY` | It is still starting or being removed | Wait for `create_sandbox` to finish |
 | `SANDBOX_ARGUMENT_INVALID` | An argument is missing or has the wrong form | Correct the call |
+| `SANDBOX_TOOL_FAILED` | The tool failed for a reason not listed above | Try once more; if it fails again, tell the user with the message |
 
 A run in the sandbox can also fail with a provider relay refusal in its error, such as `RELAY_NOT_LISTED` (your node
 has no credential for that provider) or `RELAY_LOGIN_TOKENS_OFF` (your node's login-token setting changed since the

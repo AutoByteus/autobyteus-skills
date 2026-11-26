@@ -28,6 +28,10 @@ Write, update and restructure any body of content (articles, documents, living r
 
 Answer a research question in depth from primary sources, for your own work (a post, an article, a deck, a decision) or for a requester: a plan and an evidence file kept as notes, then a sourced brief with dated findings, a check of the claims the work wants to make (`supported`, `not supported`, `needs confirmation`), what was ruled out, and open gaps. Research is kept in the workspace's `research/` folder with one index, so every role in the workspace reuses it. See [deep-research/SKILL.md](deep-research/SKILL.md).
 
+### AutoByteus Sandboxes
+
+Run an agent package in a sandbox: a fresh, disposable AutoByteus node from your node's own release that holds no credentials (its model calls go through your node). Create it with the package and read-only shared folders, prepare inputs in its workspace folder, delegate to its agents, read results and transcripts from the folders on this computer without following links, run checks inside it, and always destroy it. See [autobyteus-sandboxes/SKILL.md](autobyteus-sandboxes/SKILL.md).
+
 ### Reflection
 
 Learn from past work, an agent's own or another agent's: after each piece of work a two-question check (what took extra steps, what did the user correct), written as records in a `reflections/` folder in the agent's semantic memory (or workspace), with lessons a later run reads at its start; and a full pass that reads the journals for repeated mistakes and slow routines and proposes skill changes for testing. See [reflection/SKILL.md](reflection/SKILL.md).
